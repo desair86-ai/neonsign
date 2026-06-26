@@ -18,7 +18,7 @@ export default function Home() {
       regularPrice: "Rs. 6,600.00",
       salePrice: "Rs. 4,620.00",
       discountBadge: "Save 30%",
-      image: "https://images.unsplash.com/photo-1549419141-9457a44f0ceb?q=80&w=600&auto=format&fit=crop"
+      image: "/product-1.jpeg"
     },
     {
       id: "2",
@@ -26,7 +26,7 @@ export default function Home() {
       regularPrice: "Rs. 11,500.00",
       salePrice: "Rs. 8,050.00",
       discountBadge: "Save 30%",
-      image: "https://images.unsplash.com/photo-1563242048-b47bd65f2129?q=80&w=600&auto=format&fit=crop"
+      image: "/product-2.jpeg"
     },
     {
       id: "3",
@@ -34,7 +34,7 @@ export default function Home() {
       regularPrice: "Rs. 4,200.00",
       salePrice: "Rs. 2,940.00",
       discountBadge: "Save 30%",
-      image: "https://images.unsplash.com/photo-1493707553966-283afac8c358?q=80&w=600&auto=format&fit=crop"
+      image: "/product-3.jpeg"
     },
     {
       id: "4",
@@ -42,7 +42,7 @@ export default function Home() {
       regularPrice: "Rs. 12,000.00",
       salePrice: "Rs. 8,400.00",
       discountBadge: "Save 30%",
-      image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop"
+      image: "/product-4.jpeg"
     },
     {
       id: "5",
@@ -61,7 +61,7 @@ export default function Home() {
       regularPrice: "Rs. 3,500.00",
       salePrice: "Rs. 2,450.00",
       discountBadge: "Save 30%",
-      image: "https://images.unsplash.com/photo-1550537687-c91072c4792d?q=80&w=600&auto=format&fit=crop"
+      image: "/product-5.jpeg"
     },
     {
       id: "t2",
@@ -69,7 +69,7 @@ export default function Home() {
       regularPrice: "Rs. 4,000.00",
       salePrice: "Rs. 2,800.00",
       discountBadge: "Save 30%",
-      image: "https://images.unsplash.com/photo-1563242048-b47bd65f2129?q=80&w=600&auto=format&fit=crop"
+      image: "/product-6.jpeg"
     },
     {
       id: "t3",
