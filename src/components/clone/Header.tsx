@@ -1,8 +1,11 @@
-import React from 'react';
-import { Search, ShoppingBag, User } from 'lucide-react';
+"use client";
+import React, { useState } from 'react';
+import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 
 export function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <div className="sticky top-0 z-50 w-full bg-black text-white border-b border-gray-800">
       {/* Announcement Bar */}
@@ -11,12 +14,16 @@ export function Header() {
       </div>
       
       {/* Main Header */}
-      <header className="max-w-[1600px] mx-auto px-4 lg:px-10 h-20 flex items-center justify-between">
+      <header className="max-w-[1600px] mx-auto px-4 lg:px-10 h-20 flex items-center justify-between relative">
         
-        {/* Mobile Menu Icon (Placeholder) */}
+        {/* Mobile Menu Icon */}
         <div className="lg:hidden flex items-center">
-          <button className="p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          <button 
+            className="p-2 hover:text-[#cfff00] transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
@@ -44,6 +51,17 @@ export function Header() {
           </button>
         </div>
       </header>
+
+      {/* Mobile Menu Dropdown */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-gray-800 flex flex-col items-center py-6 gap-6 font-semibold shadow-2xl">
+          <Link onClick={() => setIsMobileMenuOpen(false)} href="/products/customize-neon-signs" className="text-lg hover:text-[#cfff00] transition-colors">Customise Your Neon Light</Link>
+          <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="text-lg hover:text-[#cfff00] transition-colors">Shop Neon Collection</Link>
+          <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="text-lg hover:text-[#cfff00] transition-colors">Best Sellers</Link>
+          <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="text-lg hover:text-[#cfff00] transition-colors">Business Logo</Link>
+          <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="text-lg hover:text-[#cfff00] transition-colors">Shark Tank</Link>
+        </div>
+      )}
     </div>
   );
 }
