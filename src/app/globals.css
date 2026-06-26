@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-inter: var(--font-inter);
+  --font-pacifico: var(--font-pacifico);
+  --font-dancing: var(--font-dancing);
+  --font-caveat: var(--font-caveat);
+  --font-bungee-outline: var(--font-bungee-outline);
+  --font-cinzel: var(--font-cinzel);
+  --font-great-vibes: var(--font-great-vibes);
+  --font-permanent-marker: var(--font-permanent-marker);
+  --font-parisienne: var(--font-parisienne);
+  --font-playfair: var(--font-playfair);
+  --font-cookie: var(--font-cookie);
+  --font-alex-brush: var(--font-alex-brush);
+  --font-syncopate: var(--font-syncopate);
+  --font-bad-script: var(--font-bad-script);
+  --font-gochi-hand: var(--font-gochi-hand);
+  --font-kaushan-script: var(--font-kaushan-script);
+  
+  --animate-fade-in-up: fade-in-up 1s ease-out forwards;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+}
+
 body {
-  background: var(--background);
   color: var(--foreground);
+  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.pattern-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
