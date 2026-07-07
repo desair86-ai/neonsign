@@ -16,6 +16,14 @@ export const TextHoverEffect = ({
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
   const [maskPosition, setMaskPosition] = useState({ cx: "50%", cy: "50%" });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize(); // Check on mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (svgRef.current && cursor.x !== null && cursor.y !== null) {
@@ -59,11 +67,12 @@ export const TextHoverEffect = ({
         <linearGradient
           id="textGradient"
           gradientUnits="userSpaceOnUse"
-          cx="50%"
-          cy="50%"
-          r="25%"
+          x1="0%"
+          y1="0%"
+          x2="100%"
+          y2="0%"
         >
-          {hovered && (
+          {(hovered || isMobile) && (
             <>
               <stop offset="0%" stopColor="#6eff86" />
               <stop offset="100%" stopColor="#752eff" />
@@ -76,8 +85,19 @@ export const TextHoverEffect = ({
           gradientUnits="userSpaceOnUse"
           r="30%"
           initial={{ cx: "50%", cy: "50%" }}
-          animate={maskPosition}
-          transition={{ duration: duration ?? 0, ease: "easeOut" }}
+          animate={
+            isMobile && !hovered
+              ? {
+                  cx: ["20%", "80%", "50%", "20%"],
+                  cy: ["50%", "20%", "80%", "50%"],
+                }
+              : maskPosition
+          }
+          transition={
+            isMobile && !hovered
+              ? { duration: 5, repeat: Infinity, ease: "linear" }
+              : { duration: duration ?? 0, ease: "easeOut" }
+          }
         >
           <stop offset="0%" stopColor="white" />
           <stop offset="100%" stopColor="black" />
