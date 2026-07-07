@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 
 export function CategoryBar() {
   const categories = [
@@ -18,11 +17,14 @@ export function CategoryBar() {
     { name: "Under 400", image: "https://images.unsplash.com/photo-1549419141-9457a44f0ceb?q=80&w=150&h=150&auto=format&fit=crop" }
   ];
 
+  const duplicatedCategories = [...categories, ...categories];
+
   return (
-    <div className="w-full bg-black py-6 border-b border-white/10">
-      <div className="max-w-[1600px] mx-auto px-4">
-        <div className="flex overflow-x-auto hide-scrollbar gap-6 md:gap-8 items-start whitespace-nowrap scroll-smooth">
-          {categories.map((cat, idx) => (
+    <div className="w-full bg-black py-6 border-b border-white/10 overflow-hidden">
+      <div className="relative flex w-full">
+        {/* Sliding Marquee Container */}
+        <div className="flex animate-marquee whitespace-nowrap min-w-full gap-6 md:gap-8 hover-pause cursor-pointer">
+          {duplicatedCategories.map((cat, idx) => (
             <a 
               key={idx}
               href={`/collections/${cat.name.toLowerCase().replace(" ", "-")}`} 
@@ -30,13 +32,13 @@ export function CategoryBar() {
               rel="noopener noreferrer"
               className="group flex flex-col items-center gap-3 flex-shrink-0"
             >
-              <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 ${idx === 0 ? 'border-[#cfff00]' : 'border-transparent'} group-hover:border-[#cfff00] transition-colors p-1`}>
+              <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 ${idx % categories.length === 0 ? 'border-brand-green shadow-[0_0_12px_rgba(110,255,134,0.4)]' : 'border-transparent'} group-hover:border-brand-green group-hover:shadow-[0_0_12px_rgba(110,255,134,0.4)] transition-all p-1`}>
                 <div 
                   className="w-full h-full rounded-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                   style={{ backgroundImage: `url(${cat.image})` }}
                 />
               </div>
-              <span className={`text-sm font-bold transition-colors ${idx === 0 ? 'text-[#cfff00]' : 'text-white'} group-hover:text-[#cfff00]`}>
+              <span className={`text-sm font-bold transition-colors ${idx % categories.length === 0 ? 'text-brand-green' : 'text-white'} group-hover:text-brand-green`}>
                 {cat.name}
               </span>
             </a>

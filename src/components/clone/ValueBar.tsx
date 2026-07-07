@@ -41,7 +41,7 @@ export function ValueBar() {
     <div className="w-full bg-[#111] border-y border-white/10 py-4 overflow-hidden">
       <div className="relative flex w-full">
         {/* Marquee Container */}
-        <div className="flex animate-marquee whitespace-nowrap min-w-full">
+        <div className="flex animate-marquee-reverse whitespace-nowrap min-w-full hover-pause cursor-pointer">
           {duplicatedValues.map((val, idx) => (
             <div key={idx} className="flex items-center gap-3 font-bold text-white text-base md:text-lg flex-shrink-0 mx-8">
               {val.icon}

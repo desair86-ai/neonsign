@@ -17,6 +17,7 @@ import {
   Gochi_Hand,
   Kaushan_Script 
 } from "next/font/google";
+import localFont from "next/font/local";
 
 import "./globals.css";
 
@@ -37,6 +38,22 @@ const badScript = Bad_Script({ weight: "400", subsets: ["latin"], variable: "--f
 const gochiHand = Gochi_Hand({ weight: "400", subsets: ["latin"], variable: "--font-gochi-hand" });
 const kaushanScript = Kaushan_Script({ weight: "400", subsets: ["latin"], variable: "--font-kaushan-script" });
 
+const clonoid = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Clonoid W01 Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Clonoid-W01-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-clonoid",
+});
+
 const fontVariables = [
   inter.variable,
   pacifico.variable,
@@ -53,11 +70,12 @@ const fontVariables = [
   syncopate.variable,
   badScript.variable,
   gochiHand.variable,
-  kaushanScript.variable
+  kaushanScript.variable,
+  clonoid.variable
 ].join(" ");
 
 export const metadata: Metadata = {
-  title: "Neon Sign - Custom Neon Signs",
+  title: "The Neon Stack - Custom LED Neon Signs",
   description: "Create and order your own custom premium neon signs.",
 };
 
@@ -68,7 +86,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${fontVariables} font-sans bg-black text-white antialiased selection:bg-pink-500/30 selection:text-pink-200`}>
+      <body className={`${fontVariables} font-sans bg-black text-white antialiased selection:bg-brand-purple/30 selection:text-brand-lavender`}>
         {children}
       </body>
     </html>

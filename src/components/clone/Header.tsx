@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { LogoNeonFlow } from '@/components/ui/logo-neon-flow';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -9,7 +10,7 @@ export function Header() {
   return (
     <div className="sticky top-0 z-50 w-full bg-black text-white border-b border-gray-800">
       {/* Announcement Bar */}
-      <div className="bg-[#cfff00] text-black text-center py-2 text-sm font-bold flex justify-center items-center gap-2">
+      <div className="bg-brand-green text-black text-center py-2 text-sm font-bold flex justify-center items-center gap-2">
         <span className="animate-pulse">🚨</span> Final Call - Neon Mega Mania Ends TONIGHT! Flat 30% OFF Site-wide + Free Surprise Neon Sign
       </div>
       
@@ -19,7 +20,7 @@ export function Header() {
         {/* Mobile Menu Icon */}
         <div className="lg:hidden flex items-center">
           <button 
-            className="p-2 hover:text-[#cfff00] transition-colors"
+            className="p-2 hover:text-brand-green transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -28,25 +29,28 @@ export function Header() {
         </div>
 
         {/* Logo */}
-        <div className="text-2xl font-black tracking-tighter uppercase italic flex-shrink-0">
-          <Link href="/">Neon<br/><span className="text-pink-500">Sign</span></Link>
+        <div className="flex-shrink-0 relative">
+          <LogoNeonFlow />
+          <Link href="/" className="block select-none relative z-10">
+            <img src="/main logo.png" alt="The Neon Stack Logo" className="h-[120px] md:h-[160px] w-auto object-contain my-[-25px] md:my-[-40px]" />
+          </Link>
         </div>
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-8 font-semibold text-sm">
-          <Link href="/products/customize-neon-signs" className="hover:text-[#cfff00] transition-colors">Customise Your Neon Light</Link>
-          <Link href="/" className="hover:text-[#cfff00] transition-colors">Shop Neon Collection</Link>
-          <Link href="/" className="hover:text-[#cfff00] transition-colors">Best Sellers</Link>
-          <Link href="/" className="hover:text-[#cfff00] transition-colors">Business Logo</Link>
+          <Link href="/products/customize-neon-signs" className="hover:text-brand-green transition-colors">Customise Your Neon Light</Link>
+          <Link href="/shop-neon-collection" className="hover:text-brand-green transition-colors">Shop Neon Collection</Link>
+          <Link href="/" className="hover:text-brand-green transition-colors">Best Sellers</Link>
+          <Link href="/" className="hover:text-brand-green transition-colors">Business Logo</Link>
         </nav>
 
         {/* Icons */}
         <div className="flex items-center gap-4 md:gap-6">
-          <button className="hover:text-pink-400 transition-colors"><Search className="w-6 h-6" /></button>
-          <button className="hover:text-pink-400 transition-colors hidden md:block"><User className="w-6 h-6" /></button>
-          <button className="hover:text-pink-400 transition-colors relative">
+          <button className="hover:text-brand-purple transition-colors"><Search className="w-6 h-6" /></button>
+          <button className="hover:text-brand-purple transition-colors hidden md:block"><User className="w-6 h-6" /></button>
+          <button className="hover:text-brand-purple transition-colors relative">
             <ShoppingBag className="w-6 h-6" />
-            <span className="absolute -top-1 -right-2 bg-[#cfff00] text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+            <span className="absolute -top-1 -right-2 bg-brand-green text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
           </button>
         </div>
       </header>
@@ -56,7 +60,7 @@ export function Header() {
         <div className="lg:hidden absolute top-full left-0 w-full h-[calc(100vh-80px)] bg-black overflow-y-auto flex flex-col shadow-2xl">
           <div className="flex flex-col">
             <Link onClick={() => setIsMobileMenuOpen(false)} href="/products/customize-neon-signs" className="text-[17px] font-semibold py-4 px-6 border-b border-white/10 hover:bg-white/5 transition-colors">Customise Your Neon Light</Link>
-            <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="text-[17px] font-semibold py-4 px-6 border-b border-white/10 hover:bg-white/5 transition-colors">Shop Neon Collection</Link>
+            <Link onClick={() => setIsMobileMenuOpen(false)} href="/shop-neon-collection" className="text-[17px] font-semibold py-4 px-6 border-b border-white/10 hover:bg-white/5 transition-colors">Shop Neon Collection</Link>
             <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="text-[17px] font-semibold py-4 px-6 border-b border-white/10 hover:bg-white/5 transition-colors">Best Sellers</Link>
             <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="text-[17px] font-semibold py-4 px-6 border-b border-white/10 hover:bg-white/5 transition-colors">Business Logo</Link>
           </div>
@@ -98,7 +102,7 @@ export function Header() {
           </div>
 
           <div className="mt-10 border-t border-white/10 p-6 pb-12">
-            <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="flex items-center gap-3 text-lg font-semibold hover:text-[#cfff00] transition-colors">
+            <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="flex items-center gap-3 text-lg font-semibold hover:text-brand-green transition-colors">
               <User className="w-6 h-6" /> Account
             </Link>
           </div>

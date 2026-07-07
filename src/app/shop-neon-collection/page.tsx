@@ -1,15 +1,11 @@
 import React from "react";
 import { Header } from "@/components/clone/Header";
-import { Hero } from "@/components/clone/Hero";
-import { ValueBar } from "@/components/clone/ValueBar";
-import { ProductExplorerGrid } from "@/components/clone/ProductExplorerGrid";
+import { CategoryBar } from "@/components/clone/CategoryBar";
 import { ProductCarousel } from "@/components/clone/ProductCarousel";
-import { Stories } from "@/components/clone/Stories";
-import { InfoSections } from "@/components/clone/InfoSections";
-import { FAQ } from "@/components/clone/FAQ";
+import { ProductExplorerGrid } from "@/components/clone/ProductExplorerGrid";
 import { Footer } from "@/components/clone/Footer";
 
-export default function Home() {
+export default function ShopNeonCollection() {
   const mostLovedProducts = [
     {
       id: "1",
@@ -91,14 +87,24 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender">
       <Header />
-      <Hero />
-      <ValueBar />
+      
+      {/* Banner / Header */}
+      <section className="py-16 bg-zinc-950 border-b border-white/10 text-center relative overflow-hidden">
+        {/* Glow behind title */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-brand-purple/20 rounded-full blur-[120px] pointer-events-none" />
+        <p className="text-xs md:text-sm font-bold uppercase tracking-[0.24em] text-brand-green mb-2">Our Complete Catalogue</p>
+        <h1 className="text-4xl md:text-6xl font-black tracking-tight uppercase">Shop Neon Collection</h1>
+      </section>
+
+      {/* Category Slider inside Collection page */}
+      <CategoryBar />
+
       <ProductExplorerGrid />
+      
       <ProductCarousel title="Most-Loved" products={mostLovedProducts} />
-      <Stories />
+      
       <ProductCarousel title="Trending" products={trendingProducts} />
-      <InfoSections />
-      <FAQ />
+
       <Footer />
     </main>
   );

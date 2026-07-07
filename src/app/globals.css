@@ -17,8 +17,14 @@
   --font-bad-script: var(--font-bad-script);
   --font-gochi-hand: var(--font-gochi-hand);
   --font-kaushan-script: var(--font-kaushan-script);
+  --font-clonoid: var(--font-clonoid);
+  
+  --color-brand-green: #6eff86;
+  --color-brand-purple: #752eff;
+  --color-brand-lavender: #bca9ff;
   
   --animate-fade-in-up: fade-in-up 1s ease-out forwards;
+  --animate-marquee-reverse: marquee-reverse 20s linear infinite;
 }
 
 @keyframes fade-in-up {
@@ -45,6 +51,82 @@
   animation: marquee 20s linear infinite;
 }
 
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse 20s linear infinite;
+}
+
+.hover-pause:hover, .hover-pause:hover * {
+  animation-play-state: paused !important;
+}
+
+@keyframes flow-dash-1 {
+  0% {
+    stroke-dasharray: 180 380;
+    stroke-dashoffset: 560;
+  }
+  100% {
+    stroke-dasharray: 180 380;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes flow-dash-2 {
+  0% {
+    stroke-dasharray: 120 320;
+    stroke-dashoffset: -440;
+  }
+  100% {
+    stroke-dasharray: 120 320;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes flow-dash-3 {
+  0% {
+    stroke-dasharray: 90 220;
+    stroke-dashoffset: 310;
+  }
+  100% {
+    stroke-dasharray: 90 220;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes neon-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+}
+
+.animate-flow-dash-1 {
+  animation: flow-dash-1 7s linear infinite;
+}
+
+.animate-flow-dash-2 {
+  animation: flow-dash-2 9s linear infinite;
+}
+
+.animate-flow-dash-3 {
+  animation: flow-dash-3 5s linear infinite;
+}
+
+.animate-neon-float {
+  transform-origin: center;
+  animation: neon-float 6s ease-in-out infinite;
+}
+
 :root {
   --background: #000000;
   --foreground: #ffffff;
@@ -59,4 +141,44 @@ body {
 .pattern-dots {
   background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
+}
+
+/* Global button hover overriding state: Purple bg (#752eff), Green text (#6eff86) with neon glow */
+button[class*="p-"]:not(.faq-btn):hover,
+button[class*="px-"]:not(.faq-btn):hover,
+button[class*="py-"]:not(.faq-btn):hover,
+button.bg-brand-purple:not(.faq-btn):hover,
+button.bg-brand-green:not(.faq-btn):hover,
+button.bg-white:not(.faq-btn):hover,
+button.border-white:not(.faq-btn):hover {
+  background-color: #752eff !important;
+  color: #6eff86 !important;
+  border-color: #752eff !important;
+  background-image: none !important;
+  box-shadow: 0 0 25px rgba(117, 46, 255, 0.75) !important;
+}
+
+/* Ensure svg/lucide icons inside hovered buttons turn brand-green */
+button[class*="p-"]:not(.faq-btn):hover svg,
+button[class*="px-"]:not(.faq-btn):hover svg,
+button[class*="py-"]:not(.faq-btn):hover svg,
+button.bg-brand-purple:not(.faq-btn):hover svg,
+button.bg-brand-green:not(.faq-btn):hover svg,
+button.bg-white:not(.faq-btn):hover svg,
+button.border-white:not(.faq-btn):hover svg {
+  color: #6eff86 !important;
+  stroke: #6eff86 !important;
+}
+
+/* Explicitly disable all hover color changes on FAQ buttons */
+button.faq-btn:hover {
+  background-color: transparent !important;
+  color: white !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+button.faq-btn:hover svg {
+  color: #752eff !important;
+  stroke: #752eff !important;
 }

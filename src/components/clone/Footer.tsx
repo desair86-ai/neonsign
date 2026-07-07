@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { FaInstagram, FaFacebook, FaTwitter, FaPinterest, FaLinkedin } from 'react-icons/fa';
+import { TextHoverEffect } from '@/components/ui/text-hover-effect';
 
 export function Footer() {
   return (
@@ -9,14 +10,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand Col */}
           <div>
-            <div className="text-3xl font-black tracking-tighter uppercase italic mb-6">
-              Neon<span className="text-pink-500">Sign</span>
+            <div className="mb-2 select-none w-full h-[60px] md:h-[80px]">
+              <TextHoverEffect text="NEON STACK" />
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">
-              India's No.1 Neon Lights brand. Handcrafted, premium quality LED neon signs for your home, business or events.
+              India&apos;s No.1 Neon Lights brand. Handcrafted, premium quality LED neon signs for your home, business or events.
             </p>
             <div className="flex items-center gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-pink-500 transition-colors"><FaInstagram /></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-brand-purple hover:shadow-[0_0_15px_rgba(117,46,255,0.5)] transition-colors"><FaInstagram /></a>
               <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-blue-600 transition-colors"><FaFacebook /></a>
               <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-blue-400 transition-colors"><FaTwitter /></a>
               <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-red-600 transition-colors"><FaPinterest /></a>
@@ -28,11 +29,11 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-lg mb-6 uppercase tracking-wider">Quick Links</h4>
             <ul className="space-y-3 text-gray-400">
-              <li><Link href="/products/customize-neon-signs" className="hover:text-white transition-colors">Customise Your Neon</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Business Logo</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">All Products</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">FloRo Signs</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Track Order</Link></li>
+              <li><Link href="/products/customize-neon-signs" className="hover:text-brand-green transition-colors">Customise Your Neon</Link></li>
+              <li><Link href="/" className="hover:text-brand-green transition-colors">Business Logo</Link></li>
+              <li><Link href="/" className="hover:text-brand-green transition-colors">All Products</Link></li>
+              <li><Link href="/" className="hover:text-brand-green transition-colors">FloRo Signs</Link></li>
+              <li><Link href="/" className="hover:text-brand-green transition-colors">Track Order</Link></li>
             </ul>
           </div>
 
@@ -40,11 +41,11 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-lg mb-6 uppercase tracking-wider">Information</h4>
             <ul className="space-y-3 text-gray-400">
-              <li><Link href="/" className="hover:text-white transition-colors">About Us</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Contact Us</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Shipping Policy</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Return & Refund</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Terms of Service</Link></li>
+              <li><Link href="/" className="hover:text-brand-green transition-colors">About Us</Link></li>
+              <li><Link href="/" className="hover:text-brand-green transition-colors">Contact Us</Link></li>
+              <li><Link href="/" className="hover:text-brand-green transition-colors">Shipping Policy</Link></li>
+              <li><Link href="/" className="hover:text-brand-green transition-colors">Return & Refund</Link></li>
+              <li><Link href="/" className="hover:text-brand-green transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
 
@@ -53,14 +54,14 @@ export function Footer() {
             <h4 className="font-bold text-lg mb-6 uppercase tracking-wider">Join The Club</h4>
             <p className="text-gray-400 mb-4">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
             <div className="flex gap-2">
-              <input type="email" placeholder="Enter your email" className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 flex-1 focus:outline-none focus:border-pink-500" />
-              <button className="bg-pink-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-pink-600 transition-colors">Join</button>
+              <input type="email" placeholder="Enter your email" className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 flex-1 focus:outline-none focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/50" />
+              <button className="bg-brand-purple text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-purple/80 hover:shadow-[0_0_15px_rgba(117,46,255,0.4)] transition-colors">Join</button>
             </div>
           </div>
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between text-gray-500 text-sm">
-          <p>© {new Date().getFullYear()} Neon Sign. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} The Neon Stack. All rights reserved.</p>
           <div className="flex items-center gap-4 mt-4 md:mt-0">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" className="h-4 opacity-50 grayscale hover:grayscale-0 transition-all" />
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="Mastercard" className="h-4 opacity-50 grayscale hover:grayscale-0 transition-all" />

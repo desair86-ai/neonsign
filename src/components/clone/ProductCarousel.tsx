@@ -45,9 +45,9 @@ export function ProductCarousel({ title, products }: ProductCarouselProps) {
           {products.map((product) => (
             <div key={product.id} className="flex-[0_0_80%] sm:flex-[0_0_40%] md:flex-[0_0_30%] lg:flex-[0_0_22%] min-w-0">
               <Link href="/" className="block group">
-                <div className="relative aspect-square rounded-2xl bg-zinc-900 border border-zinc-800 overflow-hidden mb-4">
+                <div className="relative aspect-square rounded-2xl bg-zinc-900 border border-zinc-800 overflow-hidden mb-4 group-hover:border-brand-purple/60 group-hover:shadow-[0_0_20px_rgba(117,46,255,0.35)] transition-all duration-300">
                   {product.discountBadge && (
-                    <span className="absolute top-4 left-4 z-10 bg-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                    <span className="absolute top-4 left-4 z-10 bg-brand-purple text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-[0_0_10px_rgba(117,46,255,0.6)]">
                       {product.discountBadge}
                     </span>
                   )}
@@ -57,7 +57,7 @@ export function ProductCarousel({ title, products }: ProductCarouselProps) {
                   />
                 </div>
                 
-                <h3 className="font-bold text-lg mb-2 line-clamp-1 group-hover:text-pink-400 transition-colors">{product.name}</h3>
+                <h3 className="font-bold text-lg mb-2 line-clamp-1 text-white">{product.name}</h3>
                 
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2 text-sm">
@@ -65,7 +65,7 @@ export function ProductCarousel({ title, products }: ProductCarouselProps) {
                     <span className="text-gray-300">{product.salePrice}</span>
                   </div>
                   {product.promoPrice && (
-                    <div className="text-[#cfff00] font-black text-xl">
+                    <div className="text-brand-green drop-shadow-[0_0_8px_rgba(110,255,134,0.5)] font-black text-xl">
                       {product.promoPrice}
                     </div>
                   )}

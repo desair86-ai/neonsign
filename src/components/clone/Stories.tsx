@@ -27,7 +27,7 @@ export function Stories() {
         <div className="flex gap-4">
           {stories.map((story) => (
             <div key={story.id} className="flex-[0_0_160px] md:flex-[0_0_200px] lg:flex-[0_0_250px] min-w-0 group cursor-pointer">
-              <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border-2 border-transparent group-hover:border-pink-500 transition-colors">
+              <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border-2 border-transparent group-hover:border-brand-purple group-hover:shadow-[0_0_15px_rgba(117,46,255,0.4)] transition-colors">
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                   style={{ backgroundImage: `url(${story.image})` }}

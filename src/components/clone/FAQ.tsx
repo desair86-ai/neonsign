@@ -33,11 +33,11 @@ export function FAQ() {
         {faqs.map((faq, idx) => (
           <div key={idx} className="border border-white/10 rounded-xl bg-zinc-900/50 overflow-hidden transition-all">
             <button 
-              className="w-full px-6 py-5 flex items-center justify-between font-bold text-lg text-left"
+              className="faq-btn w-full px-6 py-5 flex items-center justify-between font-bold text-lg text-left"
               onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
             >
               <span>{faq.question}</span>
-              <ChevronDown className={`w-5 h-5 text-pink-500 transition-transform ${openIndex === idx ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`w-5 h-5 text-brand-purple transition-transform ${openIndex === idx ? 'rotate-180' : ''}`} />
             </button>
             <div 
               className={`px-6 text-gray-400 overflow-hidden transition-all ${openIndex === idx ? 'pb-5 max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
