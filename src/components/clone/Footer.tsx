@@ -10,8 +10,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand Col */}
           <div>
-            <div className="mb-2 select-none w-full h-[60px] md:h-[80px]">
+            {/* Desktop / Tablet: Text Hover Effect Logo */}
+            <div className="hidden md:block mb-2 select-none w-full h-[80px]">
               <TextHoverEffect text="NEON STACK" />
+            </div>
+            {/* Mobile: Image Logo */}
+            <div className="block md:hidden mb-6 select-none relative w-fit">
+              <img src="/main logo.png" alt="The Neon Stack" className="h-[100px] w-auto object-contain relative z-10" />
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">
               India&apos;s No.1 Neon Lights brand. Handcrafted, premium quality LED neon signs for your home, business or events.
