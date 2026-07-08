@@ -48,8 +48,8 @@ export function AuroraColorTester() {
         <div className="flex flex-col">
           <p className="text-xs font-semibold mb-2 text-white">Main Blob (Default: Green)</p>
           <HexColorPicker color={color1} onChange={handleColor1Change} style={{ width: "100%" }} />
-          <div className="mt-3 text-sm text-gray-400">
-            Hex: <span className="font-mono text-white bg-black/50 px-2 py-1 rounded border border-white/10 select-all">{color1}</span>
+          <div className="mt-3 text-sm text-gray-400 flex items-center gap-2">
+            Hex: <input type="text" value={color1} onChange={(e) => handleColor1Change(e.target.value)} className="font-mono text-white bg-black/50 px-2 py-1 rounded border border-white/10 w-24 focus:outline-none focus:border-white/30" />
           </div>
         </div>
 
@@ -57,8 +57,8 @@ export function AuroraColorTester() {
         <div className="flex flex-col">
           <p className="text-xs font-semibold mb-2 text-white">Secondary Blob (Default: Purple)</p>
           <HexColorPicker color={color2} onChange={handleColor2Change} style={{ width: "100%" }} />
-          <div className="mt-3 text-sm text-gray-400">
-            Hex: <span className="font-mono text-white bg-black/50 px-2 py-1 rounded border border-white/10 select-all">{color2}</span>
+          <div className="mt-3 text-sm text-gray-400 flex items-center gap-2">
+            Hex: <input type="text" value={color2} onChange={(e) => handleColor2Change(e.target.value)} className="font-mono text-white bg-black/50 px-2 py-1 rounded border border-white/10 w-24 focus:outline-none focus:border-white/30" />
           </div>
         </div>
 
@@ -66,8 +66,8 @@ export function AuroraColorTester() {
         <div className="flex flex-col">
           <p className="text-xs font-semibold mb-2 text-white">Center Blob (Default: Deep Plum)</p>
           <HexColorPicker color={color3} onChange={handleColor3Change} style={{ width: "100%" }} />
-          <div className="mt-3 text-sm text-gray-400">
-            Hex: <span className="font-mono text-white bg-black/50 px-2 py-1 rounded border border-white/10 select-all">{color3}</span>
+          <div className="mt-3 text-sm text-gray-400 flex items-center gap-2">
+            Hex: <input type="text" value={color3} onChange={(e) => handleColor3Change(e.target.value)} className="font-mono text-white bg-black/50 px-2 py-1 rounded border border-white/10 w-24 focus:outline-none focus:border-white/30" />
           </div>
         </div>
 
@@ -75,8 +75,8 @@ export function AuroraColorTester() {
         <div className="flex flex-col">
           <p className="text-xs font-semibold mb-2 text-white">Base Background (Default: Black)</p>
           <HexColorPicker color={bgColor} onChange={handleBgColorChange} style={{ width: "100%" }} />
-          <div className="mt-3 text-sm text-gray-400">
-            Hex: <span className="font-mono text-white bg-black/50 px-2 py-1 rounded border border-white/10 select-all">{bgColor}</span>
+          <div className="mt-3 text-sm text-gray-400 flex items-center gap-2">
+            Hex: <input type="text" value={bgColor} onChange={(e) => handleBgColorChange(e.target.value)} className="font-mono text-white bg-black/50 px-2 py-1 rounded border border-white/10 w-24 focus:outline-none focus:border-white/30" />
           </div>
         </div>
       </div>
