@@ -5,8 +5,12 @@ export function InfoSections() {
   return (
     <>
       {/* FloRo Promo */}
-      <section className="relative py-24 my-20 bg-zinc-900 border-y border-white/10 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/30 via-black to-black z-0 pointer-events-none" />
+      <section className="relative py-24 my-20 overflow-hidden">
+        {/* Animated Top Border */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[linear-gradient(90deg,#6eff86,#752eff,#6eff86)] bg-[length:200%_100%] animate-border-flow shadow-[0_0_10px_rgba(110,255,134,0.5)]" />
+        
+        {/* Animated Bottom Border */}
+        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[linear-gradient(90deg,#752eff,#6eff86,#752eff)] bg-[length:200%_100%] animate-border-flow shadow-[0_0_10px_rgba(117,46,255,0.5)]" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
           <div className="inline-block bg-blue-500/20 text-blue-300 px-4 py-1.5 rounded-full text-sm font-bold tracking-wider mb-6">
@@ -26,7 +30,15 @@ export function InfoSections() {
 
       {/* How to Order Steps */}
       <section className="py-20 max-w-7xl mx-auto px-4">
-        <h2 className="text-4xl md:text-5xl font-black text-center mb-16">How it Works</h2>
+        <div className="flex items-center gap-6 mb-16">
+          <div className="flex-1 h-[2px] relative overflow-hidden rounded-full scale-x-[-1]">
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,transparent_45%,#6eff86_50%,transparent_51%,transparent_100%)] bg-[length:200%_100%] animate-border-flow" />
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black text-center whitespace-nowrap">How it Works</h2>
+          <div className="flex-1 h-[2px] relative overflow-hidden rounded-full">
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,transparent_45%,#6eff86_50%,transparent_51%,transparent_100%)] bg-[length:200%_100%] animate-border-flow" />
+          </div>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center relative">
           <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-0.5 bg-gradient-to-r from-zinc-800 via-brand-purple/50 to-zinc-800 z-0" />

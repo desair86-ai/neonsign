@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { FaInstagram, FaFacebook, FaTwitter, FaPinterest, FaLinkedin } from 'react-icons/fa';
 import { TextHoverEffect } from '@/components/ui/text-hover-effect';
+import { AuroraColorTester } from '@/components/ui/aurora-color-tester';
 
 export function Footer() {
   return (
@@ -17,11 +18,11 @@ export function Footer() {
               India&apos;s No.1 Neon Lights brand. Handcrafted, premium quality LED neon signs for your home, business or events.
             </p>
             <div className="flex items-center gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-brand-purple hover:shadow-[0_0_15px_rgba(117,46,255,0.5)] transition-colors"><FaInstagram /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-blue-600 transition-colors"><FaFacebook /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-blue-400 transition-colors"><FaTwitter /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-red-600 transition-colors"><FaPinterest /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-blue-700 transition-colors"><FaLinkedin /></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-brand-purple hover:shadow-[0_0_15px_rgba(117,46,255,0.5)] transition-colors"><FaInstagram /></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-blue-600 transition-colors"><FaFacebook /></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-blue-400 transition-colors"><FaTwitter /></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-red-600 transition-colors"><FaPinterest /></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-blue-700 transition-colors"><FaLinkedin /></a>
             </div>
           </div>
 
@@ -57,15 +58,16 @@ export function Footer() {
               <input type="email" placeholder="Enter your email" className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 flex-1 focus:outline-none focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/50" />
               <button className="bg-brand-purple text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-purple/80 hover:shadow-[0_0_15px_rgba(117,46,255,0.4)] transition-colors">Join</button>
             </div>
+            <div className="hidden md:block">
+              <AuroraColorTester />
+            </div>
           </div>
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between text-gray-500 text-sm">
           <p>© {new Date().getFullYear()} The Neon Stack. All rights reserved.</p>
           <div className="flex items-center gap-4 mt-4 md:mt-0">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" className="h-4 opacity-50 grayscale hover:grayscale-0 transition-all" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="Mastercard" className="h-4 opacity-50 grayscale hover:grayscale-0 transition-all" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png" alt="PayPal" className="h-4 opacity-50 grayscale hover:grayscale-0 transition-all" />
+            <img src="/payment.png" alt="Payment Methods" className="h-10 md:h-12 opacity-80 hover:opacity-100 transition-opacity" />
           </div>
         </div>
       </div>

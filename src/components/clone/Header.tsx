@@ -9,11 +9,6 @@ export function Header() {
 
   return (
     <div className="sticky top-0 z-50 w-full bg-black text-white border-b border-gray-800">
-      {/* Announcement Bar */}
-      <div className="bg-brand-green text-black text-center py-2 text-sm font-bold flex justify-center items-center gap-2">
-        <span className="animate-pulse">🚨</span> Final Call - Neon Mega Mania Ends TONIGHT! Flat 30% OFF Site-wide + Free Surprise Neon Sign
-      </div>
-      
       {/* Main Header */}
       <header className="max-w-[1600px] mx-auto px-4 lg:px-10 h-20 flex items-center justify-between relative">
         

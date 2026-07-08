@@ -8,6 +8,7 @@ import { Stories } from "@/components/clone/Stories";
 import { InfoSections } from "@/components/clone/InfoSections";
 import { FAQ } from "@/components/clone/FAQ";
 import { Footer } from "@/components/clone/Footer";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 export default function Home() {
   const mostLovedProducts = [
@@ -89,7 +90,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen bg-black text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender">
+    <AuroraBackground className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender" speed={0.8} blur={90}>
       <Header />
       <Hero />
       <ValueBar />
@@ -100,6 +101,6 @@ export default function Home() {
       <InfoSections />
       <FAQ />
       <Footer />
-    </main>
+    </AuroraBackground>
   );
 }

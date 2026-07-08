@@ -19,8 +19,11 @@ export function Stories() {
 
   return (
     <section className="py-16 max-w-[1600px] mx-auto px-4">
-      <div className="flex items-center justify-between mb-10">
-        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight">Watch & Buy!</h2>
+      <div className="flex items-center justify-between mb-10 gap-6">
+        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight whitespace-nowrap">Watch & Buy!</h2>
+        <div className="flex-1 h-[2px] relative overflow-hidden rounded-full">
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,transparent_45%,#6eff86_50%,transparent_51%,transparent_100%)] bg-[length:200%_100%] animate-border-flow" />
+        </div>
       </div>
 
       <div className="overflow-hidden" ref={emblaRef}>

@@ -1,54 +1,63 @@
 import React from 'react';
 import { Wrench, Package, BadgeCheck, Users, Award, HandHeart, Star } from 'lucide-react';
+import { BorderBeam } from '@/components/ui/border-beam';
 
 export function ValueBar() {
   const values = [
     { 
-      icon: <Wrench className="w-6 h-6 text-cyan-300 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" />, 
-      text: "2 Mins Installation" 
+      icon: <Wrench className="w-7 h-7 text-[#6eff86] drop-shadow-[0_0_10px_rgba(110,255,134,0.6)]" />, 
+      text: "2 Mins Installation",
+      color: "#752eff"
     },
     { 
-      icon: <Package className="w-6 h-6 text-cyan-300 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" />, 
-      text: "100% Timely Delivery" 
+      icon: <Package className="w-7 h-7 text-[#752eff] drop-shadow-[0_0_10px_rgba(117,46,255,0.6)]" />, 
+      text: "100% Timely Delivery",
+      color: "#6eff86"
     },
     { 
-      icon: <BadgeCheck className="w-6 h-6 text-green-300 drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]" />, 
-      text: "2 Year Warranty" 
+      icon: <BadgeCheck className="w-7 h-7 text-[#6eff86] drop-shadow-[0_0_10px_rgba(110,255,134,0.6)]" />, 
+      text: "2 Year Warranty",
+      color: "#752eff"
     },
     { 
       icon: (
         <div className="relative">
-          <Users className="w-6 h-6 text-yellow-300 drop-shadow-[0_0_8px_rgba(253,224,71,0.8)]" />
-          <Star className="w-3 h-3 text-yellow-400 absolute -top-1 -right-1 fill-yellow-400" />
+          <Users className="w-7 h-7 text-[#752eff] drop-shadow-[0_0_10px_rgba(117,46,255,0.6)]" />
+          <Star className="w-3.5 h-3.5 text-[#6eff86] absolute -top-1.5 -right-1.5 fill-[#6eff86] drop-shadow-[0_0_5px_rgba(110,255,134,0.8)]" />
         </div>
       ), 
-      text: "4.8 Rating by 20K+ Customers" 
+      text: "4.8 Rating by 20K+",
+      color: "#6eff86"
     },
     { 
-      icon: <Award className="w-6 h-6 text-cyan-300 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" />, 
-      text: "Top-Notch Quality" 
+      icon: <Award className="w-7 h-7 text-[#6eff86] drop-shadow-[0_0_10px_rgba(110,255,134,0.6)]" />, 
+      text: "Top-Notch Quality",
+      color: "#752eff"
     },
     { 
-      icon: <HandHeart className="w-6 h-6 text-purple-400 drop-shadow-[0_0_8px_rgba(192,132,252,0.8)]" />, 
-      text: "Value for Money" 
+      icon: <HandHeart className="w-7 h-7 text-[#752eff] drop-shadow-[0_0_10px_rgba(117,46,255,0.6)]" />, 
+      text: "Value for Money",
+      color: "#6eff86"
     },
   ];
 
-  // We duplicate the array to allow for seamless infinite scrolling
-  const duplicatedValues = [...values, ...values];
-
   return (
-    <div className="w-full bg-[#111] border-y border-white/10 py-4 overflow-hidden">
-      <div className="relative flex w-full">
-        {/* Marquee Container */}
-        <div className="flex animate-marquee-reverse whitespace-nowrap min-w-full hover-pause cursor-pointer">
-          {duplicatedValues.map((val, idx) => (
-            <div key={idx} className="flex items-center gap-3 font-bold text-white text-base md:text-lg flex-shrink-0 mx-8">
+    <div className="w-full max-w-7xl mx-auto px-4 py-8 relative z-20">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {values.map((val, idx) => (
+          <div 
+            key={idx} 
+            className="relative flex flex-col items-center justify-center p-5 rounded-2xl bg-white/[0.02] backdrop-blur-md border border-black/20 hover:bg-white/[0.06] hover:border-black/40 transition-all duration-300 group cursor-default shadow-lg overflow-hidden"
+          >
+            <BorderBeam duration={12} borderWidth={1.5} lightColor={val.color} />
+            <div className="mb-3 group-hover:scale-110 transition-transform duration-300">
               {val.icon}
-              <span>{val.text}</span>
             </div>
-          ))}
-        </div>
+            <span className="text-white/70 font-medium text-sm text-center tracking-wide group-hover:text-white transition-colors duration-300">
+              {val.text}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
