@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import { LogoNeonFlow } from '@/components/ui/logo-neon-flow';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,7 +24,6 @@ export function Header() {
 
         {/* Logo */}
         <div className="flex-shrink-0 relative">
-          <LogoNeonFlow />
           <Link href="/" className="block select-none relative z-10">
             <img src="/main logo.png" alt="The Neon Stack Logo" className="h-[120px] md:h-[160px] w-auto object-contain my-[-25px] md:my-[-40px]" />
           </Link>

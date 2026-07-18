@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { FaInstagram, FaFacebook, FaTwitter, FaPinterest, FaLinkedin } from 'react-icons/fa';
-import { TextHoverEffect } from '@/components/ui/text-hover-effect';
 import { supabase } from '@/lib/supabase';
 
 export async function Footer() {
@@ -13,8 +12,10 @@ export async function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand Col */}
           <div>
-            <div className="mb-2 select-none w-full h-[60px] md:h-[80px]">
-              <TextHoverEffect text="NEON STACK" />
+            <div className="mb-6 select-none w-full">
+              <Link href="/">
+                <img src="/main logo.png" alt="The Neon Stack Logo" className="h-[60px] md:h-[80px] w-auto object-contain" />
+              </Link>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">
               India&apos;s No.1 Neon Lights brand. Handcrafted, premium quality LED neon signs for your home, business or events.
