@@ -1,5 +1,7 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, Send } from 'lucide-react';
+import { Header } from '@/components/clone/Header';
+import { Footer } from '@/components/clone/Footer';
 
 export const metadata = {
   title: 'Contact Us | Neon Stack',
@@ -8,7 +10,9 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-black pt-32 pb-20 px-4">
+    <>
+      <Header />
+      <div className="min-h-screen bg-black pt-32 pb-20 px-4">
       <div className="max-w-[1200px] mx-auto">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight uppercase">
@@ -60,26 +64,6 @@ export default function ContactPage() {
               
               <div className="space-y-8">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center flex-shrink-0 text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.2)]">
-                    <MapPin className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-white mb-1">Manufacturing Unit</h4>
-                    <p className="text-gray-400 leading-relaxed">Kattedan Industrial Area, Near Aramghar, Hyderabad - 500077</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center flex-shrink-0 text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.2)]">
-                    <MapPin className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-white mb-1">Registered Office</h4>
-                    <p className="text-gray-400 leading-relaxed">Ground Floor, 19-1-912/A/3, Bhavani Nagar, Bahadurpura, Hyderabad - 500064</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center flex-shrink-0 text-[#f967fb] shadow-[0_0_15px_rgba(249,103,251,0.2)]">
                     <Phone className="w-6 h-6" />
                   </div>
@@ -104,5 +88,7 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }
