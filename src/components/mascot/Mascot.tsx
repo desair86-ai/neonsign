@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
@@ -20,6 +21,10 @@ gsap.registerPlugin(useGSAP, MotionPathPlugin);
 export const Mascot: React.FC = () => {
   const { currentState, setState } = useMascot();
   const [svgContent, setSvgContent] = useState<string | null>(null);
+  const pathname = usePathname();
+  
+  // Hide on admin panel
+  if (pathname?.startsWith("/admin")) return null;
   
   // Fetch the massive SVG on mount
   useEffect(() => {

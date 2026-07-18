@@ -1,8 +1,8 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { Save, Loader2 } from "lucide-react";
+import { AuroraColorTester } from "@/components/ui/aurora-color-tester";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 export default function ThemeSettings() {
   const [loading, setLoading] = useState(true);
@@ -156,11 +156,21 @@ export default function ThemeSettings() {
           </div>
           
           <div className="mt-4">
-            <p className="text-sm text-gray-400 mb-2">Live Preview:</p>
+            <p className="text-sm text-gray-400 mb-2">Live Preview (Solid/Gradient):</p>
             <div 
               className="w-full h-48 rounded-xl border border-gray-700" 
               style={{ background: theme.background_gradient || '#000' }}
             />
+          </div>
+        </div>
+
+        {/* Aurora Background */}
+        <div className="space-y-6 pt-8 border-t border-gray-800">
+          <label className="block text-sm font-medium text-gray-400 uppercase tracking-wider">Aurora Animated Background Settings</label>
+          <AuroraColorTester />
+          <div className="mt-4">
+            <p className="text-sm text-gray-400 mb-2">Live Preview (Aurora):</p>
+            <AuroraBackground className="h-64 rounded-xl border border-gray-700" />
           </div>
         </div>
       </div>

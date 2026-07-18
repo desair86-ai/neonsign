@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import { FaInstagram, FaFacebook, FaTwitter, FaPinterest, FaLinkedin } from 'react-icons/fa';
 import { TextHoverEffect } from '@/components/ui/text-hover-effect';
-import { AuroraColorTester } from '@/components/ui/aurora-color-tester';
 
 export function Footer() {
   return (
@@ -57,9 +56,6 @@ export function Footer() {
             <div className="flex gap-2">
               <input type="email" placeholder="Enter your email" className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 flex-1 focus:outline-none focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/50" />
               <button className="bg-brand-purple text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-purple/80 hover:shadow-[0_0_15px_rgba(117,46,255,0.4)] transition-colors">Join</button>
-            </div>
-            <div className="hidden md:block">
-              <AuroraColorTester />
             </div>
           </div>
         </div>
