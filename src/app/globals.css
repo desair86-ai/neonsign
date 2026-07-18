@@ -157,14 +157,14 @@ body {
   background-size: 20px 20px;
 }
 
-/* Global button hover overriding state: Purple bg (#752eff), Green text (#6eff86) with neon glow */
-button[class*="p-"]:not(.faq-btn):hover,
-button[class*="px-"]:not(.faq-btn):hover,
-button[class*="py-"]:not(.faq-btn):hover,
-button.bg-brand-purple:not(.faq-btn):hover,
-button.bg-brand-green:not(.faq-btn):hover,
-button.bg-white:not(.faq-btn):hover,
-button.border-white:not(.faq-btn):hover {
+/* Global button permanent state: Purple bg (#752eff), Green text (#6eff86) with neon glow */
+button[class*="p-"]:not(.faq-btn),
+button[class*="px-"]:not(.faq-btn),
+button[class*="py-"]:not(.faq-btn),
+button.bg-brand-purple:not(.faq-btn),
+button.bg-brand-green:not(.faq-btn),
+button.bg-white:not(.faq-btn),
+button.border-white:not(.faq-btn) {
   background-color: #752eff !important;
   color: #6eff86 !important;
   border-color: #752eff !important;
@@ -172,14 +172,14 @@ button.border-white:not(.faq-btn):hover {
   box-shadow: 0 0 25px rgba(117, 46, 255, 0.75) !important;
 }
 
-/* Ensure svg/lucide icons inside hovered buttons turn brand-green */
-button[class*="p-"]:not(.faq-btn):hover svg,
-button[class*="px-"]:not(.faq-btn):hover svg,
-button[class*="py-"]:not(.faq-btn):hover svg,
-button.bg-brand-purple:not(.faq-btn):hover svg,
-button.bg-brand-green:not(.faq-btn):hover svg,
-button.bg-white:not(.faq-btn):hover svg,
-button.border-white:not(.faq-btn):hover svg {
+/* Ensure svg/lucide icons inside buttons turn brand-green */
+button[class*="p-"]:not(.faq-btn) svg,
+button[class*="px-"]:not(.faq-btn) svg,
+button[class*="py-"]:not(.faq-btn) svg,
+button.bg-brand-purple:not(.faq-btn) svg,
+button.bg-brand-green:not(.faq-btn) svg,
+button.bg-white:not(.faq-btn) svg,
+button.border-white:not(.faq-btn) svg {
   color: #6eff86 !important;
   stroke: #6eff86 !important;
 }
