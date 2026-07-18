@@ -10,7 +10,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     .from('pages')
     .select('title')
     .eq('slug', resolvedParams.slug)
-    .eq('is_published', true)
     .single();
 
   return {
@@ -25,7 +24,6 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
     .from('pages')
     .select('*')
     .eq('slug', resolvedParams.slug)
-    .eq('is_published', true)
     .single();
 
   if (!page) {

@@ -130,7 +130,6 @@ export default function PagesManager() {
         title: editingPage.title,
         slug: editingPage.slug,
         content: htmlContent,
-        is_published: editingPage.is_published,
         updated_at: new Date().toISOString()
       };
 
@@ -234,16 +233,6 @@ export default function PagesManager() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 pt-4 border-t border-gray-800">
-            <input 
-              type="checkbox" 
-              id="publish"
-              checked={editingPage.is_published}
-              onChange={e => setEditingPage({...editingPage, is_published: e.target.checked})}
-              className="w-5 h-5 accent-brand-purple"
-            />
-            <label htmlFor="publish" className="text-white font-medium cursor-pointer">Publish this page</label>
-          </div>
         </div>
       ) : (
         <div className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
