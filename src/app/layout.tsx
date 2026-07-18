@@ -24,6 +24,8 @@ import { MascotProvider } from "../components/mascot/MascotProvider";
 import { Mascot } from "../components/mascot/Mascot";
 import { supabase } from "@/lib/supabase";
 
+export const revalidate = 30; // Revalidate every 30 seconds to ensure theme changes propagate
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const pacifico = Pacifico({ weight: "400", subsets: ["latin"], variable: "--font-pacifico" });
 const dancingScript = Dancing_Script({ subsets: ["latin"], variable: "--font-dancing" });
