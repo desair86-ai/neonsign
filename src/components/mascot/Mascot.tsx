@@ -44,8 +44,7 @@ export const Mascot: React.FC = () => {
     clickTimeout.current = setTimeout(() => {
       setState(MascotState.JUMPING);
       setTimeout(() => {
-        // Only return to idle if we are still jumping
-        setState((prev: MascotState) => prev === MascotState.JUMPING ? MascotState.IDLE : prev);
+        setState(MascotState.IDLE);
       }, 1500);
       clickTimeout.current = null;
     }, 250);
