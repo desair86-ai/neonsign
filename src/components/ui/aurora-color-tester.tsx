@@ -10,31 +10,73 @@ function hexToRgba(hex: string, alpha: number) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-export function AuroraColorTester() {
+export function AuroraColorTester({
+  initialColors,
+  onChange
+}: {
+  initialColors?: string;
+  onChange?: (val: string) => void;
+}) {
   const [color1, setColor1] = useState("#6eff86");
   const [color2, setColor2] = useState("#752eff");
-  const [color3, setColor3] = useState("#0a0514"); // Plum default
-  const [bgColor, setBgColor] = useState("#000000"); // Base background
+  const [color3, setColor3] = useState("#0a0514");
+  const [bgColor, setBgColor] = useState("#000000");
+
+  React.useEffect(() => {
+    if (initialColors) {
+      try {
+        const parsed = JSON.parse(initialColors);
+        if (parsed.c1) {
+          setColor1(parsed.c1);
+          document.documentElement.style.setProperty('--aurora-color-1', hexToRgba(parsed.c1, 0.15));
+          document.documentElement.style.setProperty('--aurora-color-5', hexToRgba(parsed.c1, 0.1));
+        }
+        if (parsed.c2) {
+          setColor2(parsed.c2);
+          document.documentElement.style.setProperty('--aurora-color-2', hexToRgba(parsed.c2, 0.12));
+          document.documentElement.style.setProperty('--aurora-color-4', hexToRgba(parsed.c2, 0.08));
+        }
+        if (parsed.c3) {
+          setColor3(parsed.c3);
+          document.documentElement.style.setProperty('--aurora-color-3', hexToRgba(parsed.c3, 0.4));
+        }
+        if (parsed.bg) {
+          setBgColor(parsed.bg);
+          document.documentElement.style.setProperty('--aurora-bg', parsed.bg);
+        }
+      } catch (e) {}
+    }
+  }, [initialColors]);
+
+  const notifyChange = (c1: string, c2: string, c3: string, bg: string) => {
+    if (onChange) {
+      onChange(JSON.stringify({ c1, c2, c3, bg }));
+    }
+  };
 
   const handleColor1Change = (newColor: string) => {
     setColor1(newColor);
+    notifyChange(newColor, color2, color3, bgColor);
     document.documentElement.style.setProperty('--aurora-color-1', hexToRgba(newColor, 0.15));
     document.documentElement.style.setProperty('--aurora-color-5', hexToRgba(newColor, 0.1));
   };
 
   const handleColor2Change = (newColor: string) => {
     setColor2(newColor);
+    notifyChange(color1, newColor, color3, bgColor);
     document.documentElement.style.setProperty('--aurora-color-2', hexToRgba(newColor, 0.12));
     document.documentElement.style.setProperty('--aurora-color-4', hexToRgba(newColor, 0.08));
   };
 
   const handleColor3Change = (newColor: string) => {
     setColor3(newColor);
+    notifyChange(color1, color2, newColor, bgColor);
     document.documentElement.style.setProperty('--aurora-color-3', hexToRgba(newColor, 0.4));
   };
 
   const handleBgColorChange = (newColor: string) => {
     setBgColor(newColor);
+    notifyChange(color1, color2, color3, newColor);
     document.documentElement.style.setProperty('--aurora-bg', newColor);
   };
 

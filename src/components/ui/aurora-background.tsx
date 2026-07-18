@@ -103,7 +103,7 @@ export function AuroraBackground({
         "relative w-full overflow-hidden",
         className
       )}
-      style={{ backgroundColor: "transparent" }}
+      style={{ backgroundColor: "var(--aurora-bg, #000000)" }}
     >
       {/* Aurora layer */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

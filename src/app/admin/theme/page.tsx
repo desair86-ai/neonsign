@@ -111,68 +111,13 @@ export default function ThemeSettings() {
           </div>
         </div>
 
-        {/* Gradient / Background */}
-        <div className="space-y-6 pt-8 border-t border-gray-800">
-          <div>
-            <label className="block text-sm font-medium text-gray-400 uppercase tracking-wider mb-4">Quick Gradient Builder</label>
-            <div className="flex flex-col md:flex-row gap-6">
-              <div className="space-y-2">
-                <span className="text-xs text-gray-500 uppercase">Top Color</span>
-                <div className="flex gap-2">
-                  <input 
-                    type="color" 
-                    onChange={e => setTheme({...theme, background_gradient: `linear-gradient(135deg, ${e.target.value}, ${theme.background_gradient?.match(/#([a-f0-9]{3,6})/gi)?.[1] || '#000000'})`})}
-                    className="w-12 h-12 rounded cursor-pointer bg-transparent border-0 p-0"
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <span className="text-xs text-gray-500 uppercase">Bottom Color</span>
-                <div className="flex gap-2">
-                  <input 
-                    type="color" 
-                    onChange={e => setTheme({...theme, background_gradient: `linear-gradient(135deg, ${theme.background_gradient?.match(/#([a-f0-9]{3,6})/gi)?.[0] || '#000000'}, ${e.target.value})`})}
-                    className="w-12 h-12 rounded cursor-pointer bg-transparent border-0 p-0"
-                  />
-                </div>
-              </div>
-              
-              <div className="flex-1 space-y-2">
-                <span className="text-xs text-gray-500 uppercase">Or Choose a Preset</span>
-                <div className="flex flex-wrap gap-2">
-                  <button onClick={() => setTheme({...theme, background_gradient: 'conic-gradient(from 180deg at 50% 50%, #2a8af6 0deg, #a853ba 180deg, #e92a67 360deg)'})} className="h-12 w-12 rounded-lg hover:ring-2 ring-white shadow-lg" style={{background: 'conic-gradient(from 180deg at 50% 50%, #2a8af6 0deg, #a853ba 180deg, #e92a67 360deg)'}} title="Neon Conic" />
-                  <button onClick={() => setTheme({...theme, background_gradient: 'linear-gradient(135deg, #0f2027, #203a43, #2c5364)'})} className="h-12 w-12 rounded-lg hover:ring-2 ring-white shadow-lg" style={{background: 'linear-gradient(135deg, #0f2027, #203a43, #2c5364)'}} title="Dark Teal" />
-                  <button onClick={() => setTheme({...theme, background_gradient: 'radial-gradient(circle at 50% 0%, #3b185f 0%, #000000 80%)'})} className="h-12 w-12 rounded-lg hover:ring-2 ring-white shadow-lg" style={{background: 'radial-gradient(circle at 50% 0%, #3b185f 0%, #000000 80%)'}} title="Deep Purple Glow" />
-                  <button onClick={() => setTheme({...theme, background_gradient: 'linear-gradient(to right, #000000, #434343)'})} className="h-12 w-12 rounded-lg hover:ring-2 ring-white shadow-lg" style={{background: 'linear-gradient(to right, #000000, #434343)'}} title="Sleek Gray" />
-                  <button onClick={() => setTheme({...theme, background_gradient: '#000000'})} className="h-12 w-12 rounded-lg border border-gray-700 hover:ring-2 ring-white shadow-lg" style={{background: '#000000'}} title="Solid Black" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-4">
-            <label className="block text-sm font-medium text-gray-400 uppercase tracking-wider mb-2">Advanced: Raw CSS Code</label>
-            <textarea 
-              value={theme.background_gradient || ""}
-              onChange={e => setTheme({...theme, background_gradient: e.target.value})}
-              className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white font-mono focus:border-brand-purple focus:ring-1 focus:ring-brand-purple outline-none h-24"
-              placeholder="e.g. linear-gradient(to right, #000, #333)"
-            />
-          </div>
-          
-          <div className="mt-4">
-            <p className="text-sm text-gray-400 mb-2">Live Preview (Solid/Gradient):</p>
-            <div 
-              className="w-full h-48 rounded-xl border border-gray-700" 
-              style={{ background: theme.background_gradient || '#000' }}
-            />
-          </div>
-        </div>
-
         {/* Aurora Background */}
         <div className="space-y-6 pt-8 border-t border-gray-800">
           <label className="block text-sm font-medium text-gray-400 uppercase tracking-wider">Aurora Animated Background Settings</label>
-          <AuroraColorTester />
+          <AuroraColorTester 
+            initialColors={theme.background_gradient}
+            onChange={(colorsStr) => setTheme({...theme, background_gradient: colorsStr})}
+          />
           <div className="mt-4">
             <p className="text-sm text-gray-400 mb-2">Live Preview (Aurora):</p>
             <AuroraBackground className="h-64 rounded-xl border border-gray-700" />

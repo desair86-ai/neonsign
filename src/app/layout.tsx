@@ -90,13 +90,39 @@ export default async function RootLayout({
   // Fetch theme settings server-side
   let themeStyle: Record<string, string> = {};
   let gradientStr = "";
+  let auroraCss = "";
+  
+  function hexToRgba(hex: string, alpha: number) {
+    if (!/^#[0-9A-Fa-f]{6}$/i.test(hex)) return `rgba(0,0,0,${alpha})`;
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
   try {
     const { data } = await supabase.from('theme_settings').select('*').eq('id', 1).single();
     if (data) {
       if (data.brand_green) themeStyle['--color-brand-green'] = data.brand_green;
       if (data.brand_purple) themeStyle['--color-brand-purple'] = data.brand_purple;
       if (data.background_gradient) {
-        gradientStr = data.background_gradient;
+        try {
+          const parsed = JSON.parse(data.background_gradient);
+          if (parsed.c1) {
+            auroraCss = `
+              --aurora-color-1: ${hexToRgba(parsed.c1, 0.15)};
+              --aurora-color-5: ${hexToRgba(parsed.c1, 0.1)};
+              --aurora-color-2: ${hexToRgba(parsed.c2, 0.12)};
+              --aurora-color-4: ${hexToRgba(parsed.c2, 0.08)};
+              --aurora-color-3: ${hexToRgba(parsed.c3, 0.4)};
+              --aurora-bg: ${parsed.bg};
+            `;
+          } else {
+            gradientStr = data.background_gradient;
+          }
+        } catch(e) {
+          gradientStr = data.background_gradient;
+        }
       }
     }
   } catch (e) {
@@ -105,12 +131,18 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className="dark">
+      <head>
+        <style dangerouslySetInnerHTML={{__html: `
+          :root {
+            ${themeStyle['--color-brand-green'] ? `--color-brand-green: ${themeStyle['--color-brand-green']};` : ''}
+            ${themeStyle['--color-brand-purple'] ? `--color-brand-purple: ${themeStyle['--color-brand-purple']};` : ''}
+            ${auroraCss}
+          }
+        `}} />
+      </head>
       <body 
-        className={`${fontVariables} font-sans text-white antialiased selection:bg-brand-purple/30 selection:text-brand-lavender ${gradientStr ? 'moving-gradient' : ''}`}
-        style={{
-          ...themeStyle,
-          background: gradientStr || 'var(--background)',
-        } as React.CSSProperties}
+        className={`${fontVariables} font-sans text-white antialiased selection:bg-brand-purple/30 selection:text-brand-lavender`}
+        style={gradientStr ? { background: gradientStr } : undefined}
       >
         <MascotProvider>
           {children}
