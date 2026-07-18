@@ -2,8 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import { FaInstagram, FaFacebook, FaTwitter, FaPinterest, FaLinkedin } from 'react-icons/fa';
 import { TextHoverEffect } from '@/components/ui/text-hover-effect';
+import { supabase } from '@/lib/supabase';
 
-export function Footer() {
+export async function Footer() {
+  const { data: pages } = await supabase.from('pages').select('id, title, slug').order('created_at', { ascending: true });
+
   return (
     <footer className="bg-black pt-16 pb-8 border-t border-white/10">
       <div className="max-w-[1600px] mx-auto px-4">
@@ -41,11 +44,15 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-lg mb-6 uppercase tracking-wider">Information</h4>
             <ul className="space-y-3 text-gray-400">
-              <li><Link href="/" className="hover:text-brand-green transition-colors">About Us</Link></li>
-              <li><Link href="/" className="hover:text-brand-green transition-colors">Contact Us</Link></li>
-              <li><Link href="/" className="hover:text-brand-green transition-colors">Shipping Policy</Link></li>
-              <li><Link href="/" className="hover:text-brand-green transition-colors">Return & Refund</Link></li>
-              <li><Link href="/" className="hover:text-brand-green transition-colors">Terms of Service</Link></li>
+              <li><Link href="/about" className="hover:text-brand-green transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="hover:text-brand-green transition-colors">Contact Us</Link></li>
+              {pages?.map((page) => (
+                <li key={page.id}>
+                  <Link href={`/${page.slug.replace(/^\//, '')}`} className="hover:text-brand-green transition-colors">
+                    {page.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
