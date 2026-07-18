@@ -153,10 +153,7 @@ export default function ThemeSettings() {
               className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white font-mono focus:border-brand-purple focus:ring-1 focus:ring-brand-purple outline-none h-24"
               placeholder="e.g. linear-gradient(to right, #000, #333)"
             />
-          </div> 
-            value={theme.background_gradient || ""}
-            onChange={e => setTheme({...theme, background_gradient: e.target.value})}
-            className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white font-mono focus:border-brand-purple focus:ring-1 focus:ring-brand-purple outline-none h-32"
+          </div>
             placeholder="e.g. linear-gradient(to right, #000, #333)"
           />
           
