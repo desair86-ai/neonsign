@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-import { Save, Plus, Edit2, Trash2, Loader2, Link as LinkIcon } from "lucide-react";
+import { Save, Plus, Edit2, Trash2, Loader2, Link as LinkIcon, FileText } from "lucide-react";
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 
