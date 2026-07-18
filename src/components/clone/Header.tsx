@@ -1,10 +1,25 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const navItems = [
+    { label: 'Customise Your Neon Light', href: '/products/customize-neon-signs' },
+    { label: 'Shop Neon Collection', href: '/shop-neon-collection' },
+    { label: 'Best Sellers', href: '/' },
+    { label: 'Business Logo', href: '/business-logo' },
+  ];
 
   return (
     <div className="sticky top-0 z-50 w-full bg-black text-white border-b border-gray-800">
@@ -30,11 +45,33 @@ export function Header() {
         </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-8 font-semibold text-sm">
-          <Link href="/products/customize-neon-signs" className="hover:text-brand-green transition-colors">Customise Your Neon Light</Link>
-          <Link href="/shop-neon-collection" className="hover:text-brand-green transition-colors">Shop Neon Collection</Link>
-          <Link href="/" className="hover:text-brand-green transition-colors">Best Sellers</Link>
-          <Link href="/" className="hover:text-brand-green transition-colors">Business Logo</Link>
+        <nav className="hidden lg:flex items-center gap-2 font-semibold text-sm">
+          {navItems.map((item) => {
+            const isActive = mounted && pathname === item.href;
+            return (
+              <Link 
+                key={item.label} 
+                href={item.href} 
+                className={`relative px-4 py-2 hover:text-brand-purple transition-colors rounded-full flex items-center justify-center ${isActive ? 'text-white' : 'text-gray-300'}`}
+              >
+                {isActive && (
+                  <>
+                    <motion.div
+                      layoutId="header-active-indicator"
+                      className="absolute inset-0 bg-brand-green/20 rounded-full blur-xl -z-10"
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    />
+                    <motion.div
+                      layoutId="header-active-line"
+                      className="absolute bottom-0 left-4 right-4 h-[2px] bg-brand-green shadow-[0_0_8px_rgba(110,255,134,0.8)]"
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    />
+                  </>
+                )}
+                <span className="relative z-10">{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Icons */}
@@ -52,10 +89,26 @@ export function Header() {
       {isMobileMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 w-full h-[calc(100vh-80px)] bg-black overflow-y-auto flex flex-col shadow-2xl">
           <div className="flex flex-col">
-            <Link onClick={() => setIsMobileMenuOpen(false)} href="/products/customize-neon-signs" className="text-[17px] font-semibold py-4 px-6 border-b border-white/10 hover:bg-white/5 transition-colors">Customise Your Neon Light</Link>
-            <Link onClick={() => setIsMobileMenuOpen(false)} href="/shop-neon-collection" className="text-[17px] font-semibold py-4 px-6 border-b border-white/10 hover:bg-white/5 transition-colors">Shop Neon Collection</Link>
-            <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="text-[17px] font-semibold py-4 px-6 border-b border-white/10 hover:bg-white/5 transition-colors">Best Sellers</Link>
-            <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="text-[17px] font-semibold py-4 px-6 border-b border-white/10 hover:bg-white/5 transition-colors">Business Logo</Link>
+            {navItems.map((item) => {
+              const isActive = mounted && pathname === item.href;
+              return (
+                <Link 
+                  key={item.label}
+                  onClick={() => setIsMobileMenuOpen(false)} 
+                  href={item.href} 
+                  className={`text-[17px] font-semibold py-4 px-6 border-b border-white/10 hover:bg-white/5 hover:text-brand-purple transition-colors relative ${isActive ? 'text-brand-green' : 'text-white'}`}
+                >
+                  {item.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="mobile-active-line"
+                      className="absolute left-0 top-0 bottom-0 w-1 bg-brand-green shadow-[0_0_8px_rgba(110,255,134,0.8)]"
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
           <div className="mt-4 mx-4 bg-[#1a1a1a] rounded-xl p-6 flex flex-col gap-5">
@@ -95,7 +148,7 @@ export function Header() {
           </div>
 
           <div className="mt-10 border-t border-white/10 p-6 pb-12">
-            <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="flex items-center gap-3 text-lg font-semibold hover:text-brand-green transition-colors">
+            <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="flex items-center gap-3 text-lg font-semibold hover:text-brand-purple transition-colors">
               <User className="w-6 h-6" /> Account
             </Link>
           </div>
