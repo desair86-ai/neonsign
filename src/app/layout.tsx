@@ -20,6 +20,9 @@ import {
 import localFont from "next/font/local";
 
 import "./globals.css";
+import { MascotProvider } from "../components/mascot/MascotProvider";
+import { Mascot } from "../components/mascot/Mascot";
+import { supabase } from "@/lib/supabase";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const pacifico = Pacifico({ weight: "400", subsets: ["latin"], variable: "--font-pacifico" });
@@ -79,15 +82,40 @@ export const metadata: Metadata = {
   description: "Create and order your own custom premium neon signs.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetch theme settings server-side
+  let themeStyle = {};
+  let gradientStr = "";
+  try {
+    const { data } = await supabase.from('theme_settings').select('*').eq('id', 1).single();
+    if (data) {
+      if (data.brand_green) themeStyle['--color-brand-green'] = data.brand_green;
+      if (data.brand_purple) themeStyle['--color-brand-purple'] = data.brand_purple;
+      if (data.background_gradient) {
+        gradientStr = data.background_gradient;
+      }
+    }
+  } catch (e) {
+    console.error("Failed to load dynamic theme", e);
+  }
+
   return (
     <html lang="en" className="dark">
-      <body className={`${fontVariables} font-sans bg-black text-white antialiased selection:bg-brand-purple/30 selection:text-brand-lavender`}>
-        {children}
+      <body 
+        className={`${fontVariables} font-sans text-white antialiased selection:bg-brand-purple/30 selection:text-brand-lavender`}
+        style={{
+          ...themeStyle,
+          background: gradientStr || 'var(--background)',
+        } as React.CSSProperties}
+      >
+        <MascotProvider>
+          {children}
+          <Mascot />
+        </MascotProvider>
       </body>
     </html>
   );

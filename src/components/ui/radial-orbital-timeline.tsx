@@ -18,10 +18,9 @@ export function RadialOrbitalFAQ({ items, className }: RadialOrbitalFAQProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"],
+    offset: ["start 10%", "end 50%"],
   });
 
-  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1.5]);
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   return (

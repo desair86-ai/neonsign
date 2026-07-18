@@ -4,6 +4,8 @@ import React, { useState, useMemo } from 'react';
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
 import { Check } from 'lucide-react';
+import { useMascot } from "@/hooks/useMascot";
+import { MascotState } from "@/components/mascot/MascotStateMachine";
 
 const FONTS = [
   { name: 'Clonoid', class: 'font-clonoid' },
@@ -68,6 +70,40 @@ export default function CustomizeNeonSign() {
   const [selectedSize, setSelectedSize] = useState(SIZES[0]);
   const [isWaterproof, setIsWaterproof] = useState(false);
   const [hasSmartController, setHasSmartController] = useState(false);
+
+  const { setState, speak, stopSpeaking } = useMascot();
+  const [colorTimeoutId, setColorTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [clearBubbleTimeoutId, setClearBubbleTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  const handleColorSelect = (color: typeof COLORS[number]) => {
+    setSelectedColor(color);
+    setState(MascotState.THINKING);
+    
+    if (colorTimeoutId) clearTimeout(colorTimeoutId);
+    if (clearBubbleTimeoutId) clearTimeout(clearBubbleTimeoutId);
+    
+    const messages = [
+      `${color.name} looks good!`,
+      `${color.name} is a solid choice.`,
+      `Ooh, I love ${color.name}!`,
+      `${color.name} makes it pop!`,
+      `Nice pick, ${color.name} is bright!`,
+      `Great taste! ${color.name} is stunning.`
+    ];
+    // eslint-disable-next-line react-hooks/purity
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    
+    const id = setTimeout(() => {
+      speak(randomMessage, MascotState.THINKING);
+      
+      const clearId = setTimeout(() => {
+        stopSpeaking();
+      }, 6500);
+      setClearBubbleTimeoutId(clearId);
+      
+    }, 1500);
+    setColorTimeoutId(id);
+  };
 
   // Dynamic pricing based on text length and size
   const price = useMemo(() => {
@@ -170,7 +206,7 @@ export default function CustomizeNeonSign() {
                 {COLORS.map((color) => (
                   <button
                     key={color.name}
-                    onClick={() => setSelectedColor(color)}
+                    onClick={() => handleColorSelect(color)}
                     className="group flex flex-col items-center gap-2 focus:outline-none"
                     aria-label={color.name}
                   >

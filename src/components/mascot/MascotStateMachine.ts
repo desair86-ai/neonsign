@@ -1,0 +1,47 @@
+export enum MascotState {
+  IDLE = "IDLE",
+  WALKING = "WALKING",
+  TALKING = "TALKING",
+  THINKING = "THINKING",
+  JUMPING = "JUMPING",
+  CELEBRATING = "CELEBRATING",
+  SLEEPING = "SLEEPING",
+  CURSOR_FOLLOW = "CURSOR_FOLLOW",
+  GREETING = "GREETING",
+  GOODBYE = "GOODBYE",
+  ERROR = "ERROR",
+  WAVE = "WAVE",
+}
+
+export enum MascotEvent {
+  PAGE_LOADED = "PAGE_LOADED",
+  USER_IDLE = "USER_IDLE",
+  USER_ACTIVE = "USER_ACTIVE",
+  CHAT_OPENED = "CHAT_OPENED",
+  MESSAGE_SENT = "MESSAGE_SENT",
+  AI_THINKING = "AI_THINKING",
+  AI_RESPONSE_RECEIVED = "AI_RESPONSE_RECEIVED",
+  ORDER_PLACED = "ORDER_PLACED",
+  ORDER_FAILED = "ORDER_FAILED",
+  UPLOAD_STARTED = "UPLOAD_STARTED",
+  UPLOAD_COMPLETED = "UPLOAD_COMPLETED",
+  DESIGN_UPDATED = "DESIGN_UPDATED",
+  CONVERSATION_FINISHED = "CONVERSATION_FINISHED",
+}
+
+// Maps events to the new state
+export const MascotTransitions: Record<MascotEvent, MascotState> = {
+  [MascotEvent.PAGE_LOADED]: MascotState.GREETING,
+  [MascotEvent.USER_IDLE]: MascotState.SLEEPING,
+  [MascotEvent.USER_ACTIVE]: MascotState.IDLE,
+  [MascotEvent.CHAT_OPENED]: MascotState.WAVE,
+  [MascotEvent.MESSAGE_SENT]: MascotState.THINKING,
+  [MascotEvent.AI_THINKING]: MascotState.THINKING,
+  [MascotEvent.AI_RESPONSE_RECEIVED]: MascotState.TALKING,
+  [MascotEvent.ORDER_PLACED]: MascotState.CELEBRATING,
+  [MascotEvent.ORDER_FAILED]: MascotState.ERROR,
+  [MascotEvent.UPLOAD_STARTED]: MascotState.THINKING,
+  [MascotEvent.UPLOAD_COMPLETED]: MascotState.CELEBRATING,
+  [MascotEvent.DESIGN_UPDATED]: MascotState.JUMPING,
+  [MascotEvent.CONVERSATION_FINISHED]: MascotState.IDLE,
+};
