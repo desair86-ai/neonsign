@@ -88,7 +88,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   // Fetch theme settings server-side
-  let themeStyle = {};
+  let themeStyle: Record<string, string> = {};
   let gradientStr = "";
   try {
     const { data } = await supabase.from('theme_settings').select('*').eq('id', 1).single();
