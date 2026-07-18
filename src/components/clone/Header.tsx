@@ -1,18 +1,12 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion } from 'framer-motion';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const navItems = [
     { label: 'Customise Your Neon Light', href: '/products/customize-neon-signs' },
@@ -22,7 +16,7 @@ export function Header() {
   ];
 
   return (
-    <div className="sticky top-0 z-50 w-full bg-black text-white border-b border-gray-800">
+    <div className="sticky top-0 z-[60] w-full bg-black text-white border-b border-gray-800">
       {/* Main Header */}
       <header className="max-w-[1600px] mx-auto px-4 lg:px-10 h-20 flex items-center justify-between relative">
         
@@ -47,29 +41,13 @@ export function Header() {
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-2 font-semibold text-sm">
           {navItems.map((item) => {
-            const isActive = mounted && pathname === item.href;
+            const isActive = pathname === item.href;
             return (
               <Link 
                 key={item.label} 
                 href={item.href} 
-                className={`relative px-4 py-2 hover:text-brand-purple transition-colors rounded-full flex items-center justify-center ${isActive ? 'text-white' : 'text-gray-300'}`}
+                className={`relative px-4 py-2 hover:text-brand-purple transition-colors rounded-full flex items-center justify-center ${isActive ? 'text-brand-green' : 'text-gray-300'}`}
               >
-                {isActive && (
-                  <>
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="absolute inset-0 bg-brand-green/20 rounded-full blur-xl -z-10"
-                      transition={{ duration: 0.3 }}
-                    />
-                    <motion.div
-                      initial={{ opacity: 0, scaleX: 0 }}
-                      animate={{ opacity: 1, scaleX: 1 }}
-                      className="absolute bottom-0 left-4 right-4 h-[2px] bg-brand-green shadow-[0_0_8px_rgba(110,255,134,0.8)]"
-                      transition={{ duration: 0.3 }}
-                    />
-                  </>
-                )}
                 <span className="relative z-10">{item.label}</span>
               </Link>
             );
@@ -92,7 +70,7 @@ export function Header() {
         <div className="lg:hidden absolute top-full left-0 w-full h-[calc(100vh-80px)] bg-black overflow-y-auto flex flex-col shadow-2xl">
           <div className="flex flex-col">
             {navItems.map((item) => {
-              const isActive = mounted && pathname === item.href;
+              const isActive = pathname === item.href;
               return (
                 <Link 
                   key={item.label}
@@ -101,14 +79,6 @@ export function Header() {
                   className={`text-[17px] font-semibold py-4 px-6 border-b border-white/10 hover:bg-white/5 hover:text-brand-purple transition-colors relative ${isActive ? 'text-brand-green' : 'text-white'}`}
                 >
                   {item.label}
-                  {isActive && (
-                    <motion.div
-                      initial={{ opacity: 0, scaleY: 0 }}
-                      animate={{ opacity: 1, scaleY: 1 }}
-                      className="absolute left-0 top-0 bottom-0 w-1 bg-brand-green shadow-[0_0_8px_rgba(110,255,134,0.8)]"
-                      transition={{ duration: 0.3 }}
-                    />
-                  )}
                 </Link>
               );
             })}

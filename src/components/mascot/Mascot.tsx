@@ -23,12 +23,12 @@ export const Mascot: React.FC = () => {
   const [svgContent, setSvgContent] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const pathname = usePathname();
-  
-  // Hide on admin panel
-  if (pathname?.startsWith("/admin")) return null;
+  const isAdminRoute = pathname?.startsWith("/admin");
   
   // Fetch the massive SVG on mount
   useEffect(() => {
+    if (isAdminRoute) return;
+
     fetch("/animate/mascot.svg")
       .then(res => {
         if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
@@ -46,7 +46,7 @@ export const Mascot: React.FC = () => {
         console.error("Failed to load mascot SVG:", err);
         setFetchError(err.message || "Failed to load");
       });
-  }, []);
+  }, [isAdminRoute]);
 
   const clickTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -93,7 +93,7 @@ export const Mascot: React.FC = () => {
   };
 
   useGSAP(() => {
-    if (!svgContent) return; 
+    if (isAdminRoute || !svgContent) return; 
     
     cleanupAnimations();
 
@@ -146,23 +146,26 @@ export const Mascot: React.FC = () => {
     }
 
     return () => cleanupAnimations();
-  }, { dependencies: [currentState, svgContent], scope: container });
+  }, { dependencies: [currentState, svgContent, isAdminRoute], scope: container });
 
   // Random walking behavior
   useEffect(() => {
     let idleTimer: NodeJS.Timeout;
-    if (currentState === MascotState.IDLE) {
+    if (!isAdminRoute && currentState === MascotState.IDLE) {
       const randomTime = Math.random() * 15000 + 10000;
       idleTimer = setTimeout(() => {
         setState(MascotState.WALKING);
       }, randomTime);
     }
     return () => clearTimeout(idleTimer);
-  }, [currentState, setState]);
+  }, [currentState, isAdminRoute, setState]);
+
+  // Hide on admin panel after all hooks have been registered.
+  if (isAdminRoute) return null;
 
   return (
     <div 
-      className="fixed bottom-10 left-10 z-50 pointer-events-auto cursor-pointer hover:scale-105 transition-transform" 
+      className="fixed bottom-10 left-10 z-[45] pointer-events-none transition-transform" 
       ref={container}
       onClick={handleMascotClick}
       onDoubleClick={handleMascotDoubleClick}
@@ -179,7 +182,7 @@ export const Mascot: React.FC = () => {
         
         {svgContent ? (
           <div 
-            className="w-full h-full [&>svg]:w-full [&>svg]:h-full"
+            className="w-full h-full pointer-events-auto cursor-pointer hover:scale-105 transition-transform [&>svg]:w-full [&>svg]:h-full"
             dangerouslySetInnerHTML={{ __html: svgContent }} 
           />
         ) : fetchError ? (
