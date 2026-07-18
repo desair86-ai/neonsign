@@ -139,7 +139,8 @@ export default function PagesManager() {
         if (error) throw error;
       } else {
         // Insert
-        const { error } = await supabase.from('pages').insert([payload]);
+        const insertPayload = { ...payload, id: crypto.randomUUID() };
+        const { error } = await supabase.from('pages').insert([insertPayload]);
         if (error) throw error;
       }
       
