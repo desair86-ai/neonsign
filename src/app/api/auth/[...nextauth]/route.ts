@@ -9,9 +9,6 @@ const handler = NextAuth({
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/api/auth/signin",
-  },
 });
 
 export { handler as GET, handler as POST };
