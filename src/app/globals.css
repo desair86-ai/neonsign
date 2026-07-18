@@ -158,13 +158,13 @@ body {
 }
 
 /* Global button permanent state: Purple bg (#752eff), Green text (#6eff86) with neon glow */
-button[class*="p-"]:not(.faq-btn),
-button[class*="px-"]:not(.faq-btn),
-button[class*="py-"]:not(.faq-btn),
-button.bg-brand-purple:not(.faq-btn),
-button.bg-brand-green:not(.faq-btn),
-button.bg-white:not(.faq-btn),
-button.border-white:not(.faq-btn) {
+button[class*="p-"]:not(.faq-btn):not(.opt-btn),
+button[class*="px-"]:not(.faq-btn):not(.opt-btn),
+button[class*="py-"]:not(.faq-btn):not(.opt-btn),
+button.bg-brand-purple:not(.faq-btn):not(.opt-btn),
+button.bg-brand-green:not(.faq-btn):not(.opt-btn),
+button.bg-white:not(.faq-btn):not(.opt-btn),
+button.border-white:not(.faq-btn):not(.opt-btn) {
   background-color: #752eff !important;
   color: #6eff86 !important;
   border-color: #752eff !important;
@@ -173,13 +173,13 @@ button.border-white:not(.faq-btn) {
 }
 
 /* Ensure svg/lucide icons inside buttons turn brand-green */
-button[class*="p-"]:not(.faq-btn) svg,
-button[class*="px-"]:not(.faq-btn) svg,
-button[class*="py-"]:not(.faq-btn) svg,
-button.bg-brand-purple:not(.faq-btn) svg,
-button.bg-brand-green:not(.faq-btn) svg,
-button.bg-white:not(.faq-btn) svg,
-button.border-white:not(.faq-btn) svg {
+button[class*="p-"]:not(.faq-btn):not(.opt-btn) svg,
+button[class*="px-"]:not(.faq-btn):not(.opt-btn) svg,
+button[class*="py-"]:not(.faq-btn):not(.opt-btn) svg,
+button.bg-brand-purple:not(.faq-btn):not(.opt-btn) svg,
+button.bg-brand-green:not(.faq-btn):not(.opt-btn) svg,
+button.bg-white:not(.faq-btn):not(.opt-btn) svg,
+button.border-white:not(.faq-btn):not(.opt-btn) svg {
   color: #6eff86 !important;
   stroke: #6eff86 !important;
 }

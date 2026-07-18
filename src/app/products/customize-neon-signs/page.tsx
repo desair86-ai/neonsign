@@ -186,7 +186,7 @@ export default function CustomizeNeonSign() {
                   <button
                     key={font.name}
                     onClick={() => setSelectedFont(font)}
-                    className={`min-h-16 py-3 px-2 rounded-md border text-center transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple ${
+                    className={`opt-btn min-h-16 py-3 px-2 rounded-md border text-center transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple ${
                       selectedFont.name === font.name 
                         ? 'border-brand-purple bg-brand-purple text-white shadow-[0_0_28px_rgba(117,46,255,0.45)]' 
                         : 'border-white/70 bg-black text-zinc-200 hover:border-brand-green hover:text-white hover:shadow-[0_0_22px_rgba(110,255,134,0.18)]'
@@ -207,7 +207,7 @@ export default function CustomizeNeonSign() {
                   <button
                     key={color.name}
                     onClick={() => handleColorSelect(color)}
-                    className="group flex flex-col items-center gap-2 focus:outline-none"
+                    className="opt-btn group flex flex-col items-center gap-2 focus:outline-none"
                     aria-label={color.name}
                   >
                     <div 
@@ -242,7 +242,7 @@ export default function CustomizeNeonSign() {
                   <button
                     key={size.id}
                     onClick={() => setSelectedSize(size)}
-                    className={`rounded-md border flex flex-col focus:outline-none transition-colors overflow-hidden ${
+                    className={`opt-btn rounded-md border flex flex-col focus:outline-none transition-colors overflow-hidden ${
                       selectedSize.id === size.id
                         ? 'border-brand-purple'
                         : 'border-white hover:border-brand-purple'
