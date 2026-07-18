@@ -154,8 +154,6 @@ export default function ThemeSettings() {
               placeholder="e.g. linear-gradient(to right, #000, #333)"
             />
           </div>
-            placeholder="e.g. linear-gradient(to right, #000, #333)"
-          />
           
           <div className="mt-4">
             <p className="text-sm text-gray-400 mb-2">Live Preview:</p>
