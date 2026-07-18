@@ -1,10 +1,19 @@
-import React from 'react';
+"use client";
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FaInstagram, FaFacebook, FaTwitter, FaPinterest, FaLinkedin } from 'react-icons/fa';
 import { supabase } from '@/lib/supabase';
 
-export async function Footer() {
-  const { data: pages } = await supabase.from('pages').select('id, title, slug').order('created_at', { ascending: true });
+export function Footer() {
+  const [pages, setPages] = useState<{id: number, title: string, slug: string}[] | null>(null);
+
+  useEffect(() => {
+    supabase
+      .from('pages')
+      .select('id, title, slug')
+      .order('created_at', { ascending: true })
+      .then(({ data }) => setPages(data));
+  }, []);
 
   return (
     <footer className="bg-black pt-16 pb-8 border-t border-white/10">
