@@ -106,7 +106,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className="dark">
       <body 
-        className={`${fontVariables} font-sans text-white antialiased selection:bg-brand-purple/30 selection:text-brand-lavender`}
+        className={`${fontVariables} font-sans text-white antialiased selection:bg-brand-purple/30 selection:text-brand-lavender ${gradientStr ? 'moving-gradient' : ''}`}
         style={{
           ...themeStyle,
           background: gradientStr || 'var(--background)',

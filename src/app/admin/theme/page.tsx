@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { Save, Loader2 } from "lucide-react";
 import { AuroraColorTester } from "@/components/ui/aurora-color-tester";
 import { AuroraBackground } from "@/components/ui/aurora-background";
+import { revalidateTheme } from "./actions";
 
 export default function ThemeSettings() {
   const [loading, setLoading] = useState(true);
@@ -43,7 +44,9 @@ export default function ThemeSettings() {
         .upsert({ id: 1, ...theme });
       
       if (error) throw error;
-      alert("Theme saved successfully! Changes will reflect across the site.");
+      
+      await revalidateTheme();
+      alert("Theme saved successfully!");
     } catch (error) {
       console.error('Error saving theme:', error);
       alert("Error saving theme");
