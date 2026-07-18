@@ -60,7 +60,7 @@ export const Mascot: React.FC = () => {
     setState(currentState === MascotState.WALKING ? MascotState.IDLE : MascotState.WALKING);
   };
 
-  const container = useRef<HTMLDivElement>(null);
+  const container = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
   const currentTimeline = useRef<gsap.core.Timeline | null>(null);
 
   const cleanupAnimations = () => {
