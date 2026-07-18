@@ -21,6 +21,7 @@ gsap.registerPlugin(useGSAP, MotionPathPlugin);
 export const Mascot: React.FC = () => {
   const { currentState, setState } = useMascot();
   const [svgContent, setSvgContent] = useState<string | null>(null);
+  const [fetchError, setFetchError] = useState<string | null>(null);
   const pathname = usePathname();
   
   // Hide on admin panel
@@ -29,15 +30,22 @@ export const Mascot: React.FC = () => {
   // Fetch the massive SVG on mount
   useEffect(() => {
     fetch("/animate/mascot.svg")
-      .then(res => res.text())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
+        return res.text();
+      })
       .then(text => {
+        if (!text.includes("<svg")) throw new Error("Invalid SVG content");
         // Strip out the hardcoded 139.7mm width and 215.9mm height so it fits the container
         const responsiveSvg = text
           .replace(/width="[^"]+"/, 'width="100%"')
           .replace(/height="[^"]+"/, 'height="100%"');
         setSvgContent(responsiveSvg);
       })
-      .catch(err => console.error("Failed to load mascot SVG:", err));
+      .catch(err => {
+        console.error("Failed to load mascot SVG:", err);
+        setFetchError(err.message || "Failed to load");
+      });
   }, []);
 
   const clickTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -174,6 +182,10 @@ export const Mascot: React.FC = () => {
             className="w-full h-full [&>svg]:w-full [&>svg]:h-full"
             dangerouslySetInnerHTML={{ __html: svgContent }} 
           />
+        ) : fetchError ? (
+          <div className="w-24 p-2 bg-red-900/80 text-white text-[10px] text-center rounded-lg border border-red-500">
+            Mascot Error: {fetchError}
+          </div>
         ) : (
           <div className="w-16 h-16 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
         )}
