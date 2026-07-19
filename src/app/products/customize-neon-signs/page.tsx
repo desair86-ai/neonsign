@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
-import { Check } from 'lucide-react';
+import { Check, Ruler } from 'lucide-react';
 import { useMascot } from "@/hooks/useMascot";
 import { MascotState } from "@/components/mascot/MascotStateMachine";
 
@@ -78,6 +78,7 @@ const SIZES = [
 
 export default function CustomizeNeonSign() {
   const [isLightOn, setIsLightOn] = useState(true);
+  const [showMeasurements, setShowMeasurements] = useState(false);
   const [text, setText] = useState('The Neon Stack');
   const [selectedFont, setSelectedFont] = useState(FONTS[0]);
   const [selectedColor, setSelectedColor] = useState(COLORS[2]); // Green default
@@ -167,6 +168,18 @@ export default function CustomizeNeonSign() {
                 </button>
               </div>
 
+              {/* Ruler Toggle Button */}
+              <div className="absolute top-6 right-6 z-20">
+                <button
+                  onClick={() => setShowMeasurements(!showMeasurements)}
+                  className={`w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all shadow-lg ${showMeasurements ? 'border-brand-green bg-brand-green/20 text-brand-green hover:bg-brand-green/30' : 'border-white/50 text-white bg-black/40 hover:bg-black/60 hover:border-white'}`}
+                  aria-label="Toggle Measurements"
+                  title="Toggle Measurements"
+                >
+                  <Ruler className="w-5 h-5" />
+                </button>
+              </div>
+
               {/* Ratio Badge (moved to bottom) */}
               <div className="absolute bottom-4 right-4 z-20 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2">
                 <span className={`w-2 h-2 rounded-full ${isLightOn ? 'bg-brand-green animate-pulse shadow-[0_0_8px_rgba(110,255,134,0.6)]' : 'bg-gray-500'}`}></span>
@@ -174,15 +187,40 @@ export default function CustomizeNeonSign() {
               </div>
               
               {/* Neon Text Wrapper with subtle scaling */}
-              <div style={{ transform: `scale(${1 + (selectedSize.multiplier - 1) * 0.15})` }} className="transition-transform duration-500 ease-out max-w-full">
-                <div 
-                  className={`relative z-10 max-w-full text-center ${selectedFont.class}`}
-                  role="img"
-                  aria-label={`Preview of neon text: ${text || 'Type Here'}`}
-                  aria-live="polite"
-                  style={getNeonTextStyle(selectedColor, isLightOn)}
-                >
-                  {text || 'Type Here'}
+              <div style={{ transform: `scale(${1 + (selectedSize.multiplier - 1) * 0.15})` }} className="transition-transform duration-500 ease-out max-w-full flex justify-center mt-12 md:mt-0">
+                <div className="relative inline-block">
+                  {/* Measurements Overlay */}
+                  {showMeasurements && (
+                    <>
+                      {/* Top Width Measurement */}
+                      <div className="absolute -top-10 left-0 right-0 flex flex-col items-center justify-center pointer-events-none opacity-80 animate-fade-in-up" style={{ animationDuration: '0.3s' }}>
+                        <span className="text-white font-bold text-sm mb-1 bg-black/40 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 tracking-widest">{selectedSize.width}</span>
+                        <div className="w-full border-t border-dashed border-white/50 relative">
+                          <div className="absolute -top-1 -left-px w-[2px] h-2 bg-white/50" />
+                          <div className="absolute -top-1 -right-px w-[2px] h-2 bg-white/50" />
+                        </div>
+                      </div>
+                      
+                      {/* Left Height Measurement */}
+                      <div className="absolute -left-12 sm:-left-16 top-0 bottom-0 flex flex-row items-center justify-center pointer-events-none opacity-80 animate-fade-in-up" style={{ animationDuration: '0.3s' }}>
+                        <span className="text-white font-bold text-sm mr-2 whitespace-nowrap bg-black/40 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 tracking-widest">{selectedSize.height}</span>
+                        <div className="h-full border-l border-dashed border-white/50 relative">
+                          <div className="absolute -left-1 -top-px w-2 h-[2px] bg-white/50" />
+                          <div className="absolute -left-1 -bottom-px w-2 h-[2px] bg-white/50" />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  
+                  <div 
+                    className={`relative z-10 max-w-full text-center ${selectedFont.class}`}
+                    role="img"
+                    aria-label={`Preview of neon text: ${text || 'Type Here'}`}
+                    aria-live="polite"
+                    style={getNeonTextStyle(selectedColor, isLightOn)}
+                  >
+                    {text || 'Type Here'}
+                  </div>
                 </div>
               </div>
             </div>
