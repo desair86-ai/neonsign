@@ -323,16 +323,16 @@ export default function CustomizeNeonSign() {
 
               {/* Background Image */}
               <div 
-                className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 opacity-40 group-hover:opacity-60 ${isCalibrating ? 'opacity-20 blur-sm' : ''}`} 
+                className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 group-hover:opacity-60 ${isCalibrating ? 'opacity-100 z-10' : 'opacity-40'}`} 
                 style={{ backgroundImage: `url('${selectedBg.url}')` }}
               />
 
               {/* Calibration Overlay */}
               {isCalibrating && selectedBg.id === 'custom' && (
-                <div className="absolute inset-0 z-30 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center p-6">
-                  <div className="bg-black/90 border border-brand-purple rounded-xl p-6 mb-8 max-w-md w-full shadow-[0_0_30px_rgba(117,46,255,0.3)]">
+                <div className="absolute inset-0 z-30 flex flex-col items-center justify-start p-6 pt-12 pointer-events-none">
+                  <div className="bg-black/95 border-2 border-brand-purple rounded-xl p-6 max-w-md w-full shadow-[0_0_30px_rgba(117,46,255,0.4)] pointer-events-auto z-40 relative">
                     <h3 className="text-xl font-bold text-white mb-2">Calibrate Room Scale</h3>
-                    <p className="text-sm text-gray-300 mb-6">Resize the red line below to match the width of a real object in your room (like a TV or door), then tell us how wide it is.</p>
+                    <p className="text-sm text-gray-300 mb-6">Drag the red line over a real object in your room (like a TV or door), resize it to match, then tell us how wide it is.</p>
                     <div className="flex gap-4">
                       <div className="flex-1">
                         <label className="text-[10px] text-brand-purple font-bold uppercase tracking-wider mb-1 block">Object Width (Inches)</label>
@@ -363,19 +363,23 @@ export default function CustomizeNeonSign() {
                     </div>
                   </div>
 
-                  {/* Resizable Line Wrapper */}
-                  <div className="relative w-full max-w-3xl border border-white/10 rounded-xl h-48 bg-white/5 flex items-center justify-center overflow-hidden">
+                  {/* Draggable & Resizable Line */}
+                  <motion.div 
+                    drag 
+                    dragMomentum={false}
+                    className="absolute inset-0 pointer-events-none z-30 flex items-center justify-center"
+                  >
                     <div 
                       ref={calibrationLineRef}
-                      className="h-1.5 bg-red-500 relative min-w-[50px] shadow-[0_0_15px_rgba(239,68,68,0.8)]"
+                      className="h-1.5 bg-red-500 relative min-w-[50px] shadow-[0_0_15px_rgba(239,68,68,0.8)] pointer-events-auto cursor-move"
                       style={{ width: '300px', resize: 'horizontal', overflow: 'hidden', maxWidth: '100%' }}
                     >
-                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-6 bg-white rounded-sm border border-red-500 cursor-ew-resize flex items-center justify-center shadow-md pointer-events-none">
-                        <div className="w-0.5 h-3 bg-gray-400 rounded-full" />
+                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-8 bg-white rounded-md border-2 border-red-500 cursor-ew-resize flex items-center justify-center shadow-md" style={{ pointerEvents: 'auto' }}>
+                        <div className="w-0.5 h-4 bg-gray-400 rounded-full" />
                       </div>
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-white rounded-sm border border-red-500" />
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-white rounded-sm border border-red-500" />
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
               )}
 
