@@ -7,7 +7,6 @@ import { ProductCarousel } from "@/components/clone/ProductCarousel";
 import { Stories } from "@/components/clone/Stories";
 import { InfoSections } from "@/components/clone/InfoSections";
 import { FAQ } from "@/components/clone/FAQ";
-import { ReviewsSection } from "@/components/clone/ReviewsSection";
 import { Footer } from "@/components/clone/Footer";
 
 export default function Home() {
