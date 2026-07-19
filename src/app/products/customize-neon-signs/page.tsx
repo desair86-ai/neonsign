@@ -379,24 +379,24 @@ export default function CustomizeNeonSign() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <label className="text-xl font-black">Pick Your Font</label>
-                <div className="flex items-center bg-zinc-900 rounded-md p-1 border border-white/10">
+                <div className="flex items-center gap-2">
                   <button 
                     onClick={() => setTextAlign('left')}
-                    className={`p-1.5 rounded ${textAlign === 'left' ? 'bg-brand-purple text-white shadow-sm' : 'text-zinc-500 hover:text-white'}`}
+                    className={`p-2 rounded-md border transition-all focus:outline-none ${textAlign === 'left' ? 'border-brand-purple bg-brand-purple text-white shadow-[0_0_28px_rgba(117,46,255,0.45)]' : 'border-white/70 bg-black text-zinc-200 hover:border-brand-green hover:text-white hover:shadow-[0_0_22px_rgba(110,255,134,0.18)]'}`}
                     title="Align Left"
                   >
                     <AlignLeft className="w-5 h-5" />
                   </button>
                   <button 
                     onClick={() => setTextAlign('center')}
-                    className={`p-1.5 rounded ${textAlign === 'center' ? 'bg-brand-purple text-white shadow-sm' : 'text-zinc-500 hover:text-white'}`}
+                    className={`p-2 rounded-md border transition-all focus:outline-none ${textAlign === 'center' ? 'border-brand-purple bg-brand-purple text-white shadow-[0_0_28px_rgba(117,46,255,0.45)]' : 'border-white/70 bg-black text-zinc-200 hover:border-brand-green hover:text-white hover:shadow-[0_0_22px_rgba(110,255,134,0.18)]'}`}
                     title="Align Center"
                   >
                     <AlignCenter className="w-5 h-5" />
                   </button>
                   <button 
                     onClick={() => setTextAlign('right')}
-                    className={`p-1.5 rounded ${textAlign === 'right' ? 'bg-brand-purple text-white shadow-sm' : 'text-zinc-500 hover:text-white'}`}
+                    className={`p-2 rounded-md border transition-all focus:outline-none ${textAlign === 'right' ? 'border-brand-purple bg-brand-purple text-white shadow-[0_0_28px_rgba(117,46,255,0.45)]' : 'border-white/70 bg-black text-zinc-200 hover:border-brand-green hover:text-white hover:shadow-[0_0_22px_rgba(110,255,134,0.18)]'}`}
                     title="Align Right"
                   >
                     <AlignRight className="w-5 h-5" />
