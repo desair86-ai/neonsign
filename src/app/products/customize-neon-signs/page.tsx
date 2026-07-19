@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
-import { Check, Ruler } from 'lucide-react';
+import { Check, Ruler, Info } from 'lucide-react';
 import { useMascot } from "@/hooks/useMascot";
 import { MascotState } from "@/components/mascot/MascotStateMachine";
 
@@ -248,6 +248,19 @@ export default function CustomizeNeonSign() {
                   >
                     {text || 'Type Here'}
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Live Preview Info Callout */}
+            <div className="mt-4 bg-[#0a0a0a] border border-white/10 rounded-lg p-5 text-sm text-zinc-400 shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-1 h-full bg-brand-purple"></div>
+              <div className="flex flex-col sm:flex-row items-start gap-4 relative z-10">
+                <Info className="w-5 h-5 text-brand-purple shrink-0 mt-0.5" />
+                <div className="space-y-3 leading-relaxed">
+                  <p><strong className="text-white font-bold">Preview Rendering:</strong> The neon sign is scaled down to fit proportionally into the staged room photo. This is a visualization, not the real physical size.</p>
+                  <p><strong className="text-white font-bold">Actual Dimensions:</strong> The real production measurements (length × height in inches) are listed in the size options.</p>
+                  <p><strong className="text-white font-bold">Ratio Used:</strong> Based on typical furniture dimensions, the sign is displayed at roughly 1:10 to 1:12 scale to ensure it looks realistic in the mock‑up.</p>
                 </div>
               </div>
             </div>
