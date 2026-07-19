@@ -42,14 +42,15 @@ const COLORS = [
 function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = true) {
   if (!isLightOn) {
     return {
-      color: 'rgba(255, 255, 255, 0.4)',
+      color: color.hex,
       textShadow: 'none',
       filter: 'none',
       fontSize: 'clamp(2.7rem, 7.5vw, 8.6rem)',
       lineHeight: '1.1',
       whiteSpace: 'pre-wrap' as const,
       wordBreak: 'break-word' as const,
-      WebkitTextStroke: '2px rgba(255,255,255,0.2)',
+      WebkitTextStroke: `2px ${color.hex}`,
+      opacity: 0.8,
     };
   }
 
