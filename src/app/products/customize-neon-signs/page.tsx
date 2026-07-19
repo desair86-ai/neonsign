@@ -109,6 +109,11 @@ const BACKGROUNDS: Background[] = [
 export default function CustomizeNeonSign() {
   const [isLightOn, setIsLightOn] = useState(true);
   const [showMeasurements, setShowMeasurements] = useState(false);
+  const [isCalibrating, setIsCalibrating] = useState(false);
+  const [calibrationInches, setCalibrationInches] = useState<string>('50');
+  const [calibrationRatio, setCalibrationRatio] = useState<number | null>(null);
+  const calibrationLineRef = useRef<HTMLDivElement>(null);
+  
   const [backgroundsList, setBackgroundsList] = useState(BACKGROUNDS);
   const [selectedBg, setSelectedBg] = useState(BACKGROUNDS[0]);
   const [text, setText] = useState('The Neon Stack');
@@ -244,7 +249,7 @@ export default function CustomizeNeonSign() {
     return scale ?? defaultScale;
   }, [selectedSize, selectedBg]);
 
-  // Dynamically calculate scale down if text overflows container
+  // Dynamically calculate scale down if text overflows container or override if calibrated
   useEffect(() => {
     if (!containerRef.current || !textRef.current) return;
     
@@ -252,11 +257,21 @@ export default function CustomizeNeonSign() {
       const containerWidth = containerRef.current!.offsetWidth;
       const textWidth = textRef.current!.offsetWidth;
       
+      let targetScale = currentScale;
+      
+      if (selectedBg.id === 'custom' && calibrationRatio !== null) {
+        const physicalInches = parseFloat(selectedSize.length);
+        const targetPixels = physicalInches * calibrationRatio;
+        targetScale = targetPixels / textWidth;
+      }
+      
       const maxAllowedWidth = containerWidth * 0.9; // 90% of container width
-      const intendedWidth = textWidth * currentScale;
+      const intendedWidth = textWidth * targetScale;
       
       if (intendedWidth > maxAllowedWidth) {
         setDynamicScale(maxAllowedWidth / textWidth);
+      } else if (selectedBg.id === 'custom' && calibrationRatio !== null) {
+        setDynamicScale(targetScale);
       } else {
         setDynamicScale(null);
       }
@@ -268,7 +283,7 @@ export default function CustomizeNeonSign() {
     observer.observe(containerRef.current);
     
     return () => observer.disconnect();
-  }, [text, selectedFont, currentScale, selectedBg, textAlign]);
+  }, [text, selectedFont, currentScale, selectedBg, textAlign, calibrationRatio, selectedSize.length]);
 
   const finalScale = dynamicScale !== null ? dynamicScale : currentScale;
 
@@ -308,9 +323,74 @@ export default function CustomizeNeonSign() {
 
               {/* Background Image */}
               <div 
-                className="absolute inset-0 bg-cover bg-center transition-opacity duration-500 opacity-40 group-hover:opacity-60" 
+                className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 opacity-40 group-hover:opacity-60 ${isCalibrating ? 'opacity-20 blur-sm' : ''}`} 
                 style={{ backgroundImage: `url('${selectedBg.url}')` }}
               />
+
+              {/* Calibration Overlay */}
+              {isCalibrating && selectedBg.id === 'custom' && (
+                <div className="absolute inset-0 z-30 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center p-6">
+                  <div className="bg-black/90 border border-brand-purple rounded-xl p-6 mb-8 max-w-md w-full shadow-[0_0_30px_rgba(117,46,255,0.3)]">
+                    <h3 className="text-xl font-bold text-white mb-2">Calibrate Room Scale</h3>
+                    <p className="text-sm text-gray-300 mb-6">Resize the red line below to match the width of a real object in your room (like a TV or door), then tell us how wide it is.</p>
+                    <div className="flex gap-4">
+                      <div className="flex-1">
+                        <label className="text-[10px] text-brand-purple font-bold uppercase tracking-wider mb-1 block">Object Width (Inches)</label>
+                        <input 
+                          type="number" 
+                          value={calibrationInches}
+                          onChange={(e) => setCalibrationInches(e.target.value)}
+                          className="w-full bg-[#111] border border-white/20 rounded-lg px-4 py-3 text-white text-lg outline-none focus:border-brand-purple transition-colors"
+                          placeholder="e.g. 50"
+                        />
+                      </div>
+                      <button 
+                        onClick={() => {
+                          if (calibrationLineRef.current && calibrationInches) {
+                            const px = calibrationLineRef.current.offsetWidth;
+                            const inches = parseFloat(calibrationInches);
+                            if (inches > 0) {
+                              setCalibrationRatio(px / inches);
+                              setIsCalibrating(false);
+                              triggerMascot("Perfect! Now the neon sizes are 100% physically accurate to your room.", MascotState.CELEBRATING);
+                            }
+                          }
+                        }}
+                        className="self-end h-[52px] px-6 bg-brand-purple hover:bg-brand-purple/80 text-white rounded-lg font-bold transition-colors"
+                      >
+                        Set Scale
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Resizable Line Wrapper */}
+                  <div className="relative w-full max-w-3xl border border-white/10 rounded-xl h-48 bg-white/5 flex items-center justify-center overflow-hidden">
+                    <div 
+                      ref={calibrationLineRef}
+                      className="h-1.5 bg-red-500 relative min-w-[50px] shadow-[0_0_15px_rgba(239,68,68,0.8)]"
+                      style={{ width: '300px', resize: 'horizontal', overflow: 'hidden', maxWidth: '100%' }}
+                    >
+                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-6 bg-white rounded-sm border border-red-500 cursor-ew-resize flex items-center justify-center shadow-md pointer-events-none">
+                        <div className="w-0.5 h-3 bg-gray-400 rounded-full" />
+                      </div>
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-white rounded-sm border border-red-500" />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Calibration Trigger Button */}
+              {selectedBg.id === 'custom' && !isCalibrating && (
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
+                  <button
+                    onClick={() => setIsCalibrating(true)}
+                    className="px-6 py-2.5 bg-brand-purple hover:bg-brand-purple/80 text-white rounded-full font-bold shadow-[0_0_20px_rgba(117,46,255,0.4)] transition-all flex items-center gap-2 text-sm"
+                  >
+                    <Ruler className="w-4 h-4" />
+                    Calibrate Room Size
+                  </button>
+                </div>
+              )}
 
               {/* Ruler Toggle Button */}
               <div className="absolute top-6 right-6 z-20">
