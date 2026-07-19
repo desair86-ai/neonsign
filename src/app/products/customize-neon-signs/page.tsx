@@ -144,7 +144,14 @@ export default function CustomizeNeonSign() {
   const triggerMascot = (message: string, state: MascotState = MascotState.TALKING) => {
     if (colorTimeoutId) clearTimeout(colorTimeoutId);
     if (clearBubbleTimeoutId) clearTimeout(clearBubbleTimeoutId);
+    
     speak(message, state);
+    
+    // Stop the intense animation (jumping/celebrating) after 1.5s but keep the text bubble
+    if (state !== MascotState.TALKING && state !== MascotState.THINKING) {
+      setTimeout(() => setState(MascotState.TALKING), 1500);
+    }
+    
     const clearId = setTimeout(() => stopSpeaking(), 5000);
     setClearBubbleTimeoutId(clearId);
   };
@@ -533,12 +540,17 @@ export default function CustomizeNeonSign() {
             {/* 5. Choose Background */}
             <div className="space-y-3">
               <label className="text-xl font-black">Choose Background</label>
+              
+              {/* Full Width Upload Button */}
+              <label className="relative w-full py-4 rounded-md border-2 border-dashed border-gray-600 flex flex-col items-center justify-center cursor-pointer hover:border-brand-purple hover:bg-brand-purple/10 transition-colors">
+                <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
+                <div className="flex flex-row items-center gap-2">
+                  <Upload className="w-5 h-5 text-gray-400" />
+                  <span className="text-sm font-bold text-gray-300">Upload your own room image and see the sign</span>
+                </div>
+              </label>
+
               <div className="grid grid-cols-4 gap-2">
-                <label className="relative h-16 rounded-md border-2 border-dashed border-gray-600 flex flex-col items-center justify-center cursor-pointer hover:border-brand-purple hover:bg-brand-purple/10 transition-colors">
-                  <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
-                  <Upload className="w-5 h-5 text-gray-400 mb-1" />
-                  <span className="text-[10px] font-bold text-gray-400 uppercase">Upload</span>
-                </label>
                 {backgroundsList.map((bg) => (
                   <button
                     key={bg.id}
