@@ -31,9 +31,6 @@ export function ProductCarousel({ title, products, theme = "dark" }: ProductCaro
     <section className="py-16 max-w-[1600px] mx-auto px-4">
       <div className="flex items-center justify-between mb-10 gap-6">
         <h2 className={`text-3xl md:text-5xl font-black whitespace-nowrap ${theme === 'light' ? 'text-black' : 'text-white'}`}>{title}</h2>
-        <div className="flex-1 h-[2px] relative overflow-hidden rounded-full">
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,transparent_45%,#6eff86_50%,transparent_51%,transparent_100%)] bg-[length:200%_100%] animate-border-flow" />
-        </div>
         <div className="flex gap-2 hidden md:flex">
           <button onClick={scrollPrev} className={`p-3 rounded-full border transition-colors ${theme === 'light' ? 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-black' : 'bg-zinc-900 border-zinc-800 hover:bg-zinc-800 text-white'}`}>
             <ChevronLeft className="w-6 h-6" />

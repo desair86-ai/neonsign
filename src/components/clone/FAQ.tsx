@@ -27,14 +27,8 @@ export function FAQ() {
 
   return (
     <section className="py-20 max-w-4xl mx-auto px-4">
-      <div className="flex items-center gap-6 mb-12">
-        <div className="flex-1 h-[2px] relative overflow-hidden rounded-full scale-x-[-1]">
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,transparent_45%,#6eff86_50%,transparent_51%,transparent_100%)] bg-[length:200%_100%] animate-border-flow" />
-        </div>
+      <div className="flex items-center justify-center mb-12">
         <h2 className="text-4xl font-black text-center whitespace-nowrap">Frequently Asked Questions</h2>
-        <div className="flex-1 h-[2px] relative overflow-hidden rounded-full">
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,transparent_45%,#6eff86_50%,transparent_51%,transparent_100%)] bg-[length:200%_100%] animate-border-flow" />
-        </div>
       </div>
       
       <div className="space-y-4">
