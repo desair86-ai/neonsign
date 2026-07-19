@@ -119,7 +119,7 @@ export function Header() {
                       {item.dropdown && (
                         <div className="flex flex-col min-w-[220px]">
                           {item.dropdown.map(subItem => (
-                            <Link key={subItem.label} href={subItem.href} className="px-4 py-3 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-colors border-b border-white/5 last:border-0">
+                            <Link key={subItem.label} href={subItem.href} className="px-4 py-3 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-purple last:border-transparent hover:last:border-brand-purple">
                               {subItem.label}
                             </Link>
                           ))}
@@ -133,7 +133,7 @@ export function Header() {
                             <div key={colIdx} className="flex flex-col w-[260px]">
                               {col.map(subItem => (
                                 <div key={subItem.label} className="group/sub relative">
-                                  <Link href={subItem.href} className="flex items-center justify-between px-4 py-2.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-colors border-b border-white/5">
+                                  <Link href={subItem.href} className="flex items-center justify-between px-4 py-2.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-green last:border-transparent hover:last:border-brand-green">
                                     {subItem.label}
                                     {subItem.subMenu && <ChevronDown className="w-4 h-4 -rotate-90 group-hover/sub:text-brand-green" />}
                                   </Link>
@@ -143,7 +143,7 @@ export function Header() {
                                     <div className="absolute right-full top-0 pr-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200">
                                       <div className="bg-black/95 backdrop-blur-xl border-2 border-brand-green/50 rounded-lg p-2 shadow-[0_0_15px_rgba(110,255,134,0.3)] whitespace-nowrap flex flex-col min-w-[200px]">
                                         {subItem.subMenu.map(deepItem => (
-                                          <Link key={deepItem.label} href={deepItem.href} className="px-4 py-2.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-colors border-b border-white/5 last:border-0">
+                                          <Link key={deepItem.label} href={deepItem.href} className="px-4 py-2.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-green last:border-transparent hover:last:border-brand-green">
                                             {deepItem.label}
                                           </Link>
                                         ))}
