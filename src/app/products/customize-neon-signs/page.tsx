@@ -332,7 +332,7 @@ export default function CustomizeNeonSign() {
                 <div className="absolute inset-0 z-30 flex flex-col items-center justify-start p-6 pt-12 pointer-events-none">
                   <div className="bg-black/95 border-2 border-brand-purple rounded-xl p-6 max-w-md w-full shadow-[0_0_30px_rgba(117,46,255,0.4)] pointer-events-auto z-40 relative">
                     <h3 className="text-xl font-bold text-white mb-2">Calibrate Room Scale</h3>
-                    <p className="text-sm text-gray-300 mb-6">Drag the red line over a real object in your room (like a TV or door), resize it to match, then tell us how wide it is.</p>
+                    <p className="text-sm text-gray-300 mb-6">Drag the red line over a real object in your room (like a TV, door, or pillow for example), resize it to match, then tell us how wide it is.</p>
                     <div className="flex gap-4">
                       <div className="flex-1">
                         <label className="text-[10px] text-brand-purple font-bold uppercase tracking-wider mb-1 block">Object Width (Inches)</label>
@@ -376,6 +376,8 @@ export default function CustomizeNeonSign() {
                       {/* Resize Handle (Touch Friendly) */}
                       <motion.div 
                         drag="x"
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={0}
                         dragMomentum={false}
                         onDrag={(e, info) => setCalibrationLineWidth(prev => Math.max(50, prev + info.delta.x))}
                         onPointerDown={(e) => e.stopPropagation()}
