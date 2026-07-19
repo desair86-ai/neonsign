@@ -274,29 +274,7 @@ export default function NeonBackgroundsSettings() {
             </div>
             
             <div className="p-6 overflow-y-auto space-y-6">
-              <div>
-                <h4 className="text-sm font-bold uppercase tracking-wider text-brand-green mb-4">Location on Background</h4>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-sm text-gray-400">Position Left (X) %</label>
-                    <input 
-                      type="number" 
-                      value={formSettings.position_x}
-                      onChange={e => setFormSettings({...formSettings, position_x: parseFloat(e.target.value)})}
-                      className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-white outline-none focus:border-brand-purple"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-sm text-gray-400">Position Top (Y) %</label>
-                    <input 
-                      type="number" 
-                      value={formSettings.position_y}
-                      onChange={e => setFormSettings({...formSettings, position_y: parseFloat(e.target.value)})}
-                      className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-white outline-none focus:border-brand-purple"
-                    />
-                  </div>
-                </div>
-              </div>
+
 
               <div>
                 <h4 className="text-sm font-bold uppercase tracking-wider text-brand-purple mb-4">Scale Multipliers (Per Size)</h4>
