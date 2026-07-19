@@ -180,15 +180,16 @@ export default function CustomizeNeonSign() {
     if (!selectedBg.settings) return defaultScale;
     
     const s = selectedBg.settings;
+    let scale;
     switch (selectedSize.id) {
-      case 'small': return s.scale_small;
-      case 'medium': return s.scale_medium;
-      case 'large': return s.scale_large;
-      case 'xlarge': return s.scale_xlarge;
-      case 'xxlarge': return s.scale_xxlarge;
-      case 'supersized': return s.scale_supersized;
-      default: return defaultScale;
+      case 'small': scale = s.scale_small; break;
+      case 'medium': scale = s.scale_medium; break;
+      case 'large': scale = s.scale_large; break;
+      case 'xlarge': scale = s.scale_xlarge; break;
+      case 'xxlarge': scale = s.scale_xxlarge; break;
+      case 'supersized': scale = s.scale_supersized; break;
     }
+    return scale ?? defaultScale;
   }, [selectedSize, selectedBg]);
 
   return (
