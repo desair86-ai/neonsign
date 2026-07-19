@@ -45,7 +45,7 @@ function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = t
       color: color.hex,
       textShadow: 'none',
       filter: 'none',
-      fontSize: 'clamp(2.7rem, 7.5vw, 8.6rem)',
+      fontSize: 'clamp(2rem, 5vw, 6rem)',
       lineHeight: '1.1',
       whiteSpace: 'pre-wrap' as const,
       wordBreak: 'break-word' as const,
@@ -63,7 +63,7 @@ function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = t
       0 0 10px ${color.glow}
     `,
     filter: `drop-shadow(0 0 6px ${color.glow})`,
-    fontSize: 'clamp(2.7rem, 7.5vw, 8.6rem)',
+    fontSize: 'clamp(2rem, 5vw, 6rem)',
     lineHeight: '1.1',
     whiteSpace: 'pre-wrap' as const,
     wordBreak: 'break-word' as const,
@@ -77,9 +77,17 @@ const SIZES = [
   { id: 'large', name: 'Large', multiplier: 2, width: '35"', height: '15"' },
 ];
 
+const BACKGROUNDS = [
+  { id: 'bg1', name: 'Dark Studio', url: 'https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?q=80&w=1200&auto=format&fit=crop' },
+  { id: 'bg2', name: 'Brick Wall', url: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1200&auto=format&fit=crop' },
+  { id: 'bg3', name: 'Living Room', url: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=1200&auto=format&fit=crop' },
+  { id: 'bg4', name: 'Wood Panel', url: 'https://images.unsplash.com/photo-1511475459345-2f9630e66fb8?q=80&w=1200&auto=format&fit=crop' },
+];
+
 export default function CustomizeNeonSign() {
   const [isLightOn, setIsLightOn] = useState(true);
   const [showMeasurements, setShowMeasurements] = useState(false);
+  const [selectedBg, setSelectedBg] = useState(BACKGROUNDS[0]);
   const [text, setText] = useState('The Neon Stack');
   const [selectedFont, setSelectedFont] = useState(FONTS[0]);
   const [selectedColor, setSelectedColor] = useState(COLORS[2]); // Green default
@@ -168,6 +176,12 @@ export default function CustomizeNeonSign() {
                   <div className={`w-[34px] h-[34px] bg-white rounded-full absolute transition-transform duration-300 ease-in-out shadow-[0_0_10px_rgba(0,0,0,0.2)] ${isLightOn ? 'translate-x-[56px]' : 'translate-x-[6px]'}`} />
                 </button>
               </div>
+
+              {/* Background Image */}
+              <div 
+                className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${isLightOn ? 'opacity-40 group-hover:opacity-60' : 'opacity-10'}`} 
+                style={{ backgroundImage: `url('${selectedBg.url}')` }}
+              />
 
               {/* Ruler Toggle Button */}
               <div className="absolute top-6 right-6 z-20">
@@ -334,7 +348,29 @@ export default function CustomizeNeonSign() {
               </div>
             </div>
 
-            {/* 5. Add-ons */}
+            {/* 5. Choose Background */}
+            <div className="space-y-3">
+              <label className="text-xl font-black">Choose Background</label>
+              <div className="grid grid-cols-4 gap-2">
+                {BACKGROUNDS.map((bg) => (
+                  <button
+                    key={bg.id}
+                    onClick={() => setSelectedBg(bg)}
+                    className={`h-16 rounded-md border-2 overflow-hidden relative focus:outline-none transition-all ${
+                      selectedBg.id === bg.id ? 'border-brand-green shadow-[0_0_10px_rgba(110,255,134,0.4)]' : 'border-transparent hover:border-white/50'
+                    }`}
+                    title={bg.name}
+                  >
+                    <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${bg.url}')` }} />
+                    <div className="absolute inset-x-0 bottom-0 bg-black/60 backdrop-blur-sm text-[10px] font-bold text-white text-center py-0.5">
+                      {bg.name}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 6. Add-ons */}
             <div className="space-y-3">
               <label className="text-xl font-black">Add-ons</label>
               <div className="flex flex-col gap-3">
