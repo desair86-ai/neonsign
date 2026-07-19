@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
-import { Check, Ruler, Info, X } from 'lucide-react';
+import { Check, Ruler, Info, X, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
 import { useMascot } from "@/hooks/useMascot";
 import { MascotState } from "@/components/mascot/MascotStateMachine";
 
@@ -125,6 +125,7 @@ export default function CustomizeNeonSign() {
       .catch(console.error);
   }, []);
   const [selectedFont, setSelectedFont] = useState(FONTS[0]);
+  const [textAlign, setTextAlign] = useState<'left' | 'center' | 'right'>('center');
   const [selectedColor, setSelectedColor] = useState(COLORS[2]); // Green default
   const [selectedSize, setSelectedSize] = useState(SIZES[0]);
   const [isWaterproof, setIsWaterproof] = useState(false);
@@ -284,11 +285,16 @@ export default function CustomizeNeonSign() {
                   )}
                   
                   <div 
-                    className={`relative z-10 max-w-full text-center ${selectedFont.class}`}
+                    className={`relative z-10 max-w-full ${selectedFont.class}`}
                     role="img"
                     aria-label={`Preview of neon text: ${text || 'Type Here'}`}
                     aria-live="polite"
-                    style={getNeonTextStyle(selectedColor, isLightOn)}
+                    style={{
+                      ...getNeonTextStyle(selectedColor, isLightOn),
+                      textAlign: textAlign,
+                      whiteSpace: 'pre-wrap',
+                      lineHeight: '1.2'
+                    }}
                   >
                     {text || 'Type Here'}
                   </div>
@@ -336,9 +342,34 @@ export default function CustomizeNeonSign() {
               />
             </div>
 
-            {/* 2. Select Font */}
+            {/* 2. Select Font & Alignment */}
             <div className="space-y-3">
-              <label className="text-xl font-black">Pick Your Font</label>
+              <div className="flex items-center justify-between">
+                <label className="text-xl font-black">Pick Your Font</label>
+                <div className="flex items-center bg-zinc-900 rounded-md p-1 border border-white/10">
+                  <button 
+                    onClick={() => setTextAlign('left')}
+                    className={`p-1.5 rounded ${textAlign === 'left' ? 'bg-brand-purple text-white shadow-sm' : 'text-zinc-500 hover:text-white'}`}
+                    title="Align Left"
+                  >
+                    <AlignLeft className="w-5 h-5" />
+                  </button>
+                  <button 
+                    onClick={() => setTextAlign('center')}
+                    className={`p-1.5 rounded ${textAlign === 'center' ? 'bg-brand-purple text-white shadow-sm' : 'text-zinc-500 hover:text-white'}`}
+                    title="Align Center"
+                  >
+                    <AlignCenter className="w-5 h-5" />
+                  </button>
+                  <button 
+                    onClick={() => setTextAlign('right')}
+                    className={`p-1.5 rounded ${textAlign === 'right' ? 'bg-brand-purple text-white shadow-sm' : 'text-zinc-500 hover:text-white'}`}
+                    title="Align Right"
+                  >
+                    <AlignRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {FONTS.map((font) => (
                   <button
