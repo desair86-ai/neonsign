@@ -45,7 +45,7 @@ function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = t
       color: color.hex,
       textShadow: 'none',
       filter: 'none',
-      fontSize: 'clamp(2rem, 5vw, 6rem)',
+      fontSize: 'clamp(1.5rem, 4vw, 4rem)',
       lineHeight: '1.1',
       whiteSpace: 'pre-wrap' as const,
       wordBreak: 'break-word' as const,
@@ -63,7 +63,7 @@ function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = t
       0 0 10px ${color.glow}
     `,
     filter: `drop-shadow(0 0 6px ${color.glow})`,
-    fontSize: 'clamp(2rem, 5vw, 6rem)',
+    fontSize: 'clamp(1.5rem, 4vw, 4rem)',
     lineHeight: '1.1',
     whiteSpace: 'pre-wrap' as const,
     wordBreak: 'break-word' as const,
@@ -72,9 +72,12 @@ function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = t
 }
 
 const SIZES = [
-  { id: 'regular', name: 'Regular', multiplier: 1, width: '21"', height: '10"' },
-  { id: 'medium', name: 'Medium', multiplier: 1.5, width: '28"', height: '13"' },
-  { id: 'large', name: 'Large', multiplier: 2, width: '35"', height: '15"' },
+  { id: 'small', name: 'Small', multiplier: 0.7, length: '16.85"', height: '17.00"', price: 3775.00 },
+  { id: 'medium', name: 'Medium', multiplier: 0.85, length: '20.76"', height: '20.01"', price: 4675.00 },
+  { id: 'large', name: 'Large', multiplier: 1, length: '27.60"', height: '27.02"', price: 5760.00 },
+  { id: 'xlarge', name: 'X-large', multiplier: 1.15, length: '34.44"', height: '33.37"', price: 7035.00 },
+  { id: 'xxlarge', name: 'Xx-large', multiplier: 1.3, length: '41.52"', height: '40.85"', price: 8500.00 },
+  { id: 'supersized', name: 'Supersized', multiplier: 1.5, length: '52.51"', height: '51.33"', price: 9960.00 },
 ];
 
 const BACKGROUNDS = [
@@ -144,17 +147,13 @@ export default function CustomizeNeonSign() {
 
   // Dynamic pricing based on text length and size
   const price = useMemo(() => {
-    const base = 2500; // Base price
-    const perLetter = 300;
-    
-    let total = base + (text.replace(/\s/g, '').length * perLetter);
-    total = total * selectedSize.multiplier;
+    let total = selectedSize.price;
     
     if (isWaterproof) total += 3000;
     if (hasSmartController) total += 2000;
     
     return Math.round(total);
-  }, [text, selectedSize, isWaterproof, hasSmartController]);
+  }, [selectedSize, isWaterproof, hasSmartController]);
 
   return (
     <main className="min-h-screen bg-black text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender">
@@ -215,14 +214,14 @@ export default function CustomizeNeonSign() {
               </div>
               
               {/* Neon Text Wrapper with subtle scaling */}
-              <div style={{ transform: `scale(${1 + (selectedSize.multiplier - 1) * 0.15})` }} className="transition-transform duration-500 ease-out max-w-full flex justify-center mt-12 md:mt-0">
+              <div style={{ transform: `translate(-50%, -50%) scale(${1 + (selectedSize.multiplier - 1) * 0.15})` }} className="absolute top-1/2 left-1/2 transition-transform duration-500 ease-out max-w-full flex justify-center">
                 <div className="relative inline-block">
                   {/* Measurements Overlay */}
                   {showMeasurements && (
                     <>
                       {/* Top Width Measurement */}
                       <div className="absolute -top-10 left-0 right-0 flex flex-col items-center justify-center pointer-events-none opacity-80 animate-fade-in-up" style={{ animationDuration: '0.3s' }}>
-                        <span className="text-white font-bold text-sm mb-1 bg-black/40 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 tracking-widest">{selectedSize.width}</span>
+                        <span className="text-white font-bold text-sm mb-1 bg-black/40 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 tracking-widest">{selectedSize.length}</span>
                         <div className="w-full border-t border-dashed border-white/50 relative">
                           <div className="absolute -top-1 -left-px w-[2px] h-2 bg-white/50" />
                           <div className="absolute -top-1 -right-px w-[2px] h-2 bg-white/50" />
@@ -330,31 +329,24 @@ export default function CustomizeNeonSign() {
                 Select Size
                 <span className="w-5 h-5 rounded-full bg-white text-black inline-flex items-center justify-center text-sm font-black cursor-help" title="Select a size to see it scale in the preview">?</span>
               </label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 {SIZES.map((size) => (
                   <button
                     key={size.id}
                     onClick={() => setSelectedSize(size)}
-                    className={`opt-btn rounded-md border flex flex-col focus:outline-none transition-colors overflow-hidden ${
+                    className={`opt-btn text-left rounded-md border p-3 flex flex-col justify-between focus:outline-none transition-all ${
                       selectedSize.id === size.id
-                        ? 'border-brand-purple'
-                        : 'border-white hover:border-brand-purple'
+                        ? 'border-brand-purple bg-brand-purple/20'
+                        : 'border-white/20 hover:border-brand-purple bg-black'
                     }`}
                   >
-                    <div className={`w-full text-center py-2 font-black text-sm md:text-base transition-colors ${
-                      selectedSize.id === size.id ? 'bg-brand-purple text-white shadow-[0_0_15px_rgba(117,46,255,0.4)]' : 'bg-white text-black'
-                    }`}>
-                      {size.name}
+                    <div className="flex justify-between items-center w-full">
+                      <span className="font-bold text-sm md:text-base text-white">{size.name}</span>
+                      <span className="text-xs md:text-sm text-gray-400">Length: {size.length}</span>
                     </div>
-                    <div className={`w-full text-center py-2.5 text-xs md:text-sm font-bold border-b transition-colors ${
-                      selectedSize.id === size.id ? 'bg-black text-white border-brand-purple' : 'bg-black text-white border-white'
-                    }`}>
-                      Width: {size.width}
-                    </div>
-                    <div className={`w-full text-center py-2.5 text-xs md:text-sm font-bold transition-colors ${
-                      selectedSize.id === size.id ? 'bg-black text-white border-brand-purple' : 'bg-black text-white'
-                    }`}>
-                      Height: {size.height}
+                    <div className="flex justify-between items-center w-full mt-1">
+                      <span className="font-black text-sm md:text-base text-white">₹{size.price.toFixed(2)}</span>
+                      <span className="text-xs md:text-sm text-gray-400">Height: {size.height}</span>
                     </div>
                   </button>
                 ))}
