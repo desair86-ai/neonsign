@@ -21,9 +21,9 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand Col */}
           <div>
-            <div className="mb-6 select-none w-full">
-              <Link href="/">
-                <img src="/main logo.png" alt="The Neon Stack Logo" className="h-[60px] md:h-[80px] w-auto object-contain" />
+            <div className="mb-6 select-none w-full relative z-50">
+              <Link href="/" className="block cursor-pointer inline-block">
+                <img src="/main logo.png" alt="The Neon Stack Logo" className="h-[100px] md:h-[130px] w-auto object-contain cursor-pointer hover:scale-105 transition-transform origin-left" />
               </Link>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">

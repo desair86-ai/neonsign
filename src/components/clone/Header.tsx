@@ -33,9 +33,9 @@ export function Header() {
         </div>
 
         {/* Logo */}
-        <div className="flex-shrink-0 relative">
-          <Link href="/" className="block select-none relative z-10">
-            <img src="/main logo.png" alt="The Neon Stack Logo" className="h-[120px] md:h-[160px] w-auto object-contain my-[-25px] md:my-[-40px]" />
+        <div className="flex-shrink-0 relative z-50">
+          <Link href="/" className="block select-none cursor-pointer">
+            <img src="/main logo.png" alt="The Neon Stack Logo" className="h-[120px] md:h-[160px] w-auto object-contain my-[-25px] md:my-[-40px] cursor-pointer hover:scale-105 transition-transform" />
           </Link>
         </div>
 
