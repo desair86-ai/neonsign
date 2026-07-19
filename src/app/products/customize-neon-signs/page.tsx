@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
 import { Check, Ruler } from 'lucide-react';
@@ -87,8 +87,21 @@ const BACKGROUNDS = [
 export default function CustomizeNeonSign() {
   const [isLightOn, setIsLightOn] = useState(true);
   const [showMeasurements, setShowMeasurements] = useState(false);
+  const [backgroundsList, setBackgroundsList] = useState(BACKGROUNDS);
   const [selectedBg, setSelectedBg] = useState(BACKGROUNDS[0]);
   const [text, setText] = useState('The Neon Stack');
+
+  useEffect(() => {
+    fetch('/api/settings/backgrounds')
+      .then(res => res.json())
+      .then(data => {
+        if (data.backgrounds && data.backgrounds.length > 0) {
+          setBackgroundsList(data.backgrounds);
+          setSelectedBg(data.backgrounds[0]);
+        }
+      })
+      .catch(console.error);
+  }, []);
   const [selectedFont, setSelectedFont] = useState(FONTS[0]);
   const [selectedColor, setSelectedColor] = useState(COLORS[2]); // Green default
   const [selectedSize, setSelectedSize] = useState(SIZES[0]);
@@ -352,7 +365,7 @@ export default function CustomizeNeonSign() {
             <div className="space-y-3">
               <label className="text-xl font-black">Choose Background</label>
               <div className="grid grid-cols-4 gap-2">
-                {BACKGROUNDS.map((bg) => (
+                {backgroundsList.map((bg) => (
                   <button
                     key={bg.id}
                     onClick={() => setSelectedBg(bg)}

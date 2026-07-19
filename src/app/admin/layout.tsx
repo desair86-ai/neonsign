@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LayoutDashboard, Palette, FileText, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Palette, FileText, Settings, LogOut, Image as ImageIcon } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -27,6 +27,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/settings" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
             <Settings size={20} />
             Settings
+          </Link>
+          <Link href="/admin/settings/backgrounds" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
+            <ImageIcon size={20} />
+            Neon Backgrounds
           </Link>
         </nav>
         <div className="absolute bottom-0 w-64 p-4 border-t border-gray-800">
