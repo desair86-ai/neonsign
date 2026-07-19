@@ -1,14 +1,37 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Trash2, Upload, Loader2, Image as ImageIcon } from 'lucide-react';
+import { Trash2, Upload, Loader2, Image as ImageIcon, Settings2, X } from 'lucide-react';
+
+export interface BackgroundSettings {
+  position_x: number;
+  position_y: number;
+  scale_small: number;
+  scale_medium: number;
+  scale_large: number;
+  scale_xlarge: number;
+  scale_xxlarge: number;
+  scale_supersized: number;
+}
 
 interface Background {
   id: string;
   name: string;
   url: string;
   created_at: string;
+  settings?: BackgroundSettings;
 }
+
+const DEFAULT_SETTINGS: BackgroundSettings = {
+  position_x: 50,
+  position_y: 35,
+  scale_small: 0.7,
+  scale_medium: 0.85,
+  scale_large: 1.0,
+  scale_xlarge: 1.15,
+  scale_xxlarge: 1.3,
+  scale_supersized: 1.5,
+};
 
 export default function NeonBackgroundsSettings() {
   const [backgrounds, setBackgrounds] = useState<Background[]>([]);
@@ -17,7 +40,11 @@ export default function NeonBackgroundsSettings() {
   const [newBgName, setNewBgName] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // You will need to add these to your .env.local file
+  // Settings Modal State
+  const [editingBg, setEditingBg] = useState<Background | null>(null);
+  const [isSavingSettings, setIsSavingSettings] = useState(false);
+  const [formSettings, setFormSettings] = useState<BackgroundSettings>(DEFAULT_SETTINGS);
+
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || '';
   const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || '';
 
@@ -72,7 +99,6 @@ export default function NeonBackgroundsSettings() {
     try {
       setIsUploading(true);
 
-      // 1. Upload to Cloudinary
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', uploadPreset);
@@ -90,7 +116,6 @@ export default function NeonBackgroundsSettings() {
 
       const imageUrl = cloudinaryData.secure_url;
 
-      // 2. Save to our database
       const dbRes = await fetch('/api/settings/backgrounds', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,7 +125,7 @@ export default function NeonBackgroundsSettings() {
       if (dbRes.ok) {
         const data = await dbRes.json();
         setBackgrounds([...backgrounds, data.background]);
-        setNewBgName(''); // Reset form
+        setNewBgName(''); 
         if (fileInputRef.current) fileInputRef.current.value = '';
       }
     } catch (error: any) {
@@ -111,8 +136,39 @@ export default function NeonBackgroundsSettings() {
     }
   };
 
+  const openSettings = (bg: Background) => {
+    setEditingBg(bg);
+    setFormSettings(bg.settings || DEFAULT_SETTINGS);
+  };
+
+  const saveSettings = async () => {
+    if (!editingBg) return;
+    
+    try {
+      setIsSavingSettings(true);
+      const res = await fetch('/api/settings/backgrounds', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: editingBg.id, settings: formSettings }),
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        setBackgrounds(backgrounds.map(b => b.id === editingBg.id ? data.background : b));
+        setEditingBg(null);
+      } else {
+        alert('Failed to save settings');
+      }
+    } catch (error) {
+      console.error('Save error', error);
+      alert('Error saving settings');
+    } finally {
+      setIsSavingSettings(false);
+    }
+  };
+
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="max-w-5xl mx-auto space-y-8 relative">
       <h1 className="text-3xl font-bold font-pacifico text-brand-green">Neon Backgrounds</h1>
       
       {/* Upload Section */}
@@ -180,19 +236,118 @@ export default function NeonBackgroundsSettings() {
                 </div>
                 <div className="p-3 flex items-center justify-between">
                   <span className="font-medium text-sm truncate pr-2">{bg.name}</span>
-                  <button 
-                    onClick={() => handleDelete(bg.id)}
-                    className="text-gray-500 hover:text-red-500 transition-colors"
-                    title="Delete background"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => openSettings(bg)}
+                      className="text-gray-500 hover:text-brand-purple transition-colors"
+                      title="Configure Sign Position & Scale"
+                    >
+                      <Settings2 className="w-4 h-4" />
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(bg.id)}
+                      className="text-gray-500 hover:text-red-500 transition-colors"
+                      title="Delete background"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {/* Settings Modal */}
+      {editingBg && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="p-6 border-b border-gray-800 flex justify-between items-center bg-black/30">
+              <div>
+                <h3 className="text-xl font-bold">Configure Neon Sign</h3>
+                <p className="text-sm text-gray-400">Settings for &quot;{editingBg.name}&quot;</p>
+              </div>
+              <button onClick={() => setEditingBg(null)} className="p-2 hover:bg-gray-800 rounded-full transition-colors">
+                <X className="w-5 h-5 text-gray-400" />
+              </button>
+            </div>
+            
+            <div className="p-6 overflow-y-auto space-y-6">
+              <div>
+                <h4 className="text-sm font-bold uppercase tracking-wider text-brand-green mb-4">Location on Background</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-sm text-gray-400">Position Left (X) %</label>
+                    <input 
+                      type="number" 
+                      value={formSettings.position_x}
+                      onChange={e => setFormSettings({...formSettings, position_x: parseFloat(e.target.value)})}
+                      className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-white outline-none focus:border-brand-purple"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-sm text-gray-400">Position Top (Y) %</label>
+                    <input 
+                      type="number" 
+                      value={formSettings.position_y}
+                      onChange={e => setFormSettings({...formSettings, position_y: parseFloat(e.target.value)})}
+                      className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-white outline-none focus:border-brand-purple"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-bold uppercase tracking-wider text-brand-purple mb-4">Scale Multipliers (Per Size)</h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-sm text-gray-400">Small Scale</label>
+                    <input type="number" step="0.05" value={formSettings.scale_small} onChange={e => setFormSettings({...formSettings, scale_small: parseFloat(e.target.value)})} className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-white" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-sm text-gray-400">Medium Scale</label>
+                    <input type="number" step="0.05" value={formSettings.scale_medium} onChange={e => setFormSettings({...formSettings, scale_medium: parseFloat(e.target.value)})} className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-white" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-sm text-gray-400">Large Scale</label>
+                    <input type="number" step="0.05" value={formSettings.scale_large} onChange={e => setFormSettings({...formSettings, scale_large: parseFloat(e.target.value)})} className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-white" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-sm text-gray-400">X-Large Scale</label>
+                    <input type="number" step="0.05" value={formSettings.scale_xlarge} onChange={e => setFormSettings({...formSettings, scale_xlarge: parseFloat(e.target.value)})} className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-white" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-sm text-gray-400">XX-Large Scale</label>
+                    <input type="number" step="0.05" value={formSettings.scale_xxlarge} onChange={e => setFormSettings({...formSettings, scale_xxlarge: parseFloat(e.target.value)})} className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-white" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-sm text-gray-400">Supersized Scale</label>
+                    <input type="number" step="0.05" value={formSettings.scale_supersized} onChange={e => setFormSettings({...formSettings, scale_supersized: parseFloat(e.target.value)})} className="w-full bg-black border border-gray-700 rounded-lg px-3 py-2 text-white" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4 border-t border-gray-800 bg-black/30 flex justify-end gap-3">
+              <button 
+                onClick={() => setEditingBg(null)}
+                className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={saveSettings}
+                disabled={isSavingSettings}
+                className="bg-brand-purple hover:bg-brand-purple/90 text-white px-6 py-2 rounded-lg font-bold flex items-center gap-2 disabled:opacity-50"
+              >
+                {isSavingSettings ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                Save Settings
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

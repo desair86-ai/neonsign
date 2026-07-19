@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
-import { Check, Ruler, Info } from 'lucide-react';
+import { Check, Ruler, Info, X } from 'lucide-react';
 import { useMascot } from "@/hooks/useMascot";
 import { MascotState } from "@/components/mascot/MascotStateMachine";
 
@@ -80,7 +80,25 @@ const SIZES = [
   { id: 'supersized', name: 'Supersized', multiplier: 1.5, length: '52.51"', height: '51.33"', price: 9960.00 },
 ];
 
-const BACKGROUNDS = [
+export interface BackgroundSettings {
+  position_x: number;
+  position_y: number;
+  scale_small: number;
+  scale_medium: number;
+  scale_large: number;
+  scale_xlarge: number;
+  scale_xxlarge: number;
+  scale_supersized: number;
+}
+
+interface Background {
+  id: string;
+  name: string;
+  url: string;
+  settings?: BackgroundSettings;
+}
+
+const BACKGROUNDS: Background[] = [
   { id: 'bg1', name: 'Dark Studio', url: 'https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?q=80&w=1200&auto=format&fit=crop' },
   { id: 'bg2', name: 'Brick Wall', url: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1200&auto=format&fit=crop' },
   { id: 'bg3', name: 'Living Room', url: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=1200&auto=format&fit=crop' },
@@ -90,6 +108,7 @@ const BACKGROUNDS = [
 export default function CustomizeNeonSign() {
   const [isLightOn, setIsLightOn] = useState(true);
   const [showMeasurements, setShowMeasurements] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
   const [backgroundsList, setBackgroundsList] = useState(BACKGROUNDS);
   const [selectedBg, setSelectedBg] = useState(BACKGROUNDS[0]);
   const [text, setText] = useState('The Neon Stack');
@@ -155,6 +174,23 @@ export default function CustomizeNeonSign() {
     return Math.round(total);
   }, [selectedSize, isWaterproof, hasSmartController]);
 
+  // Compute actual scale based on background settings or fallback
+  const currentScale = useMemo(() => {
+    const defaultScale = 1 + (selectedSize.multiplier - 1) * 0.15;
+    if (!selectedBg.settings) return defaultScale;
+    
+    const s = selectedBg.settings;
+    switch (selectedSize.id) {
+      case 'small': return s.scale_small;
+      case 'medium': return s.scale_medium;
+      case 'large': return s.scale_large;
+      case 'xlarge': return s.scale_xlarge;
+      case 'xxlarge': return s.scale_xxlarge;
+      case 'supersized': return s.scale_supersized;
+      default: return defaultScale;
+    }
+  }, [selectedSize, selectedBg]);
+
   return (
     <main className="min-h-screen bg-black text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender">
       <Header />
@@ -210,11 +246,18 @@ export default function CustomizeNeonSign() {
               {/* Ratio Badge (moved to bottom) */}
               <div className="absolute bottom-4 right-4 z-20 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2">
                 <span className={`w-2 h-2 rounded-full ${isLightOn ? 'bg-brand-green animate-pulse shadow-[0_0_8px_rgba(110,255,134,0.6)]' : 'bg-gray-500'}`}></span>
-                Preview Scale: {selectedSize.multiplier}x
+                Preview Scale: {currentScale.toFixed(2)}x
               </div>
               
               {/* Neon Text Wrapper with subtle scaling */}
-              <div style={{ transform: `translate(-50%, -50%) scale(${1 + (selectedSize.multiplier - 1) * 0.15})` }} className="absolute top-[35%] left-1/2 transition-transform duration-500 ease-out max-w-full flex justify-center">
+              <div 
+                style={{ 
+                  top: `${selectedBg.settings?.position_y ?? 35}%`,
+                  left: `${selectedBg.settings?.position_x ?? 50}%`,
+                  transform: `translate(-50%, -50%) scale(${currentScale})` 
+                }} 
+                className="absolute transition-all duration-500 ease-out max-w-full flex justify-center"
+              >
                 <div className="relative inline-block">
                   {/* Measurements Overlay */}
                   {showMeasurements && (
@@ -253,17 +296,26 @@ export default function CustomizeNeonSign() {
             </div>
 
             {/* Live Preview Info Callout */}
-            <div className="mt-4 bg-[#0a0a0a] border border-white/10 rounded-lg p-5 text-sm text-zinc-400 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-1 h-full bg-brand-purple"></div>
-              <div className="flex flex-col sm:flex-row items-start gap-4 relative z-10">
-                <Info className="w-5 h-5 text-brand-purple shrink-0 mt-0.5" />
-                <div className="space-y-3 leading-relaxed">
-                  <p><strong className="text-white font-bold">Preview Rendering:</strong> The neon sign is scaled down to fit proportionally into the staged room photo. This is a visualization, not the real physical size.</p>
-                  <p><strong className="text-white font-bold">Actual Dimensions:</strong> The real production measurements (length × height in inches) are listed in the size options.</p>
-                  <p><strong className="text-white font-bold">Ratio Used:</strong> Based on typical furniture dimensions, the sign is displayed at roughly 1:10 to 1:12 scale to ensure it looks realistic in the mock‑up.</p>
+            {showInfo && (
+              <div className="mt-4 bg-[#0a0a0a] border border-white/10 rounded-lg p-5 text-sm text-zinc-400 shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-brand-purple"></div>
+                <button 
+                  onClick={() => setShowInfo(false)}
+                  className="absolute top-3 right-3 text-zinc-500 hover:text-white transition-colors"
+                  aria-label="Close notice"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+                <div className="flex flex-col sm:flex-row items-start gap-4 relative z-10 pr-6">
+                  <Info className="w-5 h-5 text-brand-purple shrink-0 mt-0.5" />
+                  <div className="space-y-3 leading-relaxed">
+                    <p><strong className="text-white font-bold">Preview Rendering:</strong> The neon sign is scaled down to fit proportionally into the staged room photo. This is a visualization, not the real physical size.</p>
+                    <p><strong className="text-white font-bold">Actual Dimensions:</strong> The real production measurements (length × height in inches) are listed in the size options.</p>
+                    <p><strong className="text-white font-bold">Ratio Used:</strong> Based on typical furniture dimensions, the sign is displayed at roughly 1:10 to 1:12 scale to ensure it looks realistic in the mock‑up.</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* RIGHT: Configurator */}

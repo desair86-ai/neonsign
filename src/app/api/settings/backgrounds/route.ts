@@ -66,3 +66,29 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+export async function PATCH(request: Request) {
+  try {
+    const body = await request.json();
+    const { id, settings } = body;
+
+    if (!id || !settings) {
+      return NextResponse.json({ error: 'ID and settings are required' }, { status: 400 });
+    }
+
+    const { data, error } = await supabase
+      .from('neon_backgrounds')
+      .update({ settings })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ background: data });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
