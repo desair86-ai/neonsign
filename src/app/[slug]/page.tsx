@@ -1,6 +1,9 @@
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { Header } from "@/components/clone/Header";
+import { Footer } from "@/components/clone/Footer";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 export const revalidate = 60; // Revalidate every minute
 
@@ -31,16 +34,22 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
   }
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-4 max-w-4xl mx-auto">
-      <h1 className="text-4xl md:text-5xl font-bold font-pacifico text-brand-green mb-12 text-center">
-        {page.title}
-      </h1>
+    <AuroraBackground className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender" speed={0.8} blur={90}>
+      <Header />
       
-      {/* Prose class automatically styles the HTML from Tiptap */}
-      <div 
-        className="prose prose-invert prose-brand max-w-none bg-gray-900/50 p-8 md:p-12 rounded-3xl border border-gray-800 backdrop-blur-sm"
-        dangerouslySetInnerHTML={{ __html: page.content }}
-      />
-    </main>
+      <main className="pt-32 pb-20 px-4 max-w-4xl mx-auto w-full relative z-10 flex-1">
+        <h1 className="text-4xl md:text-5xl font-bold font-pacifico text-brand-green mb-12 text-center">
+          {page.title}
+        </h1>
+        
+        {/* Prose class automatically styles the HTML from Tiptap */}
+        <div 
+          className="prose prose-invert prose-brand max-w-none bg-black/60 p-8 md:p-12 rounded-3xl border border-white/10 backdrop-blur-md shadow-2xl"
+          dangerouslySetInnerHTML={{ __html: page.content }}
+        />
+      </main>
+
+      <Footer />
+    </AuroraBackground>
   );
 }
