@@ -106,6 +106,22 @@ export function Header() {
                   href={item.href} 
                   className={`relative px-3 py-2 hover:text-brand-purple transition-colors rounded-full flex items-center justify-center gap-1 ${isActive ? 'text-brand-purple font-bold' : 'text-gray-300'}`}
                 >
+                  {isActive && (
+                    <>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="absolute inset-0 bg-brand-green/20 rounded-full blur-xl -z-10"
+                        transition={{ duration: 0.3 }}
+                      />
+                      <motion.div
+                        initial={{ opacity: 0, scaleX: 0 }}
+                        animate={{ opacity: 1, scaleX: 1 }}
+                        className="absolute top-0 left-4 right-4 h-[2px] bg-brand-green shadow-[0_0_8px_rgba(110,255,134,0.8)]"
+                        transition={{ duration: 0.3 }}
+                      />
+                    </>
+                  )}
                   <span className="relative z-10">{item.label}</span>
                   {(item.dropdown || item.columns) && <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />}
                 </Link>
