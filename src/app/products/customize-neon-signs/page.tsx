@@ -352,7 +352,7 @@ export default function CustomizeNeonSign() {
                             if (inches > 0) {
                               setCalibrationRatio(px / inches);
                               setIsCalibrating(false);
-                              triggerMascot("Perfect! Now the neon sizes are 100% physically accurate to your room.", MascotState.CELEBRATING);
+                              triggerMascot("Perfect! We've made the scale as realistic as possible for your room, but please note this is just a visualization.", MascotState.CELEBRATING);
                             }
                           }
                         }}
