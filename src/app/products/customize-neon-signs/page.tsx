@@ -112,7 +112,7 @@ export default function CustomizeNeonSign() {
   const [isCalibrating, setIsCalibrating] = useState(false);
   const [calibrationInches, setCalibrationInches] = useState<string>('50');
   const [calibrationRatio, setCalibrationRatio] = useState<number | null>(null);
-  const calibrationLineRef = useRef<HTMLDivElement>(null);
+  const [calibrationLineWidth, setCalibrationLineWidth] = useState(300);
   
   const [backgroundsList, setBackgroundsList] = useState(BACKGROUNDS);
   const [selectedBg, setSelectedBg] = useState(BACKGROUNDS[0]);
@@ -346,8 +346,8 @@ export default function CustomizeNeonSign() {
                       </div>
                       <button 
                         onClick={() => {
-                          if (calibrationLineRef.current && calibrationInches) {
-                            const px = calibrationLineRef.current.offsetWidth;
+                          if (calibrationInches) {
+                            const px = calibrationLineWidth;
                             const inches = parseFloat(calibrationInches);
                             if (inches > 0) {
                               setCalibrationRatio(px / inches);
@@ -370,14 +370,24 @@ export default function CustomizeNeonSign() {
                     className="absolute inset-0 pointer-events-none z-30 flex items-center justify-center"
                   >
                     <div 
-                      ref={calibrationLineRef}
                       className="h-1.5 bg-red-500 relative min-w-[50px] shadow-[0_0_15px_rgba(239,68,68,0.8)] pointer-events-auto cursor-move"
-                      style={{ width: '300px', resize: 'horizontal', overflow: 'hidden', maxWidth: '100%' }}
+                      style={{ width: `${calibrationLineWidth}px`, maxWidth: '90vw' }}
                     >
-                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-8 bg-white rounded-md border-2 border-red-500 cursor-ew-resize flex items-center justify-center shadow-md" style={{ pointerEvents: 'auto' }}>
-                        <div className="w-0.5 h-4 bg-gray-400 rounded-full" />
-                      </div>
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-white rounded-sm border border-red-500" />
+                      {/* Resize Handle (Touch Friendly) */}
+                      <motion.div 
+                        drag="x"
+                        dragMomentum={false}
+                        onDrag={(e, info) => setCalibrationLineWidth(prev => Math.max(50, prev + info.delta.x))}
+                        onPointerDown={(e) => e.stopPropagation()}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-10 bg-white rounded-md border-2 border-red-500 cursor-ew-resize flex flex-col items-center justify-center shadow-lg translate-x-1/2" 
+                        style={{ pointerEvents: 'auto' }}
+                      >
+                        <div className="flex gap-1">
+                          <div className="w-0.5 h-5 bg-gray-400 rounded-full" />
+                          <div className="w-0.5 h-5 bg-gray-400 rounded-full" />
+                        </div>
+                      </motion.div>
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-10 bg-white rounded-sm border border-red-500" />
                     </div>
                   </motion.div>
                 </div>
