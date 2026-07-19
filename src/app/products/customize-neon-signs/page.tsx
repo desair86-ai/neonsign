@@ -226,7 +226,7 @@ export default function CustomizeNeonSign() {
   const finalScale = dynamicScale !== null ? dynamicScale : currentScale;
 
   return (
-    <main className="min-h-screen bg-black text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender">
+    <main className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender">
       <Header />
       
       <div className="border-b border-white/10 bg-[#020202]">

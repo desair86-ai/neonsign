@@ -5,7 +5,6 @@ import { ProductCarousel } from "@/components/clone/ProductCarousel";
 import { ProductExplorerGrid } from "@/components/clone/ProductExplorerGrid";
 import { AnimatedFeatures } from "@/components/ui/animated-features";
 import { Footer } from "@/components/clone/Footer";
-import { AuroraBackground } from "@/components/ui/aurora-background";
 
 export default function ShopNeonCollection() {
   const mostLovedProducts = [
@@ -87,7 +86,7 @@ export default function ShopNeonCollection() {
   ];
 
   return (
-    <AuroraBackground className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender" speed={0.8} blur={90}>
+    <main>
       <Header />
       
       {/* Category Slider inside Collection page */}
@@ -105,6 +104,6 @@ export default function ShopNeonCollection() {
       </div>
       
       <Footer />
-    </AuroraBackground>
+    </main>
   );
 }

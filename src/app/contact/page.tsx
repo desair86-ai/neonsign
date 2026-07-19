@@ -12,7 +12,7 @@ export default function ContactPage() {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-black pt-32 pb-20 px-4">
+      <div className="min-h-screen pt-32 pb-20 px-4">
       <div className="max-w-[1200px] mx-auto">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight uppercase">

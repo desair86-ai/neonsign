@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
-import { AuroraBackground } from "@/components/ui/aurora-background";
 
 export const revalidate = 60; // Revalidate every minute
 
@@ -34,7 +33,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
   }
 
   return (
-    <AuroraBackground className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender" speed={0.8} blur={90}>
+    <main>
       <Header />
       
       <main className="pt-32 pb-20 px-4 max-w-4xl mx-auto w-full relative z-10 flex-1">
@@ -50,6 +49,6 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
       </main>
 
       <Footer />
-    </AuroraBackground>
+    </main>
   );
 }

@@ -22,6 +22,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { MascotProvider } from "../components/mascot/MascotProvider";
 import { Mascot } from "../components/mascot/Mascot";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 import { supabase } from "@/lib/supabase";
 
 export const revalidate = 30; // Revalidate every 30 seconds to ensure theme changes propagate
@@ -147,7 +148,9 @@ export default async function RootLayout({
         style={gradientStr ? { background: gradientStr } : undefined}
       >
         <MascotProvider>
-          {children}
+          <AuroraBackground className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender" speed={0.8} blur={90}>
+            {children}
+          </AuroraBackground>
           <Mascot />
         </MascotProvider>
       </body>
