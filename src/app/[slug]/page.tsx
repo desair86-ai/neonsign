@@ -38,7 +38,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
       <Header />
       
       <main className="pt-32 pb-20 px-4 max-w-4xl mx-auto w-full relative z-10 flex-1">
-        <h1 className="text-4xl md:text-5xl font-bold font-pacifico text-brand-green mb-12 text-center">
+        <h1 className="text-4xl md:text-5xl font-bold font-pacifico text-brand-green mb-12 text-center drop-shadow-[0_0_15px_rgba(110,255,134,0.6)]">
           {page.title}
         </h1>
         
