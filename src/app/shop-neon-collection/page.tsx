@@ -5,6 +5,7 @@ import { ProductCarousel } from "@/components/clone/ProductCarousel";
 import { ProductExplorerGrid } from "@/components/clone/ProductExplorerGrid";
 import { AnimatedFeatures } from "@/components/ui/animated-features";
 import { Footer } from "@/components/clone/Footer";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 export default function ShopNeonCollection() {
   const mostLovedProducts = [
@@ -86,24 +87,24 @@ export default function ShopNeonCollection() {
   ];
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans selection:bg-brand-purple/30 selection:text-brand-lavender">
+    <AuroraBackground className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender" speed={0.8} blur={90}>
       <Header />
       
       {/* Category Slider inside Collection page */}
-      <CategoryBar theme="light" />
+      <CategoryBar />
 
       {/* Grids and Carousels Area */}
       <div className="w-full">
-        <ProductExplorerGrid theme="light" />
+        <ProductExplorerGrid />
         
-        <ProductCarousel title="Most-Loved" products={mostLovedProducts} theme="light" />
+        <ProductCarousel title="Most-Loved" products={mostLovedProducts} />
         
-        <ProductCarousel title="Trending" products={trendingProducts} theme="light" />
+        <ProductCarousel title="Trending" products={trendingProducts} />
 
-        <AnimatedFeatures theme="light" />
+        <AnimatedFeatures />
       </div>
       
       <Footer />
-    </main>
+    </AuroraBackground>
   );
 }
