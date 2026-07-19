@@ -3,7 +3,8 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
-import { Check, Ruler, Info, X, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
+import { Check, Ruler, Info, X, AlignLeft, AlignCenter, AlignRight, Upload } from 'lucide-react';
+import { motion } from "framer-motion";
 import { useMascot } from "@/hooks/useMascot";
 import { MascotState } from "@/components/mascot/MascotStateMachine";
 
@@ -138,14 +139,49 @@ export default function CustomizeNeonSign() {
   const { setState, speak, stopSpeaking } = useMascot();
   const [colorTimeoutId, setColorTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [clearBubbleTimeoutId, setClearBubbleTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const hasTriggeredLongText = useRef(false);
+
+  const triggerMascot = (message: string, state: MascotState = MascotState.TALKING) => {
+    if (colorTimeoutId) clearTimeout(colorTimeoutId);
+    if (clearBubbleTimeoutId) clearTimeout(clearBubbleTimeoutId);
+    speak(message, state);
+    const clearId = setTimeout(() => stopSpeaking(), 5000);
+    setClearBubbleTimeoutId(clearId);
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      const customBg = { id: 'custom', name: 'Your Room', url, settings: {} };
+      setSelectedBg(customBg);
+      triggerMascot("Look at that! It looks amazing in your space.", MascotState.CELEBRATING);
+    }
+  };
+
+  useEffect(() => {
+    if (text.length > 15 && !hasTriggeredLongText.current) {
+      triggerMascot("Wow, that's going to be a huge sign!", MascotState.CELEBRATING);
+      hasTriggeredLongText.current = true;
+    } else if (text.length <= 15) {
+      hasTriggeredLongText.current = false;
+    }
+  }, [text.length]);
+
+  useEffect(() => {
+    if (isWaterproof) {
+      triggerMascot("Ready for the outdoors! Good choice.", MascotState.WAVE);
+    }
+  }, [isWaterproof]);
 
   const handleColorSelect = (color: typeof COLORS[number]) => {
     setSelectedColor(color);
     setState(MascotState.THINKING);
-    
-    if (colorTimeoutId) clearTimeout(colorTimeoutId);
-    if (clearBubbleTimeoutId) clearTimeout(clearBubbleTimeoutId);
-    
+    if (color.name === 'Pink' || color.name === 'Purple') {
+      const id = setTimeout(() => triggerMascot("Ooo, I love the retro vibes of this color!", MascotState.JUMPING), 1000);
+      setColorTimeoutId(id);
+      return;
+    }
     const messages = [
       `${color.name} looks good!`,
       `${color.name} is a solid choice.`,
@@ -156,16 +192,7 @@ export default function CustomizeNeonSign() {
     ];
     // eslint-disable-next-line react-hooks/purity
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-    
-    const id = setTimeout(() => {
-      speak(randomMessage, MascotState.THINKING);
-      
-      const clearId = setTimeout(() => {
-        stopSpeaking();
-      }, 6500);
-      setClearBubbleTimeoutId(clearId);
-      
-    }, 1500);
+    const id = setTimeout(() => triggerMascot(randomMessage, MascotState.TALKING), 1500);
     setColorTimeoutId(id);
   };
 
@@ -292,7 +319,13 @@ export default function CustomizeNeonSign() {
                 }} 
                 className="absolute transition-all duration-500 ease-out flex justify-center whitespace-nowrap"
               >
-                <div className="relative inline-block">
+                <motion.div 
+                  drag 
+                  dragConstraints={containerRef}
+                  dragElastic={0.1}
+                  dragMomentum={false}
+                  className="relative inline-block cursor-grab active:cursor-grabbing"
+                >
                   {/* Measurements Overlay */}
                   {showMeasurements && (
                     <>
@@ -331,7 +364,7 @@ export default function CustomizeNeonSign() {
                   >
                     {text || 'Type Here'}
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
 
@@ -487,6 +520,11 @@ export default function CustomizeNeonSign() {
             <div className="space-y-3">
               <label className="text-xl font-black">Choose Background</label>
               <div className="grid grid-cols-4 gap-2">
+                <label className="relative h-16 rounded-md border-2 border-dashed border-gray-600 flex flex-col items-center justify-center cursor-pointer hover:border-brand-purple hover:bg-brand-purple/10 transition-colors">
+                  <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
+                  <Upload className="w-5 h-5 text-gray-400 mb-1" />
+                  <span className="text-[10px] font-bold text-gray-400 uppercase">Upload</span>
+                </label>
                 {backgroundsList.map((bg) => (
                   <button
                     key={bg.id}
