@@ -54,13 +54,13 @@ export function Header() {
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="absolute inset-0 bg-brand-purple/20 rounded-full blur-xl -z-10"
+                      className="absolute inset-0 bg-brand-green/20 rounded-full blur-xl -z-10"
                       transition={{ duration: 0.3 }}
                     />
                     <motion.div
                       initial={{ opacity: 0, scaleX: 0 }}
                       animate={{ opacity: 1, scaleX: 1 }}
-                      className="absolute bottom-0 left-4 right-4 h-[2px] bg-brand-purple shadow-[0_0_8px_rgba(117,46,255,0.8)]"
+                      className="absolute bottom-0 left-4 right-4 h-[2px] bg-brand-green shadow-[0_0_8px_rgba(110,255,134,0.8)]"
                       transition={{ duration: 0.3 }}
                     />
                   </>
@@ -100,7 +100,7 @@ export function Header() {
                     <motion.div
                       initial={{ opacity: 0, scaleY: 0 }}
                       animate={{ opacity: 1, scaleY: 1 }}
-                      className="absolute left-0 top-0 bottom-0 w-1 bg-brand-purple shadow-[0_0_8px_rgba(117,46,255,0.8)]"
+                      className="absolute left-0 top-0 bottom-0 w-1 bg-brand-green shadow-[0_0_8px_rgba(110,255,134,0.8)]"
                       transition={{ duration: 0.3 }}
                     />
                   )}
