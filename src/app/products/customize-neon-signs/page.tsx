@@ -425,7 +425,6 @@ export default function CustomizeNeonSign() {
               >
                 <motion.div 
                   drag 
-                  dragConstraints={containerRef}
                   dragElastic={0.1}
                   dragMomentum={false}
                   className="relative inline-block cursor-grab active:cursor-grabbing"
