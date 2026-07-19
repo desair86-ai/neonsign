@@ -100,7 +100,7 @@ export function AuroraBackground({
   return (
     <div
       className={cn(
-        "relative w-full overflow-hidden",
+        "relative w-full",
         className
       )}
       style={{ backgroundColor: "var(--aurora-bg, #000000)" }}
