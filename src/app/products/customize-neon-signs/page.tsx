@@ -191,7 +191,7 @@ export default function CustomizeNeonSign() {
 
               {/* Background Image */}
               <div 
-                className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${isLightOn ? 'opacity-40 group-hover:opacity-60' : 'opacity-10'}`} 
+                className="absolute inset-0 bg-cover bg-center transition-opacity duration-500 opacity-40 group-hover:opacity-60" 
                 style={{ backgroundImage: `url('${selectedBg.url}')` }}
               />
 
@@ -214,7 +214,7 @@ export default function CustomizeNeonSign() {
               </div>
               
               {/* Neon Text Wrapper with subtle scaling */}
-              <div style={{ transform: `translate(-50%, -50%) scale(${1 + (selectedSize.multiplier - 1) * 0.15})` }} className="absolute top-1/2 left-1/2 transition-transform duration-500 ease-out max-w-full flex justify-center">
+              <div style={{ transform: `translate(-50%, -50%) scale(${1 + (selectedSize.multiplier - 1) * 0.15})` }} className="absolute top-[35%] left-1/2 transition-transform duration-500 ease-out max-w-full flex justify-center">
                 <div className="relative inline-block">
                   {/* Measurements Overlay */}
                   {showMeasurements && (
