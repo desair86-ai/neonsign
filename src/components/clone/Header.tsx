@@ -1,19 +1,75 @@
 "use client";
 import React, { useState } from 'react';
-import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
+import { Search, ShoppingBag, User, Menu, X, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+
+type NavItem = {
+  label: string;
+  href: string;
+  isMega?: boolean;
+  dropdown?: { label: string; href: string; }[];
+  columns?: { label: string; href: string; subMenu?: { label: string; href: string; }[]; }[][];
+};
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const pathname = usePathname();
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { label: 'Customise Your Neon Light', href: '/products/customize-neon-signs' },
-    { label: 'Shop Neon Collection', href: '/shop-neon-collection' },
-    { label: 'Best Sellers', href: '/' },
-    { label: 'Business Logo', href: '/business-logo' },
+    { 
+      label: 'Occasion', 
+      href: '#',
+      dropdown: [
+        { label: 'Diwali Neon Sign', href: '#' },
+        { label: 'Valentines Neon Signs', href: '#' },
+        { label: 'Christmas Neon Signs', href: '#' },
+        { label: 'Father’s Day Neon Signs', href: '#' },
+        { label: 'Holiday & Special Occasions Neon Signs', href: '#' },
+        { label: 'Mother’s Day Neon Signs', href: '#' },
+      ]
+    },
+    { 
+      label: 'Neon Shop', 
+      href: '/shop-neon-collection',
+      isMega: true,
+      columns: [
+        [
+          { label: 'Valentines Day Neon Sign', href: '#' },
+          { label: 'Best Seller', href: '#' },
+          { label: 'Shree Ram neon sign', href: '#' },
+          { label: 'Color Ring', href: '#' },
+          { label: 'Christmas Neon Sign', href: '#' },
+          { label: 'Holiday & Special Occasions Neon Signs', href: '#' },
+          { 
+            label: 'Home Decor Neon Signs', 
+            href: '#',
+            subMenu: [
+              { label: 'Neon Signs for Bedroom', href: '#' },
+              { label: 'Neon Sign for Kitchen', href: '#' },
+              { label: 'Neon Sign for Kids Room', href: '#' },
+            ]
+          },
+          { label: 'Flow-Mo Neon Sign', href: '#' },
+          { label: 'Wedding Neon Signs', href: '#' },
+        ],
+        [
+          { label: 'Bar Neon Signs', href: '#' },
+          { label: 'Restaurant Neon Signs', href: '#' },
+          { label: 'Event Neon Signs', href: '#' },
+          { label: 'Happy Birthday Neon Signs', href: '#' },
+          { label: 'Beauty, Nail & Hair Salon Neon Signs', href: '#' },
+          { label: 'Zodiac Neon Sign', href: '#' },
+          { label: 'Gym, Fitness & Yoga Neon Signs', href: '#' },
+          { label: 'Ganesh Neon Sign', href: '#' },
+          { label: 'General neon sign', href: '#' },
+        ]
+      ]
+    },
+    { label: 'Under 4000', href: '#' },
   ];
 
   return (
@@ -40,33 +96,70 @@ export function Header() {
         </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-2 font-semibold text-sm">
+        <nav className="hidden lg:flex items-center gap-1 xl:gap-4 font-semibold text-sm">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
+            
             return (
-              <Link 
-                key={item.label} 
-                href={item.href} 
-                className={`relative px-4 py-2 hover:text-brand-purple transition-colors rounded-full flex items-center justify-center ${isActive ? 'text-brand-purple font-bold' : 'text-gray-300'}`}
-              >
-                {isActive && (
-                  <>
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="absolute inset-0 bg-brand-green/20 rounded-full blur-xl -z-10"
-                      transition={{ duration: 0.3 }}
-                    />
-                    <motion.div
-                      initial={{ opacity: 0, scaleX: 0 }}
-                      animate={{ opacity: 1, scaleX: 1 }}
-                      className="absolute bottom-0 left-4 right-4 h-[2px] bg-brand-green shadow-[0_0_8px_rgba(110,255,134,0.8)]"
-                      transition={{ duration: 0.3 }}
-                    />
-                  </>
+              <div key={item.label} className="group relative">
+                <Link 
+                  href={item.href} 
+                  className={`relative px-3 py-2 hover:text-brand-purple transition-colors rounded-full flex items-center justify-center gap-1 ${isActive ? 'text-brand-purple font-bold' : 'text-gray-300'}`}
+                >
+                  <span className="relative z-10">{item.label}</span>
+                  {(item.dropdown || item.columns) && <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />}
+                </Link>
+
+                {/* Dropdowns */}
+                {(item.dropdown || item.columns) && (
+                  <div className={`absolute top-full pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ${item.isMega ? 'right-0' : 'left-1/2 -translate-x-1/2'}`}>
+                    <div className={`bg-black/95 backdrop-blur-xl border-2 ${item.isMega ? 'border-brand-green/50 shadow-[0_0_20px_rgba(110,255,134,0.3)]' : 'border-brand-purple/50 shadow-[0_0_20px_rgba(117,46,255,0.4)]'} rounded-lg p-2 whitespace-nowrap`}>
+                      
+                      {/* Single Column */}
+                      {item.dropdown && (
+                        <div className="flex flex-col min-w-[220px]">
+                          {item.dropdown.map(subItem => (
+                            <Link key={subItem.label} href={subItem.href} className="px-4 py-3 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-colors border-b border-white/5 last:border-0">
+                              {subItem.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Mega Menu (2 columns) */}
+                      {item.columns && (
+                        <div className="flex gap-4 p-2">
+                          {item.columns.map((col, colIdx) => (
+                            <div key={colIdx} className="flex flex-col w-[260px]">
+                              {col.map(subItem => (
+                                <div key={subItem.label} className="group/sub relative">
+                                  <Link href={subItem.href} className="flex items-center justify-between px-4 py-2.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-colors border-b border-white/5">
+                                    {subItem.label}
+                                    {subItem.subMenu && <ChevronDown className="w-4 h-4 -rotate-90 group-hover/sub:text-brand-green" />}
+                                  </Link>
+                                  
+                                  {/* Sub-menu (pops to left) */}
+                                  {subItem.subMenu && (
+                                    <div className="absolute right-full top-0 pr-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200">
+                                      <div className="bg-black/95 backdrop-blur-xl border-2 border-brand-green/50 rounded-lg p-2 shadow-[0_0_15px_rgba(110,255,134,0.3)] whitespace-nowrap flex flex-col min-w-[200px]">
+                                        {subItem.subMenu.map(deepItem => (
+                                          <Link key={deepItem.label} href={deepItem.href} className="px-4 py-2.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-colors border-b border-white/5 last:border-0">
+                                            {deepItem.label}
+                                          </Link>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 )}
-                <span className="relative z-10">{item.label}</span>
-              </Link>
+              </div>
             );
           })}
         </nav>
@@ -88,23 +181,80 @@ export function Header() {
           <div className="flex flex-col">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
+              const hasDropdown = item.dropdown || item.columns;
+              const isExpanded = mobileExpanded === item.label;
+              
               return (
-                <Link 
-                  key={item.label}
-                  onClick={() => setIsMobileMenuOpen(false)} 
-                  href={item.href} 
-                  className={`text-[17px] font-semibold py-4 px-6 border-b border-white/10 hover:bg-white/5 hover:text-brand-purple transition-colors relative ${isActive ? 'text-brand-purple' : 'text-white'}`}
-                >
-                  {item.label}
-                  {isActive && (
-                    <motion.div
-                      initial={{ opacity: 0, scaleY: 0 }}
-                      animate={{ opacity: 1, scaleY: 1 }}
-                      className="absolute left-0 top-0 bottom-0 w-1 bg-brand-green shadow-[0_0_8px_rgba(110,255,134,0.8)]"
-                      transition={{ duration: 0.3 }}
-                    />
-                  )}
-                </Link>
+                <div key={item.label} className="flex flex-col border-b border-white/10">
+                  <div 
+                    className={`flex items-center justify-between py-4 px-6 hover:bg-white/5 cursor-pointer transition-colors ${isActive ? 'text-brand-purple' : 'text-white'}`}
+                    onClick={() => {
+                      if (hasDropdown) {
+                        setMobileExpanded(isExpanded ? null : item.label);
+                      } else {
+                        setIsMobileMenuOpen(false);
+                        // Navigate logic handled by Next.js if we used Link, but for mobile accordion we use div+router or Link wrapper. 
+                        // To keep it simple, we use an inner Link if it has no dropdown
+                      }
+                    }}
+                  >
+                    {!hasDropdown ? (
+                      <Link href={item.href} className="w-full text-[17px] font-semibold" onClick={() => setIsMobileMenuOpen(false)}>
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <span className="text-[17px] font-semibold">{item.label}</span>
+                    )}
+                    
+                    {hasDropdown && (
+                      <ChevronDown className={`w-5 h-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                    )}
+                  </div>
+
+                  {/* Mobile Sub-menu */}
+                  <AnimatePresence>
+                    {hasDropdown && isExpanded && (
+                      <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden bg-white/5"
+                      >
+                        {item.dropdown && item.dropdown.map(subItem => (
+                          <Link 
+                            key={subItem.label}
+                            href={subItem.href}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="block py-3 px-10 text-gray-300 hover:text-white border-b border-white/5 last:border-0"
+                          >
+                            {subItem.label}
+                          </Link>
+                        ))}
+                        {item.columns && item.columns.flat().map(subItem => (
+                          <React.Fragment key={subItem.label}>
+                            <Link 
+                              href={subItem.href}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              className="block py-3 px-10 text-gray-300 hover:text-white border-b border-white/5"
+                            >
+                              {subItem.label}
+                            </Link>
+                            {subItem.subMenu && subItem.subMenu.map(deepItem => (
+                              <Link 
+                                key={deepItem.label}
+                                href={deepItem.href}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="block py-2 px-14 text-sm text-gray-400 hover:text-white border-b border-white/5"
+                              >
+                                ↳ {deepItem.label}
+                              </Link>
+                            ))}
+                          </React.Fragment>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               );
             })}
           </div>
