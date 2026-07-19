@@ -153,7 +153,21 @@ export default function CustomizeNeonSign() {
     const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
-      const customBg = { id: 'custom', name: 'Your Room', url, settings: {} };
+      const customBg = { 
+        id: 'custom', 
+        name: 'Your Room', 
+        url, 
+        settings: {
+          position_x: 50,
+          position_y: 35,
+          scale_small: 1,
+          scale_medium: 1,
+          scale_large: 1,
+          scale_xlarge: 1,
+          scale_xxlarge: 1,
+          scale_supersized: 1
+        } 
+      } as any;
       setSelectedBg(customBg);
       triggerMascot("Look at that! It looks amazing in your space.", MascotState.CELEBRATING);
     }
