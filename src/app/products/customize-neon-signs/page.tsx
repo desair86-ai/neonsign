@@ -131,6 +131,10 @@ export default function CustomizeNeonSign() {
   const [isWaterproof, setIsWaterproof] = useState(false);
   const [hasSmartController, setHasSmartController] = useState(false);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const [dynamicScale, setDynamicScale] = useState<number | null>(null);
+
   const { setState, speak, stopSpeaking } = useMascot();
   const [colorTimeoutId, setColorTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [clearBubbleTimeoutId, setClearBubbleTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -193,6 +197,34 @@ export default function CustomizeNeonSign() {
     return scale ?? defaultScale;
   }, [selectedSize, selectedBg]);
 
+  // Dynamically calculate scale down if text overflows container
+  useEffect(() => {
+    if (!containerRef.current || !textRef.current) return;
+    
+    const measure = () => {
+      const containerWidth = containerRef.current!.offsetWidth;
+      const textWidth = textRef.current!.offsetWidth;
+      
+      const maxAllowedWidth = containerWidth * 0.9; // 90% of container width
+      const intendedWidth = textWidth * currentScale;
+      
+      if (intendedWidth > maxAllowedWidth) {
+        setDynamicScale(maxAllowedWidth / textWidth);
+      } else {
+        setDynamicScale(null);
+      }
+    };
+
+    measure();
+    
+    const observer = new ResizeObserver(() => measure());
+    observer.observe(containerRef.current);
+    
+    return () => observer.disconnect();
+  }, [text, selectedFont, currentScale, selectedBg, textAlign]);
+
+  const finalScale = dynamicScale !== null ? dynamicScale : currentScale;
+
   return (
     <main className="min-h-screen bg-black text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender">
       <Header />
@@ -212,7 +244,7 @@ export default function CustomizeNeonSign() {
           
           {/* LEFT: Live Preview */}
           <div className="w-full">
-            <div className="sticky top-28 overflow-hidden rounded-lg border border-white/10 bg-black min-h-[420px] lg:min-h-[720px] relative flex items-center justify-center p-6 md:p-10">
+            <div ref={containerRef} className="sticky top-28 overflow-hidden rounded-lg border border-white/10 bg-black min-h-[420px] lg:min-h-[720px] relative flex items-center justify-center p-6 md:p-10">
 
               {/* Custom ON/OFF Toggle */}
               <div className="absolute top-6 left-6 z-20">
@@ -248,17 +280,17 @@ export default function CustomizeNeonSign() {
               {/* Ratio Badge (moved to bottom) */}
               <div className="absolute bottom-4 right-4 z-20 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2">
                 <span className={`w-2 h-2 rounded-full ${isLightOn ? 'bg-brand-green animate-pulse shadow-[0_0_8px_rgba(110,255,134,0.6)]' : 'bg-gray-500'}`}></span>
-                Preview Scale: {currentScale.toFixed(2)}x
+                Preview Scale: {finalScale.toFixed(2)}x
               </div>
               
-              {/* Neon Text Wrapper with subtle scaling */}
+              {/* Neon Text Wrapper with dynamic scaling */}
               <div 
                 style={{ 
                   top: `${selectedBg.settings?.position_y ?? 35}%`,
                   left: `${selectedBg.settings?.position_x ?? 50}%`,
-                  transform: `translate(-50%, -50%) scale(${currentScale})` 
+                  transform: `translate(-50%, -50%) scale(${finalScale})` 
                 }} 
-                className="absolute transition-all duration-500 ease-out max-w-full flex justify-center"
+                className="absolute transition-all duration-500 ease-out flex justify-center whitespace-nowrap"
               >
                 <div className="relative inline-block">
                   {/* Measurements Overlay */}
@@ -285,14 +317,15 @@ export default function CustomizeNeonSign() {
                   )}
                   
                   <div 
-                    className={`relative z-10 max-w-full ${selectedFont.class}`}
+                    ref={textRef}
+                    className={`relative z-10 ${selectedFont.class}`}
                     role="img"
                     aria-label={`Preview of neon text: ${text || 'Type Here'}`}
                     aria-live="polite"
                     style={{
                       ...getNeonTextStyle(selectedColor, isLightOn),
                       textAlign: textAlign,
-                      whiteSpace: 'pre-wrap',
+                      whiteSpace: 'pre',
                       lineHeight: '1.2'
                     }}
                   >
