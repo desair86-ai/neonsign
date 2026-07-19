@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
 import { Check, Ruler, Info, X, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
