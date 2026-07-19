@@ -39,7 +39,20 @@ const COLORS = [
   { name: 'Yellow', hex: '#ffe600', glow: 'rgba(255,230,0,0.5)' },
 ];
 
-function getNeonTextStyle(color: (typeof COLORS)[number]) {
+function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = true) {
+  if (!isLightOn) {
+    return {
+      color: 'rgba(255, 255, 255, 0.4)',
+      textShadow: 'none',
+      filter: 'none',
+      fontSize: 'clamp(2.7rem, 7.5vw, 8.6rem)',
+      lineHeight: '1.1',
+      whiteSpace: 'pre-wrap' as const,
+      wordBreak: 'break-word' as const,
+      WebkitTextStroke: '2px rgba(255,255,255,0.2)',
+    };
+  }
+
   return {
     color: color.hex,
     textShadow: `
@@ -64,6 +77,7 @@ const SIZES = [
 ];
 
 export default function CustomizeNeonSign() {
+  const [isLightOn, setIsLightOn] = useState(true);
   const [text, setText] = useState('The Neon Stack');
   const [selectedFont, setSelectedFont] = useState(FONTS[0]);
   const [selectedColor, setSelectedColor] = useState(COLORS[2]); // Green default
@@ -140,9 +154,22 @@ export default function CustomizeNeonSign() {
           <div className="w-full">
             <div className="sticky top-28 overflow-hidden rounded-lg border border-white/10 bg-black min-h-[420px] lg:min-h-[720px] relative flex items-center justify-center p-6 md:p-10">
 
-              {/* Ratio Badge */}
-              <div className="absolute top-4 left-4 z-20 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-brand-green animate-pulse shadow-[0_0_8px_rgba(110,255,134,0.6)]"></span>
+              {/* Custom ON/OFF Toggle */}
+              <div className="absolute top-6 left-6 z-20">
+                <button 
+                  onClick={() => setIsLightOn(!isLightOn)}
+                  className={`w-[96px] h-[44px] rounded-full transition-colors duration-300 relative flex items-center shadow-lg focus:outline-none ${isLightOn ? 'bg-[#76bc21]' : 'bg-zinc-700'}`}
+                  aria-label="Toggle neon light on or off"
+                >
+                  <span className={`absolute font-black tracking-wide text-white transition-opacity duration-300 ${isLightOn ? 'left-4 opacity-100' : 'left-4 opacity-0'}`}>ON</span>
+                  <span className={`absolute font-black tracking-wide text-white transition-opacity duration-300 ${!isLightOn ? 'right-4 opacity-100' : 'right-4 opacity-0'}`}>OFF</span>
+                  <div className={`w-[34px] h-[34px] bg-white rounded-full absolute transition-transform duration-300 ease-in-out shadow-[0_0_10px_rgba(0,0,0,0.2)] ${isLightOn ? 'translate-x-[56px]' : 'translate-x-[6px]'}`} />
+                </button>
+              </div>
+
+              {/* Ratio Badge (moved to bottom) */}
+              <div className="absolute bottom-4 right-4 z-20 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full ${isLightOn ? 'bg-brand-green animate-pulse shadow-[0_0_8px_rgba(110,255,134,0.6)]' : 'bg-gray-500'}`}></span>
                 Preview Scale: {selectedSize.multiplier}x
               </div>
               
@@ -153,7 +180,7 @@ export default function CustomizeNeonSign() {
                   role="img"
                   aria-label={`Preview of neon text: ${text || 'Type Here'}`}
                   aria-live="polite"
-                  style={getNeonTextStyle(selectedColor)}
+                  style={getNeonTextStyle(selectedColor, isLightOn)}
                 >
                   {text || 'Type Here'}
                 </div>
