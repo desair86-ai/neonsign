@@ -46,7 +46,7 @@ export function ProductCarousel({ title, products, theme = "dark" }: ProductCaro
           {products.map((product) => (
             <div key={product.id} className="flex-[0_0_80%] sm:flex-[0_0_40%] md:flex-[0_0_30%] lg:flex-[0_0_22%] min-w-0">
               <Link href="/" className="block group">
-                <div className={`relative aspect-square rounded-2xl border overflow-hidden mb-4 group-hover:border-brand-purple/60 group-hover:shadow-[0_0_20px_rgba(117,46,255,0.35)] transition-all duration-300 ${theme === 'light' ? 'bg-zinc-100 border-zinc-200' : 'bg-zinc-900 border-zinc-800'}`}>
+                <div className={`relative aspect-square rounded-2xl border overflow-hidden mb-4 border-brand-purple/60 shadow-[0_0_20px_rgba(117,46,255,0.35)] group-hover:border-[#6eff86]/60 group-hover:shadow-[0_0_20px_rgba(110,255,134,0.35)] transition-all duration-300 ${theme === 'light' ? 'bg-zinc-100' : 'bg-zinc-900'}`}>
                   {product.discountBadge && (
                     <span className="absolute top-4 left-4 z-10 bg-brand-purple text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-[0_0_10px_rgba(117,46,255,0.6)]">
                       {product.discountBadge}
