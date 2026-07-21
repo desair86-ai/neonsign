@@ -10,7 +10,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "Fixed color",
       image: "/product-1.jpeg",
       linkText: "Customize Now",
-      borderClass: "hover:border-brand-green hover:shadow-[0_0_25px_rgba(110,255,134,0.4)]",
+      borderClass: "border-brand-purple/60 shadow-[0_0_25px_rgba(117,46,255,0.4)] group-hover:border-[#6eff86]/60 group-hover:shadow-[0_0_25px_rgba(110,255,134,0.4)]",
       badgeClass: "bg-brand-green text-black shadow-[0_0_12px_rgba(110,255,134,0.6)]",
       textClass: "text-brand-green"
     },
@@ -20,7 +20,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "Color changeable",
       image: "/product-2.jpeg",
       linkText: "Customize Now",
-      borderClass: "hover:border-[#f967fb] hover:shadow-[0_0_25px_rgba(249,103,251,0.4)]",
+      borderClass: "border-brand-purple/60 shadow-[0_0_25px_rgba(117,46,255,0.4)] group-hover:border-[#6eff86]/60 group-hover:shadow-[0_0_25px_rgba(110,255,134,0.4)]",
       badgeClass: "bg-[#f967fb] text-black shadow-[0_0_12px_rgba(249,103,251,0.6)]",
       textClass: "text-[#f967fb]"
     },
@@ -30,7 +30,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "Logo Conversion",
       image: "/product-3.jpeg",
       linkText: "Enquire Now",
-      borderClass: "hover:border-[#00e5ff] hover:shadow-[0_0_25px_rgba(0,229,255,0.4)]",
+      borderClass: "border-brand-purple/60 shadow-[0_0_25px_rgba(117,46,255,0.4)] group-hover:border-[#6eff86]/60 group-hover:shadow-[0_0_25px_rgba(110,255,134,0.4)]",
       badgeClass: "bg-[#00e5ff] text-black shadow-[0_0_12px_rgba(0,229,255,0.6)]",
       textClass: "text-[#00e5ff]"
     },
@@ -40,7 +40,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "Popular Choice",
       image: "/product-4.jpeg",
       linkText: "Shop Now",
-      borderClass: "hover:border-[#fe8a2e] hover:shadow-[0_0_25px_rgba(254,138,46,0.4)]",
+      borderClass: "border-brand-purple/60 shadow-[0_0_25px_rgba(117,46,255,0.4)] group-hover:border-[#6eff86]/60 group-hover:shadow-[0_0_25px_rgba(110,255,134,0.4)]",
       badgeClass: "bg-[#fe8a2e] text-black shadow-[0_0_12px_rgba(254,138,46,0.6)]",
       textClass: "text-[#fe8a2e]"
     }
@@ -52,7 +52,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
         {categories.map((cat, idx) => {
           const href = cat.linkText && cat.linkText.toLowerCase().includes('custom') ? '/products/customize-neon-signs' : '/';
           return (
-          <Link href={href} key={idx} className={`group relative rounded-2xl overflow-hidden block aspect-[4/5] border ${theme === 'light' ? 'bg-zinc-100 border-black/10' : 'bg-zinc-900 border-white/10'} ${cat.borderClass} transition-all duration-300`}>
+          <Link href={href} key={idx} className={`group relative rounded-2xl overflow-hidden block aspect-[4/5] border ${theme === 'light' ? 'bg-zinc-100' : 'bg-zinc-900'} ${cat.borderClass} transition-all duration-300`}>
             {/* Background Image */}
             <div className={`absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 ${theme === 'light' ? '' : 'opacity-60'}`} style={{ backgroundImage: `url(${cat.image})` }} />
             
