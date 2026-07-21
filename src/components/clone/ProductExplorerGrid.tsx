@@ -10,7 +10,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "Fixed color",
       image: "/product-1.jpeg",
       linkText: "Customize Now",
-      borderClass: "border-brand-purple/60 shadow-[0_0_25px_rgba(117,46,255,0.4)] group-hover:border-[#6eff86]/60 group-hover:shadow-[0_0_25px_rgba(110,255,134,0.4)]",
+      borderClass: "border-brand-green/60 shadow-[0_0_25px_rgba(110,255,134,0.4)] group-hover:border-brand-green group-hover:shadow-[0_0_25px_rgba(110,255,134,0.6)]",
       badgeClass: "bg-brand-green text-black shadow-[0_0_12px_rgba(110,255,134,0.6)]",
       textClass: "text-brand-green"
     },
@@ -20,7 +20,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "Color changeable",
       image: "/product-2.jpeg",
       linkText: "Customize Now",
-      borderClass: "border-brand-purple/60 shadow-[0_0_25px_rgba(117,46,255,0.4)] group-hover:border-[#6eff86]/60 group-hover:shadow-[0_0_25px_rgba(110,255,134,0.4)]",
+      borderClass: "border-[#f967fb]/60 shadow-[0_0_25px_rgba(249,103,251,0.4)] group-hover:border-[#f967fb] group-hover:shadow-[0_0_25px_rgba(249,103,251,0.6)]",
       badgeClass: "bg-[#f967fb] text-black shadow-[0_0_12px_rgba(249,103,251,0.6)]",
       textClass: "text-[#f967fb]"
     },
@@ -30,7 +30,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "Logo Conversion",
       image: "/product-3.jpeg",
       linkText: "Enquire Now",
-      borderClass: "border-brand-purple/60 shadow-[0_0_25px_rgba(117,46,255,0.4)] group-hover:border-[#6eff86]/60 group-hover:shadow-[0_0_25px_rgba(110,255,134,0.4)]",
+      borderClass: "border-[#00e5ff]/60 shadow-[0_0_25px_rgba(0,229,255,0.4)] group-hover:border-[#00e5ff] group-hover:shadow-[0_0_25px_rgba(0,229,255,0.6)]",
       badgeClass: "bg-[#00e5ff] text-black shadow-[0_0_12px_rgba(0,229,255,0.6)]",
       textClass: "text-[#00e5ff]"
     },
@@ -40,7 +40,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "Popular Choice",
       image: "/product-4.jpeg",
       linkText: "Shop Now",
-      borderClass: "border-brand-purple/60 shadow-[0_0_25px_rgba(117,46,255,0.4)] group-hover:border-[#6eff86]/60 group-hover:shadow-[0_0_25px_rgba(110,255,134,0.4)]",
+      borderClass: "border-[#fe8a2e]/60 shadow-[0_0_25px_rgba(254,138,46,0.4)] group-hover:border-[#fe8a2e] group-hover:shadow-[0_0_25px_rgba(254,138,46,0.6)]",
       badgeClass: "bg-[#fe8a2e] text-black shadow-[0_0_12px_rgba(254,138,46,0.6)]",
       textClass: "text-[#fe8a2e]"
     }
