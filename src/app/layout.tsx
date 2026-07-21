@@ -151,7 +151,7 @@ export default async function RootLayout({
           <AuroraBackground className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender" speed={0.8} blur={90}>
             {children}
           </AuroraBackground>
-          <Mascot />
+          {/* <Mascot /> */}
         </MascotProvider>
       </body>
     </html>
