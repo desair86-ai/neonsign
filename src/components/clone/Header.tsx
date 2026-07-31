@@ -21,7 +21,14 @@ export function Header() {
   const { cartCount } = useCart();
 
   const navItems: NavItem[] = [
-    { label: 'Customise Your Neon Light', href: '/products/customize-neon-signs' },
+    { 
+      label: 'Customize Neon Sign', 
+      href: '/products/customize-neon-signs',
+      dropdown: [
+        { label: 'Custom Neon Sign', href: '/products/customize-neon-signs' },
+        { label: 'Flow-Mo Neon Sign', href: '/shop-neon-collection?cat=flow-mo' },
+      ]
+    },
     { 
       label: 'Occasion', 
       href: '#',
@@ -40,34 +47,57 @@ export function Header() {
       isMega: true,
       columns: [
         [
-          { label: 'Valentines Day Neon Sign', href: '#' },
-          { label: 'Best Seller', href: '#' },
-          { label: 'Shree Ram neon sign', href: '#' },
-          { label: 'Color Ring', href: '#' },
-          { label: 'Christmas Neon Sign', href: '#' },
-          { label: 'Holiday & Special Occasions Neon Signs', href: '#' },
-          { 
-            label: 'Home Decor Neon Signs', 
-            href: '#',
-            subMenu: [
-              { label: 'Neon Signs for Bedroom', href: '#' },
-              { label: 'Neon Sign for Kitchen', href: '#' },
-              { label: 'Neon Sign for Kids Room', href: '#' },
-            ]
-          },
-          { label: 'Flow-Mo Neon Sign', href: '#' },
-          { label: 'Wedding Neon Signs', href: '#' },
+          { label: 'Gaming Neon Signs', href: '/shop-neon-collection?cat=gaming' },
+          { label: 'Gods & Devotional Neon Signs', href: '/shop-neon-collection?cat=gods' },
+          { label: 'Wedding Neon Signs', href: '/shop-neon-collection?cat=wedding' },
+          { label: 'Happy Birthday Neon Signs', href: '/shop-neon-collection?cat=happy-birthday' },
+          { label: 'Celebrations & Events', href: '/shop-neon-collection?cat=celebrations' },
+          { label: 'Christmas Neon Signs', href: '/shop-neon-collection?cat=christmas' },
+          { label: 'Ganesh Chaturthi Neon Signs', href: '/shop-neon-collection?cat=ganesh-chaturthi' },
+          { label: 'Diwali Neon Signs', href: '/shop-neon-collection?cat=diwali' },
+          { label: 'New Year Neon Signs', href: '/shop-neon-collection?cat=new-year' },
+          { label: 'Halloween Neon Signs', href: '/shop-neon-collection?cat=halloween' },
+          { label: 'For Businesses & Offices', href: '/shop-neon-collection?cat=for-businesses' },
+          { label: 'Clock Neon Signs', href: '/shop-neon-collection?cat=clock' },
+          { label: 'Man Cave Neon Signs', href: '/shop-neon-collection?cat=man-cave' },
         ],
         [
-          { label: 'Bar Neon Signs', href: '#' },
-          { label: 'Restaurant Neon Signs', href: '#' },
-          { label: 'Event Neon Signs', href: '#' },
-          { label: 'Happy Birthday Neon Signs', href: '#' },
-          { label: 'Beauty, Nail & Hair Salon Neon Signs', href: '#' },
-          { label: 'Zodiac Neon Sign', href: '#' },
-          { label: 'Gym, Fitness & Yoga Neon Signs', href: '#' },
-          { label: 'Ganesh Neon Sign', href: '#' },
-          { label: 'General neon sign', href: '#' },
+          { label: 'Café & Coffee Shop Signs', href: '/shop-neon-collection?cat=cafe' },
+          { label: 'Bars & Pub Neon Signs', href: '/shop-neon-collection?cat=bars' },
+          { label: 'Gym, Fitness & Yoga Signs', href: '/shop-neon-collection?cat=gym' },
+          { label: 'Garage & Automotive Signs', href: '/shop-neon-collection?cat=garage' },
+          { label: 'Barber Shop & Salon Signs', href: '/shop-neon-collection?cat=barber-shop' },
+          { label: 'Beauty, Nail & Hair Salon Neon Signs', href: '/shop-neon-collection?cat=beauty-salon' },
+          { label: 'Wildlife & Animals', href: '/shop-neon-collection?cat=wildlife' },
+          { label: 'Travel & Wanderlust', href: '/shop-neon-collection?cat=travel' },
+          { label: 'We*d & 420 Neon Signs', href: '/shop-neon-collection?cat=weed' },
+          { label: 'Japanese & Anime Signs', href: '/shop-neon-collection?cat=japanese' },
+          { label: 'K-Pop Neon Signs', href: '/shop-neon-collection?cat=k-pop' },
+          { label: 'LGBT & Pride Neon Signs', href: '/shop-neon-collection?cat=lgbt' },
+          { label: 'Astronaut & Space Signs', href: '/shop-neon-collection?cat=astronaut' },
+        ],
+        [
+          { label: 'Love / Heart Neon Signs', href: '/shop-neon-collection?cat=love-heart' },
+          { label: 'Golf Neon Signs', href: '/shop-neon-collection?cat=golf' },
+          { label: 'Cricket & Stadium Signs', href: '/shop-neon-collection?cat=cricket' },
+          { label: 'Music & Instruments', href: '/shop-neon-collection?cat=music' },
+          { label: 'Skull & Gothic Signs', href: '/shop-neon-collection?cat=skull' },
+          { label: 'Motorbikes & Riders', href: '/shop-neon-collection?cat=motorbikes' },
+          { label: 'Cars & Racing Signs', href: '/shop-neon-collection?cat=cars' },
+          { label: 'Quotes & Typography', href: '/shop-neon-collection?cat=quotes' },
+          { label: 'Sports & Fitness', href: '/shop-neon-collection?cat=sports' },
+          { label: 'Bollywood & Cinema', href: '/shop-neon-collection?cat=bollywood' },
+          { label: 'Hollywood & Movie Signs', href: '/shop-neon-collection?cat=hollywood' },
+          { label: 'Rock N Roll & Band Signs', href: '/shop-neon-collection?cat=rock-n-roll' },
+          { 
+            label: 'Home Decor Neon Signs', 
+            href: '/shop-neon-collection?cat=home-decor',
+            subMenu: [
+              { label: 'Neon Signs for Bedroom', href: '/shop-neon-collection?cat=bedroom' },
+              { label: 'Neon Sign for Kitchen', href: '/shop-neon-collection?cat=kitchen' },
+              { label: 'Neon Sign for Kids Room', href: '/shop-neon-collection?cat=kids-room' },
+            ]
+          },
         ]
       ]
     },
@@ -131,7 +161,7 @@ export function Header() {
                 {/* Dropdowns */}
                 {(item.dropdown || item.columns) && (
                   <div className={`absolute top-full pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ${item.isMega ? 'right-0' : 'left-1/2 -translate-x-1/2'}`}>
-                    <div className={`bg-black/95 backdrop-blur-xl border-2 ${item.isMega ? 'border-brand-green/50 shadow-[0_0_20px_rgba(110,255,134,0.3)]' : 'border-brand-green/50 shadow-[0_0_20px_rgba(110,255,134,0.3)]'} rounded-lg p-2 whitespace-nowrap`}>
+                    <div className={`bg-black/95 backdrop-blur-xl border-2 ${item.isMega ? 'border-brand-green/50 shadow-[0_0_20px_rgba(110,255,134,0.3)]' : 'border-brand-green/50 shadow-[0_0_20px_rgba(110,255,134,0.3)]'} rounded-lg p-2 whitespace-normal`}>
                       
                       {/* Single Column */}
                       {item.dropdown && (
@@ -144,24 +174,24 @@ export function Header() {
                         </div>
                       )}
 
-                      {/* Mega Menu (2 columns) */}
+                      {/* Mega Menu (3 columns) */}
                       {item.columns && (
                         <div className="flex gap-4 p-2">
                           {item.columns.map((col, colIdx) => (
-                            <div key={colIdx} className="flex flex-col w-[260px]">
+                            <div key={colIdx} className="flex flex-col w-[250px] lg:w-[270px]">
                               {col.map(subItem => (
                                 <div key={subItem.label} className="group/sub relative">
-                                  <Link href={subItem.href} className="flex items-center justify-between px-4 py-2.5 text-neon-green-hover hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-green last:border-transparent hover:last:border-brand-green">
+                                  <Link href={subItem.href} className="flex items-center justify-between px-3.5 py-2 text-sm leading-snug break-words whitespace-normal text-neon-green-hover hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-green last:border-transparent hover:last:border-brand-green">
                                     {subItem.label}
-                                    {subItem.subMenu && <ChevronDown className="w-4 h-4 -rotate-90 group-hover/sub:text-brand-green" />}
+                                    {subItem.subMenu && <ChevronDown className="w-4 h-4 -rotate-90 group-hover/sub:text-brand-green flex-shrink-0 ml-1" />}
                                   </Link>
                                   
                                   {/* Sub-menu (pops to left) */}
                                   {subItem.subMenu && (
-                                    <div className="absolute right-full top-0 pr-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200">
-                                      <div className="bg-black/95 backdrop-blur-xl border-2 border-brand-green/50 rounded-lg p-2 shadow-[0_0_15px_rgba(110,255,134,0.3)] whitespace-nowrap flex flex-col min-w-[200px]">
+                                    <div className="absolute right-full top-0 pr-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 z-50">
+                                      <div className="bg-black/95 backdrop-blur-xl border-2 border-brand-green/50 rounded-lg p-2 shadow-[0_0_15px_rgba(110,255,134,0.3)] whitespace-normal flex flex-col w-[230px]">
                                         {subItem.subMenu.map(deepItem => (
-                                          <Link key={deepItem.label} href={deepItem.href} className="px-4 py-2.5 text-neon-green-hover hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-green last:border-transparent hover:last:border-brand-green">
+                                          <Link key={deepItem.label} href={deepItem.href} className="px-3.5 py-2 text-sm leading-snug break-words whitespace-normal text-neon-green-hover hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-green last:border-transparent hover:last:border-brand-green">
                                             {deepItem.label}
                                           </Link>
                                         ))}
