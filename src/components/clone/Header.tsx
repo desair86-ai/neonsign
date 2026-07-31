@@ -30,15 +30,18 @@ export function Header() {
       ]
     },
     { 
-      label: 'Occasion', 
-      href: '#',
+      label: 'Celebrations & Events', 
+      href: '/shop-neon-collection?cat=celebrations',
       dropdown: [
-        { label: 'Diwali Neon Sign', href: '#' },
-        { label: 'Valentines Neon Signs', href: '#' },
-        { label: 'Christmas Neon Signs', href: '#' },
-        { label: 'Father’s Day Neon Signs', href: '#' },
-        { label: 'Holiday & Special Occasions Neon Signs', href: '#' },
-        { label: 'Mother’s Day Neon Signs', href: '#' },
+        { label: 'Wedding Neon Signs', href: '/shop-neon-collection?cat=wedding' },
+        { label: 'Christmas Neon Signs', href: '/shop-neon-collection?cat=christmas' },
+        { label: 'Ganesh Chaturthi Neon Signs', href: '/shop-neon-collection?cat=ganesh-chaturthi' },
+        { label: 'Diwali Neon Signs', href: '/shop-neon-collection?cat=diwali' },
+        { label: 'Halloween Neon Signs', href: '/shop-neon-collection?cat=halloween' },
+        { label: 'Valentines Neon Signs', href: '/shop-neon-collection?cat=valentines' },
+        { label: 'Father’s Day Neon Signs', href: '/shop-neon-collection?cat=fathers-day' },
+        { label: 'Mother’s Day Neon Signs', href: '/shop-neon-collection?cat=mothers-day' },
+        { label: 'Holiday & Special Occasions Neon Signs', href: '/shop-neon-collection?cat=special-occasions' },
       ]
     },
     { 
@@ -49,23 +52,17 @@ export function Header() {
         [
           { label: 'Gaming Neon Signs', href: '/shop-neon-collection?cat=gaming' },
           { label: 'Gods & Devotional Neon Signs', href: '/shop-neon-collection?cat=gods' },
-          { label: 'Wedding Neon Signs', href: '/shop-neon-collection?cat=wedding' },
           { label: 'Happy Birthday Neon Signs', href: '/shop-neon-collection?cat=happy-birthday' },
-          { label: 'Celebrations & Events', href: '/shop-neon-collection?cat=celebrations' },
-          { label: 'Christmas Neon Signs', href: '/shop-neon-collection?cat=christmas' },
-          { label: 'Ganesh Chaturthi Neon Signs', href: '/shop-neon-collection?cat=ganesh-chaturthi' },
-          { label: 'Diwali Neon Signs', href: '/shop-neon-collection?cat=diwali' },
           { label: 'New Year Neon Signs', href: '/shop-neon-collection?cat=new-year' },
-          { label: 'Halloween Neon Signs', href: '/shop-neon-collection?cat=halloween' },
           { label: 'For Businesses & Offices', href: '/shop-neon-collection?cat=for-businesses' },
           { label: 'Clock Neon Signs', href: '/shop-neon-collection?cat=clock' },
           { label: 'Man Cave Neon Signs', href: '/shop-neon-collection?cat=man-cave' },
-        ],
-        [
           { label: 'Café & Coffee Shop Signs', href: '/shop-neon-collection?cat=cafe' },
           { label: 'Bars & Pub Neon Signs', href: '/shop-neon-collection?cat=bars' },
           { label: 'Gym, Fitness & Yoga Signs', href: '/shop-neon-collection?cat=gym' },
           { label: 'Garage & Automotive Signs', href: '/shop-neon-collection?cat=garage' },
+        ],
+        [
           { label: 'Barber Shop & Salon Signs', href: '/shop-neon-collection?cat=barber-shop' },
           { label: 'Beauty, Nail & Hair Salon Neon Signs', href: '/shop-neon-collection?cat=beauty-salon' },
           { label: 'Wildlife & Animals', href: '/shop-neon-collection?cat=wildlife' },
@@ -75,10 +72,10 @@ export function Header() {
           { label: 'K-Pop Neon Signs', href: '/shop-neon-collection?cat=k-pop' },
           { label: 'LGBT & Pride Neon Signs', href: '/shop-neon-collection?cat=lgbt' },
           { label: 'Astronaut & Space Signs', href: '/shop-neon-collection?cat=astronaut' },
-        ],
-        [
           { label: 'Love / Heart Neon Signs', href: '/shop-neon-collection?cat=love-heart' },
           { label: 'Golf Neon Signs', href: '/shop-neon-collection?cat=golf' },
+        ],
+        [
           { label: 'Cricket & Stadium Signs', href: '/shop-neon-collection?cat=cricket' },
           { label: 'Music & Instruments', href: '/shop-neon-collection?cat=music' },
           { label: 'Skull & Gothic Signs', href: '/shop-neon-collection?cat=skull' },

@@ -703,11 +703,17 @@ export default function CustomizeNeonSign() {
                   ))}
                 </div>
 
-                <label className="text-xs font-bold text-brand-purple uppercase tracking-wider mb-2 block">Upload Custom Room Photo</label>
-                <label className="w-full bg-[#0a0a0a] border-2 border-dashed border-gray-800 hover:border-brand-purple rounded-xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors group">
-                  <Upload className="w-6 h-6 text-brand-purple group-hover:scale-110 transition-transform" />
-                  <span className="text-xs font-bold text-white">Upload Your Room / Wall</span>
-                  <span className="text-[10px] text-gray-500">Supports JPG, PNG</span>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-bold text-brand-purple uppercase tracking-wider">Preview On Your Own Wall</label>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-purple/20 text-[#6eff86] border border-[#6eff86]/40 [text-shadow:0_0_2px_#6eff86]">
+                    ✨ Recommended
+                  </span>
+                </div>
+                <label className="w-full bg-gradient-to-r from-brand-purple/10 via-black to-[#6eff86]/10 border-2 border-dashed border-brand-purple/60 hover:border-[#6eff86] rounded-xl p-5 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all duration-300 group shadow-[0_0_18px_rgba(117,46,255,0.18)] hover:shadow-[0_0_25px_rgba(110,255,134,0.25)] relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+                  <Upload className="w-6 h-6 text-[#6eff86] group-hover:scale-110 transition-transform drop-shadow-[0_0_6px_rgba(110,255,134,0.6)]" />
+                  <span className="text-sm font-extrabold text-white text-center [text-shadow:0_0_2px_rgba(255,255,255,0.7)] group-hover:text-[#6eff86] transition-colors">See Your Neon Sign On Your Own Wall</span>
+                  <span className="text-[10px] text-gray-400 font-medium">Upload photo of your room or wall (JPG, PNG)</span>
                   <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
                 </label>
               </div>
