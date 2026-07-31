@@ -49,7 +49,7 @@
 }
 
 .animate-marquee {
-  animation: marquee 45s linear infinite;
+  animation: marquee 95s linear infinite;
 }
 
 @keyframes marquee-reverse {
@@ -63,6 +63,36 @@
 
 .animate-marquee-reverse {
   animation: marquee-reverse 20s linear infinite;
+}
+
+@keyframes neon-gradient-spin {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-neon-gradient {
+  background-size: 200% 200%;
+  animation: neon-gradient-spin 3s ease infinite;
+}
+
+@keyframes card-shine {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+.animate-card-shine {
+  animation: card-shine 1.5s ease-in-out infinite;
 }
 
 @keyframes border-flow {
@@ -146,7 +176,10 @@
   --foreground: #ffffff;
 }
 
+html,
 body {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
@@ -157,31 +190,186 @@ body {
   background-size: 20px 20px;
 }
 
-/* Global button permanent state: Purple bg (#752eff), Green text (#6eff86) with neon glow */
-button[class*="p-"]:not(.faq-btn):not(.opt-btn),
-button[class*="px-"]:not(.faq-btn):not(.opt-btn),
-button[class*="py-"]:not(.faq-btn):not(.opt-btn),
-button.bg-brand-purple:not(.faq-btn):not(.opt-btn),
-button.bg-brand-green:not(.faq-btn):not(.opt-btn),
-button.bg-white:not(.faq-btn):not(.opt-btn),
-button.border-white:not(.faq-btn):not(.opt-btn) {
-  background-color: #752eff !important;
-  color: #6eff86 !important;
-  border-color: #752eff !important;
+/* Global button permanent state: Green bg (#6eff86), Purple text (#752eff) with razor-sharp 2px glow */
+button[class*="p-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
+button[class*="px-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
+button[class*="py-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
+button.bg-brand-purple:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
+button.bg-brand-green:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
+button.bg-white:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
+button.border-white:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
+a.bg-brand-purple,
+a.bg-brand-green,
+a.bg-\[\#752eff\],
+a.bg-\[\#6eff86\] {
+  filter: none !important;
+  background-color: #6eff86 !important;
+  color: #752eff !important;
+  border-color: #6eff86 !important;
   background-image: none !important;
-  box-shadow: 0 0 25px rgba(117, 46, 255, 0.75) !important;
+  box-shadow: 0 0 10px rgba(110, 255, 134, 0.35) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.6) !important;
+  -webkit-font-smoothing: antialiased !important;
 }
 
-/* Ensure svg/lucide icons inside buttons turn brand-green */
-button[class*="p-"]:not(.faq-btn):not(.opt-btn) svg,
-button[class*="px-"]:not(.faq-btn):not(.opt-btn) svg,
-button[class*="py-"]:not(.faq-btn):not(.opt-btn) svg,
-button.bg-brand-purple:not(.faq-btn):not(.opt-btn) svg,
-button.bg-brand-green:not(.faq-btn):not(.opt-btn) svg,
-button.bg-white:not(.faq-btn):not(.opt-btn) svg,
-button.border-white:not(.faq-btn):not(.opt-btn) svg {
-  color: #6eff86 !important;
-  stroke: #6eff86 !important;
+/* Ensure inner text elements inside buttons do not add blurry drop-shadows */
+button[class*="p-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
+button[class*="px-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
+button[class*="py-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
+button.bg-brand-purple:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
+button.bg-brand-green:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
+button.bg-white:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
+button.border-white:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
+a.bg-brand-purple *,
+a.bg-brand-green *,
+a.bg-\[\#752eff\] *,
+a.bg-\[\#6eff86\] * {
+  filter: none !important;
+  text-shadow: inherit !important;
+}
+
+/* Ensure svg/lucide icons inside buttons turn brand-purple (#752eff) */
+button[class*="p-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
+button[class*="px-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
+button[class*="py-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
+button.bg-brand-purple:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
+button.bg-brand-green:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
+button.bg-white:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
+button.border-white:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
+a.bg-brand-purple svg,
+a.bg-brand-green svg,
+a.bg-\[\#752eff\] svg,
+a.bg-\[\#6eff86\] svg {
+  color: #752eff !important;
+  stroke: #752eff !important;
+  filter: none !important;
+}
+
+/* 1. Custom Sign Studio Left-Hand Menu: All Text & Icons White (#ffffff) with clean, sharp 2px glow */
+.studio-left-menu,
+.studio-left-menu span,
+.studio-left-menu label,
+.studio-left-menu div,
+.studio-left-menu p,
+.studio-left-menu h1,
+.studio-left-menu h2,
+.studio-left-menu h3,
+.studio-left-menu h4,
+.studio-left-menu h5,
+.studio-left-menu h6,
+.studio-left-menu a,
+.studio-left-menu button,
+.studio-left-menu textarea,
+.studio-left-menu [class*="text-"],
+.studio-btn,
+.studio-card,
+.studio-tab,
+.studio-tab-active,
+.studio-btn-active,
+.studio-card-active,
+.studio-btn:hover,
+.studio-card:hover,
+.studio-tab:hover,
+.studio-tab-active:hover,
+.studio-btn-active:hover,
+.studio-card-active:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.6) !important;
+  filter: none !important;
+}
+
+.studio-btn,
+.studio-card,
+.studio-tab,
+.studio-tab-active,
+.studio-btn-active,
+.studio-card-active,
+.studio-btn:hover,
+.studio-card:hover,
+.studio-tab:hover,
+.studio-tab-active:hover,
+.studio-btn-active:hover,
+.studio-card-active:hover {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.6) !important;
+  background-image: none !important;
+}
+
+/* Unselected items: White Border */
+.studio-btn, .studio-card, .studio-tab {
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: none !important;
+}
+
+.studio-btn:hover, .studio-card:hover, .studio-tab:hover {
+  border-color: #ffffff !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Selected items: #752eff Purple Border + Black Background */
+.studio-tab-active,
+.studio-btn-active,
+.studio-card-active,
+.studio-tab-active:hover,
+.studio-btn-active:hover,
+.studio-card-active:hover {
+  background-color: #000000 !important;
+  border: 2px solid #752eff !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 0 12px rgba(117, 46, 255, 0.45) !important;
+}
+
+/* Ensure all icons / SVGs in the left menu turn crisp white */
+.studio-left-menu svg,
+.studio-btn svg, .studio-card svg, .studio-tab svg,
+.studio-btn-active svg, .studio-card-active svg, .studio-tab-active svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  filter: none !important;
+}
+
+/* 2. All Slider Bars, Scrollbars, and Range Inputs on whole website: #DFFF27 */
+::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+}
+::-webkit-scrollbar-track {
+  background: #090909 !important;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #DFFF27 !important;
+  border-radius: 4px !important;
+  border: 1px solid #000000 !important;
+  box-shadow: 0 0 8px rgba(223, 255, 39, 0.4) !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #f0ff6b !important;
+  box-shadow: 0 0 12px rgba(223, 255, 39, 0.8) !important;
+}
+* {
+  scrollbar-color: #DFFF27 #090909 !important;
+  scrollbar-width: thin !important;
+}
+
+input[type="range"] {
+  accent-color: #DFFF27 !important;
+}
+input[type="range"]::-webkit-slider-thumb {
+  background: #DFFF27 !important;
+  box-shadow: 0 0 10px #DFFF27 !important;
+}
+input[type="range"]::-moz-range-thumb {
+  background: #DFFF27 !important;
+  box-shadow: 0 0 10px #DFFF27 !important;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  background: rgba(223, 255, 39, 0.25) !important;
 }
 
 /* Explicitly disable all hover color changes on FAQ buttons */
@@ -195,4 +383,64 @@ button.faq-btn:hover {
 button.faq-btn:hover svg {
   color: #752eff !important;
   stroke: #752eff !important;
+}
+
+/* ==========================================================================
+   GLOBAL CLEAN & SHARP NEON TYPOGRAPHY RULE (SITE-WIDE)
+   Applies the clean, non-blurry 2px (50% opacity) neon effect to all text across the whole site,
+   including header menu, left studio menu, headings, and links, while keeping their respective text colors.
+   ========================================================================== */
+
+/* 1. Disable all wide, blurry, or multi-layer text glows & drop-shadows on typography site-wide */
+h1, h2, h3, h4, h5, h6,
+header a, nav a,
+button, label, a,
+.studio-btn, .studio-card, .studio-tab,
+.studio-btn-active, .studio-card-active, .studio-tab-active,
+.text-neon-green, .text-neon-green-hover,
+.text-brand-green, .text-brand-purple,
+[class*="text-shadow"], [class*="drop-shadow"] {
+  filter: none !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 2. All Green Neon Text across the entire site (header menu, titles):
+      Keep #6eff86 text color and apply clean 2px (50% opacity) non-blurry glow */
+.text-neon-green,
+.text-brand-green,
+.text-\[\#6eff86\],
+.text-\[\#85ff9b\],
+header a,
+nav a {
+  color: #6eff86 !important;
+  text-shadow: 0 0 2px rgba(110, 255, 134, 0.5) !important;
+}
+
+/* 3. Header menu items hover state (.text-neon-green-hover:hover):
+      Keep #752eff purple text and apply clean 2px (50% opacity) purple glow */
+.text-neon-green-hover:hover {
+  color: #752eff !important;
+  text-shadow: 0 0 2px rgba(117, 46, 255, 0.5) !important;
+}
+
+/* 4. Purple Text across the site: clean 2px purple glow */
+.text-brand-purple,
+.text-\[\#752eff\] {
+  color: #752eff !important;
+  text-shadow: 0 0 2px rgba(117, 46, 255, 0.5) !important;
+}
+
+/* 5. Headings, buttons, labels, and any explicit text-shadow elements across the site:
+      Keep their respective text color and give them the clean 2px (50% opacity) glow */
+h1, h2, h3, h4, h5, h6,
+button, label,
+[class*="text-shadow"] {
+  text-shadow: 0 0 2px currentColor !important;
+}
+
+/* 6. Ensure the studio neon sign preview text on the wall displays its realistic ON/OFF neon glow and filter */
+.studio-neon-sign-preview {
+  filter: unset !important;
+  text-shadow: unset !important;
 }

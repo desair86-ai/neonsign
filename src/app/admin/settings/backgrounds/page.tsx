@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Trash2, Upload, Loader2, Image as ImageIcon, Settings2, X } from 'lucide-react';
 
 export interface BackgroundSettings {
@@ -38,15 +38,13 @@ export default function NeonBackgroundsSettings() {
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
   const [newBgName, setNewBgName] = useState('');
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Settings Modal State
   const [editingBg, setEditingBg] = useState<Background | null>(null);
   const [isSavingSettings, setIsSavingSettings] = useState(false);
   const [formSettings, setFormSettings] = useState<BackgroundSettings>(DEFAULT_SETTINGS);
 
-  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || '';
-  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || '';
+  const [newBgUrl, setNewBgUrl] = useState('');
 
   useEffect(() => {
     fetchBackgrounds();
@@ -82,55 +80,32 @@ export default function NeonBackgroundsSettings() {
     }
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (!cloudName || !uploadPreset) {
-      alert('Cloudinary is not configured. Please add NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME and NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET to your .env.local');
-      return;
-    }
-
-    if (!newBgName.trim()) {
-      alert('Please enter a name for the background before uploading.');
+  const handleAddUrl = async () => {
+    if (!newBgName.trim() || !newBgUrl.trim()) {
+      alert('Please enter both a Background Name and an Image URL.');
       return;
     }
 
     try {
       setIsUploading(true);
-
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', uploadPreset);
-
-      const cloudinaryRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      const cloudinaryData = await cloudinaryRes.json();
-
-      if (!cloudinaryRes.ok) {
-        throw new Error(cloudinaryData.error?.message || 'Failed to upload to Cloudinary');
-      }
-
-      const imageUrl = cloudinaryData.secure_url;
-
       const dbRes = await fetch('/api/settings/backgrounds', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: newBgName, url: imageUrl }),
+        body: JSON.stringify({ name: newBgName, url: newBgUrl }),
       });
 
       if (dbRes.ok) {
         const data = await dbRes.json();
         setBackgrounds([...backgrounds, data.background]);
-        setNewBgName(''); 
-        if (fileInputRef.current) fileInputRef.current.value = '';
+        setNewBgName('');
+        setNewBgUrl('');
+      } else {
+        const err = await dbRes.json();
+        alert(err.error || 'Failed to add background');
       }
     } catch (error: any) {
-      console.error('Upload error:', error);
-      alert(error.message || 'Failed to upload image');
+      console.error('Add background error:', error);
+      alert(error.message || 'Failed to add background');
     } finally {
       setIsUploading(false);
     }
@@ -173,41 +148,40 @@ export default function NeonBackgroundsSettings() {
       
       {/* Upload Section */}
       <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8">
-        <h2 className="text-xl font-bold mb-2">Upload New Background</h2>
-        <p className="text-gray-400 mb-6">Upload images directly to Cloudinary. These will instantly become available in the Neon Customizer.</p>
-        
-        {(!cloudName || !uploadPreset) && (
-          <div className="bg-yellow-500/10 border border-yellow-500/50 text-yellow-500 p-4 rounded-lg mb-6 text-sm">
-            <strong>Action Required:</strong> Cloudinary environment variables are missing. Please add <code className="bg-black px-1 rounded">NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME</code> and <code className="bg-black px-1 rounded">NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET</code> to your .env file to enable uploads.
-          </div>
-        )}
+        <h2 className="text-xl font-bold mb-2">Add New Room Background</h2>
+        <p className="text-gray-400 mb-6">
+          Paste any Image URL (e.g. uploaded via your WooCommerce / WordPress Media Library or any direct image link) to instantly add it to the Custom Neon Studio.
+        </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 items-end">
-          <div className="space-y-2 flex-1">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+          <div className="space-y-2">
             <label className="text-sm font-medium text-gray-400">Background Name</label>
             <input 
               type="text" 
-              placeholder="e.g. Dark Studio Wall"
+              placeholder="e.g. Living Room Wall"
               value={newBgName}
               onChange={(e) => setNewBgName(e.target.value)}
               className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-green transition-colors"
             />
           </div>
-          <div className="flex-1">
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-400">WooCommerce / WordPress Image URL</label>
             <input 
-              type="file" 
-              accept="image/*"
-              className="hidden" 
-              ref={fileInputRef}
-              onChange={handleFileUpload}
+              type="url" 
+              placeholder="https://.../wp-content/uploads/room.jpg"
+              value={newBgUrl}
+              onChange={(e) => setNewBgUrl(e.target.value)}
+              className="w-full bg-black border border-gray-700 rounded-lg px-4 py-3 text-white outline-none focus:border-brand-green transition-colors"
             />
+          </div>
+          <div>
             <button 
-              onClick={() => fileInputRef.current?.click()}
-              disabled={isUploading || !newBgName.trim()}
+              onClick={handleAddUrl}
+              disabled={isUploading || !newBgName.trim() || !newBgUrl.trim()}
               className="w-full bg-brand-green text-black font-bold py-3 px-4 rounded-lg hover:bg-brand-green/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed h-[50px]"
             >
               {isUploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Upload className="w-5 h-5" />}
-              {isUploading ? 'Uploading...' : 'Upload Image'}
+              {isUploading ? 'Adding...' : 'Add Background'}
             </button>
           </div>
         </div>

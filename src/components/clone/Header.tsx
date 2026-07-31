@@ -4,6 +4,7 @@ import { Search, ShoppingBag, User, Menu, X, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useCart } from '@/lib/CartContext';
 
 type NavItem = {
   label: string;
@@ -17,6 +18,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const pathname = usePathname();
+  const { cartCount } = useCart();
 
   const navItems: NavItem[] = [
     { label: 'Customise Your Neon Light', href: '/products/customize-neon-signs' },
@@ -96,7 +98,7 @@ export function Header() {
         </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-1 xl:gap-4 font-semibold text-sm">
+        <nav className="hidden lg:flex items-center gap-2 xl:gap-5 font-bold text-sm tracking-widest">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             
@@ -104,14 +106,14 @@ export function Header() {
               <div key={item.label} className="group relative">
                 <Link 
                   href={item.href} 
-                  className={`relative px-3 py-2 hover:text-brand-purple transition-colors rounded-full flex items-center justify-center gap-1 ${isActive ? 'text-brand-purple font-bold' : 'text-gray-300'}`}
+                  className={`relative px-3.5 py-2.5 rounded-full flex items-center justify-center gap-1.5 uppercase transition-all duration-300 hover:scale-105 text-neon-green-hover ${isActive ? 'font-extrabold' : ''}`}
                 >
                   {isActive && (
                     <>
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="absolute inset-0 bg-brand-green/20 rounded-full blur-xl -z-10"
+                        className="absolute inset-0 bg-brand-green/25 rounded-full blur-xl -z-10"
                         transition={{ duration: 0.3 }}
                       />
                       <motion.div
@@ -129,13 +131,13 @@ export function Header() {
                 {/* Dropdowns */}
                 {(item.dropdown || item.columns) && (
                   <div className={`absolute top-full pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ${item.isMega ? 'right-0' : 'left-1/2 -translate-x-1/2'}`}>
-                    <div className={`bg-black/95 backdrop-blur-xl border-2 ${item.isMega ? 'border-brand-green/50 shadow-[0_0_20px_rgba(110,255,134,0.3)]' : 'border-brand-purple/50 shadow-[0_0_20px_rgba(117,46,255,0.4)]'} rounded-lg p-2 whitespace-nowrap`}>
+                    <div className={`bg-black/95 backdrop-blur-xl border-2 ${item.isMega ? 'border-brand-green/50 shadow-[0_0_20px_rgba(110,255,134,0.3)]' : 'border-brand-green/50 shadow-[0_0_20px_rgba(110,255,134,0.3)]'} rounded-lg p-2 whitespace-nowrap`}>
                       
                       {/* Single Column */}
                       {item.dropdown && (
                         <div className="flex flex-col min-w-[220px]">
                           {item.dropdown.map(subItem => (
-                            <Link key={subItem.label} href={subItem.href} className="px-4 py-3 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-purple last:border-transparent hover:last:border-brand-purple">
+                            <Link key={subItem.label} href={subItem.href} className="px-4 py-3 text-neon-green-hover hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-green last:border-transparent hover:last:border-brand-green">
                               {subItem.label}
                             </Link>
                           ))}
@@ -149,7 +151,7 @@ export function Header() {
                             <div key={colIdx} className="flex flex-col w-[260px]">
                               {col.map(subItem => (
                                 <div key={subItem.label} className="group/sub relative">
-                                  <Link href={subItem.href} className="flex items-center justify-between px-4 py-2.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-green last:border-transparent hover:last:border-brand-green">
+                                  <Link href={subItem.href} className="flex items-center justify-between px-4 py-2.5 text-neon-green-hover hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-green last:border-transparent hover:last:border-brand-green">
                                     {subItem.label}
                                     {subItem.subMenu && <ChevronDown className="w-4 h-4 -rotate-90 group-hover/sub:text-brand-green" />}
                                   </Link>
@@ -159,7 +161,7 @@ export function Header() {
                                     <div className="absolute right-full top-0 pr-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200">
                                       <div className="bg-black/95 backdrop-blur-xl border-2 border-brand-green/50 rounded-lg p-2 shadow-[0_0_15px_rgba(110,255,134,0.3)] whitespace-nowrap flex flex-col min-w-[200px]">
                                         {subItem.subMenu.map(deepItem => (
-                                          <Link key={deepItem.label} href={deepItem.href} className="px-4 py-2.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-green last:border-transparent hover:last:border-brand-green">
+                                          <Link key={deepItem.label} href={deepItem.href} className="px-4 py-2.5 text-neon-green-hover hover:bg-white/10 rounded-md transition-all border border-transparent border-b-white/5 hover:border-brand-green last:border-transparent hover:last:border-brand-green">
                                             {deepItem.label}
                                           </Link>
                                         ))}
@@ -182,12 +184,16 @@ export function Header() {
 
         {/* Icons */}
         <div className="flex items-center gap-4 md:gap-6">
-          <button className="hover:text-brand-purple transition-colors"><Search className="w-6 h-6" /></button>
-          <button className="hover:text-brand-purple transition-colors hidden md:block"><User className="w-6 h-6" /></button>
-          <button className="hover:text-brand-purple transition-colors relative">
+          <button className="text-neon-green-hover transition-all hover:scale-110"><Search className="w-6 h-6" /></button>
+          <Link href="/customer" className="text-neon-green-hover transition-all hover:scale-110 hidden md:block" title="My Customer Profile & Orders">
+            <User className="w-6 h-6" />
+          </Link>
+          <Link href="/cart" className="text-neon-green-hover transition-all hover:scale-110 relative" title="Shopping Cart">
             <ShoppingBag className="w-6 h-6" />
-            <span className="absolute -top-1 -right-2 bg-brand-green text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
-          </button>
+            <span className="absolute -top-1 -right-2 bg-brand-green text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-[0_0_8px_#6eff86]">
+              {cartCount}
+            </span>
+          </Link>
         </div>
       </header>
 
@@ -203,14 +209,12 @@ export function Header() {
               return (
                 <div key={item.label} className="flex flex-col border-b border-white/10">
                   <div 
-                    className={`flex items-center justify-between py-4 px-6 hover:bg-white/5 cursor-pointer transition-colors ${isActive ? 'text-brand-purple' : 'text-white'}`}
+                    className={`flex items-center justify-between py-4 px-6 hover:bg-white/5 cursor-pointer transition-colors text-neon-green-hover ${isActive ? 'font-black' : ''}`}
                     onClick={() => {
                       if (hasDropdown) {
                         setMobileExpanded(isExpanded ? null : item.label);
                       } else {
                         setIsMobileMenuOpen(false);
-                        // Navigate logic handled by Next.js if we used Link, but for mobile accordion we use div+router or Link wrapper. 
-                        // To keep it simple, we use an inner Link if it has no dropdown
                       }
                     }}
                   >
@@ -241,7 +245,7 @@ export function Header() {
                             key={subItem.label}
                             href={subItem.href}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="block py-3 px-10 text-gray-300 hover:text-white border-b border-white/5 last:border-0"
+                            className="block py-3 px-10 text-neon-green-hover hover:bg-white/10 border-b border-white/5 last:border-0"
                           >
                             {subItem.label}
                           </Link>
@@ -251,7 +255,7 @@ export function Header() {
                             <Link 
                               href={subItem.href}
                               onClick={() => setIsMobileMenuOpen(false)}
-                              className="block py-3 px-10 text-gray-300 hover:text-white border-b border-white/5"
+                              className="block py-3 px-10 text-neon-green-hover hover:bg-white/10 border-b border-white/5"
                             >
                               {subItem.label}
                             </Link>
@@ -260,7 +264,7 @@ export function Header() {
                                 key={deepItem.label}
                                 href={deepItem.href}
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="block py-2 px-14 text-sm text-gray-400 hover:text-white border-b border-white/5"
+                                className="block py-2 px-14 text-sm text-neon-green-hover hover:bg-white/10 border-b border-white/5"
                               >
                                 ↳ {deepItem.label}
                               </Link>
@@ -312,7 +316,7 @@ export function Header() {
           </div>
 
           <div className="mt-10 border-t border-white/10 p-6 pb-12">
-            <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="flex items-center gap-3 text-lg font-semibold hover:text-brand-purple transition-colors">
+            <Link onClick={() => setIsMobileMenuOpen(false)} href="/customer" className="flex items-center gap-3 text-lg font-semibold hover:text-brand-purple transition-colors">
               <User className="w-6 h-6" /> Account
             </Link>
           </div>

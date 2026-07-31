@@ -3,10 +3,15 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
-import { Check, Ruler, Info, X, AlignLeft, AlignCenter, AlignRight, Upload } from 'lucide-react';
+import { 
+  Check, Ruler, Info, X, AlignLeft, AlignCenter, AlignRight, Upload,
+  Type, Palette, Layers, Settings, Image as ImageIcon, ChevronLeft, ChevronRight,
+  ShoppingBag, Bookmark, Sparkles, Sliders
+} from 'lucide-react';
 import { motion } from "framer-motion";
 import { useMascot } from "@/hooks/useMascot";
 import { MascotState } from "@/components/mascot/MascotStateMachine";
+import { useCart } from "@/lib/CartContext";
 
 const FONTS = [
   { name: 'Clonoid', class: 'font-clonoid' },
@@ -46,39 +51,40 @@ function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = t
       color: color.hex,
       textShadow: 'none',
       filter: 'none',
-      fontSize: 'clamp(1.5rem, 4vw, 4rem)',
+      fontSize: 'clamp(1.15rem, 2.35vw, 3rem)',
       lineHeight: '1.1',
       whiteSpace: 'pre-wrap' as const,
       wordBreak: 'break-word' as const,
-      WebkitTextStroke: `2px ${color.hex}`,
-      opacity: 0.8,
+      WebkitTextStroke: `1px ${color.hex}`,
+      opacity: 0.55,
     };
   }
 
   return {
     color: color.hex,
     textShadow: `
-      0 0 1px #ffffff,
-      0 0 2px #ffffff,
-      0 0 4px ${color.hex},
-      0 0 10px ${color.glow}
+      0 0 2px ${color.hex},
+      0 0 8px ${color.hex},
+      0 0 16px ${color.hex},
+      0 0 30px ${color.glow},
+      0 0 60px ${color.glow},
+      0 0 90px ${color.glow}
     `,
-    filter: `drop-shadow(0 0 6px ${color.glow})`,
-    fontSize: 'clamp(1.5rem, 4vw, 4rem)',
+    filter: `drop-shadow(0 0 12px ${color.hex}) drop-shadow(0 0 25px ${color.glow}) drop-shadow(0 0 45px ${color.glow})`,
+    fontSize: 'clamp(1.15rem, 2.35vw, 3rem)',
     lineHeight: '1.1',
     whiteSpace: 'pre-wrap' as const,
     wordBreak: 'break-word' as const,
-    WebkitTextStroke: '0.25px rgba(255,255,255,0.6)',
+    WebkitTextStroke: `1px ${color.hex}`,
+    opacity: 1,
   };
 }
 
 const SIZES = [
-  { id: 'small', name: 'Small', multiplier: 0.7, length: '16.85"', height: '17.00"', price: 3775.00 },
-  { id: 'medium', name: 'Medium', multiplier: 0.85, length: '20.76"', height: '20.01"', price: 4675.00 },
-  { id: 'large', name: 'Large', multiplier: 1, length: '27.60"', height: '27.02"', price: 5760.00 },
-  { id: 'xlarge', name: 'X-large', multiplier: 1.15, length: '34.44"', height: '33.37"', price: 7035.00 },
-  { id: 'xxlarge', name: 'Xx-large', multiplier: 1.3, length: '41.52"', height: '40.85"', price: 8500.00 },
-  { id: 'supersized', name: 'Supersized', multiplier: 1.5, length: '52.51"', height: '51.33"', price: 9960.00 },
+  { id: 'small', name: 'Small (18 Inches Wide)', multiplier: 0.7, length: '18.00"', height: '17.00"', maxLetters: 'Max 10 Letters', price: 3775.00 },
+  { id: 'medium', name: 'Medium (24 Inches Wide)', multiplier: 0.85, length: '24.00"', height: '20.01"', maxLetters: 'Max 12 Letters', price: 4675.00 },
+  { id: 'large', name: 'Large (36 Inches Wide)', multiplier: 1, length: '36.00"', height: '27.02"', maxLetters: 'Max 15 Letters', price: 5760.00 },
+  { id: 'xlarge', name: 'Extra Large (48 Inches Wide)', multiplier: 1.15, length: '48.00"', height: '33.37"', maxLetters: 'Max 22 Letters', price: 7035.00 },
 ];
 
 export interface BackgroundSettings {
@@ -106,16 +112,34 @@ const BACKGROUNDS: Background[] = [
   { id: 'bg4', name: 'Wood Panel', url: 'https://images.unsplash.com/photo-1511475459345-2f9630e66fb8?q=80&w=1200&auto=format&fit=crop' },
 ];
 
+const DEFAULT_ROOM_BACKGROUND = BACKGROUNDS[2];
+
 export default function CustomizeNeonSign() {
   const [isLightOn, setIsLightOn] = useState(true);
   const [showMeasurements, setShowMeasurements] = useState(false);
+  const [activeTab, setActiveTab] = useState<'create' | 'color' | 'backboard' | 'hardware' | 'room'>('create');
+  const [showRuler, setShowRuler] = useState(true);
+  const [selectedBackboardShape, setSelectedBackboardShape] = useState<'cut' | 'square' | 'stand' | 'none'>('cut');
+  const [selectedBackboardColor, setSelectedBackboardColor] = useState<'clear' | 'black' | 'white' | 'mirror'>('clear');
+  const [selectedMounting, setSelectedMounting] = useState<'screws' | 'wire' | 'stand'>('screws');
+
+  const TABS = ['create', 'color', 'backboard', 'hardware', 'room'] as const;
+  const prevTab = () => {
+    const idx = TABS.indexOf(activeTab);
+    if (idx > 0) setActiveTab(TABS[idx - 1]);
+  };
+  const nextTab = () => {
+    const idx = TABS.indexOf(activeTab);
+    if (idx < TABS.length - 1) setActiveTab(TABS[idx + 1]);
+  };
+
   const [isCalibrating, setIsCalibrating] = useState(false);
   const [calibrationInches, setCalibrationInches] = useState<string>('50');
   const [calibrationRatio, setCalibrationRatio] = useState<number | null>(null);
   const [calibrationLineWidth, setCalibrationLineWidth] = useState(300);
   
   const [backgroundsList, setBackgroundsList] = useState(BACKGROUNDS);
-  const [selectedBg, setSelectedBg] = useState(BACKGROUNDS[0]);
+  const [selectedBg, setSelectedBg] = useState(DEFAULT_ROOM_BACKGROUND);
   const [text, setText] = useState('The Neon Stack');
 
   useEffect(() => {
@@ -123,8 +147,10 @@ export default function CustomizeNeonSign() {
       .then(res => res.json())
       .then(data => {
         if (data.backgrounds && data.backgrounds.length > 0) {
-          setBackgroundsList(data.backgrounds);
-          setSelectedBg(data.backgrounds[0]);
+          const customBackgrounds = data.backgrounds.filter(
+            (bg: Background) => bg.id !== DEFAULT_ROOM_BACKGROUND.id && bg.url !== DEFAULT_ROOM_BACKGROUND.url
+          );
+          setBackgroundsList([DEFAULT_ROOM_BACKGROUND, ...customBackgrounds]);
         }
       })
       .catch(console.error);
@@ -141,6 +167,7 @@ export default function CustomizeNeonSign() {
   const [dynamicScale, setDynamicScale] = useState<number | null>(null);
 
   const { setState, speak, stopSpeaking } = useMascot();
+  const { addToCart } = useCart();
   const [colorTimeoutId, setColorTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [clearBubbleTimeoutId, setClearBubbleTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const hasTriggeredLongText = useRef(false);
@@ -231,9 +258,11 @@ export default function CustomizeNeonSign() {
     return Math.round(total);
   }, [selectedSize, isWaterproof, hasSmartController]);
 
+  const roomFocalPoint = 'center center';
+
   // Compute actual scale based on background settings or fallback
   const currentScale = useMemo(() => {
-    const defaultScale = 1 + (selectedSize.multiplier - 1) * 0.15;
+    const defaultScale = 0.78 + (selectedSize.multiplier - 1) * 0.1;
     if (!selectedBg.settings) return defaultScale;
     
     const s = selectedBg.settings;
@@ -249,41 +278,53 @@ export default function CustomizeNeonSign() {
     return scale ?? defaultScale;
   }, [selectedSize, selectedBg]);
 
-  // Dynamically calculate scale down if text overflows container or override if calibrated
+  // Normalize visual scale so switching fonts NEVER changes the physical width of the sign on the wall
   useEffect(() => {
     if (!containerRef.current || !textRef.current) return;
     
-    const measure = () => {
-      const containerWidth = containerRef.current!.offsetWidth;
-      const textWidth = textRef.current!.offsetWidth;
+    let lastContainerWidth = 0;
+    const measure = (force = false) => {
+      if (!containerRef.current || !textRef.current) return;
+      const containerWidth = containerRef.current.offsetWidth;
+      if (!force && Math.abs(containerWidth - lastContainerWidth) < 5) return;
+      lastContainerWidth = containerWidth;
+
+      const textWidth = textRef.current.offsetWidth;
+      if (!textWidth) return;
       
-      let targetScale = currentScale;
-      
+      let targetWidthPixels: number;
       if (selectedBg.id === 'custom' && calibrationRatio !== null) {
         const physicalInches = parseFloat(selectedSize.length);
-        const targetPixels = physicalInches * calibrationRatio;
-        targetScale = targetPixels / textWidth;
-      }
-      
-      const maxAllowedWidth = containerWidth * 0.9; // 90% of container width
-      const intendedWidth = textWidth * targetScale;
-      
-      if (intendedWidth > maxAllowedWidth) {
-        setDynamicScale(maxAllowedWidth / textWidth);
-      } else if (selectedBg.id === 'custom' && calibrationRatio !== null) {
-        setDynamicScale(targetScale);
+        targetWidthPixels = physicalInches * calibrationRatio;
       } else {
-        setDynamicScale(null);
+        // Normalize each selected size to a consistent visual width ratio on the wall across all fonts
+        let sizeRatio = 0.44; // default medium (24")
+        if (selectedSize.id === 'small') sizeRatio = 0.32;       // 18"
+        else if (selectedSize.id === 'medium') sizeRatio = 0.44; // 24"
+        else if (selectedSize.id === 'large') sizeRatio = 0.60;  // 36"
+        else if (selectedSize.id === 'xlarge') sizeRatio = 0.76; // 48"
+        else sizeRatio = Math.min(0.32 + (selectedSize.multiplier - 0.7) * 0.45, 0.85);
+        
+        targetWidthPixels = containerWidth * sizeRatio;
       }
+      
+      // Calculate the normalized scale so ANY font matches the exact target width
+      let normalizedScale = targetWidthPixels / textWidth;
+      
+      // Prevent 1 or 2 letter words from scaling up excessively
+      const maxAllowedScale = currentScale * 2.2;
+      normalizedScale = Math.min(normalizedScale, maxAllowedScale);
+      
+      setDynamicScale(normalizedScale);
     };
 
-    measure();
+    measure(true);
     
-    const observer = new ResizeObserver(() => measure());
+    const observer = new ResizeObserver(() => measure(false));
     observer.observe(containerRef.current);
     
     return () => observer.disconnect();
-  }, [text, selectedFont, currentScale, selectedBg, textAlign, calibrationRatio, selectedSize.length]);
+  }, [text, selectedFont, currentScale, selectedBg, textAlign, calibrationRatio, selectedSize.id, selectedSize.length, selectedSize.multiplier]);
 
   const finalScale = dynamicScale !== null ? dynamicScale : currentScale;
 
@@ -291,428 +332,624 @@ export default function CustomizeNeonSign() {
     <main className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender">
       <Header />
       
-      <div className="border-b border-white/10 bg-[#020202]">
-        <div className="max-w-[1680px] mx-auto px-4 lg:px-8 py-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-brand-green drop-shadow-[0_0_8px_rgba(110,255,134,0.4)]">Live custom neon builder</p>
-            <h1 className="mt-2 text-3xl md:text-5xl font-black tracking-tight">Create Your Custom Neon Sign</h1>
+      {/* Top Studio Toolbar */}
+      <div className="w-full bg-[#0d0d0d] border-b border-gray-800 px-4 md:px-6 h-14 flex items-center justify-between sticky top-20 z-50 shadow-xl">
+        <div className="flex items-center gap-3">
+          <span className="text-xs md:text-sm font-black text-brand-green uppercase tracking-widest drop-shadow-[0_0_8px_rgba(110,255,134,0.6)]">
+            Live Neon Studio
+          </span>
+          <span className="hidden md:inline text-gray-600">|</span>
+          <h1 className="hidden md:block text-sm md:text-base font-extrabold text-white">
+            Create Your Own Custom Signs
+          </h1>
+        </div>
+
+        <div className="flex items-center gap-3 md:gap-5">
+          <button
+            onClick={() => triggerMascot("Your design progress is automatically saved to your session!", MascotState.CELEBRATING)}
+            className="px-4 py-2 rounded-full border border-gray-700 hover:border-brand-purple text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white transition-all flex items-center gap-1.5"
+          >
+            <Bookmark className="w-3.5 h-3.5 text-brand-purple" />
+            <span>Save</span>
+          </button>
+
+          <div className="flex items-center bg-[#151515] border border-gray-700 rounded-full pl-4 pr-1.5 py-1 gap-3">
+            <div className="text-right">
+              <div className="text-[10px] text-gray-400 uppercase font-semibold leading-none">Total Price</div>
+              <div className="text-sm md:text-base font-extrabold text-[#6eff86] drop-shadow-[0_0_6px_rgba(110,255,134,0.5)]">
+                ₹{price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                addToCart({
+                  name: `Custom Neon Sign — "${text}"`,
+                  price,
+                  quantity: 1,
+                  isCustom: true,
+                  customDetails: {
+                    text,
+                    font: selectedFont.name,
+                    color: selectedColor.name,
+                    size: `${selectedSize.name} (${selectedSize.length} × ${selectedSize.height})`,
+                    widthInches: parseFloat(selectedSize.length),
+                    backboard: `${selectedBackboardShape} (${selectedBackboardColor})`,
+                    usage: isWaterproof ? "Outdoor Waterproof IP67" : "Standard Indoor LED"
+                  }
+                });
+                triggerMascot(`Added "${text}" neon sign to cart! Total: ₹${price.toLocaleString()}`, MascotState.CELEBRATING);
+              }}
+              className="px-5 py-2 bg-gradient-to-r from-brand-purple to-[#9d4edd] hover:from-[#853aff] hover:to-[#a95dff] text-white rounded-full font-extrabold text-xs md:text-sm shadow-[0_0_15px_rgba(117,46,255,0.5)] transition-all flex items-center gap-2 hover:scale-105"
+            >
+              <span>Add To Cart</span>
+              <ShoppingBag className="w-4 h-4" />
+            </button>
           </div>
-          <p className="max-w-xl text-sm md:text-base text-zinc-300">Design your own premium LED neon sign with a brighter live preview, sharper controls, and instant pricing.</p>
         </div>
       </div>
 
-      <div className="max-w-[1680px] mx-auto px-4 lg:px-8 py-6 lg:py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.12fr_0.88fr] gap-7 lg:gap-9">
-          
-          {/* LEFT: Live Preview */}
-          <div className="w-full">
-            <div ref={containerRef} className="sticky top-28 overflow-hidden rounded-lg border border-white/10 bg-black min-h-[420px] lg:min-h-[720px] relative flex items-center justify-center p-6 md:p-10">
-
-              {/* Custom ON/OFF Toggle */}
-              <div className="absolute top-6 left-6 z-20">
-                <button 
-                  onClick={() => setIsLightOn(!isLightOn)}
-                  className={`w-[96px] h-[44px] rounded-full transition-colors duration-300 relative flex items-center shadow-lg focus:outline-none ${isLightOn ? 'bg-[#76bc21]' : 'bg-zinc-700'}`}
-                  aria-label="Toggle neon light on or off"
-                >
-                  <span className={`absolute font-black tracking-wide text-white transition-opacity duration-300 ${isLightOn ? 'left-4 opacity-100' : 'left-4 opacity-0'}`}>ON</span>
-                  <span className={`absolute font-black tracking-wide text-white transition-opacity duration-300 ${!isLightOn ? 'right-4 opacity-100' : 'right-4 opacity-0'}`}>OFF</span>
-                  <div className={`w-[34px] h-[34px] bg-white rounded-full absolute transition-transform duration-300 ease-in-out shadow-[0_0_10px_rgba(0,0,0,0.2)] ${isLightOn ? 'translate-x-[56px]' : 'translate-x-[6px]'}`} />
-                </button>
-              </div>
-
-              {/* Background Image */}
-              <div 
-                className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 group-hover:opacity-60 ${isCalibrating ? 'opacity-100 z-10' : 'opacity-40'}`} 
-                style={{ backgroundImage: `url('${selectedBg.url}')` }}
-              />
-
-              {/* Calibration Overlay */}
-              {isCalibrating && selectedBg.id === 'custom' && (
-                <div className="absolute inset-0 z-30 flex flex-col items-center justify-start p-6 pt-12 pointer-events-none">
-                  <div className="bg-black/95 border-2 border-brand-purple rounded-xl p-6 max-w-md w-full shadow-[0_0_30px_rgba(117,46,255,0.4)] pointer-events-auto z-40 relative">
-                    <h3 className="text-xl font-bold text-white mb-2">Calibrate Room Scale</h3>
-                    <p className="text-sm text-gray-300 mb-6">Drag the red line over a real object in your room (like a TV, door, or pillow for example), resize it to match, then tell us how wide it is.</p>
-                    <div className="flex gap-4">
-                      <div className="flex-1">
-                        <label className="text-[10px] text-brand-purple font-bold uppercase tracking-wider mb-1 block">Object Width (Inches)</label>
-                        <input 
-                          type="number" 
-                          value={calibrationInches}
-                          onChange={(e) => setCalibrationInches(e.target.value)}
-                          className="w-full bg-[#111] border border-white/20 rounded-lg px-4 py-3 text-white text-lg outline-none focus:border-brand-purple transition-colors"
-                          placeholder="e.g. 50"
-                        />
-                      </div>
-                      <button 
-                        onClick={() => {
-                          if (calibrationInches) {
-                            const px = calibrationLineWidth;
-                            const inches = parseFloat(calibrationInches);
-                            if (inches > 0) {
-                              setCalibrationRatio(px / inches);
-                              setIsCalibrating(false);
-                              triggerMascot("Perfect! We've made the scale as realistic as possible for your room, but please note this is just a visualization.", MascotState.CELEBRATING);
-                            }
-                          }
-                        }}
-                        className="self-end h-[52px] px-6 bg-brand-purple hover:bg-brand-purple/80 text-white rounded-lg font-bold transition-colors"
-                      >
-                        Set Scale
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Draggable & Resizable Line */}
-                  <motion.div 
-                    drag 
-                    dragMomentum={false}
-                    className="absolute inset-0 pointer-events-none z-30 flex items-center justify-center"
-                  >
-                    <div 
-                      className="h-1.5 bg-red-500 relative min-w-[50px] shadow-[0_0_15px_rgba(239,68,68,0.8)] pointer-events-auto cursor-move"
-                      style={{ width: `${calibrationLineWidth}px`, maxWidth: '90vw' }}
-                    >
-                      {/* Resize Handle (Touch Friendly) */}
-                      <motion.div 
-                        drag="x"
-                        dragConstraints={{ left: 0, right: 0 }}
-                        dragElastic={0}
-                        dragMomentum={false}
-                        onDrag={(e, info) => setCalibrationLineWidth(prev => Math.max(50, prev + info.delta.x))}
-                        onPointerDown={(e) => e.stopPropagation()}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-10 bg-white rounded-md border-2 border-red-500 cursor-ew-resize flex flex-col items-center justify-center shadow-lg translate-x-1/2" 
-                        style={{ pointerEvents: 'auto' }}
-                      >
-                        <div className="flex gap-1">
-                          <div className="w-0.5 h-5 bg-gray-400 rounded-full" />
-                          <div className="w-0.5 h-5 bg-gray-400 rounded-full" />
-                        </div>
-                      </motion.div>
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-10 bg-white rounded-sm border border-red-500" />
-                    </div>
-                  </motion.div>
-                </div>
-              )}
-
-              {/* Calibration Trigger Button */}
-              {selectedBg.id === 'custom' && !isCalibrating && (
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
-                  <button
-                    onClick={() => setIsCalibrating(true)}
-                    className="px-6 py-2.5 bg-brand-purple hover:bg-brand-purple/80 text-white rounded-full font-bold shadow-[0_0_20px_rgba(117,46,255,0.4)] transition-all flex items-center gap-2 text-sm"
-                  >
-                    <Ruler className="w-4 h-4" />
-                    Calibrate Room Size
-                  </button>
-                </div>
-              )}
-
-              {/* Ruler Toggle Button */}
-              <div className="absolute top-6 right-6 z-20">
+      {/* Main Studio Workshop Area */}
+      <div className="w-full flex flex-col lg:flex-row min-h-[calc(100vh-140px)] lg:h-[calc(100vh-140px)] lg:max-h-[820px] lg:overflow-hidden bg-[#080808] border-b border-gray-800">
+        
+        {/* 1. Vertical Icon Sidebar (Far Left) */}
+        <div className="studio-left-menu w-full lg:w-20 bg-[#0a0a0a] border-b lg:border-b-0 lg:border-r border-gray-800 flex lg:flex-col items-center justify-between py-2 lg:py-5 px-1.5 z-30 flex-shrink-0">
+          <div className="flex lg:flex-col items-center justify-around lg:justify-start w-full gap-2 lg:gap-4">
+            {[
+              { id: 'create', label: 'CREATE', icon: <Type className="w-5 h-5" /> },
+              { id: 'color', label: 'COLOR', icon: <Palette className="w-5 h-5" /> },
+              { id: 'backboard', label: 'BACKING', icon: <Layers className="w-5 h-5" /> },
+              { id: 'hardware', label: 'OPTIONS', icon: <Settings className="w-5 h-5" /> },
+              { id: 'room', label: 'ROOM', icon: <ImageIcon className="w-5 h-5" /> },
+            ].map((tab) => {
+              const isSelected = activeTab === tab.id;
+              return (
                 <button
-                  onClick={() => setShowMeasurements(!showMeasurements)}
-                  className={`w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all shadow-lg ${showMeasurements ? 'border-brand-green bg-brand-green/20 text-brand-green hover:bg-brand-green/30' : 'border-white/50 text-white bg-black/40 hover:bg-black/60 hover:border-white'}`}
-                  aria-label="Toggle Measurements"
-                  title="Toggle Measurements"
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`w-full py-3 lg:py-3.5 px-1.5 rounded-xl flex flex-col items-center justify-center gap-1 transition-all relative ${isSelected ? 'studio-tab-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-tab bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
                 >
-                  <Ruler className="w-5 h-5" />
-                </button>
+                  {isSelected && (
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#6eff86] rounded-r-full hidden lg:block" />
+                  )}
+                  {tab.icon}
+                  <span className="text-[10px] tracking-wider text-center uppercase leading-tight font-bold">{tab.label}</span>
+                 </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 2. Active Control Drawer (Left/Center Panel) */}
+        <div className="studio-left-menu w-full lg:w-[350px] lg:h-full bg-[#111111] border-b lg:border-b-0 lg:border-r border-gray-800 p-5 overflow-y-auto max-h-[780px] lg:max-h-none flex-shrink-0 z-20 flex flex-col gap-5">
+          {activeTab === 'create' && (
+            <div className="flex flex-col gap-6">
+              {/* Text Input */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-bold text-brand-green uppercase tracking-wider">1. Enter Your Neon Text</label>
+                  <span className="text-xs text-gray-400">{text.length} chars</span>
+                </div>
+                <textarea
+                  rows={2}
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  placeholder="Type something magical..."
+                  className="w-full bg-black border border-white/80 focus:border-white rounded-xl p-3.5 text-[#6eff86] text-lg font-bold outline-none resize-none transition-colors shadow-inner [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]"
+                />
               </div>
 
-              {/* Ratio Badge (moved to bottom) */}
-              <div className="absolute bottom-4 right-4 z-20 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2">
-                <span className={`w-2 h-2 rounded-full ${isLightOn ? 'bg-brand-green animate-pulse shadow-[0_0_8px_rgba(110,255,134,0.6)]' : 'bg-gray-500'}`}></span>
-                Preview Scale: {finalScale.toFixed(2)}x
+              {/* Font Style & Alignment */}
+              <div>
+                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">2. Choose Font Style & Align</label>
+                <div className="grid grid-cols-2 gap-2 mb-3 max-h-48 overflow-y-auto pr-1">
+                  {FONTS.map((f) => (
+                    <button
+                      key={f.name}
+                      onClick={() => {
+                        setSelectedFont(f);
+                        triggerMascot(`${f.name} font looks awesome!`, MascotState.WAVE);
+                      }}
+                      className={`px-3 py-2.5 rounded-xl transition-all text-left flex items-center justify-between ${selectedFont.name === f.name ? 'studio-btn-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-btn bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                    >
+                      <span className={`text-base truncate ${f.class}`}>{f.name}</span>
+                      {selectedFont.name === f.name && <Check className="w-3.5 h-3.5 text-[#6eff86] flex-shrink-0 ml-1" />}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex bg-black border border-white/80 rounded-xl p-1 gap-1">
+                  {(['left', 'center', 'right'] as const).map((align) => (
+                    <button
+                      key={align}
+                      onClick={() => setTextAlign(align)}
+                      className={`flex-1 py-1.5 rounded-lg flex items-center justify-center transition-all ${textAlign === align ? 'studio-btn-active bg-black border-2 border-white text-[#6eff86] [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-btn bg-black border border-white/40 hover:border-white text-[#6eff86] [text-shadow:0_0_2px_rgba(110,255,134,0.5)]'}`}
+                    >
+                      {align === 'left' && <AlignLeft className="w-4 h-4" />}
+                      {align === 'center' && <AlignCenter className="w-4 h-4" />}
+                      {align === 'right' && <AlignRight className="w-4 h-4" />}
+                    </button>
+                  ))}
+                </div>
               </div>
-              
-              {/* Neon Text Wrapper with dynamic scaling */}
-              <div 
-                style={{ 
-                  top: `${selectedBg.settings?.position_y ?? 35}%`,
-                  left: `${selectedBg.settings?.position_x ?? 50}%`,
-                  transform: `translate(-50%, -50%) scale(${finalScale})` 
-                }} 
-                className="absolute transition-all duration-500 ease-out flex justify-center whitespace-nowrap"
+
+              {/* Select Size Grid (6 Cards: Small to Supersized) */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-bold text-brand-green uppercase tracking-wider">3. Select Size</label>
+                  <span className="text-xs text-gray-400">{selectedSize.length} × {selectedSize.height}</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {SIZES.map((size) => {
+                    const isSelected = selectedSize.id === size.id;
+                    return (
+                      <div
+                        key={size.id}
+                        onClick={() => {
+                          setSelectedSize(size);
+                          triggerMascot(`${size.name} size selected (${size.length} × ${size.height})`, MascotState.TALKING);
+                        }}
+                        className={`p-3 rounded-xl transition-all cursor-pointer flex flex-col justify-between ${isSelected ? 'studio-card-active bg-black border-2 border-[#752eff] text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)] scale-[1.02]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-bold text-[#6eff86]">{size.name}</span>
+                          {isSelected && <Check className="w-4 h-4 text-[#6eff86]" />}
+                        </div>
+                        <div className="text-xs text-[#6eff86]/90 mt-1.5 font-semibold">
+                          {size.maxLetters}
+                        </div>
+                        <div className="mt-2 text-sm font-extrabold text-[#6eff86]">
+                          ₹{size.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'color' && (
+            <div className="flex flex-col gap-6">
+              <div>
+                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">Choose LED Neon Color</label>
+                <div className="grid grid-cols-2 gap-3">
+                  {COLORS.map((c) => {
+                    const isSelected = selectedColor.name === c.name;
+                    return (
+                      <button
+                        key={c.name}
+                        onClick={() => handleColorSelect(c)}
+                        className={`p-3 rounded-xl transition-all flex items-center gap-3 ${isSelected ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                      >
+                        <div
+                          className="w-7 h-7 rounded-full border border-white/40 flex-shrink-0"
+                          style={{
+                            backgroundColor: c.hex,
+                            boxShadow: `0 0 10px ${c.glow}, inset 0 0 4px #ffffff`
+                          }}
+                        />
+                        <span className="text-sm font-bold truncate text-[#6eff86] [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]">{c.name}</span>
+                        {isSelected && <Check className="w-4 h-4 text-[#6eff86] ml-auto" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'backboard' && (
+            <div className="flex flex-col gap-6">
+              <div>
+                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">1. Acrylic Shape</label>
+                <div className="flex flex-col gap-2.5">
+                  {[
+                    { id: 'cut', name: 'Cut to Shape', desc: 'Acrylic closely follows the letter contours (Most Popular)' },
+                    { id: 'square', name: 'Whole Board / Square', desc: 'Full rectangular or square clear acrylic backing' },
+                    { id: 'stand', name: 'Acrylic Stand Base', desc: 'Designed to stand on a desk, shelf, or tabletop' },
+                    { id: 'none', name: 'No Backing / Minimal', desc: 'Minimalist backing for ultra-clean look' },
+                  ].map((shape) => {
+                    const isSelected = selectedBackboardShape === shape.id;
+                    return (
+                      <div
+                        key={shape.id}
+                        onClick={() => {
+                          setSelectedBackboardShape(shape.id as any);
+                          triggerMascot(`${shape.name} backing looks super clean!`, MascotState.WAVE);
+                        }}
+                        className={`p-3.5 rounded-xl transition-all cursor-pointer ${isSelected ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                      >
+                        <div className="flex items-center justify-between font-bold text-sm text-[#6eff86]">
+                          <span>{shape.name}</span>
+                          {isSelected && <Check className="w-4 h-4 text-[#6eff86]" />}
+                        </div>
+                        <p className="text-xs text-[#6eff86]/80 mt-1">{shape.desc}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">2. Backboard Color</label>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {[
+                    { id: 'clear', name: 'Transparent Clear' },
+                    { id: 'black', name: 'Gloss Black' },
+                    { id: 'white', name: 'Gloss White' },
+                    { id: 'mirror', name: 'Mirrored Silver' },
+                  ].map((color) => {
+                    const isSelected = selectedBackboardColor === color.id;
+                    return (
+                      <button
+                        key={color.id}
+                        onClick={() => setSelectedBackboardColor(color.id as any)}
+                        className={`p-3 rounded-xl transition-all text-sm font-bold ${isSelected ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                      >
+                        {color.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'hardware' && (
+            <div className="flex flex-col gap-6">
+              <div>
+                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">1. Mounting Kit</label>
+                <div className="flex flex-col gap-2.5">
+                  {[
+                    { id: 'screws', name: 'Wall Screws & Drill Holes', desc: 'Pre-drilled holes with stainless steel spacers included (Free)' },
+                    { id: 'wire', name: 'Hanging Wire Kit', desc: 'Stainless steel wire loop kit for window or ceiling hanging (Free)' },
+                    { id: 'stand', name: 'Tabletop Acrylic Stand', desc: 'Stable desk mount for tables & reception counters (+₹800)' },
+                  ].map((mount) => {
+                    const isSelected = selectedMounting === mount.id;
+                    return (
+                      <div
+                        key={mount.id}
+                        onClick={() => setSelectedMounting(mount.id as any)}
+                        className={`p-3.5 rounded-xl transition-all cursor-pointer ${isSelected ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                      >
+                        <div className="flex items-center justify-between font-bold text-sm text-[#6eff86]">
+                          <span>{mount.name}</span>
+                          {isSelected && <Check className="w-4 h-4 text-[#6eff86]" />}
+                        </div>
+                        <p className="text-xs text-[#6eff86]/80 mt-1">{mount.desc}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">2. Dimmer & Controller</label>
+                <div className="flex flex-col gap-2.5">
+                  <div
+                    onClick={() => setHasSmartController(false)}
+                    className={`p-3.5 rounded-xl transition-all cursor-pointer ${!hasSmartController ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                  >
+                    <div className="flex items-center justify-between font-bold text-sm text-[#6eff86]">
+                      <span>Standard Brightness Dimmer</span>
+                      <span className="text-xs font-extrabold text-[#6eff86]">FREE</span>
+                    </div>
+                    <p className="text-xs text-[#6eff86]/80 mt-1">Manual inline dimmer button to adjust 10–100% brightness</p>
+                  </div>
+                  <div
+                    onClick={() => {
+                      setHasSmartController(true);
+                      triggerMascot("Smart WiFi/Remote added! Adjust brightness from your couch.", MascotState.WAVE);
+                    }}
+                    className={`p-3.5 rounded-xl transition-all cursor-pointer ${hasSmartController ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                  >
+                    <div className="flex items-center justify-between font-bold text-sm text-[#6eff86]">
+                      <span>Smart WiFi & Wireless Remote</span>
+                      <span className="text-xs font-extrabold text-[#6eff86]">+₹2,000</span>
+                    </div>
+                    <p className="text-xs text-[#6eff86]/80 mt-1">Remote control, party flash modes, timer & Alexa/Google Assistant</p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">3. Indoor / Outdoor Protection</label>
+                <div className="flex flex-col gap-2.5">
+                  <div
+                    onClick={() => setIsWaterproof(false)}
+                    className={`p-3.5 rounded-xl transition-all cursor-pointer ${!isWaterproof ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                  >
+                    <div className="flex items-center justify-between font-bold text-sm text-[#6eff86]">
+                      <span>Standard Indoor LED</span>
+                      <span className="text-xs font-extrabold text-[#6eff86]">FREE</span>
+                    </div>
+                    <p className="text-xs text-[#6eff86]/80 mt-1">Perfect for bedroom, living room, office & indoor events</p>
+                  </div>
+                  <div
+                    onClick={() => setIsWaterproof(true)}
+                    className={`p-3.5 rounded-xl transition-all cursor-pointer ${isWaterproof ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                  >
+                    <div className="flex items-center justify-between font-bold text-sm text-[#6eff86]">
+                      <span>IP67 Waterproof Outdoor (+15%)</span>
+                      <span className="text-xs font-extrabold text-[#6eff86]">+₹3,000</span>
+                    </div>
+                    <p className="text-xs text-[#6eff86]/80 mt-1">Sealed weatherproof silicone housing for rain, snow & direct sun</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'room' && (
+            <div className="flex flex-col gap-6">
+              <div>
+                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">Select Room Background</label>
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  {backgroundsList.map((bg) => (
+                    <button
+                      key={bg.id}
+                      onClick={() => {
+                        setSelectedBg(bg);
+                        setIsCalibrating(false);
+                        triggerMascot(`Changed room to ${bg.name}!`, MascotState.WAVE);
+                      }}
+                      className={`p-2 rounded-xl transition-all flex flex-col gap-2 ${selectedBg.id === bg.id ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                    >
+                      <div
+                        className="w-full h-20 rounded-lg bg-cover bg-center"
+                        style={{ backgroundImage: `url('${bg.url}')` }}
+                      />
+                      <span className="text-xs font-bold text-[#6eff86] text-center truncate w-full">{bg.name}</span>
+                    </button>
+                  ))}
+                </div>
+
+                <label className="text-xs font-bold text-brand-purple uppercase tracking-wider mb-2 block">Upload Custom Room Photo</label>
+                <label className="w-full bg-[#0a0a0a] border-2 border-dashed border-gray-800 hover:border-brand-purple rounded-xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors group">
+                  <Upload className="w-6 h-6 text-brand-purple group-hover:scale-110 transition-transform" />
+                  <span className="text-xs font-bold text-white">Upload Your Room / Wall</span>
+                  <span className="text-[10px] text-gray-500">Supports JPG, PNG</span>
+                  <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
+                </label>
+              </div>
+
+              {selectedBg.id === 'custom' && (
+                <div className="bg-[#151515] border border-brand-purple/40 rounded-xl p-4 flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-brand-purple uppercase">Room Scale Calibration</span>
+                    <button
+                      onClick={() => {
+                        setIsCalibrating(true);
+                        triggerMascot("Drag the red line over a known object in your photo to calibrate dimensions!", MascotState.TALKING);
+                      }}
+                      className="text-xs font-bold text-[#6eff86] hover:underline"
+                    >
+                      {calibrationRatio ? 'Recalibrate' : 'Start Calibration'}
+                    </button>
+                  </div>
+                  <p className="text-[11px] text-gray-400">
+                    {calibrationRatio ? 'Room scale calibrated! Your sign is shown at realistic physical dimensions.' : 'Calibrate your room photo to preview your sign at 100% accurate physical scale.'}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* 3. Center/Right Workshop Preview Canvas */}
+        <div className="flex-1 relative overflow-hidden bg-[#090909] h-[560px] lg:h-full lg:min-h-0 flex items-center justify-center p-4 sm:p-8 lg:p-10 xl:p-12">
+          
+          {/* Measurement Workshop Grid Pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#141414_1px,transparent_1px),linear-gradient(to_bottom,#141414_1px,transparent_1px)] bg-[size:24px_24px] opacity-90 pointer-events-none" />
+
+          {/* Left Step Navigation Button (Floating on grid to the left of the Room Box) */}
+          <button
+            onClick={prevTab}
+            disabled={activeTab === 'create'}
+            className={`absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 z-30 px-3.5 py-3 rounded-xl border text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-2xl ${activeTab === 'create' ? 'opacity-30 border-gray-800 bg-[#111] text-gray-600 cursor-not-allowed' : 'bg-[#151515] border-gray-700 text-gray-200 hover:text-white hover:border-[#6eff86] hover:bg-black hover:scale-105'}`}
+          >
+            <ChevronLeft className="w-5 h-5" />
+            <span className="hidden xl:inline">PREV</span>
+          </button>
+
+          {/* Right Step Navigation Button (Floating on grid to the right of the Room Box) */}
+          <button
+            onClick={nextTab}
+            disabled={activeTab === 'room'}
+            className={`absolute right-2 lg:right-6 top-1/2 -translate-y-1/2 z-30 px-4 py-3 rounded-xl border text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-2xl ${activeTab === 'room' ? 'opacity-30 border-gray-800 bg-[#111] text-gray-600 cursor-not-allowed' : 'bg-gradient-to-r from-[#141414] to-[#1e1e1e] border-[#6eff86] text-[#6eff86] hover:bg-[#6eff86] hover:text-black shadow-[0_0_15px_rgba(110,255,134,0.3)] hover:scale-105'}`}
+          >
+            <span className="hidden xl:inline">NEXT</span>
+            <ChevronRight className="w-5 h-5" />
+          </button>
+
+          {/* Centered Studio Room Photo Box */}
+          <div className="relative w-full max-w-[1040px] max-h-[620px] aspect-[16/9] bg-[#101010] rounded-lg overflow-hidden border border-white/10 shadow-[0_0_60px_rgba(0,0,0,0.85)] flex items-center justify-center z-20">
+            
+            {/* Stable landscape room photo, matching the reference-style preview stage. */}
+            <img
+              src={selectedBg.url}
+              alt={selectedBg.name}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isCalibrating ? 'opacity-100 z-10' : 'opacity-[0.9]'}`}
+              style={{ objectPosition: roomFocalPoint }}
+            />
+
+            {/* Top-Left: Realistic ON/OFF Switch */}
+            <div className="absolute top-4 left-4 z-30 flex items-center gap-2">
+              <button
+                onClick={() => setIsLightOn(!isLightOn)}
+                className={`w-[76px] h-[34px] rounded-full transition-all duration-300 relative flex items-center shadow-lg focus:outline-none border border-white/20 ${isLightOn ? 'bg-[#58cc02] shadow-[0_0_15px_rgba(88,204,2,0.6)]' : 'bg-[#4a4a4a]'}`}
+                aria-label="Toggle neon light on or off"
               >
+                <span className={`absolute font-black text-[11px] tracking-wide text-white transition-opacity duration-300 ${isLightOn ? 'left-3 opacity-100' : 'left-3 opacity-0'}`}>ON</span>
+                <span className={`absolute font-black text-[11px] tracking-wide text-white transition-opacity duration-300 ${!isLightOn ? 'right-2.5 opacity-100' : 'right-2.5 opacity-0'}`}>OFF</span>
+                <div className={`w-[24px] h-[24px] bg-white rounded-full absolute transition-transform duration-300 ease-in-out shadow-md ${isLightOn ? 'translate-x-[48px]' : 'translate-x-[4px]'}`} />
+              </button>
+            </div>
+
+            {/* Top-Right: Ruler Button */}
+            <div className="absolute top-4 right-4 z-30 flex items-center gap-2">
+              <button
+                onClick={() => setShowRuler(!showRuler)}
+                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all shadow-lg ${showRuler ? 'bg-[#6eff86] border-[#6eff86] text-black shadow-[0_0_15px_rgba(110,255,134,0.4)]' : 'bg-black/60 border-white/20 text-white hover:border-white'}`}
+                title="Toggle Measurement Ruler"
+              >
+                <Ruler className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Calibration Overlay */}
+            {isCalibrating && selectedBg.id === 'custom' && (
+              <div className="absolute inset-0 z-40 pointer-events-none">
+                {/* 1. Draggable Calibration Modal Box (Starts Top-Left so it never covers the red line) */}
                 <motion.div 
                   drag 
+                  dragMomentum={false} 
                   dragElastic={0.1}
-                  dragMomentum={false}
-                  className="relative inline-block cursor-grab active:cursor-grabbing"
+                  className="absolute top-6 left-6 z-50 bg-black/95 border-2 border-brand-purple rounded-xl p-6 max-w-md w-full shadow-[0_0_30px_rgba(117,46,255,0.4)] pointer-events-auto cursor-move"
                 >
-                  {/* Measurements Overlay */}
-                  {showMeasurements && (
-                    <>
-                      {/* Top Width Measurement */}
-                      <div className="absolute -top-10 left-0 right-0 flex flex-col items-center justify-center pointer-events-none opacity-80 animate-fade-in-up" style={{ animationDuration: '0.3s' }}>
-                        <span className="text-white font-bold text-sm mb-1 bg-black/40 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 tracking-widest">{selectedSize.length}</span>
-                        <div className="w-full border-t border-dashed border-white/50 relative">
-                          <div className="absolute -top-1 -left-px w-[2px] h-2 bg-white/50" />
-                          <div className="absolute -top-1 -right-px w-[2px] h-2 bg-white/50" />
-                        </div>
-                      </div>
-                      
-                      {/* Left Height Measurement */}
-                      <div className="absolute -left-12 sm:-left-16 top-0 bottom-0 flex flex-row items-center justify-center pointer-events-none opacity-80 animate-fade-in-up" style={{ animationDuration: '0.3s' }}>
-                        <span className="text-white font-bold text-sm mr-2 whitespace-nowrap bg-black/40 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 tracking-widest">{selectedSize.height}</span>
-                        <div className="h-full border-l border-dashed border-white/50 relative">
-                          <div className="absolute -left-1 -top-px w-2 h-[2px] bg-white/50" />
-                          <div className="absolute -left-1 -bottom-px w-2 h-[2px] bg-white/50" />
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                      <Ruler className="w-5 h-5 text-brand-purple" />
+                      Calibrate Room Scale
+                    </h3>
+                    <span className="text-[10px] bg-brand-purple/30 text-brand-purple px-2 py-0.5 rounded uppercase font-bold tracking-wider">Drag Me</span>
+                  </div>
+                  <p className="text-sm text-gray-300 mb-6">Drag this box or the red line anywhere on the image. Position the red line over a real object in your room (like a TV, door, or pillow), resize it to match, then tell us how wide it is.</p>
+                  <div className="flex gap-4">
+                    <div className="flex-1">
+                      <label className="text-[10px] text-brand-purple font-bold uppercase tracking-wider mb-1 block">Object Width (Inches)</label>
+                      <input 
+                        type="number" 
+                        value={calibrationInches}
+                        onChange={(e) => setCalibrationInches(e.target.value)}
+                        className="w-full bg-[#111] border border-white/20 rounded-lg px-4 py-3 text-white text-lg outline-none focus:border-brand-purple transition-colors"
+                        placeholder="e.g. 50"
+                      />
+                    </div>
+                    <button 
+                      onClick={() => {
+                        if (calibrationInches) {
+                          const px = calibrationLineWidth;
+                          const inches = parseFloat(calibrationInches);
+                          if (inches > 0) {
+                            setCalibrationRatio(px / inches);
+                            setIsCalibrating(false);
+                            triggerMascot("Perfect! We've made the scale as realistic as possible for your room, but please note this is just a visualization.", MascotState.CELEBRATING);
+                          }
+                        }
+                      }}
+                      className="self-end h-[52px] px-6 bg-brand-purple hover:bg-brand-purple/80 text-white rounded-lg font-bold transition-colors cursor-pointer"
+                    >
+                      Set Scale
+                    </button>
+                  </div>
+                </motion.div>
+
+                {/* 2. Draggable & Resizable Calibration Red Line (Starts centered, never hidden!) */}
+                <motion.div 
+                  drag 
+                  dragMomentum={false}
+                  dragElastic={0.1}
+                  className="absolute inset-0 pointer-events-none z-40 flex items-center justify-center"
+                >
                   <div 
-                    ref={textRef}
-                    className={`relative z-10 ${selectedFont.class}`}
-                    role="img"
-                    aria-label={`Preview of neon text: ${text || 'Type Here'}`}
-                    aria-live="polite"
-                    style={{
-                      ...getNeonTextStyle(selectedColor, isLightOn),
-                      textAlign: textAlign,
-                      whiteSpace: 'pre',
-                      lineHeight: '1.2'
-                    }}
+                    className="h-1.5 bg-red-500 relative min-w-[50px] shadow-[0_0_15px_rgba(239,68,68,0.8)] pointer-events-auto cursor-move"
+                    style={{ width: `${calibrationLineWidth}px`, maxWidth: '90vw' }}
                   >
-                    {text || 'Type Here'}
+                    {/* Resize Handle (Touch Friendly) */}
+                    <motion.div 
+                      drag="x"
+                      dragConstraints={{ left: 0, right: 0 }}
+                      dragElastic={0}
+                      dragMomentum={false}
+                      onDrag={(e, info) => setCalibrationLineWidth(prev => Math.max(50, prev + info.delta.x))}
+                      onPointerDown={(e) => e.stopPropagation()}
+                      className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-10 bg-white rounded-md border-2 border-red-500 cursor-ew-resize flex flex-col items-center justify-center shadow-lg translate-x-1/2" 
+                      style={{ pointerEvents: 'auto' }}
+                    >
+                      <div className="flex gap-1">
+                        <div className="w-0.5 h-5 bg-gray-400 rounded-full" />
+                        <div className="w-0.5 h-5 bg-gray-400 rounded-full" />
+                      </div>
+                    </motion.div>
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-10 bg-white rounded-sm border border-red-500" />
                   </div>
                 </motion.div>
               </div>
+            )}
+
+            {/* Calibration Trigger Button */}
+            {selectedBg.id === 'custom' && !isCalibrating && (
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30">
+                <button
+                  onClick={() => setIsCalibrating(true)}
+                  className="px-6 py-2.5 bg-brand-purple hover:bg-brand-purple/80 text-white rounded-full font-bold shadow-[0_0_20px_rgba(117,46,255,0.4)] transition-all flex items-center gap-2 text-sm"
+                >
+                  <Ruler className="w-4 h-4" />
+                  Calibrate Room Size
+                </button>
+              </div>
+            )}
+
+            {/* Center: The Neon Sign Text & Backboard */}
+            <div ref={containerRef} className="absolute inset-x-[12%] top-[34%] z-20 flex -translate-y-1/2 flex-col items-center justify-center">
+              {/* 1. Outer Draggable Container (Framer Motion controls X/Y translation during drag without layout/scale collisions) */}
+              <motion.div
+                drag
+                dragMomentum={false}
+                dragElastic={0}
+                className="relative inline-block cursor-grab active:cursor-grabbing z-30"
+              >
+                {/* 2. Inner Scaled Container (React controls scale without interfering with drag transform!) */}
+                <div
+                  ref={textRef}
+                  className={`relative inline-block max-w-full p-4 md:p-5 transition-colors duration-300 ${selectedBackboardShape === 'cut' ? 'rounded-2xl border border-white/5 bg-white/[0.03] backdrop-blur-[2px]' : selectedBackboardShape === 'square' ? 'rounded-xl border-2 border-white/15 bg-black/30 backdrop-blur-sm shadow-2xl' : selectedBackboardShape === 'stand' ? 'rounded-t-xl border-x border-t border-white/10 bg-white/[0.04] pb-8' : ''}`}
+                  style={{
+                    transform: `scale(${finalScale * 0.66})`,
+                    transformOrigin: 'center center',
+                  }}
+                >
+                  {/* The Neon Text */}
+                  <h2
+                    className={`studio-neon-sign-preview font-bold transition-all duration-300 text-center ${selectedFont.class}`}
+                    style={{
+                      ...getNeonTextStyle(selectedColor, isLightOn),
+                      textAlign: textAlign,
+                    }}
+                  >
+                    {text || 'Your Neon Sign'}
+                  </h2>
+
+                  {/* Acrylic Stand Base bottom border if stand selected */}
+                  {selectedBackboardShape === 'stand' && (
+                    <div className="absolute bottom-0 left-1/4 right-1/4 h-2.5 bg-gradient-to-r from-gray-700 via-gray-400 to-gray-700 rounded-b-md shadow-lg" />
+                  )}
+
+                  {/* Measurement Dimension Brackets (When Ruler is ON) */}
+                  {showRuler && (
+                    <div className="absolute -inset-6 pointer-events-none z-30">
+                      {/* Top Horizontal Dimension Line */}
+                      <div className="absolute -top-4 left-0 right-0 flex items-center justify-center">
+                        <div className="h-[2px] bg-[#6eff86]/80 flex-1 border-t border-dashed border-[#6eff86]" />
+                        <span className="px-3.5 py-1 bg-black border-2 border-[#6eff86] text-[#6eff86] text-sm md:text-base font-black rounded-md shadow-[0_0_15px_rgba(110,255,134,0.7)] tracking-wide mx-2">
+                          {selectedSize.length}
+                        </span>
+                        <div className="h-[2px] bg-[#6eff86]/80 flex-1 border-t border-dashed border-[#6eff86]" />
+                      </div>
+
+                      {/* Left Vertical Dimension Line */}
+                      <div className="absolute top-0 -left-6 bottom-0 flex flex-col items-center justify-center">
+                        <div className="w-[2px] bg-[#6eff86]/80 flex-1 border-l border-dashed border-[#6eff86]" />
+                        <span className="px-3.5 py-1 bg-black border-2 border-[#6eff86] text-[#6eff86] text-sm md:text-base font-black rounded-md shadow-[0_0_15px_rgba(110,255,134,0.7)] tracking-wide -rotate-90 my-3 whitespace-nowrap">
+                          {selectedSize.height}
+                        </span>
+                        <div className="w-[2px] bg-[#6eff86]/80 flex-1 border-l border-dashed border-[#6eff86]" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
             </div>
-
-
           </div>
-
-          {/* RIGHT: Configurator */}
-          <div className="w-full flex flex-col gap-7">
-            {/* 1. Text Input */}
-            <div className="space-y-3">
-              <label className="text-xl font-black flex items-center justify-between">
-                <span>Type Your Text</span>
-                <span className="text-xs font-bold uppercase tracking-widest text-brand-green">{text.length} chars</span>
-              </label>
-              <textarea 
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                placeholder="Type your text here..."
-                rows={2}
-                className="w-full bg-black border border-white/80 rounded-md p-5 text-white placeholder:text-zinc-600 focus:outline-none focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/60 transition-colors text-xl resize-none shadow-[0_0_24px_rgba(255,255,255,0.06)]"
-              />
-            </div>
-
-            {/* 2. Select Font & Alignment */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <label className="text-xl font-black">Pick Your Font</label>
-                <div className="flex items-center gap-2">
-                  <button 
-                    onClick={() => setTextAlign('left')}
-                    className={`p-2 rounded-md border transition-all focus:outline-none ${textAlign === 'left' ? 'border-brand-purple bg-brand-purple text-white shadow-[0_0_28px_rgba(117,46,255,0.45)]' : 'border-white/70 bg-black text-zinc-200 hover:border-brand-green hover:text-white hover:shadow-[0_0_22px_rgba(110,255,134,0.18)]'}`}
-                    title="Align Left"
-                  >
-                    <AlignLeft className="w-5 h-5" />
-                  </button>
-                  <button 
-                    onClick={() => setTextAlign('center')}
-                    className={`p-2 rounded-md border transition-all focus:outline-none ${textAlign === 'center' ? 'border-brand-purple bg-brand-purple text-white shadow-[0_0_28px_rgba(117,46,255,0.45)]' : 'border-white/70 bg-black text-zinc-200 hover:border-brand-green hover:text-white hover:shadow-[0_0_22px_rgba(110,255,134,0.18)]'}`}
-                    title="Align Center"
-                  >
-                    <AlignCenter className="w-5 h-5" />
-                  </button>
-                  <button 
-                    onClick={() => setTextAlign('right')}
-                    className={`p-2 rounded-md border transition-all focus:outline-none ${textAlign === 'right' ? 'border-brand-purple bg-brand-purple text-white shadow-[0_0_28px_rgba(117,46,255,0.45)]' : 'border-white/70 bg-black text-zinc-200 hover:border-brand-green hover:text-white hover:shadow-[0_0_22px_rgba(110,255,134,0.18)]'}`}
-                    title="Align Right"
-                  >
-                    <AlignRight className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {FONTS.map((font) => (
-                  <button
-                    key={font.name}
-                    onClick={() => setSelectedFont(font)}
-                    className={`opt-btn min-h-16 py-3 px-2 rounded-md border text-center transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple ${
-                      selectedFont.name === font.name 
-                        ? 'border-brand-purple bg-brand-purple text-white shadow-[0_0_28px_rgba(117,46,255,0.45)]' 
-                        : 'border-white/70 bg-black text-zinc-200 hover:border-brand-green hover:text-white hover:shadow-[0_0_22px_rgba(110,255,134,0.18)]'
-                    }`}
-                  >
-                    <span className={`${font.class} text-2xl md:text-3xl block leading-none`}>Abc</span>
-                    <span className="mt-1 block text-[11px] font-sans font-bold uppercase tracking-widest">{font.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* 3. Select Color */}
-            <div className="space-y-3">
-              <label className="text-xl font-black">Choose Color</label>
-              <div className="grid grid-cols-5 sm:grid-cols-10 lg:grid-cols-5 xl:grid-cols-10 gap-3">
-                {COLORS.map((color) => (
-                  <button
-                    key={color.name}
-                    onClick={() => handleColorSelect(color)}
-                    className="opt-btn group flex flex-col items-center gap-2 focus:outline-none"
-                    aria-label={color.name}
-                  >
-                    <div 
-                      className={`w-12 h-12 rounded-full transition-all flex items-center justify-center border border-white/20 ${
-                        selectedColor.name === color.name ? 'ring-2 ring-offset-2 ring-offset-black ring-white scale-110' : 'group-hover:scale-110'
-                      }`}
-                      style={{ 
-                        backgroundColor: color.hex,
-                        boxShadow: `0 0 8px ${color.glow}`
-                      }}
-                    >
-                      {selectedColor.name === color.name && (
-                        <Check className={['White', 'Warm White', 'Yellow'].includes(color.name) ? 'text-black' : 'text-white'} size={20} />
-                      )}
-                    </div>
-                    <span className={`text-xs ${selectedColor.name === color.name ? 'text-white font-bold' : 'text-gray-500 group-hover:text-gray-300'}`}>
-                      {color.name}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* 4. Select Size */}
-            <div className="space-y-3">
-              <label className="text-xl font-black flex items-center gap-2">
-                Select Size
-                <span className="w-5 h-5 rounded-full bg-white text-black inline-flex items-center justify-center text-sm font-black cursor-help" title="Select a size to see it scale in the preview">?</span>
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                {SIZES.map((size) => (
-                  <button
-                    key={size.id}
-                    onClick={() => setSelectedSize(size)}
-                    className={`opt-btn text-left rounded-md border p-3 flex flex-col justify-between focus:outline-none transition-all ${
-                      selectedSize.id === size.id
-                        ? 'border-brand-purple bg-brand-purple/20'
-                        : 'border-white/20 hover:border-brand-purple bg-black'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center w-full">
-                      <span className="font-bold text-sm md:text-base text-white">{size.name}</span>
-                      <span className="text-xs md:text-sm text-gray-400">Length: {size.length}</span>
-                    </div>
-                    <div className="flex justify-between items-center w-full mt-1">
-                      <span className="font-black text-sm md:text-base text-white">₹{size.price.toFixed(2)}</span>
-                      <span className="text-xs md:text-sm text-gray-400">Height: {size.height}</span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* 5. Choose Background */}
-            <div className="space-y-3">
-              <label className="text-xl font-black">Choose Background</label>
-              
-              {/* Full Width Upload Button */}
-              <label className="relative w-full py-4 rounded-md border-2 border-dashed border-gray-600 flex flex-col items-center justify-center cursor-pointer hover:border-brand-purple hover:bg-brand-purple/10 transition-colors">
-                <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
-                <div className="flex flex-row items-center gap-2">
-                  <Upload className="w-5 h-5 text-gray-400" />
-                  <span className="text-sm font-bold text-gray-300">Upload your own room image and see the sign</span>
-                </div>
-              </label>
-
-              <div className="grid grid-cols-4 gap-2">
-                {backgroundsList.map((bg) => (
-                  <button
-                    key={bg.id}
-                    onClick={() => setSelectedBg(bg)}
-                    className={`h-16 rounded-md border-2 overflow-hidden relative focus:outline-none transition-all ${
-                      selectedBg.id === bg.id ? 'border-brand-green shadow-[0_0_10px_rgba(110,255,134,0.4)]' : 'border-transparent hover:border-white/50'
-                    }`}
-                    title={bg.name}
-                  >
-                    <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${bg.url}')` }} />
-                    <div className="absolute inset-x-0 bottom-0 bg-black/60 backdrop-blur-sm text-[10px] font-bold text-white text-center py-0.5">
-                      {bg.name}
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* 6. Add-ons */}
-            <div className="space-y-3">
-              <label className="text-xl font-black">Add-ons</label>
-              <div className="flex flex-col gap-3">
-                <label className="flex items-center justify-between gap-4 p-4 rounded-md border border-white/55 bg-black cursor-pointer hover:border-white transition-colors">
-                  <div className="flex items-center gap-3">
-                    <input 
-                      type="checkbox" 
-                      checked={isWaterproof}
-                      onChange={(e) => setIsWaterproof(e.target.checked)}
-                      className="w-5 h-5 accent-brand-purple rounded focus:ring-brand-purple"
-                    />
-                    <div>
-                      <div className="font-bold">Waterproof IP67 Rated</div>
-                      <div className="text-sm text-zinc-400">For outdoor use</div>
-                    </div>
-                  </div>
-                  <div className="font-bold">+ ₹ 3,000</div>
-                </label>
-                
-                <label className="flex items-center justify-between gap-4 p-4 rounded-md border border-white/55 bg-black cursor-pointer hover:border-white transition-colors">
-                  <div className="flex items-center gap-3">
-                    <input 
-                      type="checkbox" 
-                      checked={hasSmartController}
-                      onChange={(e) => setHasSmartController(e.target.checked)}
-                      className="w-5 h-5 accent-brand-purple rounded focus:ring-brand-purple"
-                    />
-                    <div>
-                      <div className="font-bold">Smart Wireless Controller</div>
-                      <div className="text-sm text-zinc-400">Dimmer & Modes</div>
-                    </div>
-                  </div>
-                  <div className="font-bold">+ ₹ 2,000</div>
-                </label>
-              </div>
-            </div>
-
-            {/* Price & Checkout Sticky Bottom Bar */}
-            <div className="sticky bottom-0 bg-black/95 backdrop-blur-md p-5 md:p-6 rounded-lg border border-white/30 mt-2 shadow-[0_0_48px_rgba(110,255,134,0.12)] z-40">
-              <div className="flex items-end justify-between mb-6">
-                <div>
-                  <div className="text-zinc-400 text-sm font-medium mb-1">Total Price (Inc. GST)</div>
-                  <div className="text-4xl md:text-5xl font-black text-brand-green drop-shadow-[0_0_14px_rgba(110,255,134,0.65)]">
-                    ₹ {price.toLocaleString('en-IN')}
-                  </div>
-                </div>
-                <div className="text-right text-sm text-zinc-400">
-                  Free Shipping <br/> across India
-                </div>
-              </div>
-              <button className="w-full bg-brand-purple hover:bg-brand-purple/80 text-white font-black py-4 rounded-md text-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_28px_rgba(117,46,255,0.45)]">
-                Add to Cart
-              </button>
-            </div>
-            
-          </div>
-        </div>
-      </div>
-      
-      {/* Sticky Tab Navigation */}
-      <div className="sticky top-[80px] z-40 w-full bg-black/90 backdrop-blur-md border-y border-white/10 hidden md:block">
-        <div className="max-w-[1200px] mx-auto px-4">
-          <ul className="flex items-center justify-between text-sm font-bold">
-            <li><a href="#about" className="block py-4 text-white border-b-2 border-white hover:text-white transition-colors">Product Details</a></li>
-            <li><a href="#box" className="block py-4 text-zinc-400 hover:text-white transition-colors">What&apos;s in the box?</a></li>
-            <li><a href="#install" className="block py-4 text-zinc-400 hover:text-white transition-colors">How to install?</a></li>
-            <li><a href="#" className="block py-4 text-zinc-400 hover:text-white transition-colors">Customise</a></li>
-            <li><a href="#faq" className="block py-4 text-zinc-400 hover:text-white transition-colors">FAQs</a></li>
-          </ul>
         </div>
       </div>
 

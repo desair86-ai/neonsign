@@ -24,6 +24,8 @@ import { MascotProvider } from "../components/mascot/MascotProvider";
 import { Mascot } from "../components/mascot/Mascot";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { supabase } from "@/lib/supabase";
+import { CartProvider } from "@/lib/CartContext";
+import { CustomerAuthProvider } from "@/lib/CustomerAuthContext";
 
 export const revalidate = 30; // Revalidate every 30 seconds to ensure theme changes propagate
 
@@ -147,12 +149,16 @@ export default async function RootLayout({
         className={`${fontVariables} font-sans text-white antialiased selection:bg-brand-purple/30 selection:text-brand-lavender`}
         style={gradientStr ? { background: gradientStr } : undefined}
       >
-        <MascotProvider>
-          <AuroraBackground className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender" speed={0.8} blur={90}>
-            {children}
-          </AuroraBackground>
-          {/* <Mascot /> */}
-        </MascotProvider>
+        <CustomerAuthProvider>
+          <CartProvider>
+            <MascotProvider>
+              <AuroraBackground className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender" speed={0.8} blur={90}>
+                {children}
+              </AuroraBackground>
+              {/* <Mascot /> */}
+            </MascotProvider>
+          </CartProvider>
+        </CustomerAuthProvider>
       </body>
     </html>
   );

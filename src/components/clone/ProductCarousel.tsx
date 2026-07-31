@@ -3,17 +3,7 @@
 import React from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import Link from 'next/link';
-
-interface Product {
-  id: string;
-  name: string;
-  regularPrice: string;
-  salePrice: string;
-  promoPrice?: string;
-  discountBadge?: string;
-  image: string;
-}
+import { ProductCard, Product } from './ProductCard';
 
 interface ProductCarouselProps {
   title: string;
@@ -41,37 +31,11 @@ export function ProductCarousel({ title, products, theme = "dark" }: ProductCaro
         </div>
       </div>
 
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-6">
-          {products.map((product) => (
-            <div key={product.id} className="flex-[0_0_80%] sm:flex-[0_0_40%] md:flex-[0_0_30%] lg:flex-[0_0_22%] min-w-0">
-              <Link href="/" className="block group">
-                <div className={`relative aspect-square rounded-2xl border overflow-hidden mb-4 border-brand-purple/60 shadow-[0_0_20px_rgba(117,46,255,0.35)] group-hover:border-[#6eff86]/60 group-hover:shadow-[0_0_20px_rgba(110,255,134,0.35)] transition-all duration-300 ${theme === 'light' ? 'bg-zinc-100' : 'bg-zinc-900'}`}>
-                  {product.discountBadge && (
-                    <span className="absolute top-4 left-4 z-10 bg-brand-purple text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-[0_0_10px_rgba(117,46,255,0.6)]">
-                      {product.discountBadge}
-                    </span>
-                  )}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                    style={{ backgroundImage: `url(${product.image})` }}
-                  />
-                </div>
-                
-                <h3 className={`font-bold text-lg mb-2 line-clamp-1 ${theme === 'light' ? 'text-black' : 'text-white'}`}>{product.name}</h3>
-                
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-2 text-sm">
-                    <span className={`line-through ${theme === 'light' ? 'text-black' : 'text-gray-500'}`}>{product.regularPrice}</span>
-                    <span className={theme === 'light' ? 'text-black font-semibold' : 'text-gray-300'}>{product.salePrice}</span>
-                  </div>
-                  {product.promoPrice && (
-                    <div className="text-brand-green drop-shadow-[0_0_8px_rgba(110,255,134,0.5)] font-black text-xl">
-                      {product.promoPrice}
-                    </div>
-                  )}
-                </div>
-              </Link>
+      <div className="overflow-hidden -mx-6 px-6 -my-8 py-8" ref={emblaRef}>
+        <div className="flex gap-6 items-stretch">
+          {products.map((product, index) => (
+            <div key={product.id} className="flex-[0_0_85%] sm:flex-[0_0_45%] md:flex-[0_0_32%] lg:flex-[0_0_23%] min-w-0">
+              <ProductCard product={product} index={index} theme={theme} />
             </div>
           ))}
         </div>
