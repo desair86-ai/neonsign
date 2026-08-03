@@ -105,16 +105,16 @@ interface Background {
 }
 
 const BACKGROUNDS: Background[] = [
-  { id: 'bg-bedroom', name: 'Bedroom', url: '/Bedroom.png' },
-  { id: 'bg-cafe', name: 'Cafe Background', url: '/cafe%20background.png' },
-  { id: 'bg-gaming', name: 'Gaming Room', url: '/Gaming%20room.png' },
-  { id: 'bg-wedding', name: 'Wedding Backdrop', url: '/Wedding%20backdrop.png' },
-  { id: 'bg-restaurant', name: 'Restaurant', url: '/Restaurant.png' },
-  { id: 'bg-office', name: 'Office Reception', url: '/Office%20reception.png' },
-  { id: 'bg-salon', name: 'Salon', url: '/Salon.png' },
-  { id: 'bg-bar', name: 'Bar', url: '/Bar.png' },
-  { id: 'bg-kids', name: 'Kids Room', url: '/Kids%20room.png' },
-  { id: 'bg-gym', name: 'Home Gym', url: '/Home%20gym.png' },
+  { id: 'bg-bedroom', name: 'Bedroom', url: '/bedroom.png' },
+  { id: 'bg-cafe', name: 'Cafe Background', url: '/cafe-background.png' },
+  { id: 'bg-gaming', name: 'Gaming Room', url: '/gaming-room.png' },
+  { id: 'bg-wedding', name: 'Wedding Backdrop', url: '/wedding-backdrop.png' },
+  { id: 'bg-restaurant', name: 'Restaurant', url: '/restaurant.png' },
+  { id: 'bg-office', name: 'Office Reception', url: '/office-reception.png' },
+  { id: 'bg-salon', name: 'Salon', url: '/salon.png' },
+  { id: 'bg-bar', name: 'Bar', url: '/bar.png' },
+  { id: 'bg-kids', name: 'Kids Room', url: '/kids-room.png' },
+  { id: 'bg-gym', name: 'Home Gym', url: '/home-gym.png' },
 ];
 
 const DEFAULT_ROOM_BACKGROUND = BACKGROUNDS[0];
