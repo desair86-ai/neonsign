@@ -158,10 +158,13 @@ export default function CustomizeNeonSign() {
       .then(res => res.json())
       .then(data => {
         if (data.backgrounds && data.backgrounds.length > 0) {
+          const excludedNames = ['dark studio', 'brick wall', 'living room'];
           const customBackgrounds = data.backgrounds.filter(
-            (bg: Background) => bg.id !== DEFAULT_ROOM_BACKGROUND.id && bg.url !== DEFAULT_ROOM_BACKGROUND.url
+            (bg: Background) => 
+              !BACKGROUNDS.some(defaultBg => defaultBg.id === bg.id || defaultBg.url === bg.url) &&
+              !excludedNames.some(ex => bg.name?.toLowerCase().includes(ex))
           );
-          setBackgroundsList([DEFAULT_ROOM_BACKGROUND, ...customBackgrounds]);
+          setBackgroundsList([...BACKGROUNDS, ...customBackgrounds]);
         }
       })
       .catch(console.error);
@@ -858,20 +861,10 @@ export default function CustomizeNeonSign() {
 
           </div>
 
-          {/* 3. Bottom CTA Box (Addressing Point #8: Clear Hierarchy with ONE Dominant Primary Button) */}
-          <div className="pt-6 border-t border-white/10 mt-6 space-y-4">
-            <div className="flex items-baseline justify-between">
-              <div>
-                <span className="text-xs font-semibold uppercase text-gray-400 tracking-wider">Total Custom Price</span>
-                <div className="text-2xl font-black text-white">
-                  ₹{price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-                </div>
-              </div>
-              <span className="text-xs text-gray-400 font-medium">{selectedSize.length} × {selectedSize.height}</span>
-            </div>
-
+          {/* 3. Bottom Navigation Actions */}
+          <div className="pt-4 border-t border-white/10 mt-6">
             {/* UNDERSTATED SECONDARY ACTIONS */}
-            <div className="flex items-center justify-between gap-2 pt-2">
+            <div className="flex items-center justify-between gap-2">
               <button
                 onClick={prevTab}
                 disabled={activeTab === 'create'}
