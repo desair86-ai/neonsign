@@ -23,7 +23,7 @@ export function Header() {
   const navItems: NavItem[] = [
     { 
       label: 'Customize Neon Sign', 
-      href: '/products/customize-neon-signs',
+      href: '#',
       dropdown: [
         { label: 'Custom Neon Sign', href: '/products/customize-neon-signs' },
         { label: 'Flow-Mo Neon Sign', href: '/shop-neon-collection?cat=flow-mo' },
@@ -118,9 +118,9 @@ export function Header() {
         </div>
 
         {/* Logo */}
-        <div className="flex-shrink-0 relative z-50">
-          <Link href="/" className="block select-none cursor-pointer">
-            <img src="/main logo.png" alt="The Neon Stack Logo" className="h-[120px] md:h-[160px] w-auto object-contain my-[-25px] md:my-[-40px] cursor-pointer hover:scale-105 transition-transform" />
+        <div className="flex-shrink-0 relative z-50 outline-none border-none">
+          <Link href="/" className="block select-none cursor-pointer outline-none border-none focus:outline-none focus:border-none focus-visible:outline-none shadow-none">
+            <img src="/main logo.png" alt="The Neon Stack Logo" className="h-[120px] md:h-[160px] w-auto object-contain my-[-25px] md:my-[-40px] cursor-pointer hover:scale-105 transition-transform outline-none border-none focus:outline-none shadow-none" />
           </Link>
         </div>
 
@@ -133,7 +133,12 @@ export function Header() {
               <div key={item.label} className="group relative">
                 <Link 
                   href={item.href} 
-                  className={`relative px-3.5 py-2.5 rounded-full flex items-center justify-center gap-1.5 uppercase transition-all duration-300 hover:scale-105 text-neon-green-hover ${isActive ? 'font-extrabold' : ''}`}
+                  onClick={(e) => {
+                    if (item.href === '#') {
+                      e.preventDefault();
+                    }
+                  }}
+                  className={`relative px-3.5 py-2.5 rounded-full flex items-center justify-center gap-1.5 uppercase transition-all duration-300 hover:scale-105 text-neon-green-hover cursor-pointer ${isActive ? 'font-extrabold' : ''}`}
                 >
                   {isActive && (
                     <>

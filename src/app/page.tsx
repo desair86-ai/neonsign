@@ -21,7 +21,7 @@ export default function Home() {
     },
     {
       id: "2",
-      name: "Good Vibes Only (FloRo)",
+      name: "Good Vibes Only (Mojo Mix)",
       regularPrice: "Rs. 11,500.00",
       salePrice: "Rs. 8,050.00",
       discountBadge: "Save 30%",
@@ -94,7 +94,7 @@ export default function Home() {
       <Hero />
       <ValueBar />
       <ProductExplorerGrid />
-      <ProductCarousel title="Most-Loved" products={mostLovedProducts} />
+      <ProductCarousel title="Curated Favourites" products={mostLovedProducts} />
       <Stories />
       <ProductCarousel title="Trending" products={trendingProducts} />
       <InfoSections />

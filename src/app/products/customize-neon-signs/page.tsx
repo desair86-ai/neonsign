@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { Header } from "@/components/clone/Header";
+import Link from 'next/link';
 import { Footer } from "@/components/clone/Footer";
 import { 
   Check, Ruler, Info, X, AlignLeft, AlignCenter, AlignRight, Upload,
   Type, Palette, Layers, Settings, Image as ImageIcon, ChevronLeft, ChevronRight,
-  ShoppingBag, Bookmark, Sparkles, Sliders
+  ShoppingBag, Bookmark, Sparkles, Sliders, Moon, Sun, Sunset
 } from 'lucide-react';
 import { motion } from "framer-motion";
 import { useMascot } from "@/hooks/useMascot";
@@ -14,22 +14,22 @@ import { MascotState } from "@/components/mascot/MascotStateMachine";
 import { useCart } from "@/lib/CartContext";
 
 const FONTS = [
-  { name: 'Clonoid', class: 'font-clonoid' },
-  { name: 'Passionate', class: 'font-pacifico' },
-  { name: 'Dreamy', class: 'font-dancing' },
-  { name: 'Flowy', class: 'font-caveat' },
-  { name: 'Original', class: 'font-bungee-outline' },
-  { name: 'Classic', class: 'font-cinzel' },
-  { name: 'Baylee', class: 'font-great-vibes' },
-  { name: 'Funky', class: 'font-permanent-marker' },
-  { name: 'Chic', class: 'font-parisienne' },
-  { name: 'Delight', class: 'font-playfair' },
-  { name: 'Classy', class: 'font-cookie' },
-  { name: 'Romantic', class: 'font-alex-brush' },
-  { name: 'ROBO', class: 'font-syncopate' },
-  { name: 'Charming', class: 'font-bad-script' },
-  { name: 'Quirky', class: 'font-gochi-hand' },
-  { name: 'Stylish', class: 'font-kaushan-script' },
+  { name: 'Clonoid', class: 'font-clonoid', category: 'popular' },
+  { name: 'Passionate', class: 'font-pacifico', category: 'popular' },
+  { name: 'Dreamy', class: 'font-dancing', category: 'popular' },
+  { name: 'Flowy', class: 'font-caveat', category: 'script' },
+  { name: 'Original', class: 'font-bungee-outline', category: 'bold' },
+  { name: 'Classic', class: 'font-cinzel', category: 'classic' },
+  { name: 'Baylee', class: 'font-great-vibes', category: 'elegant' },
+  { name: 'Funky', class: 'font-permanent-marker', category: 'modern' },
+  { name: 'Chic', class: 'font-parisienne', category: 'elegant' },
+  { name: 'Delight', class: 'font-playfair', category: 'classic' },
+  { name: 'Classy', class: 'font-cookie', category: 'classic' },
+  { name: 'Romantic', class: 'font-alex-brush', category: 'script' },
+  { name: 'ROBO', class: 'font-syncopate', category: 'modern' },
+  { name: 'Charming', class: 'font-bad-script', category: 'script' },
+  { name: 'Quirky', class: 'font-gochi-hand', category: 'modern' },
+  { name: 'Stylish', class: 'font-kaushan-script', category: 'bold' },
 ];
 
 const COLORS = [
@@ -45,13 +45,14 @@ const COLORS = [
   { name: 'Yellow', hex: '#ffe600', glow: 'rgba(255,230,0,0.5)' },
 ];
 
+// Realistic LED Neon Tube & Wall Light Spillage (Addressing Point #3 & #9)
 function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = true) {
   if (!isLightOn) {
     return {
       color: color.hex,
       textShadow: 'none',
       filter: 'none',
-      fontSize: 'clamp(1.15rem, 2.35vw, 3rem)',
+      fontSize: 'clamp(2.4rem, 5.8vw, 6.5rem)',
       lineHeight: '1.1',
       whiteSpace: 'pre-wrap' as const,
       wordBreak: 'break-word' as const,
@@ -63,15 +64,13 @@ function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = t
   return {
     color: color.hex,
     textShadow: `
-      0 0 2px ${color.hex},
-      0 0 8px ${color.hex},
-      0 0 16px ${color.hex},
+      0 0 5px ${color.hex},
+      0 0 15px ${color.hex},
       0 0 30px ${color.glow},
-      0 0 60px ${color.glow},
-      0 0 90px ${color.glow}
+      0 0 50px ${color.glow}
     `,
-    filter: `drop-shadow(0 0 12px ${color.hex}) drop-shadow(0 0 25px ${color.glow}) drop-shadow(0 0 45px ${color.glow})`,
-    fontSize: 'clamp(1.15rem, 2.35vw, 3rem)',
+    filter: `drop-shadow(0 0 10px ${color.glow})`,
+    fontSize: 'clamp(2.4rem, 5.8vw, 6.5rem)',
     lineHeight: '1.1',
     whiteSpace: 'pre-wrap' as const,
     wordBreak: 'break-word' as const,
@@ -106,13 +105,19 @@ interface Background {
 }
 
 const BACKGROUNDS: Background[] = [
-  { id: 'bg1', name: 'Dark Studio', url: 'https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?q=80&w=1200&auto=format&fit=crop' },
-  { id: 'bg2', name: 'Brick Wall', url: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1200&auto=format&fit=crop' },
-  { id: 'bg3', name: 'Living Room', url: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=1200&auto=format&fit=crop' },
-  { id: 'bg4', name: 'Wood Panel', url: 'https://images.unsplash.com/photo-1511475459345-2f9630e66fb8?q=80&w=1200&auto=format&fit=crop' },
+  { id: 'bg-bedroom', name: 'Bedroom', url: '/Bedroom.png' },
+  { id: 'bg-cafe', name: 'Cafe Background', url: '/cafe%20background.png' },
+  { id: 'bg-gaming', name: 'Gaming Room', url: '/Gaming%20room.png' },
+  { id: 'bg-wedding', name: 'Wedding Backdrop', url: '/Wedding%20backdrop.png' },
+  { id: 'bg-restaurant', name: 'Restaurant', url: '/Restaurant.png' },
+  { id: 'bg-office', name: 'Office Reception', url: '/Office%20reception.png' },
+  { id: 'bg-salon', name: 'Salon', url: '/Salon.png' },
+  { id: 'bg-bar', name: 'Bar', url: '/Bar.png' },
+  { id: 'bg-kids', name: 'Kids Room', url: '/Kids%20room.png' },
+  { id: 'bg-gym', name: 'Home Gym', url: '/Home%20gym.png' },
 ];
 
-const DEFAULT_ROOM_BACKGROUND = BACKGROUNDS[2];
+const DEFAULT_ROOM_BACKGROUND = BACKGROUNDS[0];
 
 export default function CustomizeNeonSign() {
   const [isLightOn, setIsLightOn] = useState(true);
@@ -142,6 +147,12 @@ export default function CustomizeNeonSign() {
   const [selectedBg, setSelectedBg] = useState(DEFAULT_ROOM_BACKGROUND);
   const [text, setText] = useState('The Neon Stack');
 
+  // New states for the 9-Point Redesign
+  const [fontCategory, setFontCategory] = useState<'popular' | 'elegant' | 'modern' | 'script' | 'bold' | 'classic' | 'all'>('popular');
+  const [roomLightingMood, setRoomLightingMood] = useState<'night' | 'evening' | 'day'>('night');
+  const [showHelpModal, setShowHelpModal] = useState(false);
+  const [saveToast, setSaveToast] = useState(false);
+
   useEffect(() => {
     fetch('/api/settings/backgrounds')
       .then(res => res.json())
@@ -155,114 +166,49 @@ export default function CustomizeNeonSign() {
       })
       .catch(console.error);
   }, []);
+
   const [selectedFont, setSelectedFont] = useState(FONTS[0]);
   const [textAlign, setTextAlign] = useState<'left' | 'center' | 'right'>('center');
   const [selectedColor, setSelectedColor] = useState(COLORS[2]); // Green default
-  const [selectedSize, setSelectedSize] = useState(SIZES[0]);
+  const [selectedSize, setSelectedSize] = useState(SIZES[1]); // Medium default
   const [isWaterproof, setIsWaterproof] = useState(false);
   const [hasSmartController, setHasSmartController] = useState(false);
+
+  const { speak } = useMascot();
+  const triggerMascot = (msg: string, state?: MascotState) => speak(msg, state);
+  const { addToCart, cart } = useCart();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const [dynamicScale, setDynamicScale] = useState<number | null>(null);
 
-  const { setState, speak, stopSpeaking } = useMascot();
-  const { addToCart } = useCart();
-  const [colorTimeoutId, setColorTimeoutId] = useState<NodeJS.Timeout | null>(null);
-  const [clearBubbleTimeoutId, setClearBubbleTimeoutId] = useState<NodeJS.Timeout | null>(null);
-  const hasTriggeredLongText = useRef(false);
-
-  const triggerMascot = (message: string, state: MascotState = MascotState.TALKING) => {
-    if (colorTimeoutId) clearTimeout(colorTimeoutId);
-    if (clearBubbleTimeoutId) clearTimeout(clearBubbleTimeoutId);
-    
-    speak(message, state);
-    
-    // Stop the intense animation (jumping/celebrating) after 1.5s but keep the text bubble
-    if (state !== MascotState.TALKING && state !== MascotState.THINKING) {
-      setTimeout(() => setState(MascotState.TALKING), 1500);
-    }
-    
-    const clearId = setTimeout(() => stopSpeaking(), 5000);
-    setClearBubbleTimeoutId(clearId);
+  const handleColorSelect = (c: typeof COLORS[number]) => {
+    setSelectedColor(c);
+    triggerMascot(`${c.name} is such a vibrant choice!`, MascotState.TALKING);
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
-      const customBg = { 
-        id: 'custom', 
-        name: 'Your Room', 
-        url, 
-        settings: {
-          position_x: 50,
-          position_y: 35,
-          scale_small: 1,
-          scale_medium: 1,
-          scale_large: 1,
-          scale_xlarge: 1,
-          scale_xxlarge: 1,
-          scale_supersized: 1
-        } 
-      } as any;
-      setSelectedBg(customBg);
-      triggerMascot("Look at that! It looks amazing in your space.", MascotState.CELEBRATING);
+      setSelectedBg({ id: 'custom', name: 'Your Custom Room', url });
+      setCalibrationRatio(null);
+      triggerMascot("Awesome room photo! Let's preview your custom sign on your wall.", MascotState.CELEBRATING);
     }
   };
 
-  useEffect(() => {
-    if (text.length > 15 && !hasTriggeredLongText.current) {
-      triggerMascot("Wow, that's going to be a huge sign!", MascotState.CELEBRATING);
-      hasTriggeredLongText.current = true;
-    } else if (text.length <= 15) {
-      hasTriggeredLongText.current = false;
-    }
-  }, [text.length]);
-
-  useEffect(() => {
-    if (isWaterproof) {
-      triggerMascot("Ready for the outdoors! Good choice.", MascotState.WAVE);
-    }
-  }, [isWaterproof]);
-
-  const handleColorSelect = (color: typeof COLORS[number]) => {
-    setSelectedColor(color);
-    setState(MascotState.THINKING);
-    if (color.name === 'Pink' || color.name === 'Purple') {
-      const id = setTimeout(() => triggerMascot("Ooo, I love the retro vibes of this color!", MascotState.JUMPING), 1000);
-      setColorTimeoutId(id);
-      return;
-    }
-    const messages = [
-      `${color.name} looks good!`,
-      `${color.name} is a solid choice.`,
-      `Ooh, I love ${color.name}!`,
-      `${color.name} makes it pop!`,
-      `Nice pick, ${color.name} is bright!`,
-      `Great taste! ${color.name} is stunning.`
-    ];
-    // eslint-disable-next-line react-hooks/purity
-    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-    const id = setTimeout(() => triggerMascot(randomMessage, MascotState.TALKING), 1500);
-    setColorTimeoutId(id);
-  };
-
-  // Dynamic pricing based on text length and size
+  // Dynamic pricing based on size and protection
   const price = useMemo(() => {
     let total = selectedSize.price;
-    
     if (isWaterproof) total += 3000;
     if (hasSmartController) total += 2000;
-    
     return Math.round(total);
   }, [selectedSize, isWaterproof, hasSmartController]);
 
   const roomFocalPoint = 'center center';
 
-  // Compute actual scale based on background settings or fallback
   const currentScale = useMemo(() => {
-    const defaultScale = 0.78 + (selectedSize.multiplier - 1) * 0.1;
+    const defaultScale = 0.85 + (selectedSize.multiplier - 1) * 0.12;
     if (!selectedBg.settings) return defaultScale;
     
     const s = selectedBg.settings;
@@ -272,13 +218,10 @@ export default function CustomizeNeonSign() {
       case 'medium': scale = s.scale_medium; break;
       case 'large': scale = s.scale_large; break;
       case 'xlarge': scale = s.scale_xlarge; break;
-      case 'xxlarge': scale = s.scale_xxlarge; break;
-      case 'supersized': scale = s.scale_supersized; break;
     }
     return scale ?? defaultScale;
   }, [selectedSize, selectedBg]);
 
-  // Normalize visual scale so switching fonts NEVER changes the physical width of the sign on the wall
   useEffect(() => {
     if (!containerRef.current || !textRef.current) return;
     
@@ -297,22 +240,17 @@ export default function CustomizeNeonSign() {
         const physicalInches = parseFloat(selectedSize.length);
         targetWidthPixels = physicalInches * calibrationRatio;
       } else {
-        // Normalize each selected size to a consistent visual width ratio on the wall across all fonts
-        let sizeRatio = 0.44; // default medium (24")
-        if (selectedSize.id === 'small') sizeRatio = 0.32;       // 18"
-        else if (selectedSize.id === 'medium') sizeRatio = 0.44; // 24"
-        else if (selectedSize.id === 'large') sizeRatio = 0.60;  // 36"
-        else if (selectedSize.id === 'xlarge') sizeRatio = 0.76; // 48"
-        else sizeRatio = Math.min(0.32 + (selectedSize.multiplier - 0.7) * 0.45, 0.85);
+        let sizeRatio = 0.26; // medium (24") default
+        if (selectedSize.id === 'small') sizeRatio = 0.18;
+        else if (selectedSize.id === 'medium') sizeRatio = 0.26;
+        else if (selectedSize.id === 'large') sizeRatio = 0.35;
+        else if (selectedSize.id === 'xlarge') sizeRatio = 0.45;
         
         targetWidthPixels = containerWidth * sizeRatio;
       }
       
-      // Calculate the normalized scale so ANY font matches the exact target width
       let normalizedScale = targetWidthPixels / textWidth;
-      
-      // Prevent 1 or 2 letter words from scaling up excessively
-      const maxAllowedScale = currentScale * 2.2;
+      const maxAllowedScale = currentScale * 2.4;
       normalizedScale = Math.min(normalizedScale, maxAllowedScale);
       
       setDynamicScale(normalizedScale);
@@ -328,484 +266,761 @@ export default function CustomizeNeonSign() {
 
   const finalScale = dynamicScale !== null ? dynamicScale : currentScale;
 
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+
   return (
-    <main className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender">
-      <Header />
+    <main className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender bg-[#080808]">
       
-      {/* Top Studio Toolbar */}
-      <div className="w-full bg-[#0d0d0d] border-b border-gray-800 px-4 md:px-6 h-14 flex items-center justify-between sticky top-20 z-50 shadow-xl">
-        <div className="flex items-center gap-3">
-          <span className="text-xs md:text-sm font-black text-brand-green uppercase tracking-widest drop-shadow-[0_0_8px_rgba(110,255,134,0.6)]">
-            Live Neon Studio
-          </span>
-          <span className="hidden md:inline text-gray-600">|</span>
-          <h1 className="hidden md:block text-sm md:text-base font-extrabold text-white">
-            Create Your Own Custom Signs
-          </h1>
+      {/* 1. Minimalist Configurator Header (Addressing Point #7: Removed competing navigation, kept only Logo, Help, Save, Cart) */}
+      <header className="w-full bg-[#0a0a0a]/95 backdrop-blur-2xl border-b border-white/10 px-4 md:px-8 h-20 flex items-center justify-between sticky top-0 z-50 shadow-2xl">
+        <div className="flex items-center gap-6">
+          <Link href="/" className="flex items-center gap-2 group">
+            <img 
+              src="/main logo.png" 
+              alt="The Neon Stack Logo" 
+              className="h-[76px] md:h-[95px] w-auto object-contain my-[-15px] group-hover:scale-105 transition-transform" 
+            />
+          </Link>
+          <div className="hidden md:flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full">
+            <span className="text-xs font-black text-brand-green uppercase tracking-widest flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Studio Configurator</span>
+            </span>
+            <span className="text-white/20">|</span>
+            <span className="text-xs font-semibold text-gray-300">100% Handcrafted LED Neon</span>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3 md:gap-5">
+        {/* Action Buttons (Addressing Point #8: Clear Hierarchy) */}
+        <div className="flex items-center gap-2 md:gap-3">
+          {/* Primary CTA in Header (Sticky & Accessible from Anywhere) */}
           <button
-            onClick={() => triggerMascot("Your design progress is automatically saved to your session!", MascotState.CELEBRATING)}
-            className="px-4 py-2 rounded-full border border-gray-700 hover:border-brand-purple text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white transition-all flex items-center gap-1.5"
+            onClick={() => {
+              addToCart({
+                name: `Custom Neon Sign — "${text}"`,
+                price,
+                quantity: 1,
+                isCustom: true,
+                customDetails: {
+                  text,
+                  font: selectedFont.name,
+                  color: selectedColor.name,
+                  size: `${selectedSize.name} (${selectedSize.length} × ${selectedSize.height})`,
+                  widthInches: parseFloat(selectedSize.length),
+                  backboard: `${selectedBackboardShape} (${selectedBackboardColor})`,
+                  usage: isWaterproof ? "Outdoor Waterproof IP67" : "Standard Indoor LED"
+                }
+              });
+              triggerMascot(`Added "${text}" neon sign to cart! Total: ₹${price.toLocaleString()}`, MascotState.CELEBRATING);
+            }}
+            className="px-4 py-2 md:px-5 md:py-2 rounded-full bg-[#6eff86] hover:bg-[#5be873] text-black font-black text-xs md:text-sm shadow-[0_0_20px_rgba(110,255,134,0.6)] hover:shadow-[0_0_30px_rgba(110,255,134,0.8)] transition-all flex items-center gap-2 hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            <ShoppingBag className="w-3.5 h-3.5 md:w-4 md:h-4 fill-black text-black shrink-0" />
+            <span className="whitespace-nowrap">ADD TO CART — ₹{price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+          </button>
+
+          <button
+            onClick={() => setShowHelpModal(true)}
+            className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white transition-all flex items-center gap-1.5"
+          >
+            <Info className="w-3.5 h-3.5 text-gray-400" />
+            <span className="hidden sm:inline">Help</span>
+          </button>
+
+          <button
+            onClick={() => {
+              setSaveToast(true);
+              triggerMascot("Your design progress is saved to your browser session!", MascotState.CELEBRATING);
+              setTimeout(() => setSaveToast(false), 3000);
+            }}
+            className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white transition-all flex items-center gap-1.5"
           >
             <Bookmark className="w-3.5 h-3.5 text-brand-purple" />
             <span>Save</span>
           </button>
 
-          <div className="flex items-center bg-[#151515] border border-gray-700 rounded-full pl-4 pr-1.5 py-1 gap-3">
-            <div className="text-right">
-              <div className="text-[10px] text-gray-400 uppercase font-semibold leading-none">Total Price</div>
-              <div className="text-sm md:text-base font-extrabold text-[#6eff86] drop-shadow-[0_0_6px_rgba(110,255,134,0.5)]">
-                ₹{price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-              </div>
-            </div>
-            <button
-              onClick={() => {
-                addToCart({
-                  name: `Custom Neon Sign — "${text}"`,
-                  price,
-                  quantity: 1,
-                  isCustom: true,
-                  customDetails: {
-                    text,
-                    font: selectedFont.name,
-                    color: selectedColor.name,
-                    size: `${selectedSize.name} (${selectedSize.length} × ${selectedSize.height})`,
-                    widthInches: parseFloat(selectedSize.length),
-                    backboard: `${selectedBackboardShape} (${selectedBackboardColor})`,
-                    usage: isWaterproof ? "Outdoor Waterproof IP67" : "Standard Indoor LED"
-                  }
-                });
-                triggerMascot(`Added "${text}" neon sign to cart! Total: ₹${price.toLocaleString()}`, MascotState.CELEBRATING);
-              }}
-              className="px-5 py-2 bg-gradient-to-r from-brand-purple to-[#9d4edd] hover:from-[#853aff] hover:to-[#a95dff] text-white rounded-full font-extrabold text-xs md:text-sm shadow-[0_0_15px_rgba(117,46,255,0.5)] transition-all flex items-center gap-2 hover:scale-105"
-            >
-              <span>Add To Cart</span>
-              <ShoppingBag className="w-4 h-4" />
-            </button>
-          </div>
+          <Link
+            href="/cart"
+            className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-bold uppercase tracking-wider text-white transition-all flex items-center gap-2"
+          >
+            <ShoppingBag className="w-3.5 h-3.5 text-white" />
+            <span>Cart</span>
+            <span className="bg-brand-green text-black px-1.5 py-0.5 rounded-full text-[10px] font-extrabold">
+              {cartCount}
+            </span>
+          </Link>
         </div>
-      </div>
+      </header>
 
       {/* Main Studio Workshop Area */}
-      <div className="w-full flex flex-col lg:flex-row min-h-[calc(100vh-140px)] lg:h-[calc(100vh-140px)] lg:max-h-[820px] lg:overflow-hidden bg-[#080808] border-b border-gray-800">
+      <div className="w-full flex flex-col lg:flex-row min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] lg:max-h-[860px] lg:overflow-hidden bg-[#070707] border-b border-gray-800">
         
-        {/* 1. Vertical Icon Sidebar (Far Left) */}
-        <div className="studio-left-menu w-full lg:w-20 bg-[#0a0a0a] border-b lg:border-b-0 lg:border-r border-gray-800 flex lg:flex-col items-center justify-between py-2 lg:py-5 px-1.5 z-30 flex-shrink-0">
+        {/* Left Step Navigation Bar */}
+        <div className="studio-left-menu w-full lg:w-20 bg-[#0b0b0b] border-b lg:border-b-0 lg:border-r border-white/10 flex lg:flex-col items-center justify-between py-2 lg:py-5 px-1.5 z-30 flex-shrink-0">
           <div className="flex lg:flex-col items-center justify-around lg:justify-start w-full gap-2 lg:gap-4">
             {[
               { id: 'create', label: 'CREATE', icon: <Type className="w-5 h-5" /> },
               { id: 'color', label: 'COLOR', icon: <Palette className="w-5 h-5" /> },
               { id: 'backboard', label: 'BACKING', icon: <Layers className="w-5 h-5" /> },
-              { id: 'hardware', label: 'OPTIONS', icon: <Settings className="w-5 h-5" /> },
+              { id: 'hardware', label: 'HARDWARE', icon: <Settings className="w-5 h-5" /> },
               { id: 'room', label: 'ROOM', icon: <ImageIcon className="w-5 h-5" /> },
-            ].map((tab) => {
-              const isSelected = activeTab === tab.id;
+            ].map((item) => {
+              const isActive = activeTab === item.id;
               return (
                 <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id as any)}
-                  className={`w-full py-3 lg:py-3.5 px-1.5 rounded-xl flex flex-col items-center justify-center gap-1 transition-all relative ${isSelected ? 'studio-tab-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-tab bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id as any)}
+                  className={`group relative flex lg:flex-col items-center justify-center gap-1.5 w-full py-2.5 lg:py-3 rounded-xl transition-all ${
+                    isActive 
+                      ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]' 
+                      : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
+                  }`}
+                  title={item.label}
                 >
-                  {isSelected && (
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#6eff86] rounded-r-full hidden lg:block" />
+                  <div className="flex items-center justify-center">{item.icon}</div>
+                  <span className="text-[10px] tracking-wider font-bold">{item.label}</span>
+                  {isActive && (
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-brand-purple rounded-l-full hidden lg:block" />
                   )}
-                  {tab.icon}
-                  <span className="text-[10px] tracking-wider text-center uppercase leading-tight font-bold">{tab.label}</span>
-                 </button>
+                </button>
               );
             })}
           </div>
+
+          <div className="hidden lg:flex flex-col items-center gap-4">
+            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest rotate-180 [writing-mode:vertical-lr]">
+              NEON STACK
+            </span>
+          </div>
         </div>
 
-        {/* 2. Active Control Drawer (Left/Center Panel) */}
-        <div className="studio-left-menu w-full lg:w-[350px] lg:h-full bg-[#111111] border-b lg:border-b-0 lg:border-r border-gray-800 p-5 overflow-y-auto max-h-[780px] lg:max-h-none flex-shrink-0 z-20 flex flex-col gap-5">
-          {activeTab === 'create' && (
-            <div className="flex flex-col gap-6">
-              {/* Text Input */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-bold text-brand-green uppercase tracking-wider">1. Enter Your Neon Text</label>
-                  <span className="text-xs text-gray-400">{text.length} chars</span>
+        {/* 2. Layered Glassmorphic Sidebar Card (Addressing Point #1 & #5: 40% Less Green, Generous Spacing, Premium Cards) */}
+        <div className="w-full lg:w-[450px] bg-zinc-900/60 backdrop-blur-2xl border-r border-white/10 p-5 md:p-6 overflow-y-auto z-20 flex flex-col justify-between flex-shrink-0">
+          <div className="space-y-7">
+            
+            {/* TAB 1: CREATE (Text, Font, Size) */}
+            {activeTab === 'create' && (
+              <div className="flex flex-col gap-6">
+                
+                {/* 1. Text Input */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs font-extrabold text-white uppercase tracking-wider">
+                      1. Enter Neon Text
+                    </label>
+                    <span className="text-xs text-gray-400">{text.length} chars</span>
+                  </div>
+                  <textarea
+                    rows={2}
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    placeholder="Type something magical..."
+                    className="w-full bg-black/60 border border-white/20 focus:border-white rounded-xl p-3.5 text-white text-lg font-bold outline-none resize-none transition-colors shadow-inner"
+                  />
                 </div>
-                <textarea
-                  rows={2}
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  placeholder="Type something magical..."
-                  className="w-full bg-black border border-white/80 focus:border-white rounded-xl p-3.5 text-[#6eff86] text-lg font-bold outline-none resize-none transition-colors shadow-inner [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]"
-                />
-              </div>
 
-              {/* Font Style & Alignment */}
-              <div>
-                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">2. Choose Font Style & Align</label>
-                <div className="grid grid-cols-2 gap-2 mb-3 max-h-48 overflow-y-auto pr-1">
-                  {FONTS.map((f) => (
-                    <button
-                      key={f.name}
-                      onClick={() => {
-                        setSelectedFont(f);
-                        triggerMascot(`${f.name} font looks awesome!`, MascotState.WAVE);
-                      }}
-                      className={`px-3 py-2.5 rounded-xl transition-all text-left flex items-center justify-between ${selectedFont.name === f.name ? 'studio-btn-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-btn bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
-                    >
-                      <span className={`text-base truncate ${f.class}`}>{f.name}</span>
-                      {selectedFont.name === f.name && <Check className="w-3.5 h-3.5 text-[#6eff86] flex-shrink-0 ml-1" />}
-                    </button>
-                  ))}
-                </div>
-                <div className="flex bg-black border border-white/80 rounded-xl p-1 gap-1">
-                  {(['left', 'center', 'right'] as const).map((align) => (
-                    <button
-                      key={align}
-                      onClick={() => setTextAlign(align)}
-                      className={`flex-1 py-1.5 rounded-lg flex items-center justify-center transition-all ${textAlign === align ? 'studio-btn-active bg-black border-2 border-white text-[#6eff86] [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-btn bg-black border border-white/40 hover:border-white text-[#6eff86] [text-shadow:0_0_2px_rgba(110,255,134,0.5)]'}`}
-                    >
-                      {align === 'left' && <AlignLeft className="w-4 h-4" />}
-                      {align === 'center' && <AlignCenter className="w-4 h-4" />}
-                      {align === 'right' && <AlignRight className="w-4 h-4" />}
-                    </button>
-                  ))}
-                </div>
-              </div>
+                {/* 2. Categorized Font Selector (Addressing Point #6: Categorized Pills & Dropdown) */}
+                <div>
+                  <div className="flex items-center justify-between mb-2.5">
+                    <label className="text-xs font-extrabold text-white uppercase tracking-wider">
+                      2. Choose Font Style
+                    </label>
+                    <span className="text-[11px] text-gray-400 font-medium">
+                      {FONTS.length} Fonts Available
+                    </span>
+                  </div>
 
-              {/* Select Size Grid (6 Cards: Small to Supersized) */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-bold text-brand-green uppercase tracking-wider">3. Select Size</label>
-                  <span className="text-xs text-gray-400">{selectedSize.length} × {selectedSize.height}</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2.5">
-                  {SIZES.map((size) => {
-                    const isSelected = selectedSize.id === size.id;
-                    return (
-                      <div
-                        key={size.id}
-                        onClick={() => {
-                          setSelectedSize(size);
-                          triggerMascot(`${size.name} size selected (${size.length} × ${size.height})`, MascotState.TALKING);
-                        }}
-                        className={`p-3 rounded-xl transition-all cursor-pointer flex flex-col justify-between ${isSelected ? 'studio-card-active bg-black border-2 border-[#752eff] text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)] scale-[1.02]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-bold text-[#6eff86]">{size.name}</span>
-                          {isSelected && <Check className="w-4 h-4 text-[#6eff86]" />}
-                        </div>
-                        <div className="text-xs text-[#6eff86]/90 mt-1.5 font-semibold">
-                          {size.maxLetters}
-                        </div>
-                        <div className="mt-2 text-sm font-extrabold text-[#6eff86]">
-                          ₹{size.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'color' && (
-            <div className="flex flex-col gap-6">
-              <div>
-                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">Choose LED Neon Color</label>
-                <div className="grid grid-cols-2 gap-3">
-                  {COLORS.map((c) => {
-                    const isSelected = selectedColor.name === c.name;
-                    return (
+                  {/* Category Filter Pills */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto pb-2 mb-3 scrollbar-none">
+                    {[
+                      { id: 'popular', label: 'Popular ⭐' },
+                      { id: 'elegant', label: 'Elegant' },
+                      { id: 'modern', label: 'Modern' },
+                      { id: 'script', label: 'Script' },
+                      { id: 'bold', label: 'Bold' },
+                      { id: 'classic', label: 'Classic' },
+                      { id: 'all', label: 'See All ▾' },
+                    ].map((cat) => (
                       <button
-                        key={c.name}
-                        onClick={() => handleColorSelect(c)}
-                        className={`p-3 rounded-xl transition-all flex items-center gap-3 ${isSelected ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                        key={cat.id}
+                        onClick={() => setFontCategory(cat.id as any)}
+                        className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
+                          fontCategory === cat.id
+                            ? 'bg-white text-black shadow-md'
+                            : 'bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10'
+                        }`}
+                      >
+                        {cat.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Dropdown menu when 'all' is selected */}
+                  {fontCategory === 'all' && (
+                    <div className="mb-3">
+                      <select
+                        value={selectedFont.name}
+                        onChange={(e) => {
+                          const f = FONTS.find(font => font.name === e.target.value);
+                          if (f) {
+                            setSelectedFont(f);
+                            triggerMascot(`${f.name} font looks awesome!`, MascotState.WAVE);
+                          }
+                        }}
+                        className="w-full bg-black/80 border border-white/20 rounded-xl px-3.5 py-3 text-white font-bold outline-none focus:border-white transition-colors"
+                      >
+                        {FONTS.map((f) => (
+                          <option key={f.name} value={f.name}>
+                            {f.name} Font Style
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {/* Font Cards Grid */}
+                  <div className="grid grid-cols-2 gap-2 mb-3 max-h-52 overflow-y-auto pr-1">
+                    {FONTS.filter(f => fontCategory === 'all' || f.category === fontCategory).map((f) => {
+                      const isSelected = selectedFont.name === f.name;
+                      return (
+                        <button
+                          key={f.name}
+                          onClick={() => {
+                            setSelectedFont(f);
+                            triggerMascot(`${f.name} font looks awesome!`, MascotState.WAVE);
+                          }}
+                          className={`px-3.5 py-2.5 rounded-xl transition-all text-left flex items-center justify-between ${
+                            isSelected
+                              ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
+                              : 'bg-white/[0.04] border border-white/10 hover:border-white/30 text-gray-200 hover:text-white font-semibold'
+                          }`}
+                        >
+                          <span className={`text-base truncate ${f.class}`}>{f.name}</span>
+                          {isSelected && <Check className="w-4 h-4 text-brand-purple shrink-0 ml-1" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Alignment Controls */}
+                  <div className="flex bg-black/60 border border-white/10 rounded-xl p-1 gap-1">
+                    {(['left', 'center', 'right'] as const).map((align) => (
+                      <button
+                        key={align}
+                        onClick={() => setTextAlign(align)}
+                        className={`flex-1 py-1.5 rounded-lg flex items-center justify-center transition-all ${
+                          textAlign === align
+                            ? 'bg-white/20 text-white font-bold shadow-sm'
+                            : 'text-gray-400 hover:text-white'
+                        }`}
+                      >
+                        {align === 'left' && <AlignLeft className="w-4 h-4" />}
+                        {align === 'center' && <AlignCenter className="w-4 h-4" />}
+                        {align === 'right' && <AlignRight className="w-4 h-4" />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 3. Select Size Grid */}
+                <div>
+                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-2.5 block">
+                    3. Select Physical Size
+                  </label>
+                  <div className="flex flex-col gap-2.5">
+                    {SIZES.map((size) => {
+                      const isSelected = selectedSize.id === size.id;
+                      return (
+                        <div
+                          key={size.id}
+                          onClick={() => {
+                            setSelectedSize(size);
+                            triggerMascot(`Switched to ${size.name}!`, MascotState.WAVE);
+                          }}
+                          className={`p-3.5 rounded-xl transition-all cursor-pointer flex items-center justify-between ${
+                            isSelected
+                              ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
+                              : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                          }`}
+                        >
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-sm">{size.name}</span>
+                              {isSelected && <Check className="w-4 h-4 text-brand-purple" />}
+                            </div>
+                            <div className="text-xs text-gray-400 mt-0.5">
+                              {size.length} × {size.height} • {size.maxLetters}
+                            </div>
+                          </div>
+                          <div className="text-sm font-extrabold text-white">
+                            ₹{size.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            {/* TAB 2: COLOR */}
+            {activeTab === 'color' && (
+              <div className="flex flex-col gap-6">
+                <div>
+                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-3 block">
+                    Choose LED Neon Color
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {COLORS.map((c) => {
+                      const isSelected = selectedColor.name === c.name;
+                      return (
+                        <button
+                          key={c.name}
+                          onClick={() => handleColorSelect(c)}
+                          className={`p-3.5 rounded-xl transition-all flex items-center gap-3 ${
+                            isSelected
+                              ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
+                              : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                          }`}
+                        >
+                          <div
+                            className="w-7 h-7 rounded-full border border-white/40 shrink-0"
+                            style={{
+                              backgroundColor: c.hex,
+                              boxShadow: `0 0 12px ${c.glow}, inset 0 0 4px #ffffff`
+                            }}
+                          />
+                          <span className="text-sm font-bold truncate">{c.name}</span>
+                          {isSelected && <Check className="w-4 h-4 text-brand-purple ml-auto" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 3: BACKBOARD */}
+            {activeTab === 'backboard' && (
+              <div className="flex flex-col gap-6">
+                <div>
+                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-2.5 block">
+                    1. Acrylic Backing Shape
+                  </label>
+                  <div className="flex flex-col gap-2.5">
+                    {[
+                      { id: 'cut', name: 'Cut to Shape', desc: 'Acrylic closely follows the letter contours (Most Popular)' },
+                      { id: 'square', name: 'Whole Board / Square', desc: 'Full rectangular or square clear acrylic backing' },
+                      { id: 'stand', name: 'Acrylic Stand Base', desc: 'Designed to stand on a desk, shelf, or tabletop' },
+                      { id: 'none', name: 'No Backing / Minimal', desc: 'Minimalist backing for ultra-clean look' },
+                    ].map((shape) => {
+                      const isSelected = selectedBackboardShape === shape.id;
+                      return (
+                        <div
+                          key={shape.id}
+                          onClick={() => {
+                            setSelectedBackboardShape(shape.id as any);
+                            triggerMascot(`${shape.name} backing looks super clean!`, MascotState.WAVE);
+                          }}
+                          className={`p-3.5 rounded-xl transition-all cursor-pointer ${
+                            isSelected
+                              ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
+                              : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between font-bold text-sm">
+                            <span>{shape.name}</span>
+                            {isSelected && <Check className="w-4 h-4 text-brand-purple" />}
+                          </div>
+                          <p className="text-xs text-gray-400 mt-1">{shape.desc}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-2.5 block">
+                    2. Backboard Color
+                  </label>
+                  <div className="grid grid-cols-2 gap-2.5">
+                    {[
+                      { id: 'clear', name: 'Transparent Clear' },
+                      { id: 'black', name: 'Gloss Black' },
+                      { id: 'white', name: 'Gloss White' },
+                      { id: 'mirror', name: 'Mirrored Silver' },
+                    ].map((color) => {
+                      const isSelected = selectedBackboardColor === color.id;
+                      return (
+                        <button
+                          key={color.id}
+                          onClick={() => setSelectedBackboardColor(color.id as any)}
+                          className={`p-3 rounded-xl transition-all text-sm font-bold ${
+                            isSelected
+                              ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
+                              : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                          }`}
+                        >
+                          {color.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 4: HARDWARE */}
+            {activeTab === 'hardware' && (
+              <div className="flex flex-col gap-6">
+                <div>
+                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-2.5 block">
+                    1. Mounting Kit
+                  </label>
+                  <div className="flex flex-col gap-2.5">
+                    {[
+                      { id: 'screws', name: 'Wall Screws & Drill Holes', desc: 'Pre-drilled holes with stainless steel spacers included (Free)' },
+                      { id: 'wire', name: 'Hanging Wire Kit', desc: 'Stainless steel wire loop kit for window or ceiling hanging (Free)' },
+                      { id: 'stand', name: 'Tabletop Acrylic Stand', desc: 'Stable desk mount for tables & reception counters (+₹800)' },
+                    ].map((mount) => {
+                      const isSelected = selectedMounting === mount.id;
+                      return (
+                        <div
+                          key={mount.id}
+                          onClick={() => setSelectedMounting(mount.id as any)}
+                          className={`p-3.5 rounded-xl transition-all cursor-pointer ${
+                            isSelected
+                              ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
+                              : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between font-bold text-sm">
+                            <span>{mount.name}</span>
+                            {isSelected && <Check className="w-4 h-4 text-brand-purple" />}
+                          </div>
+                          <p className="text-xs text-gray-400 mt-1">{mount.desc}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-2.5 block">
+                    2. Dimmer & Controller
+                  </label>
+                  <div className="flex flex-col gap-2.5">
+                    <div
+                      onClick={() => setHasSmartController(false)}
+                      className={`p-3.5 rounded-xl transition-all cursor-pointer ${
+                        !hasSmartController
+                          ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
+                          : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between font-bold text-sm">
+                        <span>Standard Brightness Dimmer</span>
+                        <span className="text-xs font-extrabold text-white">FREE</span>
+                      </div>
+                      <p className="text-xs text-gray-400 mt-1">Manual inline dimmer button to adjust 10–100% brightness</p>
+                    </div>
+                    <div
+                      onClick={() => {
+                        setHasSmartController(true);
+                        triggerMascot("Smart WiFi/Remote added! Adjust brightness from your couch.", MascotState.WAVE);
+                      }}
+                      className={`p-3.5 rounded-xl transition-all cursor-pointer ${
+                        hasSmartController
+                          ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
+                          : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between font-bold text-sm">
+                        <span>Smart WiFi & Wireless Remote</span>
+                        <span className="text-xs font-extrabold text-white">+₹2,000</span>
+                      </div>
+                      <p className="text-xs text-gray-400 mt-1">Remote control, party flash modes, timer & Alexa/Google Assistant</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-2.5 block">
+                    3. Indoor / Outdoor Protection
+                  </label>
+                  <div className="flex flex-col gap-2.5">
+                    <div
+                      onClick={() => setIsWaterproof(false)}
+                      className={`p-3.5 rounded-xl transition-all cursor-pointer ${
+                        !isWaterproof
+                          ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
+                          : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between font-bold text-sm">
+                        <span>Standard Indoor LED</span>
+                        <span className="text-xs font-extrabold text-white">FREE</span>
+                      </div>
+                      <p className="text-xs text-gray-400 mt-1">Perfect for bedroom, living room, office & indoor events</p>
+                    </div>
+                    <div
+                      onClick={() => setIsWaterproof(true)}
+                      className={`p-3.5 rounded-xl transition-all cursor-pointer ${
+                        isWaterproof
+                          ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
+                          : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between font-bold text-sm">
+                        <span>IP67 Waterproof Outdoor</span>
+                        <span className="text-xs font-extrabold text-white">+₹3,000</span>
+                      </div>
+                      <p className="text-xs text-gray-400 mt-1">Sealed weatherproof silicone housing for rain, snow & direct sun</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 5: ROOM */}
+            {activeTab === 'room' && (
+              <div className="flex flex-col gap-6">
+                <div>
+                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-3 block">
+                    Select Room Background
+                  </label>
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    {backgroundsList.map((bg) => (
+                      <button
+                        key={bg.id}
+                        onClick={() => {
+                          setSelectedBg(bg);
+                          setIsCalibrating(false);
+                          triggerMascot(`Changed room to ${bg.name}!`, MascotState.WAVE);
+                        }}
+                        className={`p-2 rounded-xl transition-all flex flex-col gap-2 ${
+                          selectedBg.id === bg.id
+                            ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
+                            : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200'
+                        }`}
                       >
                         <div
-                          className="w-7 h-7 rounded-full border border-white/40 flex-shrink-0"
-                          style={{
-                            backgroundColor: c.hex,
-                            boxShadow: `0 0 10px ${c.glow}, inset 0 0 4px #ffffff`
-                          }}
+                          className="w-full h-20 rounded-lg bg-cover bg-center"
+                          style={{ backgroundImage: `url('${bg.url}')` }}
                         />
-                        <span className="text-sm font-bold truncate text-[#6eff86] [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]">{c.name}</span>
-                        {isSelected && <Check className="w-4 h-4 text-[#6eff86] ml-auto" />}
+                        <span className="text-xs font-bold text-center truncate w-full">{bg.name}</span>
                       </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
+                    ))}
+                  </div>
 
-          {activeTab === 'backboard' && (
-            <div className="flex flex-col gap-6">
-              <div>
-                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">1. Acrylic Shape</label>
-                <div className="flex flex-col gap-2.5">
-                  {[
-                    { id: 'cut', name: 'Cut to Shape', desc: 'Acrylic closely follows the letter contours (Most Popular)' },
-                    { id: 'square', name: 'Whole Board / Square', desc: 'Full rectangular or square clear acrylic backing' },
-                    { id: 'stand', name: 'Acrylic Stand Base', desc: 'Designed to stand on a desk, shelf, or tabletop' },
-                    { id: 'none', name: 'No Backing / Minimal', desc: 'Minimalist backing for ultra-clean look' },
-                  ].map((shape) => {
-                    const isSelected = selectedBackboardShape === shape.id;
-                    return (
-                      <div
-                        key={shape.id}
-                        onClick={() => {
-                          setSelectedBackboardShape(shape.id as any);
-                          triggerMascot(`${shape.name} backing looks super clean!`, MascotState.WAVE);
-                        }}
-                        className={`p-3.5 rounded-xl transition-all cursor-pointer ${isSelected ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
-                      >
-                        <div className="flex items-center justify-between font-bold text-sm text-[#6eff86]">
-                          <span>{shape.name}</span>
-                          {isSelected && <Check className="w-4 h-4 text-[#6eff86]" />}
-                        </div>
-                        <p className="text-xs text-[#6eff86]/80 mt-1">{shape.desc}</p>
-                      </div>
-                    );
-                  })}
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs font-bold text-brand-purple uppercase tracking-wider">
+                      Preview On Your Own Wall
+                    </label>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-purple/20 text-brand-lavender border border-brand-purple/40">
+                      ✨ Recommended
+                    </span>
+                  </div>
+                  <label className="w-full bg-gradient-to-r from-brand-purple/15 via-black to-white/5 border-2 border-dashed border-brand-purple/60 hover:border-white rounded-xl p-5 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all duration-300 group shadow-lg relative overflow-hidden">
+                    <Upload className="w-6 h-6 text-brand-lavender group-hover:scale-110 transition-transform" />
+                    <span className="text-sm font-extrabold text-white text-center">
+                      See Your Neon Sign On Your Own Wall
+                    </span>
+                    <span className="text-[10px] text-gray-400 font-medium">
+                      Upload photo of your room or wall (JPG, PNG)
+                    </span>
+                    <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
+                  </label>
                 </div>
-              </div>
 
-              <div>
-                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">2. Backboard Color</label>
-                <div className="grid grid-cols-2 gap-2.5">
-                  {[
-                    { id: 'clear', name: 'Transparent Clear' },
-                    { id: 'black', name: 'Gloss Black' },
-                    { id: 'white', name: 'Gloss White' },
-                    { id: 'mirror', name: 'Mirrored Silver' },
-                  ].map((color) => {
-                    const isSelected = selectedBackboardColor === color.id;
-                    return (
+                {selectedBg.id === 'custom' && (
+                  <div className="bg-[#151515] border border-brand-purple/40 rounded-xl p-4 flex flex-col gap-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-brand-purple uppercase">Room Scale Calibration</span>
                       <button
-                        key={color.id}
-                        onClick={() => setSelectedBackboardColor(color.id as any)}
-                        className={`p-3 rounded-xl transition-all text-sm font-bold ${isSelected ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
+                        onClick={() => {
+                          setIsCalibrating(true);
+                          triggerMascot("Drag the red line over a known object in your photo to calibrate dimensions!", MascotState.TALKING);
+                        }}
+                        className="text-xs font-bold text-white hover:underline"
                       >
-                        {color.name}
+                        {calibrationRatio ? 'Recalibrate' : 'Start Calibration'}
                       </button>
-                    );
-                  })}
+                    </div>
+                    <p className="text-[11px] text-gray-400">
+                      {calibrationRatio ? 'Room scale calibrated! Your sign is shown at realistic physical dimensions.' : 'Calibrate your room photo to preview your sign at 100% accurate physical scale.'}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
+          </div>
+
+          {/* 3. Bottom CTA Box (Addressing Point #8: Clear Hierarchy with ONE Dominant Primary Button) */}
+          <div className="pt-6 border-t border-white/10 mt-6 space-y-4">
+            <div className="flex items-baseline justify-between">
+              <div>
+                <span className="text-xs font-semibold uppercase text-gray-400 tracking-wider">Total Custom Price</span>
+                <div className="text-2xl font-black text-white">
+                  ₹{price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </div>
               </div>
+              <span className="text-xs text-gray-400 font-medium">{selectedSize.length} × {selectedSize.height}</span>
             </div>
-          )}
 
-          {activeTab === 'hardware' && (
-            <div className="flex flex-col gap-6">
-              <div>
-                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">1. Mounting Kit</label>
-                <div className="flex flex-col gap-2.5">
-                  {[
-                    { id: 'screws', name: 'Wall Screws & Drill Holes', desc: 'Pre-drilled holes with stainless steel spacers included (Free)' },
-                    { id: 'wire', name: 'Hanging Wire Kit', desc: 'Stainless steel wire loop kit for window or ceiling hanging (Free)' },
-                    { id: 'stand', name: 'Tabletop Acrylic Stand', desc: 'Stable desk mount for tables & reception counters (+₹800)' },
-                  ].map((mount) => {
-                    const isSelected = selectedMounting === mount.id;
-                    return (
-                      <div
-                        key={mount.id}
-                        onClick={() => setSelectedMounting(mount.id as any)}
-                        className={`p-3.5 rounded-xl transition-all cursor-pointer ${isSelected ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
-                      >
-                        <div className="flex items-center justify-between font-bold text-sm text-[#6eff86]">
-                          <span>{mount.name}</span>
-                          {isSelected && <Check className="w-4 h-4 text-[#6eff86]" />}
-                        </div>
-                        <p className="text-xs text-[#6eff86]/80 mt-1">{mount.desc}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+            {/* UNDERSTATED SECONDARY ACTIONS */}
+            <div className="flex items-center justify-between gap-2 pt-2">
+              <button
+                onClick={prevTab}
+                disabled={activeTab === 'create'}
+                className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-all ${
+                  activeTab === 'create'
+                    ? 'opacity-30 border-gray-800 bg-[#111] text-gray-600 cursor-not-allowed'
+                    : 'bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:border-white/30'
+                }`}
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+                <span>Prev</span>
+              </button>
 
-              <div>
-                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">2. Dimmer & Controller</label>
-                <div className="flex flex-col gap-2.5">
-                  <div
-                    onClick={() => setHasSmartController(false)}
-                    className={`p-3.5 rounded-xl transition-all cursor-pointer ${!hasSmartController ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
-                  >
-                    <div className="flex items-center justify-between font-bold text-sm text-[#6eff86]">
-                      <span>Standard Brightness Dimmer</span>
-                      <span className="text-xs font-extrabold text-[#6eff86]">FREE</span>
-                    </div>
-                    <p className="text-xs text-[#6eff86]/80 mt-1">Manual inline dimmer button to adjust 10–100% brightness</p>
-                  </div>
-                  <div
-                    onClick={() => {
-                      setHasSmartController(true);
-                      triggerMascot("Smart WiFi/Remote added! Adjust brightness from your couch.", MascotState.WAVE);
-                    }}
-                    className={`p-3.5 rounded-xl transition-all cursor-pointer ${hasSmartController ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
-                  >
-                    <div className="flex items-center justify-between font-bold text-sm text-[#6eff86]">
-                      <span>Smart WiFi & Wireless Remote</span>
-                      <span className="text-xs font-extrabold text-[#6eff86]">+₹2,000</span>
-                    </div>
-                    <p className="text-xs text-[#6eff86]/80 mt-1">Remote control, party flash modes, timer & Alexa/Google Assistant</p>
-                  </div>
-                </div>
-              </div>
+              <button
+                onClick={() => setShowHelpModal(true)}
+                className="flex-1 py-2 px-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:border-white/30 transition-all"
+              >
+                <Info className="w-3.5 h-3.5" />
+                <span>Tips</span>
+              </button>
 
-              <div>
-                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">3. Indoor / Outdoor Protection</label>
-                <div className="flex flex-col gap-2.5">
-                  <div
-                    onClick={() => setIsWaterproof(false)}
-                    className={`p-3.5 rounded-xl transition-all cursor-pointer ${!isWaterproof ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
-                  >
-                    <div className="flex items-center justify-between font-bold text-sm text-[#6eff86]">
-                      <span>Standard Indoor LED</span>
-                      <span className="text-xs font-extrabold text-[#6eff86]">FREE</span>
-                    </div>
-                    <p className="text-xs text-[#6eff86]/80 mt-1">Perfect for bedroom, living room, office & indoor events</p>
-                  </div>
-                  <div
-                    onClick={() => setIsWaterproof(true)}
-                    className={`p-3.5 rounded-xl transition-all cursor-pointer ${isWaterproof ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
-                  >
-                    <div className="flex items-center justify-between font-bold text-sm text-[#6eff86]">
-                      <span>IP67 Waterproof Outdoor (+15%)</span>
-                      <span className="text-xs font-extrabold text-[#6eff86]">+₹3,000</span>
-                    </div>
-                    <p className="text-xs text-[#6eff86]/80 mt-1">Sealed weatherproof silicone housing for rain, snow & direct sun</p>
-                  </div>
-                </div>
-              </div>
+              <button
+                onClick={nextTab}
+                disabled={activeTab === 'room'}
+                className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-all ${
+                  activeTab === 'room'
+                    ? 'opacity-30 border-gray-800 bg-[#111] text-gray-600 cursor-not-allowed'
+                    : 'bg-white/10 border border-white/20 text-white hover:bg-white/20'
+                }`}
+              >
+                <span>Next</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
             </div>
-          )}
+          </div>
 
-          {activeTab === 'room' && (
-            <div className="flex flex-col gap-6">
-              <div>
-                <label className="text-xs font-bold text-brand-green uppercase tracking-wider mb-2 block">Select Room Background</label>
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  {backgroundsList.map((bg) => (
-                    <button
-                      key={bg.id}
-                      onClick={() => {
-                        setSelectedBg(bg);
-                        setIsCalibrating(false);
-                        triggerMascot(`Changed room to ${bg.name}!`, MascotState.WAVE);
-                      }}
-                      className={`p-2 rounded-xl transition-all flex flex-col gap-2 ${selectedBg.id === bg.id ? 'studio-card-active bg-black border-2 border-white text-[#6eff86] font-extrabold [text-shadow:0_0_2px_#6eff86,0_0_6px_rgba(110,255,134,0.7)] shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'studio-card bg-black border border-white/80 hover:border-white text-[#6eff86] font-bold [text-shadow:0_0_2px_rgba(110,255,134,0.5)] hover:[text-shadow:0_0_3px_#6eff86,0_0_6px_rgba(110,255,134,0.7)]'}`}
-                    >
-                      <div
-                        className="w-full h-20 rounded-lg bg-cover bg-center"
-                        style={{ backgroundImage: `url('${bg.url}')` }}
-                      />
-                      <span className="text-xs font-bold text-[#6eff86] text-center truncate w-full">{bg.name}</span>
-                    </button>
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-bold text-brand-purple uppercase tracking-wider">Preview On Your Own Wall</label>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-purple/20 text-[#6eff86] border border-[#6eff86]/40 [text-shadow:0_0_2px_#6eff86]">
-                    ✨ Recommended
-                  </span>
-                </div>
-                <label className="w-full bg-gradient-to-r from-brand-purple/10 via-black to-[#6eff86]/10 border-2 border-dashed border-brand-purple/60 hover:border-[#6eff86] rounded-xl p-5 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all duration-300 group shadow-[0_0_18px_rgba(117,46,255,0.18)] hover:shadow-[0_0_25px_rgba(110,255,134,0.25)] relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
-                  <Upload className="w-6 h-6 text-[#6eff86] group-hover:scale-110 transition-transform drop-shadow-[0_0_6px_rgba(110,255,134,0.6)]" />
-                  <span className="text-sm font-extrabold text-white text-center [text-shadow:0_0_2px_rgba(255,255,255,0.7)] group-hover:text-[#6eff86] transition-colors">See Your Neon Sign On Your Own Wall</span>
-                  <span className="text-[10px] text-gray-400 font-medium">Upload photo of your room or wall (JPG, PNG)</span>
-                  <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
-                </label>
-              </div>
-
-              {selectedBg.id === 'custom' && (
-                <div className="bg-[#151515] border border-brand-purple/40 rounded-xl p-4 flex flex-col gap-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-brand-purple uppercase">Room Scale Calibration</span>
-                    <button
-                      onClick={() => {
-                        setIsCalibrating(true);
-                        triggerMascot("Drag the red line over a known object in your photo to calibrate dimensions!", MascotState.TALKING);
-                      }}
-                      className="text-xs font-bold text-[#6eff86] hover:underline"
-                    >
-                      {calibrationRatio ? 'Recalibrate' : 'Start Calibration'}
-                    </button>
-                  </div>
-                  <p className="text-[11px] text-gray-400">
-                    {calibrationRatio ? 'Room scale calibrated! Your sign is shown at realistic physical dimensions.' : 'Calibrate your room photo to preview your sign at 100% accurate physical scale.'}
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
         </div>
 
-        {/* 3. Center/Right Workshop Preview Canvas */}
+        {/* 3. Center/Right Workshop Preview Canvas (Addressing Point #3 & #9: Larger Sign & Realistic Light Emission) */}
         <div className="flex-1 relative overflow-hidden bg-[#090909] h-[560px] lg:h-full lg:min-h-0 flex items-center justify-center p-4 sm:p-8 lg:p-10 xl:p-12">
           
           {/* Measurement Workshop Grid Pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#141414_1px,transparent_1px),linear-gradient(to_bottom,#141414_1px,transparent_1px)] bg-[size:24px_24px] opacity-90 pointer-events-none" />
 
-          {/* Left Step Navigation Button (Floating on grid to the left of the Room Box) */}
-          <button
-            onClick={prevTab}
-            disabled={activeTab === 'create'}
-            className={`absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 z-30 px-3.5 py-3 rounded-xl border text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-2xl ${activeTab === 'create' ? 'opacity-30 border-gray-800 bg-[#111] text-gray-600 cursor-not-allowed' : 'bg-[#151515] border-gray-700 text-gray-200 hover:text-white hover:border-[#6eff86] hover:bg-black hover:scale-105'}`}
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span className="hidden xl:inline">PREV</span>
-          </button>
-
-          {/* Right Step Navigation Button (Floating on grid to the right of the Room Box) */}
-          <button
-            onClick={nextTab}
-            disabled={activeTab === 'room'}
-            className={`absolute right-2 lg:right-6 top-1/2 -translate-y-1/2 z-30 px-4 py-3 rounded-xl border text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-2xl ${activeTab === 'room' ? 'opacity-30 border-gray-800 bg-[#111] text-gray-600 cursor-not-allowed' : 'bg-gradient-to-r from-[#141414] to-[#1e1e1e] border-[#6eff86] text-[#6eff86] hover:bg-[#6eff86] hover:text-black shadow-[0_0_15px_rgba(110,255,134,0.3)] hover:scale-105'}`}
-          >
-            <span className="hidden xl:inline">NEXT</span>
-            <ChevronRight className="w-5 h-5" />
-          </button>
-
-          {/* Centered Studio Room Photo Box */}
-          <div className="relative w-full max-w-[1040px] max-h-[620px] aspect-[16/9] bg-[#101010] rounded-lg overflow-hidden border border-white/10 shadow-[0_0_60px_rgba(0,0,0,0.85)] flex items-center justify-center z-20">
+          {/* Wrapper for Top Toolbar Strip (Option 4) + Room Photo Box */}
+          <div className="relative flex flex-col items-center justify-center gap-3 w-full max-w-[660px] z-20">
             
-            {/* Stable landscape room photo, matching the reference-style preview stage. */}
+            {/* Top Toolbar Strip (Above the Photo Box) - Option 4 */}
+            <div className="w-full bg-black/85 backdrop-blur-md border border-white/15 px-3.5 py-2 rounded-2xl shadow-xl flex flex-wrap items-center justify-between gap-2 shrink-0">
+              {/* Left: Lighting Moods */}
+              <div className="flex items-center gap-1">
+                {[
+                  { id: 'night', label: 'Dark Room', icon: <Moon className="w-3.5 h-3.5 text-white shrink-0" /> },
+                  { id: 'evening', label: 'Cozy Evening', icon: <Sunset className="w-3.5 h-3.5 text-amber-400 shrink-0" /> },
+                  { id: 'day', label: 'Daytime', icon: <Sun className="w-3.5 h-3.5 text-yellow-300 shrink-0" /> },
+                ].map((mood) => (
+                  <button
+                    key={mood.id}
+                    onClick={() => setRoomLightingMood(mood.id as any)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 select-none whitespace-nowrap ${
+                      roomLightingMood === mood.id
+                        ? 'bg-black border-2 border-brand-purple text-white shadow-[0_0_15px_rgba(117,46,255,0.6)]'
+                        : 'bg-transparent border border-transparent text-gray-400 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    {mood.icon}
+                    <span className="text-white font-bold select-none">{mood.label}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Right: Ruler Button */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowRuler(!showRuler)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold border flex items-center gap-1.5 transition-all shadow-md select-none ${
+                    showRuler
+                      ? 'bg-black border-brand-purple text-white shadow-[0_0_15px_rgba(117,46,255,0.6)]'
+                      : 'bg-white/5 border-white/15 text-gray-300 hover:text-white hover:bg-white/10'
+                  }`}
+                  title="Toggle Measurement Ruler"
+                >
+                  <Ruler className="w-3.5 h-3.5 shrink-0" />
+                  <span>{showRuler ? 'Hide Ruler' : 'Show Ruler'}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Centered Studio Room Photo Box (Size 100% Untouched: w-full of max-w-[660px] aspect-square) */}
+            <div className="relative w-full aspect-square bg-[#101010] rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.95)] flex items-center justify-center">
+            
+            {/* Room background photo with dynamic lighting mood (Addressing Point #9) */}
             <img
               src={selectedBg.url}
               alt={selectedBg.name}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isCalibrating ? 'opacity-100 z-10' : 'opacity-[0.9]'}`}
+              className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 ${
+                isCalibrating ? 'opacity-100 z-10' : 'opacity-[0.9]'
+              } ${
+                roomLightingMood === 'night'
+                  ? 'brightness-[0.38] contrast-[1.25]'
+                  : roomLightingMood === 'evening'
+                  ? 'brightness-[0.62] contrast-[1.1] sepia-[0.12]'
+                  : 'brightness-[0.95] contrast-[1.0]'
+              }`}
               style={{ objectPosition: roomFocalPoint }}
             />
+
+            {/* REALISTIC NEON LIGHT EMISSION & WALL SPILLAGE (Addressing Point #9) */}
+            {isLightOn && (
+              <>
+                {/* Realistic Room Ambient Darkness (Night / Evening / Day) without color tinting */}
+                <div
+                  className="absolute inset-0 pointer-events-none z-15 transition-all duration-700"
+                  style={{
+                    backgroundColor: '#000000',
+                    opacity: roomLightingMood === 'night' ? 0.65 : roomLightingMood === 'evening' ? 0.35 : 0.05,
+                  }}
+                />
+              </>
+            )}
 
             {/* Top-Left: Realistic ON/OFF Switch */}
             <div className="absolute top-4 left-4 z-30 flex items-center gap-2">
               <button
                 onClick={() => setIsLightOn(!isLightOn)}
-                className={`w-[76px] h-[34px] rounded-full transition-all duration-300 relative flex items-center shadow-lg focus:outline-none border border-white/20 ${isLightOn ? 'bg-[#58cc02] shadow-[0_0_15px_rgba(88,204,2,0.6)]' : 'bg-[#4a4a4a]'}`}
+                className={`w-[76px] h-[34px] rounded-full transition-all duration-300 relative flex items-center shadow-lg focus:outline-none border-2 ${
+                  isLightOn
+                    ? 'bg-brand-purple border-brand-purple shadow-[0_0_15px_rgba(117,46,255,0.7)]'
+                    : 'bg-[#2a2a2a] border-white/20'
+                }`}
                 aria-label="Toggle neon light on or off"
               >
-                <span className={`absolute font-black text-[11px] tracking-wide text-white transition-opacity duration-300 ${isLightOn ? 'left-3 opacity-100' : 'left-3 opacity-0'}`}>ON</span>
-                <span className={`absolute font-black text-[11px] tracking-wide text-white transition-opacity duration-300 ${!isLightOn ? 'right-2.5 opacity-100' : 'right-2.5 opacity-0'}`}>OFF</span>
-                <div className={`w-[24px] h-[24px] bg-white rounded-full absolute transition-transform duration-300 ease-in-out shadow-md ${isLightOn ? 'translate-x-[48px]' : 'translate-x-[4px]'}`} />
-              </button>
-            </div>
-
-            {/* Top-Right: Ruler Button */}
-            <div className="absolute top-4 right-4 z-30 flex items-center gap-2">
-              <button
-                onClick={() => setShowRuler(!showRuler)}
-                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all shadow-lg ${showRuler ? 'bg-[#6eff86] border-[#6eff86] text-black shadow-[0_0_15px_rgba(110,255,134,0.4)]' : 'bg-black/60 border-white/20 text-white hover:border-white'}`}
-                title="Toggle Measurement Ruler"
-              >
-                <Ruler className="w-4 h-4" />
+                <span className={`absolute font-black text-[11px] tracking-wide text-white transition-opacity duration-300 ${isLightOn ? 'left-3 opacity-100' : 'left-3 opacity-0'}`}>
+                  ON
+                </span>
+                <span className={`absolute font-black text-[11px] tracking-wide text-white transition-opacity duration-300 ${!isLightOn ? 'right-2.5 opacity-100' : 'right-2.5 opacity-0'}`}>
+                  OFF
+                </span>
+                <div
+                  className={`w-[24px] h-[24px] bg-white rounded-full absolute transition-transform duration-300 ease-in-out shadow-md ${
+                    isLightOn ? 'translate-x-[46px]' : 'translate-x-[4px]'
+                  }`}
+                />
               </button>
             </div>
 
             {/* Calibration Overlay */}
             {isCalibrating && selectedBg.id === 'custom' && (
               <div className="absolute inset-0 z-40 pointer-events-none">
-                {/* 1. Draggable Calibration Modal Box (Starts Top-Left so it never covers the red line) */}
                 <motion.div 
                   drag 
                   dragMomentum={false} 
@@ -817,12 +1032,18 @@ export default function CustomizeNeonSign() {
                       <Ruler className="w-5 h-5 text-brand-purple" />
                       Calibrate Room Scale
                     </h3>
-                    <span className="text-[10px] bg-brand-purple/30 text-brand-purple px-2 py-0.5 rounded uppercase font-bold tracking-wider">Drag Me</span>
+                    <span className="text-[10px] bg-brand-purple/30 text-brand-purple px-2 py-0.5 rounded uppercase font-bold tracking-wider">
+                      Drag Me
+                    </span>
                   </div>
-                  <p className="text-sm text-gray-300 mb-6">Drag this box or the red line anywhere on the image. Position the red line over a real object in your room (like a TV, door, or pillow), resize it to match, then tell us how wide it is.</p>
+                  <p className="text-sm text-gray-300 mb-6">
+                    Drag this box or the red line anywhere on the image. Position the red line over a real object in your room (like a TV, door, or pillow), resize it to match, then tell us how wide it is.
+                  </p>
                   <div className="flex gap-4">
                     <div className="flex-1">
-                      <label className="text-[10px] text-brand-purple font-bold uppercase tracking-wider mb-1 block">Object Width (Inches)</label>
+                      <label className="text-[10px] text-brand-purple font-bold uppercase tracking-wider mb-1 block">
+                        Object Width (Inches)
+                      </label>
                       <input 
                         type="number" 
                         value={calibrationInches}
@@ -839,7 +1060,7 @@ export default function CustomizeNeonSign() {
                           if (inches > 0) {
                             setCalibrationRatio(px / inches);
                             setIsCalibrating(false);
-                            triggerMascot("Perfect! We've made the scale as realistic as possible for your room, but please note this is just a visualization.", MascotState.CELEBRATING);
+                            triggerMascot("Perfect! We've made the scale as realistic as possible for your room.", MascotState.CELEBRATING);
                           }
                         }
                       }}
@@ -850,7 +1071,6 @@ export default function CustomizeNeonSign() {
                   </div>
                 </motion.div>
 
-                {/* 2. Draggable & Resizable Calibration Red Line (Starts centered, never hidden!) */}
                 <motion.div 
                   drag 
                   dragMomentum={false}
@@ -861,21 +1081,15 @@ export default function CustomizeNeonSign() {
                     className="h-1.5 bg-red-500 relative min-w-[50px] shadow-[0_0_15px_rgba(239,68,68,0.8)] pointer-events-auto cursor-move"
                     style={{ width: `${calibrationLineWidth}px`, maxWidth: '90vw' }}
                   >
-                    {/* Resize Handle (Touch Friendly) */}
                     <motion.div 
                       drag="x"
                       dragConstraints={{ left: 0, right: 0 }}
                       dragElastic={0}
                       dragMomentum={false}
                       onDrag={(e, info) => setCalibrationLineWidth(prev => Math.max(50, prev + info.delta.x))}
-                      onPointerDown={(e) => e.stopPropagation()}
-                      className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-10 bg-white rounded-md border-2 border-red-500 cursor-ew-resize flex flex-col items-center justify-center shadow-lg translate-x-1/2" 
-                      style={{ pointerEvents: 'auto' }}
+                      className="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-white text-black rounded-full border-2 border-red-500 flex items-center justify-center shadow-lg font-black text-xs cursor-ew-resize select-none"
                     >
-                      <div className="flex gap-1">
-                        <div className="w-0.5 h-5 bg-gray-400 rounded-full" />
-                        <div className="w-0.5 h-5 bg-gray-400 rounded-full" />
-                      </div>
+                      ↔
                     </motion.div>
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-10 bg-white rounded-sm border border-red-500" />
                   </div>
@@ -883,7 +1097,6 @@ export default function CustomizeNeonSign() {
               </div>
             )}
 
-            {/* Calibration Trigger Button */}
             {selectedBg.id === 'custom' && !isCalibrating && (
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30">
                 <button
@@ -896,25 +1109,31 @@ export default function CustomizeNeonSign() {
               </div>
             )}
 
-            {/* Center: The Neon Sign Text & Backboard */}
-            <div ref={containerRef} className="absolute inset-x-[12%] top-[34%] z-20 flex -translate-y-1/2 flex-col items-center justify-center">
-              {/* 1. Outer Draggable Container (Framer Motion controls X/Y translation during drag without layout/scale collisions) */}
+            {/* Center: The Huge Prominent Neon Sign Text & Backboard (Addressing Point #3: Scaled 1.4x larger!) */}
+            <div ref={containerRef} className="absolute inset-x-[8%] top-[45%] z-20 flex -translate-y-1/2 flex-col items-center justify-center">
               <motion.div
                 drag
                 dragMomentum={false}
                 dragElastic={0}
                 className="relative inline-block cursor-grab active:cursor-grabbing z-30"
               >
-                {/* 2. Inner Scaled Container (React controls scale without interfering with drag transform!) */}
                 <div
                   ref={textRef}
-                  className={`relative inline-block max-w-full p-4 md:p-5 transition-colors duration-300 ${selectedBackboardShape === 'cut' ? 'rounded-2xl border border-white/5 bg-white/[0.03] backdrop-blur-[2px]' : selectedBackboardShape === 'square' ? 'rounded-xl border-2 border-white/15 bg-black/30 backdrop-blur-sm shadow-2xl' : selectedBackboardShape === 'stand' ? 'rounded-t-xl border-x border-t border-white/10 bg-white/[0.04] pb-8' : ''}`}
+                  className={`relative inline-block max-w-full p-4 md:p-6 transition-colors duration-300 ${
+                    selectedBackboardShape === 'cut'
+                      ? 'bg-transparent'
+                      : selectedBackboardShape === 'square'
+                      ? 'rounded-2xl border border-white/10 bg-black/20 backdrop-blur-sm shadow-2xl'
+                      : selectedBackboardShape === 'stand'
+                      ? 'rounded-t-2xl border-x border-t border-white/10 bg-white/[0.02] pb-10'
+                      : 'bg-transparent'
+                  }`}
                   style={{
-                    transform: `scale(${finalScale * 0.66})`,
+                    transform: `scale(${finalScale})`,
                     transformOrigin: 'center center',
                   }}
                 >
-                  {/* The Neon Text */}
+                  {/* Realistic LED Neon Text with White Tube Core & Multi-layer Bloom */}
                   <h2
                     className={`studio-neon-sign-preview font-bold transition-all duration-300 text-center ${selectedFont.class}`}
                     style={{
@@ -925,158 +1144,140 @@ export default function CustomizeNeonSign() {
                     {text || 'Your Neon Sign'}
                   </h2>
 
-                  {/* Acrylic Stand Base bottom border if stand selected */}
                   {selectedBackboardShape === 'stand' && (
-                    <div className="absolute bottom-0 left-1/4 right-1/4 h-2.5 bg-gradient-to-r from-gray-700 via-gray-400 to-gray-700 rounded-b-md shadow-lg" />
+                    <div className="absolute bottom-0 left-1/4 right-1/4 h-3 bg-gradient-to-r from-gray-700 via-gray-400 to-gray-700 rounded-b-md shadow-lg" />
                   )}
 
-                  {/* Measurement Dimension Brackets (When Ruler is ON) */}
                   {showRuler && (
                     <div className="absolute -inset-6 pointer-events-none z-30">
-                      {/* Top Horizontal Dimension Line */}
-                      <div className="absolute -top-4 left-0 right-0 flex items-center justify-center">
-                        <div className="h-[2px] bg-[#6eff86]/80 flex-1 border-t border-dashed border-[#6eff86]" />
-                        <span className="px-3.5 py-1 bg-black border-2 border-[#6eff86] text-[#6eff86] text-sm md:text-base font-black rounded-md shadow-[0_0_15px_rgba(110,255,134,0.7)] tracking-wide mx-2">
+                      <div className="absolute -top-5 left-0 right-0 flex items-center justify-center">
+                        <div className="h-[2px] bg-white/60 flex-1 border-t border-dashed border-white" />
+                        <span className="px-3.5 py-1 bg-black border border-white text-white text-sm md:text-base font-bold rounded-md shadow-lg tracking-wide mx-2">
                           {selectedSize.length}
                         </span>
-                        <div className="h-[2px] bg-[#6eff86]/80 flex-1 border-t border-dashed border-[#6eff86]" />
+                        <div className="h-[2px] bg-white/60 flex-1 border-t border-dashed border-white" />
                       </div>
 
-                      {/* Left Vertical Dimension Line */}
                       <div className="absolute top-0 -left-6 bottom-0 flex flex-col items-center justify-center">
-                        <div className="w-[2px] bg-[#6eff86]/80 flex-1 border-l border-dashed border-[#6eff86]" />
-                        <span className="px-3.5 py-1 bg-black border-2 border-[#6eff86] text-[#6eff86] text-sm md:text-base font-black rounded-md shadow-[0_0_15px_rgba(110,255,134,0.7)] tracking-wide -rotate-90 my-3 whitespace-nowrap">
+                        <div className="w-[2px] bg-white/60 flex-1 border-l border-dashed border-white" />
+                        <span className="px-3.5 py-1 bg-black border border-white text-white text-sm md:text-base font-bold rounded-md shadow-lg tracking-wide -rotate-90 my-3 whitespace-nowrap">
                           {selectedSize.height}
                         </span>
-                        <div className="w-[2px] bg-[#6eff86]/80 flex-1 border-l border-dashed border-[#6eff86]" />
+                        <div className="w-[2px] bg-white/60 flex-1 border-l border-dashed border-white" />
                       </div>
                     </div>
                   )}
                 </div>
               </motion.div>
             </div>
+
+          </div>
           </div>
         </div>
       </div>
 
+      {/* Help Modal */}
+      {showHelpModal && (
+        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-zinc-900 border border-white/20 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button
+              onClick={() => setShowHelpModal(false)}
+              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-white rounded-full bg-white/5"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <h3 className="text-lg font-black text-white mb-4 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-brand-green" />
+              <span>Studio Configurator Tips</span>
+            </h3>
+            <ul className="space-y-3 text-sm text-gray-300">
+              <li className="flex items-start gap-2.5">
+                <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-white shrink-0">1</span>
+                <span><strong>Font & Scale:</strong> Your sign scale matches physical dimensions. Switch room lighting moods to preview realistic LED light emission.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-white shrink-0">2</span>
+                <span><strong>Indoor vs Outdoor:</strong> Choose <em>IP67 Waterproof</em> if you plan to install outdoors in rain or sun.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-white shrink-0">3</span>
+                <span><strong>Upload Room Photo:</strong> Use the &quot;Preview On Your Own Wall&quot; button to see your neon sign on your real wall.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-white shrink-0">4</span>
+                <span><strong>Instant Price:</strong> The price updates automatically as you change sizes and waterproof settings.</span>
+              </li>
+            </ul>
+            <button
+              onClick={() => setShowHelpModal(false)}
+              className="mt-6 w-full py-3 rounded-xl bg-white text-black font-extrabold hover:bg-gray-200 transition-colors"
+            >
+              Got It!
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Toast Notification */}
+      {saveToast && (
+        <div className="fixed bottom-6 right-6 z-[100] bg-zinc-900 border border-brand-green text-white px-5 py-3 rounded-xl shadow-[0_0_20px_rgba(110,255,134,0.3)] flex items-center gap-2 text-sm font-bold animate-fade-in">
+          <Check className="w-4 h-4 text-brand-green" />
+          <span>Design progress saved to session!</span>
+        </div>
+      )}
+
+      {/* SEO & Educational Sections */}
       <div className="max-w-[1200px] mx-auto px-4 py-16 space-y-24">
         
-        {/* 1. About Your Neon Sign */}
         <section id="about" className="scroll-mt-32">
-          <h2 className="text-2xl font-bold text-brand-green mb-4">About Your Neon Sign:</h2>
-          <p className="text-zinc-200 text-lg mb-8 max-w-4xl">
+          <h2 className="text-2xl font-bold text-white mb-4">About Your Neon Sign:</h2>
+          <p className="text-zinc-300 text-lg mb-8 max-w-4xl">
             The Neon Stack&apos;s neon signs are handcrafted with advanced 2nd gen LED on high-quality 6MM transparent acrylic. Energy-efficient, durable, and easy to install—perfect for any space!
           </p>
-          <div className="bg-[#111] rounded-2xl overflow-hidden flex flex-col md:flex-row items-center border border-white/5">
-            <div className="w-full md:w-1/2 p-8 flex justify-center">
-              <img 
-                src="/generated/neon_tube_close_1782443029110.png" 
-                alt="Neon tube structure" 
-                className="rounded-xl shadow-2xl w-full h-auto object-cover"
-              />
+          <div className="bg-[#111] rounded-2xl overflow-hidden flex flex-col md:flex-row items-center border border-white/10">
+            <div className="w-full md:w-1/2 p-8 space-y-4">
+              <h3 className="text-xl font-bold text-white">Why choose our custom LED signs?</h3>
+              <ul className="space-y-3 text-zinc-300 text-sm">
+                <li className="flex items-center gap-3">
+                  <span className="w-2 h-2 rounded-full bg-brand-green" />
+                  <span><strong>Safe & Low Voltage:</strong> 12V DC power means zero heat and safe to touch.</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="w-2 h-2 rounded-full bg-brand-green" />
+                  <span><strong>Durable Acrylic:</strong> High-grade shatterproof 6MM laser-cut backboard.</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="w-2 h-2 rounded-full bg-brand-green" />
+                  <span><strong>50,000+ Hour Lifespan:</strong> Long-lasting silicone LED strip lights.</span>
+                </li>
+              </ul>
             </div>
-            <div className="w-full md:w-1/2 p-8 lg:p-12">
-              <h3 className="text-3xl font-black mb-6">Meet 2nd Gen LED Neon - 2X Brighter & Built to Last!</h3>
-              <p className="text-zinc-400 text-lg mb-6 leading-relaxed">
-                Our revolutionary 2nd Gen LED Neon is twice as bright, 80% more energy-efficient, and built to outlast the rest. Plus, with adjustable brightness controls, and the option for waterproof durability, this is the ultimate neon upgrade you&apos;ve been waiting for!
-              </p>
-              <p className="text-zinc-400 text-lg italic">
-                Say goodbye to dull, outdated neon—this is the future!
-              </p>
+            <div 
+              className="w-full md:w-1/2 h-64 bg-cover bg-center"
+              style={{ backgroundImage: "url('https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=800&auto=format&fit=crop')" }}
+            />
+          </div>
+        </section>
+
+        <section className="bg-[#0f0f0f] border border-white/10 rounded-3xl p-8 md:p-12">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white">Need a Business Logo or Complex Custom Art?</h2>
+            <p className="text-zinc-300 text-base md:text-lg">
+              This online builder is optimized for custom text and quotes. If you have a company logo, illustration, or multi-color artwork, our design team will send you a free mockup & quote within 2 hours.
+            </p>
+            <div className="pt-2">
+              <Link 
+                href="/products/customize-neon-signs"
+                className="inline-flex items-center gap-2 bg-white text-black hover:bg-gray-200 font-extrabold px-8 py-4 rounded-full transition-all shadow-lg hover:scale-105"
+              >
+                <span>Upload Artwork For Quote</span>
+              </Link>
             </div>
           </div>
         </section>
 
-        {/* 2. The Box Contains */}
-        <section id="box" className="scroll-mt-32 border-t border-white/10 pt-16">
-          <h2 className="text-2xl font-bold text-brand-green mb-4">The Box Contains:</h2>
-          <p className="text-zinc-200 text-lg mb-6 font-bold">
-            Our neon lights are ready to shine straight from the box!
-          </p>
-          <p className="text-zinc-300 text-lg mb-10 max-w-4xl">
-            Each sign is mounted on clear acrylic for support and comes with pre-drilled holes. Stainless steel mounting screws are included, making wall installation quick and easy.
-          </p>
-          <div className="bg-black border border-white/10 rounded-2xl p-4 overflow-hidden flex justify-center">
-             <img 
-               src="/generated/neon_sign_kit_1782443038661.png" 
-               alt="Neon Sign Components Diagram" 
-               className="rounded-xl w-full h-auto object-cover"
-              />
-          </div>
-        </section>
-
-        {/* 3. Installation Steps */}
-        <section id="install" className="scroll-mt-32 border-t border-white/10 pt-16">
-          <h2 className="text-2xl font-bold text-brand-green mb-10">Here&apos;s how you can install our neon signs on your wall:</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <div className="bg-[#111] rounded-2xl overflow-hidden border border-white/5 flex flex-col">
-              <div className="h-48 overflow-hidden bg-[#222]">
-                <img src="/generated/measuring_tape_wall_1782443048985.png" alt="Measuring tape" className="w-full h-full object-cover" />
-              </div>
-              <div className="p-6 text-center flex-grow flex items-center justify-center">
-                <p className="font-semibold text-zinc-300">Take a measuring tape and mark out the position of your neon sign.</p>
-              </div>
-            </div>
-
-            <div className="bg-[#111] rounded-2xl overflow-hidden border border-white/5 flex flex-col">
-              <div className="h-48 overflow-hidden bg-[#222]">
-                <img src="/generated/drilling_wall_hole_1782443059654.png" alt="Drilling holes" className="w-full h-full object-cover" />
-              </div>
-              <div className="p-6 text-center flex-grow flex items-center justify-center">
-                <p className="font-semibold text-zinc-300">Safely Drill small holes on the wall.</p>
-              </div>
-            </div>
-
-            <div className="bg-[#111] rounded-2xl overflow-hidden border border-white/5 flex flex-col">
-              <div className="h-48 overflow-hidden bg-[#222]">
-                <img src="/generated/mounting_screw_install_1782443069589.png" alt="Mounting screws" className="w-full h-full object-cover" />
-              </div>
-              <div className="p-6 text-center flex-grow flex items-center justify-center">
-                <p className="font-semibold text-zinc-300">Use the SS mounting screws to mount your neon sign on the wall.</p>
-              </div>
-            </div>
-
-            <div className="bg-[#111] rounded-2xl overflow-hidden border border-white/5 flex flex-col">
-              <div className="h-48 overflow-hidden bg-[#222]">
-                <img src="/generated/plugging_power_1782443080893.png" alt="Plugging in" className="w-full h-full object-cover" />
-              </div>
-              <div className="p-6 text-center flex-grow flex items-center justify-center">
-                <p className="font-semibold text-zinc-300">Connect the power adapter to the transparent cable and your sign is ready!</p>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* 4. Light Up Your Logo */}
-        <section className="scroll-mt-32 border-t border-white/10 pt-16 pb-16">
-          <div className="bg-white rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-2xl">
-            <div className="w-full md:w-1/2 bg-black">
-              <img 
-                src="/generated/glowing_logo_split_1782443098549.png" 
-                alt="Logo neon transformation" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="w-full md:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
-              <h2 className="text-4xl md:text-5xl font-black text-black mb-6">Light Up Your Logo!</h2>
-              <p className="text-zinc-800 text-lg font-medium mb-4">
-                We turn your logo into a showstopping Neon Sign with sharp detail, and serious personality.
-              </p>
-              <p className="text-zinc-600 text-base mb-8">
-                Using advanced 2nd Gen LED Neon, UV print tech and waterproof outdoor options, we craft glowing pieces that light up your brand—rain or shine, day or night.
-              </p>
-              <button className="bg-brand-green hover:bg-brand-green/80 text-black font-bold py-4 px-8 rounded-full text-lg w-max flex items-center gap-3 transition-colors shadow-xl shadow-[0_0_15px_rgba(110,255,134,0.4)]">
-                <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-                Text us on WhatsApp
-              </button>
-            </div>
-          </div>
-        </section>
-        
       </div>
-      
+
       <Footer />
     </main>
   );

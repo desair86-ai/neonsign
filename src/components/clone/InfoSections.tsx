@@ -4,7 +4,7 @@ import { Truck, Palette, Sparkles } from 'lucide-react';
 export function InfoSections() {
   return (
     <>
-      {/* FloRo Promo */}
+      {/* Mojo Mix Promo */}
       <section className="relative py-24 my-20 overflow-hidden">
         {/* Animated Top Border removed */}
         
@@ -15,13 +15,13 @@ export function InfoSections() {
             NEW TECHNOLOGY
           </div>
           <h2 className="text-5xl md:text-7xl font-black mb-6">
-            Meet <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-green">FloRo</span>
+            Meet <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-green">Mojo Mix</span>
           </h2>
           <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed">
             Unlimited color changing options, 200+ flow modes, music sync, and app control. It&apos;s not just a sign, it&apos;s an experience.
           </p>
           <button className="bg-white text-black px-10 py-4 rounded-full font-bold text-lg uppercase tracking-wide hover:scale-105 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-            Explore FloRo Collection
+            Explore Mojo Mix Collection
           </button>
         </div>
       </section>

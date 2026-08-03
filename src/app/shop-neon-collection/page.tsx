@@ -18,7 +18,7 @@ export default function ShopNeonCollection() {
     },
     {
       id: "2",
-      name: "Good Vibes Only (FloRo)",
+      name: "Good Vibes Only (Mojo Mix)",
       regularPrice: "Rs. 11,500.00",
       salePrice: "Rs. 8,050.00",
       discountBadge: "Save 30%",
@@ -96,7 +96,7 @@ export default function ShopNeonCollection() {
       <div className="w-full">
         <ProductExplorerGrid />
         
-        <ProductCarousel title="Most-Loved" products={mostLovedProducts} />
+        <ProductCarousel title="Curated Favourites" products={mostLovedProducts} />
         
         <ProductCarousel title="Trending" products={trendingProducts} />
 

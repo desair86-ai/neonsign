@@ -1,75 +1,108 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-
+import React, { useRef } from "react";
 import { cn } from "@/lib/utils";
 
-interface SpotlightCardProps extends React.HTMLAttributes<HTMLDivElement> {
+export type GlowCardColorTheme = "green" | "purple" | "blue" | "orange" | "pink" | "red" | "yellow";
+
+export interface GlowCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
+  theme?: GlowCardColorTheme;
+  borderSize?: number;
+  continuous?: boolean;
   spotlightColor?: string;
 }
 
-export function SpotlightCard({
+const themeConfig: Record<GlowCardColorTheme, { base: number; spread: number; hex: string }> = {
+  green: { base: 130, spread: 60, hex: "#6eff86" },
+  purple: { base: 260, spread: 60, hex: "#752eff" },
+  blue: { base: 195, spread: 60, hex: "#00e5ff" },
+  orange: { base: 28, spread: 50, hex: "#fe8a2e" },
+  pink: { base: 310, spread: 60, hex: "#f967fb" },
+  red: { base: 350, spread: 50, hex: "#ff174f" },
+  yellow: { base: 50, spread: 50, hex: "#ffe600" },
+};
+
+export function GlowCard({
   children,
   className,
-  spotlightColor = "rgba(255, 255, 255, 0.2)",
+  theme = "green",
+  borderSize = 3,
+  continuous = true,
+  spotlightColor,
+  style,
   ...props
-}: SpotlightCardProps) {
-  const divRef = useRef<HTMLDivElement>(null);
-  const [isFocused, setIsFocused] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [opacity, setOpacity] = useState(0);
+}: GlowCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!divRef.current || isFocused) return;
+  // Gentle cursor tracking for interior surface highlight ONLY when hovering
+  // NO moving/traveling spotlights around the border! Border light stays ON continuously and steadily.
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const r = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - r.left;
+    const y = e.clientY - r.top;
 
-    const div = divRef.current;
-    const rect = div.getBoundingClientRect();
-
-    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    cardRef.current.style.setProperty("--x", x.toFixed(2));
+    cardRef.current.style.setProperty("--y", y.toFixed(2));
   };
 
-  const handleFocus = () => {
-    setIsFocused(true);
-    setOpacity(1);
-  };
-
-  const handleBlur = () => {
-    setIsFocused(false);
-    setOpacity(0);
-  };
-
-  const handleMouseEnter = () => {
-    setOpacity(1);
-  };
-
-  const handleMouseLeave = () => {
-    setOpacity(0);
-  };
+  const config = themeConfig[theme] || themeConfig.green;
 
   return (
     <div
-      ref={divRef}
-      onMouseMove={handleMouseMove}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      ref={cardRef}
+      data-glow=""
+      onPointerMove={handlePointerMove}
+      style={{
+        "--base": config.base,
+        "--spread": config.spread,
+        "--border": borderSize,
+        "--border-size": `${borderSize}px`,
+        "--hue": config.base,
+        "--glow-opacity": 1, // Continuously visible 100% of the time!
+        ...style,
+      } as React.CSSProperties}
       className={cn(
-        "relative overflow-hidden rounded-xl border border-white/10 bg-black/50 p-8 shadow-2xl transition-all duration-300",
+        "relative rounded-2xl transition-all duration-300 isolate bg-zinc-950/90",
         className
       )}
       {...props}
     >
+      {/* 
+        Layer 3 (Outer Ambient Halo):
+        Soft steady neon halo beyond the card's outer edges.
+        Continuously active and glowing without moving!
+      */}
+      <div data-glow-halo="" />
+
+      {/* 
+        Layer 1 (Surface Spotlight):
+        A soft ambient interior highlight over a translucent backdrop (backdrop-blur-[5px]).
+      */}
       <div
-        className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
+        className="relative z-10 h-full w-full rounded-2xl overflow-hidden backdrop-blur-[5px] transition-all duration-300"
         style={{
-          opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 40%)`,
+          backgroundImage: `radial-gradient(
+            380px circle at calc(var(--x, 150) * 1px) calc(var(--y, 150) * 1px),
+            hsla(var(--hue, ${config.base}), 100%, 70%, 0.16) 0%,
+            hsla(var(--hue, ${config.base}), 100%, 55%, 0.06) 40%,
+            transparent 75%
+          )`,
         }}
-      />
-      {children}
+      >
+        {children}
+      </div>
+
+      {/* 
+        Layer 2 (Border Spotlight):
+        [data-glow]::before pseudo-element is overlaid on the card border using a CSS mask,
+        restricting the neon gradient strictly to the 3px border outline.
+        Permanently lit ON continuously around the entire border without moving!
+      */}
     </div>
   );
 }
+
+export { GlowCard as SpotlightCard };

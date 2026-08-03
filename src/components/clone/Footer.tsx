@@ -21,9 +21,9 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand Col */}
           <div>
-            <div className="mb-6 select-none w-full relative z-50">
-              <Link href="/" className="block cursor-pointer inline-block">
-                <img src="/main logo.png" alt="The Neon Stack Logo" className="h-[100px] md:h-[130px] w-auto object-contain cursor-pointer hover:scale-105 transition-transform origin-left" />
+            <div className="mb-6 select-none w-full relative z-50 outline-none border-none">
+              <Link href="/" className="block cursor-pointer inline-block outline-none border-none focus:outline-none focus-visible:outline-none shadow-none">
+                <img src="/main logo.png" alt="The Neon Stack Logo" className="h-[100px] md:h-[130px] w-auto object-contain cursor-pointer hover:scale-105 transition-transform origin-left outline-none border-none focus:outline-none shadow-none" />
               </Link>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">
@@ -45,7 +45,7 @@ export function Footer() {
               <li><Link href="/products/customize-neon-signs" className="hover:text-brand-green transition-colors">Customise Your Neon</Link></li>
               <li><Link href="/" className="hover:text-brand-green transition-colors">Business Logo</Link></li>
               <li><Link href="/" className="hover:text-brand-green transition-colors">All Products</Link></li>
-              <li><Link href="/" className="hover:text-brand-green transition-colors">FloRo Signs</Link></li>
+              <li><Link href="/" className="hover:text-brand-green transition-colors">Mojo Mix Signs</Link></li>
               <li><Link href="/" className="hover:text-brand-green transition-colors">Track Order</Link></li>
             </ul>
           </div>

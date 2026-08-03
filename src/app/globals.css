@@ -190,17 +190,9 @@ body {
   background-size: 20px 20px;
 }
 
-/* Global button permanent state: Green bg (#6eff86), Purple text (#752eff) with razor-sharp 2px glow */
-button[class*="p-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
-button[class*="px-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
-button[class*="py-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
-button.bg-brand-purple:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
+/* Global primary button state: Green bg (#6eff86), Purple text (#752eff) */
 button.bg-brand-green:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
-button.bg-white:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
-button.border-white:not(.faq-btn):not(.opt-btn):not([class*="studio-"]),
-a.bg-brand-purple,
 a.bg-brand-green,
-a.bg-\[\#752eff\],
 a.bg-\[\#6eff86\] {
   filter: none !important;
   background-color: #6eff86 !important;
@@ -214,33 +206,17 @@ a.bg-\[\#6eff86\] {
   -webkit-font-smoothing: antialiased !important;
 }
 
-/* Ensure inner text elements inside buttons do not add blurry drop-shadows */
-button[class*="p-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
-button[class*="px-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
-button[class*="py-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
-button.bg-brand-purple:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
+/* Ensure inner text elements inside primary buttons do not add blurry drop-shadows */
 button.bg-brand-green:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
-button.bg-white:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
-button.border-white:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) *,
-a.bg-brand-purple *,
 a.bg-brand-green *,
-a.bg-\[\#752eff\] *,
 a.bg-\[\#6eff86\] * {
   filter: none !important;
   text-shadow: inherit !important;
 }
 
-/* Ensure svg/lucide icons inside buttons turn brand-purple (#752eff) */
-button[class*="p-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
-button[class*="px-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
-button[class*="py-"]:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
-button.bg-brand-purple:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
+/* Ensure svg/lucide icons inside primary buttons turn brand-purple (#752eff) */
 button.bg-brand-green:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
-button.bg-white:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
-button.border-white:not(.faq-btn):not(.opt-btn):not([class*="studio-"]) svg,
-a.bg-brand-purple svg,
 a.bg-brand-green svg,
-a.bg-\[\#752eff\] svg,
 a.bg-\[\#6eff86\] svg {
   color: #752eff !important;
   stroke: #752eff !important;
@@ -276,7 +252,7 @@ a.bg-\[\#6eff86\] svg {
 .studio-btn-active:hover,
 .studio-card-active:hover {
   color: #ffffff !important;
-  text-shadow: 0 0 2px rgba(255, 255, 255, 0.6) !important;
+  text-shadow: none !important;
   filter: none !important;
 }
 
@@ -294,7 +270,7 @@ a.bg-\[\#6eff86\] svg {
 .studio-card-active:hover {
   background-color: #000000 !important;
   color: #ffffff !important;
-  text-shadow: 0 0 2px rgba(255, 255, 255, 0.6) !important;
+  text-shadow: none !important;
   background-image: none !important;
 }
 
@@ -308,7 +284,7 @@ a.bg-\[\#6eff86\] svg {
   border-color: #ffffff !important;
   background-color: #000000 !important;
   color: #ffffff !important;
-  text-shadow: 0 0 2px rgba(255, 255, 255, 0.6) !important;
+  text-shadow: none !important;
 }
 
 /* Selected items: #752eff Purple Border + Black Background */
@@ -321,7 +297,7 @@ a.bg-\[\#6eff86\] svg {
   background-color: #000000 !important;
   border: 2px solid #752eff !important;
   color: #ffffff !important;
-  text-shadow: 0 0 2px rgba(255, 255, 255, 0.6) !important;
+  text-shadow: none !important;
   box-shadow: 0 0 12px rgba(117, 46, 255, 0.45) !important;
 }
 
@@ -386,27 +362,28 @@ button.faq-btn:hover svg {
 }
 
 /* ==========================================================================
-   GLOBAL CLEAN & SHARP NEON TYPOGRAPHY RULE (SITE-WIDE)
-   Applies the clean, non-blurry 2px (50% opacity) neon effect to all text across the whole site,
-   including header menu, left studio menu, headings, and links, while keeping their respective text colors.
+   GLOBAL CLEAN & SHARP TYPOGRAPHY RULE (SITE-WIDE)
+   Applies crisp sub-pixel antialiasing and removes blurry text shadows
+   from all text across the whole site, while preserving original colors and sizes.
    ========================================================================== */
 
-/* 1. Disable all wide, blurry, or multi-layer text glows & drop-shadows on typography site-wide */
+/* 1. All Typography, Headings, Buttons, Labels, Cards & Text elements site-wide:
+      Keep their original text color and size, remove any blurry text-shadow, and enforce crisp sub-pixel antialiasing */
 h1, h2, h3, h4, h5, h6,
-header a, nav a,
-button, label, a,
+p, span, a, button, label, input, textarea, select, li, td, th, dt, dd,
+strong, em, b, i, small, sub, sup,
 .studio-btn, .studio-card, .studio-tab,
 .studio-btn-active, .studio-card-active, .studio-tab-active,
 .text-neon-green, .text-neon-green-hover,
 .text-brand-green, .text-brand-purple,
-[class*="text-shadow"], [class*="drop-shadow"] {
+[class*="text-"] {
+  text-shadow: none !important;
   filter: none !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
 }
 
-/* 2. All Green Neon Text across the entire site (header menu, titles):
-      Keep #6eff86 text color and apply clean 2px (50% opacity) non-blurry glow */
+/* 2. Color utility classes that preserve brand hex colors without blurry shadows */
 .text-neon-green,
 .text-brand-green,
 .text-\[\#6eff86\],
@@ -414,33 +391,96 @@ button, label, a,
 header a,
 nav a {
   color: #6eff86 !important;
-  text-shadow: 0 0 2px rgba(110, 255, 134, 0.5) !important;
 }
 
-/* 3. Header menu items hover state (.text-neon-green-hover:hover):
-      Keep #752eff purple text and apply clean 2px (50% opacity) purple glow */
 .text-neon-green-hover:hover {
   color: #752eff !important;
-  text-shadow: 0 0 2px rgba(117, 46, 255, 0.5) !important;
 }
 
-/* 4. Purple Text across the site: clean 2px purple glow */
 .text-brand-purple,
 .text-\[\#752eff\] {
   color: #752eff !important;
-  text-shadow: 0 0 2px rgba(117, 46, 255, 0.5) !important;
-}
-
-/* 5. Headings, buttons, labels, and any explicit text-shadow elements across the site:
-      Keep their respective text color and give them the clean 2px (50% opacity) glow */
-h1, h2, h3, h4, h5, h6,
-button, label,
-[class*="text-shadow"] {
-  text-shadow: 0 0 2px currentColor !important;
 }
 
 /* 6. Ensure the studio neon sign preview text on the wall displays its realistic ON/OFF neon glow and filter */
-.studio-neon-sign-preview {
+.studio-neon-sign-preview,
+.studio-neon-sign-preview * {
   filter: unset !important;
   text-shadow: unset !important;
 }
+
+/* ==========================================================================
+   Spotlight Hover Glow Effect (Interactive Cursor-Tracking Radial Spotlight)
+   Continuous GlowCard / SpotlightCard Implementation
+   ========================================================================== */
+[data-glow] {
+  --border-size: calc(var(--border, 3) * 1px);
+  --spotlight-size: calc(var(--size, 250) * 1px);
+  --hue: calc(var(--base, 130) + (var(--xp, 0.5) * var(--spread, 60)));
+  position: relative;
+  border-radius: 1rem;
+  isolation: isolate;
+}
+
+[data-glow]::before,
+[data-glow]::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 2px solid transparent;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--glow-opacity, 1);
+  transition: opacity 0.3s ease;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  z-index: 10;
+}
+
+[data-glow]::before {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--hue, 130) 100% 65%),
+    hsl(var(--hue, 130) 100% 50%)
+  ) border-box;
+  filter: brightness(1.6);
+}
+
+[data-glow]::after {
+  display: none;
+}
+
+[data-glow-halo] {
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--glow-opacity, 1);
+  filter: blur(calc(var(--border-size, 3px) * 8));
+  background: linear-gradient(
+    135deg,
+    hsla(var(--hue, 130), 100%, 65%, 0.7),
+    hsla(var(--hue, 130), 100%, 50%, 0.35)
+  );
+  transition: opacity 0.3s ease;
+}
+
+/* ==========================================================================
+   Logo & Header Navigation Clean Styling
+   Ensure no white line, border, outline, or focus ring ever appears around logo
+   ========================================================================== */
+header a,
+header img,
+header a:focus,
+header a:focus-visible,
+header a:active,
+header img:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+
