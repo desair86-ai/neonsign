@@ -41,7 +41,7 @@ export function ButtonParticles({
   const innerContent = (
     <>
       {/* Solid button background */}
-      <div className="absolute inset-0 z-0 rounded-full bg-zinc-950 border border-white/20 group-hover:border-[#6eff86]/40 transition-colors duration-500 shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_30px_rgba(110,255,134,0.3)]" />
+      <div className="absolute inset-0 z-0 rounded-full bg-zinc-950 border border-[#6eff86]/40 transition-colors duration-500 shadow-[0_0_30px_rgba(110,255,134,0.3)] group-hover:shadow-[0_0_40px_rgba(110,255,134,0.5)]" />
       
       {/* CSS Sparkles Layer */}
       <div className="absolute -inset-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-screen overflow-visible">
