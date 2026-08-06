@@ -15,7 +15,8 @@ import {
   Syncopate,
   Bad_Script,
   Gochi_Hand,
-  Kaushan_Script 
+  Kaushan_Script,
+  Poppins 
 } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -45,6 +46,7 @@ const syncopate = Syncopate({ weight: "400", subsets: ["latin"], variable: "--fo
 const badScript = Bad_Script({ weight: "400", subsets: ["latin"], variable: "--font-bad-script" });
 const gochiHand = Gochi_Hand({ weight: "400", subsets: ["latin"], variable: "--font-gochi-hand" });
 const kaushanScript = Kaushan_Script({ weight: "400", subsets: ["latin"], variable: "--font-kaushan-script" });
+const poppins = Poppins({ weight: ["300", "400", "500", "600", "700", "800", "900"], subsets: ["latin"], variable: "--font-poppins" });
 
 const clonoid = localFont({
   src: [
@@ -79,7 +81,8 @@ const fontVariables = [
   badScript.variable,
   gochiHand.variable,
   kaushanScript.variable,
-  clonoid.variable
+  clonoid.variable,
+  poppins.variable
 ].join(" ");
 
 export const metadata: Metadata = {

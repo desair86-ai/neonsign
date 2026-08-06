@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
+import { ButtonParticles } from "@/components/ui/button-particles";
 import { useCustomerAuth } from "@/lib/CustomerAuthContext";
 import { 
   User, 
@@ -449,14 +450,12 @@ export default function CustomerAccountPage() {
                   </div>
                 </div>
 
-                <button
+                <ButtonParticles
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 bg-[#6eff86] text-black font-black rounded-full shadow-[0_0_25px_rgba(110,255,134,0.6)] hover:scale-[1.02] transition-all text-sm uppercase tracking-wider disabled:opacity-50"
-                  style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                >
-                  {isSubmitting ? "Creating Account..." : "Create Account"}
-                </button>
+                  className="w-full"
+                  label={isSubmitting ? "Creating Account..." : "Create Account"}
+                />
 
                 <div className="pt-2 text-center">
                   <span className="text-xs text-gray-400">Already have an account? </span>
@@ -554,14 +553,11 @@ export default function CustomerAccountPage() {
 
           {/* Quick Action Buttons */}
           <div className="flex flex-wrap items-center gap-4">
-            <Link
+            <ButtonParticles
               href="/products/customize-neon-signs"
-              className="px-6 py-3 bg-[#6eff86] text-black font-extrabold rounded-full shadow-[0_0_20px_rgba(110,255,134,0.5)] hover:scale-105 transition-all text-xs uppercase tracking-wider flex items-center gap-2"
-              style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-            >
-              <Sparkles className="w-4 h-4" />
-              <span>Customize A New Sign</span>
-            </Link>
+              label="Customize A New Sign"
+              icon={<Sparkles className="w-4 h-4 text-white transition-colors duration-300 group-hover:text-[#6eff86]" />}
+            />
 
             <button
               onClick={logout}
@@ -622,14 +618,11 @@ export default function CustomerAccountPage() {
                 >
                   When you customize or purchase a neon sign from our workshop, your order tracking and 2-year warranty details will appear right here.
                 </p>
-                <Link
+                <ButtonParticles
                   href="/products/customize-neon-signs"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-[#6eff86] text-black font-extrabold rounded-full shadow-[0_0_25px_rgba(110,255,134,0.6)] hover:scale-105 transition-all text-sm uppercase tracking-wider"
-                  style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                >
-                  <span>Design My Custom Sign</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+                  label="Design My Custom Sign"
+                  icon={<ArrowRight className="w-5 h-5 text-white transition-colors duration-300 group-hover:text-[#6eff86]" />}
+                />
               </div>
             ) : (
               <div className="space-y-6">
@@ -912,13 +905,10 @@ export default function CustomerAccountPage() {
                   </div>
 
                   <div className="flex items-center gap-4 pt-2">
-                    <button
+                    <ButtonParticles
                       type="submit"
-                      className="px-8 py-3 bg-[#6eff86] text-black font-black rounded-full shadow-[0_0_20px_rgba(110,255,134,0.5)] hover:scale-105 transition-all text-xs uppercase tracking-wider"
-                      style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                    >
-                      Save Changes
-                    </button>
+                      label="Save Changes"
+                    />
                     <button
                       type="button"
                       onClick={() => setIsEditingProfile(false)}

@@ -22,10 +22,10 @@ export function ProductCarousel({ title, products, theme = "dark" }: ProductCaro
       <div className="flex items-center justify-between mb-10 gap-6">
         <h2 className={`text-3xl md:text-5xl font-black whitespace-nowrap ${theme === 'light' ? 'text-black' : 'text-white'}`}>{title}</h2>
         <div className="flex gap-2 hidden md:flex">
-          <button onClick={scrollPrev} className={`p-3 rounded-full border transition-colors ${theme === 'light' ? 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-black' : 'bg-zinc-900 border-zinc-800 hover:bg-zinc-800 text-white'}`}>
+          <button onClick={scrollPrev} className={`p-3 rounded-full border transition-all duration-300 ${theme === 'light' ? 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-black' : 'bg-brand-purple/10 border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)]'}`}>
             <ChevronLeft className="w-6 h-6" />
           </button>
-          <button onClick={scrollNext} className={`p-3 rounded-full border transition-colors ${theme === 'light' ? 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-black' : 'bg-zinc-900 border-zinc-800 hover:bg-zinc-800 text-white'}`}>
+          <button onClick={scrollNext} className={`p-3 rounded-full border transition-all duration-300 ${theme === 'light' ? 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-black' : 'bg-brand-green/10 border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)]'}`}>
             <ChevronRight className="w-6 h-6" />
           </button>
         </div>

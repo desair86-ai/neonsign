@@ -1,9 +1,9 @@
 "use client";
-
-import React from 'react';
-import useEmblaCarousel from 'embla-carousel-react';
-import { Play } from 'lucide-react';
-import { GlowCard, GlowCardColorTheme } from '@/components/ui/spotlight-card';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { GlowCardColorTheme } from '@/components/ui/spotlight-card';
+import { cn } from "@/lib/utils";
 
 const storyThemes: GlowCardColorTheme[] = [
   "green",
@@ -15,60 +15,157 @@ const storyThemes: GlowCardColorTheme[] = [
 ];
 
 export function Stories() {
-  const [emblaRef] = useEmblaCarousel({ align: 'start', dragFree: true, containScroll: 'trimSnaps' });
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  // Placeholder images for stories
   const stories = [
-    { id: 1, title: "Happy Place", image: "https://images.unsplash.com/photo-1577401239170-897942555fb3?q=80&w=400&auto=format&fit=crop" },
-    { id: 2, title: "Good Vibes", image: "https://images.unsplash.com/photo-1549419141-9457a44f0ceb?q=80&w=400&auto=format&fit=crop" },
-    { id: 3, title: "Ghar Bar", image: "https://images.unsplash.com/photo-1563242048-b47bd65f2129?q=80&w=400&auto=format&fit=crop" },
-    { id: 4, title: "Custom Wings", image: "https://images.unsplash.com/photo-1493707553966-283afac8c358?q=80&w=400&auto=format&fit=crop" },
-    { id: 5, title: "Business", image: "https://images.unsplash.com/photo-1550537687-c91072c4792d?q=80&w=400&auto=format&fit=crop" },
-    { id: 6, title: "Wedding", image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=400&auto=format&fit=crop" },
+    { 
+      id: 1, 
+      title: "A Small Eatery. A Big Transformation.", 
+      description: "One of our restaurant clients wanted to create a destination—not just another place to dine. Together, we designed a bespoke Neon Stack installation that became the restaurant's visual identity and favourite photo spot. Guests began sharing it across social media, recommending the place to friends and returning with family.",
+      growth: "nearly 200× growth over time",
+      image: "/5580.webp" 
+    },
+    { 
+      id: 2, 
+      title: "Gaming Room Setup", 
+      description: "A professional streamer wanted to level up their background. We provided a custom Mojo Mix sign that syncs with their gameplay, resulting in a vibrant atmosphere.",
+      growth: "Boosted stream engagement by 40%",
+      image: "/5595.webp" 
+    },
+    { 
+      id: 3, 
+      title: "Wedding Memory", 
+      description: "A couple wanted their surname in lights for their big day. It became the centerpiece of their reception and now hangs beautifully in their living room.",
+      growth: "A memory that lasts forever",
+      image: "/5597.webp" 
+    },
+    { 
+      id: 4, 
+      title: "Corporate Office Identity", 
+      description: "A tech startup needed their logo illuminated in their main lobby to impress clients and inspire employees. The Neon Stack delivered a flawless piece.",
+      growth: "Enhanced brand perception",
+      image: "/5604.webp" 
+    }
   ];
 
-  return (
-    <section className="py-16 max-w-[1600px] mx-auto px-4 overflow-hidden">
-      <div className="flex items-center justify-center mb-10 gap-6">
-        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight whitespace-nowrap">Watch & Buy!</h2>
-      </div>
+  const glows: Record<string, string> = {
+    green: "border-[#6eff86]/40 shadow-[0_0_15px_rgba(110,255,134,0.2)] hover:border-[#6eff86] hover:shadow-[0_0_30px_rgba(110,255,134,0.6)]",
+    pink: "border-[#f967fb]/40 shadow-[0_0_15px_rgba(249,103,251,0.2)] hover:border-[#f967fb] hover:shadow-[0_0_30px_rgba(249,103,251,0.6)]",
+    blue: "border-[#00e5ff]/40 shadow-[0_0_15px_rgba(0,229,255,0.2)] hover:border-[#00e5ff] hover:shadow-[0_0_30px_rgba(0,229,255,0.6)]",
+    orange: "border-[#fe8a2e]/40 shadow-[0_0_15px_rgba(254,138,46,0.2)] hover:border-[#fe8a2e] hover:shadow-[0_0_30px_rgba(254,138,46,0.6)]",
+    purple: "border-[#ca6eff]/40 shadow-[0_0_15px_rgba(202,110,255,0.2)] hover:border-[#ca6eff] hover:shadow-[0_0_30px_rgba(202,110,255,0.6)]",
+    yellow: "border-[#ffeb3b]/40 shadow-[0_0_15px_rgba(255,235,59,0.2)] hover:border-[#ffeb3b] hover:shadow-[0_0_30px_rgba(255,235,59,0.6)]",
+  };
 
-      <div className="overflow-hidden w-full py-6" ref={emblaRef}>
-        <div className="flex gap-6 items-stretch">
-          {stories.map((story, idx) => {
-            const storyTheme = storyThemes[idx % storyThemes.length];
-            return (
-              <div key={story.id} className="flex-[0_0_160px] md:flex-[0_0_200px] lg:flex-[0_0_250px] min-w-0 cursor-pointer relative block h-full">
-                {/* 
-                  Spotlight Hover Glow Effect in 100% continuous orbital mode
-                */}
-                <GlowCard 
-                  theme={storyTheme} 
-                  continuous={true} 
-                  borderSize={3}
-                  className="h-full aspect-[9/16]"
-                >
-                  <div className="relative z-10 block h-full w-full rounded-2xl overflow-hidden transition-all duration-300 bg-zinc-950">
+  const handleNext = () => setActiveIndex((prev) => (prev + 1) % stories.length);
+  const handlePrev = () => setActiveIndex((prev) => (prev - 1 + stories.length) % stories.length);
+
+  return (
+    <section className="py-32 overflow-hidden bg-black relative">
+      <div className="max-w-[1600px] mx-auto px-4">
+        
+        <div className="text-center mb-16">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-6xl font-black uppercase tracking-tight text-white mb-6"
+          >
+            Stories From <span className="text-brand-lavender">Real Spaces</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-xl text-zinc-400 font-light max-w-2xl mx-auto"
+          >
+            Great ambience doesn't just decorate a space—it transforms businesses.
+          </motion.p>
+        </div>
+
+        {/* 3D Interactive Carousel */}
+        <div className="relative h-[600px] flex items-center justify-center perspective-[1200px]">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <AnimatePresence initial={false} mode="popLayout">
+              {stories.map((story, index) => {
+                const isActive = index === activeIndex;
+                const offset = index - activeIndex;
+                const isLeft = offset < 0 || (activeIndex === 0 && index === stories.length - 1);
+                const isRight = offset > 0 || (activeIndex === stories.length - 1 && index === 0);
+                
+                // Simplified 3D math for just 3 visible states (active, left, right)
+                let x = 0;
+                let rotateY = 0;
+                let z = 0;
+                let opacity = 0;
+                let scale = 0.85;
+
+                if (isActive) {
+                  x = 0; rotateY = 0; z = 50; opacity = 1; scale = 1;
+                } else if (isLeft && Math.abs(offset) === 1 || (activeIndex === 0 && index === stories.length - 1)) {
+                  x = -300; rotateY = 25; z = -100; opacity = 0.5; scale = 0.85;
+                } else if (isRight && Math.abs(offset) === 1 || (activeIndex === stories.length - 1 && index === 0)) {
+                  x = 300; rotateY = -25; z = -100; opacity = 0.5; scale = 0.85;
+                }
+
+                if (!isActive && !isLeft && !isRight && stories.length > 3) return null;
+
+                const theme = storyThemes[index % storyThemes.length];
+
+                return (
+                  <motion.div
+                    key={story.id}
+                    layout
+                    initial={false}
+                    animate={{ x, rotateY, z, opacity, scale }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    style={{ zIndex: isActive ? 50 : 30 }}
+                    className={cn(
+                      "absolute w-[90%] md:w-[600px] h-[500px] rounded-3xl overflow-hidden bg-zinc-900 border transition-all duration-500 cursor-pointer group",
+                      glows[theme]
+                    )}
+                    onClick={() => setActiveIndex(index)}
+                  >
                     <div 
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-110"
+                      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
                       style={{ backgroundImage: `url(${story.image})` }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/20" />
+                    <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent ${isActive ? 'opacity-100' : 'opacity-80'}`} />
                     
-                    {/* Play icon */}
-                    <div className="absolute top-4 right-4 z-20 bg-black/60 backdrop-blur-md p-2.5 rounded-full text-white border border-[#6eff86] bg-brand-purple shadow-[0_0_15px_rgba(110,255,134,0.8)] transition-all duration-300">
-                      <Play className="w-4 h-4 fill-[#6eff86] text-[#6eff86] transition-colors" />
-                    </div>
-
-                    <div className="absolute bottom-4 left-4 right-4 z-20 text-[#6eff86] font-bold text-sm md:text-base line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                      {story.title}
-                    </div>
-                  </div>
-                </GlowCard>
-              </div>
-            );
-          })}
+                    {isActive && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end"
+                      >
+                        <h3 className="text-2xl md:text-4xl font-bold text-white mb-4 drop-shadow-md">{story.title}</h3>
+                        <p className="text-sm md:text-lg text-zinc-300 font-light mb-6 line-clamp-3 md:line-clamp-none">{story.description}</p>
+                        <div className="inline-block bg-brand-purple/20 border border-brand-purple/50 px-4 py-2 rounded-lg text-brand-lavender font-semibold text-sm">
+                          {story.growth}
+                        </div>
+                      </motion.div>
+                    )}
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
+          
+          {/* Controls */}
+          <div className="absolute top-1/2 -translate-y-1/2 left-4 md:left-20 z-50">
+            <button onClick={handlePrev} className="p-4 rounded-full bg-brand-purple/10 border border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] backdrop-blur-md transition-all duration-300">
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+          </div>
+          <div className="absolute top-1/2 -translate-y-1/2 right-4 md:right-20 z-50">
+            <button onClick={handleNext} className="p-4 rounded-full bg-brand-green/10 border border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)] backdrop-blur-md transition-all duration-300">
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
         </div>
+
       </div>
     </section>
   );

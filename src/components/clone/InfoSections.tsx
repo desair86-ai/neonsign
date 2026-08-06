@@ -1,5 +1,7 @@
 import React from 'react';
 import { Truck, Palette, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ButtonParticles } from '@/components/ui/button-particles';
 
 export function InfoSections() {
   return (
@@ -20,9 +22,7 @@ export function InfoSections() {
           <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed">
             Unlimited color changing options, 200+ flow modes, music sync, and app control. It&apos;s not just a sign, it&apos;s an experience.
           </p>
-          <button className="bg-white text-black px-10 py-4 rounded-full font-bold text-lg uppercase tracking-wide hover:scale-105 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-            Explore Mojo Mix Collection
-          </button>
+          <ButtonParticles label="Explore Mojo Mix Collection" className="w-fit" />
         </div>
       </section>
 
@@ -39,7 +39,7 @@ export function InfoSections() {
             <div className="w-24 h-24 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-6 shadow-xl group-hover:border-brand-green group-hover:shadow-[0_0_25px_rgba(110,255,134,0.4)] transition-all duration-300">
               <Palette className="w-10 h-10 text-brand-purple group-hover:text-brand-green drop-shadow-[0_0_8px_rgba(117,46,255,0.6)] group-hover:drop-shadow-[0_0_12px_rgba(110,255,134,0.8)] transition-all duration-300" />
             </div>
-            <h3 className="text-2xl font-bold mb-4 group-hover:text-brand-green transition-colors duration-300">1. You Tell Us</h3>
+            <h3 className="text-2xl font-bold mb-4 group-hover:text-brand-green transition-colors duration-300">1. Share your design Ideas</h3>
             <p className="text-gray-400">Share your vision, text, logo, or choose from our huge collection of pre-designed neon signs.</p>
           </div>
 
@@ -47,7 +47,7 @@ export function InfoSections() {
             <div className="w-24 h-24 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-6 shadow-xl group-hover:border-brand-green group-hover:shadow-[0_0_25px_rgba(110,255,134,0.4)] transition-all duration-300">
               <Sparkles className="w-10 h-10 text-brand-purple group-hover:text-brand-green drop-shadow-[0_0_8px_rgba(117,46,255,0.6)] group-hover:drop-shadow-[0_0_12px_rgba(110,255,134,0.8)] transition-all duration-300" />
             </div>
-            <h3 className="text-2xl font-bold mb-4 group-hover:text-brand-green transition-colors duration-300">2. We Create</h3>
+            <h3 className="text-2xl font-bold mb-4 group-hover:text-brand-green transition-colors duration-300">2. We create the neon signages</h3>
             <p className="text-gray-400">Our expert craftsmen handcraft your sign using premium quality acrylic and LED flex.</p>
           </div>
 
@@ -55,7 +55,7 @@ export function InfoSections() {
             <div className="w-24 h-24 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-6 shadow-xl group-hover:border-brand-green group-hover:shadow-[0_0_25px_rgba(110,255,134,0.4)] transition-all duration-300">
               <Truck className="w-10 h-10 text-brand-purple group-hover:text-brand-green drop-shadow-[0_0_8px_rgba(117,46,255,0.6)] group-hover:drop-shadow-[0_0_12px_rgba(110,255,134,0.8)] transition-all duration-300" />
             </div>
-            <h3 className="text-2xl font-bold mb-4 group-hover:text-brand-green transition-colors duration-300">3. We Deliver</h3>
+            <h3 className="text-2xl font-bold mb-4 group-hover:text-brand-green transition-colors duration-300">3. We deliver</h3>
             <p className="text-gray-400">Your perfectly packed custom neon sign is shipped quickly and safely to your doorstep.</p>
           </div>
         </div>

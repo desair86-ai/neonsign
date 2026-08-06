@@ -17,39 +17,71 @@ export default function Home() {
       regularPrice: "Rs. 6,600.00",
       salePrice: "Rs. 4,620.00",
       discountBadge: "Save 30%",
-      image: "/product-1.jpeg"
+      image: "/5580.webp"
     },
     {
       id: "2",
-      name: "Good Vibes Only (Mojo Mix)",
-      regularPrice: "Rs. 11,500.00",
-      salePrice: "Rs. 8,050.00",
+      name: "Good Vibes Only",
+      regularPrice: "Rs. 7,150.00",
+      salePrice: "Rs. 5,005.00",
       discountBadge: "Save 30%",
-      image: "/product-2.jpeg"
+      image: "/5589 (1).webp"
     },
     {
       id: "3",
-      name: "Ghar Bar",
-      regularPrice: "Rs. 4,200.00",
-      salePrice: "Rs. 2,940.00",
+      name: "It Was All A Dream",
+      regularPrice: "Rs. 10,800.00",
+      salePrice: "Rs. 7,560.00",
       discountBadge: "Save 30%",
-      image: "/product-3.jpeg"
+      image: "/5591.webp"
     },
     {
       id: "4",
-      name: "Colourful Wings",
-      regularPrice: "Rs. 12,000.00",
-      salePrice: "Rs. 8,400.00",
+      name: "Better Together",
+      regularPrice: "Rs. 9,450.00",
+      salePrice: "Rs. 6,615.00",
       discountBadge: "Save 30%",
-      image: "/product-4.jpeg"
+      image: "/5592 (1).webp"
     },
     {
       id: "5",
-      name: "Custom Name Sign",
+      name: "Custom Logo Sign",
+      regularPrice: "Rs. 15,000.00",
+      salePrice: "Rs. 10,500.00",
+      discountBadge: "Save 30%",
+      image: "/5593.webp"
+    },
+    {
+      id: "6",
+      name: "Let's Party",
+      regularPrice: "Rs. 8,100.00",
+      salePrice: "Rs. 5,670.00",
+      discountBadge: "Save 30%",
+      image: "/5594.webp"
+    },
+    {
+      id: "7",
+      name: "Till Death",
+      regularPrice: "Rs. 12,000.00",
+      salePrice: "Rs. 8,400.00",
+      discountBadge: "Save 30%",
+      image: "/5595.webp"
+    },
+    {
+      id: "8",
+      name: "Happily Ever After",
+      regularPrice: "Rs. 13,500.00",
+      salePrice: "Rs. 9,450.00",
+      discountBadge: "Save 30%",
+      image: "/5597.webp"
+    },
+    {
+      id: "9",
+      name: "Neon Heart",
       regularPrice: "Rs. 5,000.00",
       salePrice: "Rs. 3,500.00",
       discountBadge: "Save 30%",
-      image: "https://images.unsplash.com/photo-1577401239170-897942555fb3?q=80&w=600&auto=format&fit=crop"
+      image: "/5604.webp"
     }
   ];
 

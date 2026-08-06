@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
+import { ButtonParticles } from "@/components/ui/button-particles";
 import { useCart } from "@/lib/CartContext";
 import { 
   Sparkles, 
@@ -126,20 +127,14 @@ export default function CheckoutPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Link
+              <ButtonParticles
                 href="/customer"
-                className="px-8 py-4 bg-brand-purple text-white font-extrabold rounded-full shadow-[0_0_25px_rgba(117,46,255,0.6)] hover:scale-105 transition-all text-sm uppercase tracking-wider"
-                style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-              >
-                View My Account & Orders
-              </Link>
-              <Link
+                label="View My Account & Orders"
+              />
+              <ButtonParticles
                 href="/products/customize-neon-signs"
-                className="px-8 py-4 bg-[#6eff86] text-black font-extrabold rounded-full shadow-[0_0_25px_rgba(110,255,134,0.6)] hover:scale-105 transition-all text-sm uppercase tracking-wider"
-                style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-              >
-                Design Another Neon Sign
-              </Link>
+                label="Design Another Neon Sign"
+              />
             </div>
           </div>
         </div>
@@ -445,14 +440,12 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <button
+            <ButtonParticles
               type="submit"
               disabled={isProcessing || cart.length === 0}
-              className="w-full py-4 bg-gradient-to-r from-brand-purple to-[#9d4edd] hover:from-[#853aff] hover:to-[#a95dff] text-white font-black rounded-full shadow-[0_0_25px_rgba(117,46,255,0.6)] hover:scale-[1.02] transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-            >
-              {isProcessing ? "Processing Order..." : `Place Order (₹${cartTotal.toLocaleString("en-IN")})`}
-            </button>
+              className="w-full"
+              label={isProcessing ? "Processing Order..." : `Place Order (₹${cartTotal.toLocaleString("en-IN")})`}
+            />
 
             <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
               <ShieldCheck className="w-4 h-4 text-[#6eff86]" />

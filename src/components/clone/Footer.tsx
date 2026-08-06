@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FaInstagram, FaFacebook, FaTwitter, FaPinterest, FaLinkedin } from 'react-icons/fa';
 import { supabase } from '@/lib/supabase';
+import { ButtonParticles } from '@/components/ui/button-particles';
 
 export function Footer() {
   const [pages, setPages] = useState<{id: number, title: string, slug: string}[] | null>(null);
@@ -22,8 +23,12 @@ export function Footer() {
           {/* Brand Col */}
           <div>
             <div className="mb-6 select-none w-full relative z-50 outline-none border-none">
-              <Link href="/" className="block cursor-pointer inline-block outline-none border-none focus:outline-none focus-visible:outline-none shadow-none">
-                <img src="/main logo.png" alt="The Neon Stack Logo" className="h-[100px] md:h-[130px] w-auto object-contain cursor-pointer hover:scale-105 transition-transform origin-left outline-none border-none focus:outline-none shadow-none" />
+              <Link href="/" className="block cursor-pointer inline-block outline-none border-none focus:outline-none focus-visible:outline-none shadow-none group">
+                  <img 
+                    src="/main logo.png" 
+                    alt="The Neon Stack Logo" 
+                    className="h-[120px] md:h-[150px] w-auto object-contain cursor-pointer group-hover:scale-105 transition-transform duration-500 origin-left outline-none border-none drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] drop-shadow-[0_0_20px_rgba(117,46,255,0.6)]" 
+                  />
               </Link>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">
@@ -70,9 +75,9 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-lg mb-6 uppercase tracking-wider">Join The Club</h4>
             <p className="text-gray-400 mb-4">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
-            <div className="flex gap-2">
-              <input type="email" placeholder="Enter your email" className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 flex-1 focus:outline-none focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/50" />
-              <button className="bg-brand-purple text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-purple/80 shadow-[0_0_15px_rgba(117,46,255,0.4)] transition-colors">Join</button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <input type="email" placeholder="Enter your email" className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 h-12 flex-1 min-w-0 focus:outline-none focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/50" />
+              <ButtonParticles label="Join" className="h-12 px-6 w-full sm:w-auto flex-shrink-0" />
             </div>
           </div>
         </div>

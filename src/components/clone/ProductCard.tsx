@@ -36,24 +36,22 @@ export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardP
 
   return (
     <div className="relative block h-full">
-      {/* 
-        Spotlight Hover Glow Effect (Interactive Cursor-Tracking Radial Spotlight)
-        Using GlowCard in CONTINUOUS PERPETUAL ORBIT mode (100% active, instead of on hover!)
-      */}
-      <GlowCard 
-        theme={glowTheme} 
-        continuous={true} 
-        borderSize={3}
-        className="h-full w-full"
+      <Link 
+        href="/" 
+        className={`relative z-10 block rounded-2xl overflow-hidden border transition-all duration-300 flex flex-col h-full ${
+          theme === 'light' 
+            ? 'bg-white text-black' 
+            : 'bg-zinc-900 text-white'
+        } ${
+          glowTheme === 'green' ? 'border-[#6eff86]/40 shadow-[0_0_15px_rgba(110,255,134,0.2)] hover:border-[#6eff86] hover:shadow-[0_0_30px_rgba(110,255,134,0.6)]' :
+          glowTheme === 'pink' ? 'border-[#f967fb]/40 shadow-[0_0_15px_rgba(249,103,251,0.2)] hover:border-[#f967fb] hover:shadow-[0_0_30px_rgba(249,103,251,0.6)]' :
+          glowTheme === 'blue' ? 'border-[#00e5ff]/40 shadow-[0_0_15px_rgba(0,229,255,0.2)] hover:border-[#00e5ff] hover:shadow-[0_0_30px_rgba(0,229,255,0.6)]' :
+          glowTheme === 'orange' ? 'border-[#fe8a2e]/40 shadow-[0_0_15px_rgba(254,138,46,0.2)] hover:border-[#fe8a2e] hover:shadow-[0_0_30px_rgba(254,138,46,0.6)]' :
+          glowTheme === 'purple' ? 'border-[#752eff]/40 shadow-[0_0_15px_rgba(117,46,255,0.2)] hover:border-[#752eff] hover:shadow-[0_0_30px_rgba(117,46,255,0.6)]' :
+          glowTheme === 'yellow' ? 'border-[#eaff00]/40 shadow-[0_0_15px_rgba(234,255,0,0.2)] hover:border-[#eaff00] hover:shadow-[0_0_30px_rgba(234,255,0,0.6)]' :
+          'border-[#ff2e2e]/40 shadow-[0_0_15px_rgba(255,46,46,0.2)] hover:border-[#ff2e2e] hover:shadow-[0_0_30px_rgba(255,46,46,0.6)]'
+        }`}
       >
-        <Link 
-          href="/" 
-          className={`relative z-10 block rounded-2xl overflow-hidden transition-all duration-300 flex flex-col h-full ${
-            theme === 'light' 
-              ? 'bg-white text-black' 
-              : 'bg-zinc-950/80 text-white'
-          }`}
-        >
           {/* Top Product Image Area */}
           <div className={`relative aspect-square w-full overflow-hidden ${theme === 'light' ? 'bg-zinc-100' : 'bg-zinc-900'}`}>
             {/* Discount Badge - Continuously illuminated */}
@@ -108,7 +106,6 @@ export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardP
             </div>
           </div>
         </Link>
-      </GlowCard>
     </div>
   );
 }

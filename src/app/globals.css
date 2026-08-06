@@ -19,6 +19,7 @@
   --font-gochi-hand: var(--font-gochi-hand);
   --font-kaushan-script: var(--font-kaushan-script);
   --font-clonoid: var(--font-clonoid);
+  --font-poppins: var(--font-poppins), sans-serif;
   
   --color-brand-green: #6eff86;
   --color-brand-purple: #752eff;
@@ -160,6 +161,18 @@
 
 .animate-flow-dash-2 {
   animation: flow-dash-2 9s linear infinite;
+}
+
+@keyframes button-sparkle {
+  0% { transform: scale(0) translateY(0) rotate(0deg); opacity: 0; }
+  30% { opacity: 1; }
+  50% { transform: scale(1) translateY(-10px) rotate(45deg); opacity: 1; }
+  100% { transform: scale(0) translateY(-25px) rotate(90deg); opacity: 0; }
+}
+
+.animate-button-sparkle {
+  animation: button-sparkle var(--duration, 2s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
 }
 
 .animate-flow-dash-3 {
@@ -367,6 +380,21 @@ button.faq-btn:hover svg {
    from all text across the whole site, while preserving original colors and sizes.
    ========================================================================== */
 
+/* Apply Poppins font to headers (navigation header and headings h1-h6) */
+header,
+header *,
+nav,
+nav *,
+h1:not(.studio-neon-sign-preview),
+h2:not(.studio-neon-sign-preview),
+h3:not(.studio-neon-sign-preview),
+h4:not(.studio-neon-sign-preview),
+h5:not(.studio-neon-sign-preview),
+h6:not(.studio-neon-sign-preview),
+.font-poppins {
+  font-family: var(--font-poppins), sans-serif !important;
+}
+
 /* 1. All Typography, Headings, Buttons, Labels, Cards & Text elements site-wide:
       Keep their original text color and size, remove any blurry text-shadow, and enforce crisp sub-pixel antialiasing */
 h1, h2, h3, h4, h5, h6,
@@ -387,9 +415,7 @@ strong, em, b, i, small, sub, sup,
 .text-neon-green,
 .text-brand-green,
 .text-\[\#6eff86\],
-.text-\[\#85ff9b\],
-header a,
-nav a {
+.text-\[\#85ff9b\] {
   color: #6eff86 !important;
 }
 

@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
+import { ButtonParticles } from "@/components/ui/button-particles";
 import { useCart } from "@/lib/CartContext";
 import { 
   ShoppingBag, 
@@ -84,13 +85,10 @@ export default function CartPage() {
               Create your own bespoke illuminated artwork in our interactive workshop or explore our curated neon sign collections.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
+              <ButtonParticles
                 href="/products/customize-neon-signs"
-                className="px-8 py-4 bg-[#6eff86] text-black font-extrabold rounded-full shadow-[0_0_25px_rgba(110,255,134,0.6)] hover:scale-105 transition-all text-sm uppercase tracking-wider"
-                style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-              >
-                Customize A Neon Sign
-              </Link>
+                label="Customize A Neon Sign"
+              />
               <Link
                 href="/shop-neon-collection"
                 className="px-8 py-4 bg-zinc-900 border border-zinc-700 hover:border-white text-white font-extrabold rounded-full transition-all text-sm uppercase tracking-wider"
@@ -264,14 +262,12 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <Link
+              <ButtonParticles
                 href="/checkout"
-                className="w-full py-4 bg-gradient-to-r from-brand-purple to-[#9d4edd] hover:from-[#853aff] hover:to-[#a95dff] text-white font-black rounded-full shadow-[0_0_25px_rgba(117,46,255,0.6)] hover:scale-[1.02] transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-sm"
-                style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-              >
-                <span>Proceed to Checkout</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+                className="w-full"
+                label="Proceed to Checkout"
+                icon={<ArrowRight className="w-5 h-5 text-white transition-colors duration-300 group-hover:text-[#6eff86]" />}
+              />
 
               {/* Guarantees Box */}
               <div className="bg-black/50 border border-gray-800 rounded-2xl p-4 space-y-2 text-xs text-gray-400">

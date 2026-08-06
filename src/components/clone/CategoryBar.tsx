@@ -2,19 +2,19 @@ import React from 'react';
 
 export function CategoryBar({ theme = "dark" }: { theme?: "light" | "dark" }) {
   const categories = [
-    { name: "Shop All", image: "/product-1.jpeg" },
-    { name: "Gods", image: "/product-2.jpeg" },
-    { name: "Cafe", image: "/product-3.jpeg" },
-    { name: "Cricket", image: "/product-4.jpeg" },
-    { name: "Wings", image: "/product-5.jpeg" },
-    { name: "Table Top", image: "/product-6.jpeg" },
-    { name: "Millionaire", image: "/product-1.jpeg" },
-    { name: "Love", image: "/product-2.jpeg" },
-    { name: "Cars", image: "/product-3.jpeg" },
-    { name: "Gaming", image: "/product-4.jpeg" },
-    { name: "Gym", image: "/product-5.jpeg" },
-    { name: "Kids", image: "/product-6.jpeg" },
-    { name: "Under 400", image: "/product-1.jpeg" }
+    { name: "Shop All", image: "/5580.webp" },
+    { name: "Gods", image: "/5607.webp" },
+    { name: "Cafe", image: "/5595.webp" },
+    { name: "Cricket", image: "/5592 (1).webp" },
+    { name: "Wings", image: "/5593.webp" },
+    { name: "Table Top", image: "/5594.webp" },
+    { name: "Millionaire", image: "/5605.webp" },
+    { name: "Love", image: "/5591.webp" },
+    { name: "Cars", image: "/5589 (1).webp" },
+    { name: "Gaming", image: "/5596.webp" },
+    { name: "Gym", image: "/5606.webp" },
+    { name: "Kids", image: "/5604.webp" },
+    { name: "Under 400", image: "/5597.webp" }
   ];
 
   const duplicatedCategories = [...categories, ...categories];
