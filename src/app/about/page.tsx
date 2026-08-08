@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { SpliteInteractive } from "@/components/clone/Splite";
+
 
 const LayerItem = ({ title, children, index, total, bgImage }: { title: string, children: React.ReactNode, index: number, total: number, bgImage?: string }) => {
   return (
@@ -172,23 +172,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Crafted Layer by Layer (Sticky Scroll Effect) */}
-      <section ref={containerRef} className="py-32 px-4 relative bg-zinc-950">
-        <div className="max-w-4xl mx-auto mb-32 text-center">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white">The Meaning Behind <span className="text-brand-green">'The Neon Stack'</span></h2>
-          <p className="text-2xl text-zinc-400 font-light">The word 'Stack' is more than our name—it is our philosophy.<br/>Every masterpiece is built layer by layer.</p>
-        </div>
 
-        <div className="max-w-7xl mx-auto relative px-4">
-          <SpliteInteractive />
-        </div>
-
-        <div className="max-w-4xl mx-auto text-center mt-32">
-          <p className="text-2xl text-zinc-300 font-light leading-relaxed">
-            Our signature layered acrylic construction reflects this philosophy, delivering greater depth, richer illumination and a premium finish that truly stands apart.
-          </p>
-        </div>
-      </section>
 
       {/* Our Promise & Differences */}
       <section className="py-32 px-4 relative z-50 bg-black">

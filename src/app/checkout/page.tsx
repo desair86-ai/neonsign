@@ -99,9 +99,11 @@ export default function CheckoutPage() {
               </span>
               <h1 
                 className="text-3xl md:text-5xl font-black text-white"
-                style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
               >
-                Thank You for Your Order
+                <span className="text-white">Thank</span>{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
+                  You for Your Order
+                </span>
               </h1>
               <p 
                 className="text-gray-300 text-sm md:text-base max-w-md mx-auto"
@@ -158,9 +160,11 @@ export default function CheckoutPage() {
             </div>
             <h1 
               className="text-3xl md:text-5xl font-black tracking-tight text-white"
-              style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
             >
-              Checkout & Delivery
+              <span className="text-white">Checkout</span>{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
+                & Delivery
+              </span>
             </h1>
           </div>
 

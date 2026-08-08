@@ -38,9 +38,11 @@ export default function CartPage() {
             </div>
             <h1 
               className="text-3xl md:text-5xl font-black tracking-tight"
-              style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
             >
-              Your Shopping Cart
+              <span className="text-white">Your</span>{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
+                Shopping Cart
+              </span>
             </h1>
           </div>
 

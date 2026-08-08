@@ -80,7 +80,12 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
   return (
     <section className="py-24 max-w-[1600px] mx-auto px-4 bg-zinc-950">
       <div className="mb-16 text-center">
-        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight text-white mb-4">Spaces We <span className="text-brand-green">Illuminate</span></h2>
+        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">
+          <span className="text-white">Spaces</span>{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
+            We Illuminate
+          </span>
+        </h2>
         <p className="text-xl text-zinc-400 font-light">From businesses that want to stand out to homes that deserve a personal touch.</p>
       </div>
 

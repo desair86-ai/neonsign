@@ -54,9 +54,8 @@ export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardP
       >
           {/* Top Product Image Area */}
           <div className={`relative aspect-square w-full overflow-hidden ${theme === 'light' ? 'bg-zinc-100' : 'bg-zinc-900'}`}>
-            {/* Discount Badge - Continuously illuminated */}
             {product.discountBadge && (
-              <span className="absolute top-4 left-4 z-20 px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-[0_0_15px_rgba(110,255,134,0.8)] bg-gradient-to-r from-[#6eff86] to-[#752eff] text-black">
+              <span className="absolute top-4 left-4 z-20 px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-[0_0_15px_rgba(110,255,134,0.8)] bg-gradient-to-r from-[#6eff86] via-[#752eff] to-[#bca9ff] bg-[length:200%_200%] animate-neon-gradient text-black">
                 {product.discountBadge}
               </span>
             )}

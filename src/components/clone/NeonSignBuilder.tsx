@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { Footer } from "@/components/clone/Footer";
 import { 
   Check, Ruler, Info, X, AlignLeft, AlignCenter, AlignRight, Upload,
-  Type, Palette, Layers, Settings, Image as ImageIcon, ChevronLeft, ChevronRight,
-  ShoppingBag, Bookmark, Sparkles, Sliders, Moon, Sun, Sunset, Heart, Star, Zap, Crown, Trash2
+  Type, Palette, Layers, Settings, Image as ImageIcon, ChevronLeft, ChevronRight, ChevronDown,
+  ShoppingBag, Bookmark, Sparkles, Sliders, Moon, Sun, Sunset, Heart, Star, Zap, Crown, Trash2, Plus, Minus
 } from 'lucide-react';
 import { motion } from "framer-motion";
 import { useMascot } from "@/hooks/useMascot";
@@ -15,14 +15,12 @@ import { ButtonParticles } from '@/components/ui/button-particles';
 import { useCart } from "@/lib/CartContext";
 
 const FONTS = [
-  { name: 'Clonoid', class: 'font-clonoid', category: 'popular' },
-  { name: 'Poppins', class: 'font-poppins', category: 'popular' },
   { name: 'Passionate', class: 'font-pacifico', category: 'popular' },
   { name: 'Dreamy', class: 'font-dancing', category: 'popular' },
   { name: 'Flowy', class: 'font-caveat', category: 'script' },
   { name: 'Original', class: 'font-bungee-outline', category: 'bold' },
   { name: 'Classic', class: 'font-cinzel', category: 'classic' },
-  { name: 'Baylee', class: 'font-great-vibes', category: 'elegant' },
+  { name: 'Boujee', class: 'font-great-vibes', category: 'elegant' },
   { name: 'Funky', class: 'font-permanent-marker', category: 'modern' },
   { name: 'Chic', class: 'font-parisienne', category: 'elegant' },
   { name: 'Delight', class: 'font-playfair', category: 'classic' },
@@ -32,6 +30,19 @@ const FONTS = [
   { name: 'Charming', class: 'font-bad-script', category: 'script' },
   { name: 'Quirky', class: 'font-gochi-hand', category: 'modern' },
   { name: 'Stylish', class: 'font-kaushan-script', category: 'bold' },
+  { name: 'Cheeky', class: 'font-yellowtail', category: 'script' },
+  { name: 'Glitz', class: 'font-allura', category: 'elegant' },
+  { name: 'Neo Sans', class: 'font-montserrat', category: 'modern' },
+  { name: 'Alchemy', class: 'font-mr-de-haviland', category: 'script' },
+  { name: 'Unplugged', class: 'font-herr-von-muellerhoff', category: 'elegant' },
+  { name: 'Radiant', class: 'font-nothing-you-could-do', category: 'script' },
+  { name: 'Aura', class: 'font-vibur', category: 'script' },
+  { name: 'Chill', class: 'font-montez', category: 'script' },
+  { name: 'Rad', class: 'font-monoton', category: 'modern' },
+  { name: 'Chief', class: 'font-sacramento', category: 'script' },
+  { name: 'Legend', class: 'font-rye', category: 'bold' },
+  { name: 'Festive', class: 'font-mountains-of-christmas', category: 'script' },
+  { name: 'Sleek', class: 'font-cinzel-decorative', category: 'classic' },
 ];
 
 const COLORS = [
@@ -49,34 +60,47 @@ const COLORS = [
 ];
 
 // Realistic LED Neon Tube & Wall Light Spillage (Addressing Point #3 & #9)
-function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = true) {
+function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = true, tubing: 'coloured'|'white' = 'coloured') {
+  const baseColor = tubing === 'white' ? '#fcfcfc' : color.hex;
+  
   if (!isLightOn) {
     return {
-      color: color.hex,
-      textShadow: 'none',
+      color: baseColor,
+      textShadow: tubing === 'white' ? 'inset 0 0 2px rgba(0,0,0,0.1)' : 'none',
       filter: 'none',
       fontSize: 'clamp(2.4rem, 5.8vw, 6.5rem)',
       lineHeight: '1.1',
-      whiteSpace: 'pre-wrap' as const,
+      whiteSpace: 'pre' as const,
       wordBreak: 'break-word' as const,
-      WebkitTextStroke: `1px ${color.hex}`,
-      opacity: 0.55,
+      WebkitTextStroke: tubing === 'white' ? '1px #e0e0e0' : `1px ${color.hex}`,
+      opacity: tubing === 'white' ? 0.9 : 0.55,
     };
   }
 
+  // Premium 2nd-Gen LED Neon Effect
+  // If tubing is colored, the core should match the neon color (not hardcoded white), matching NeonAttack's style.
+  const coreColor = tubing === 'white' ? '#ffffff' : color.hex;
+  const innerGlow = tubing === 'white' ? '#ffffff' : color.hex;
+
   return {
-    color: color.hex,
+    color: coreColor,
     textShadow: `
-      0 0 5px ${color.hex},
-      0 0 15px ${color.hex},
-      0 0 30px ${color.glow},
-      0 0 50px ${color.glow}
+      0 0 2px ${innerGlow},
+      0 0 5px ${innerGlow},
+      0 0 10px ${color.hex},
+      0 0 20px ${color.hex},
+      0 0 40px ${color.hex},
+      0 0 60px ${color.hex},
+      0 0 90px ${color.hex},
+      0 0 120px ${color.hex}
     `,
-    filter: `drop-shadow(0 0 10px ${color.glow})`,
+    // Tripled the drop-shadow layers for massive wall spill in dark rooms
+    filter: `drop-shadow(0 0 10px ${color.glow}) drop-shadow(0 0 30px ${color.glow}) drop-shadow(0 0 80px ${color.glow}) drop-shadow(0 0 120px ${color.glow}) brightness(1.2)`,
     fontSize: 'clamp(2.4rem, 5.8vw, 6.5rem)',
     lineHeight: '1.1',
     whiteSpace: 'pre' as const,
-    WebkitTextStroke: `1px ${color.hex}`,
+    wordBreak: 'break-word' as const,
+    WebkitTextStroke: tubing === 'white' ? '1px #ffffff' : `1px ${color.hex}`,
     opacity: 1,
   };
 }
@@ -121,15 +145,22 @@ export function getCalculatedDimensions(sizeId: string, colorName: string, textS
   const isMojo = colorName.includes('Mojo');
   const config = isMojo ? size.mojoConfig : size.singleConfig;
   const chars = Math.max(1, textStr.replace(/\s/g, '').length);
-  const length = chars * config.lengthPerLetter;
+  let length = chars * config.lengthPerLetter;
   let price = config.firstLetterPrice + (chars - 1) * config.addedLetterPrice;
   
-  // Add 1500 for each shape
-  price += shapeCount * 1500;
+  // Add 300 for each shape
+  price += shapeCount * 300;
+  
+  // Add 6 inches per shape (3 inches for the shape + 3 inches for the gap)
+  length += shapeCount * 6;
+
+  const linesCount = Math.max(1, textStr.split('\n').length);
+  const baseHeight = size.heightInches;
+  const totalHeight = (linesCount * baseHeight) + ((linesCount - 1) * 3);
 
   return {
     length: `${length.toFixed(2)}"`,
-    height: `${size.heightInches.toFixed(2)}"`,
+    height: `${totalHeight.toFixed(2)}"`,
     price: price,
   };
 }
@@ -171,15 +202,15 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
   const [text, setText] = useState('The Neon Stack');
   const [isLightOn, setIsLightOn] = useState(true);
   const [showMeasurements, setShowMeasurements] = useState(false);
-  const [activeTab, setActiveTab] = useState<'create' | 'color' | 'backboard' | 'hardware' | 'room'>('create');
+  const [activeTab, setActiveTab] = useState<'create' | 'size' | 'shapes' | 'color' | 'backboard' | 'hardware' | 'room'>('create');
   const [showRuler, setShowRuler] = useState(true);
   const [selectedBackboardShape, setSelectedBackboardShape] = useState<'cut' | 'square' | 'stand' | 'none'>('cut');
   const [selectedBackboardColor, setSelectedBackboardColor] = useState<'clear' | 'black' | 'white' | 'mirror'>('clear');
   const [selectedMounting, setSelectedMounting] = useState<'screws' | 'wire' | 'stand'>('screws');
 
   const TABS = isMojoMix 
-    ? ['create', 'backboard', 'hardware', 'room'] as const 
-    : ['create', 'color', 'backboard', 'hardware', 'room'] as const;
+    ? ['create', 'size', 'shapes', 'backboard', 'hardware', 'room'] as const 
+    : ['create', 'size', 'shapes', 'color', 'backboard', 'hardware', 'room'] as const;
 
   const prevTab = () => {
     const idx = TABS.indexOf(activeTab as any);
@@ -203,6 +234,17 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
   const [roomLightingMood, setRoomLightingMood] = useState<'night' | 'evening' | 'day'>('day');
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [saveToast, setSaveToast] = useState(false);
+  const [expandedSteps, setExpandedSteps] = useState<Record<string, boolean>>({
+    step1: true,
+    step2: true,
+    step3: true,
+    step4: true,
+    step5: true,
+  });
+  const toggleStep = (step: string) => {
+    setExpandedSteps(prev => ({ ...prev, [step]: !prev[step] }));
+  };
+  const [siliconeTubing, setSiliconeTubing] = useState<'coloured' | 'white'>('coloured');
 
   useEffect(() => {
     fetch('/api/settings/backgrounds')
@@ -221,9 +263,9 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
       .catch(console.error);
   }, []);
 
-  const [selectedFont, setSelectedFont] = useState(FONTS[0]);
+  const [selectedFont, setSelectedFont] = useState(FONTS.find(f => f.name === 'Dreamy') || FONTS[0]);
   const [textAlign, setTextAlign] = useState<'left' | 'center' | 'right'>('center');
-  const defaultColor = isMojoMix ? COLORS.find(c => c.name.includes('Mojo'))! : COLORS[2];
+  const defaultColor = isMojoMix ? COLORS.find(c => c.name.includes('Mojo'))! : COLORS[0];
   const [selectedColor, setSelectedColor] = useState(defaultColor);
   const [selectedSize, setSelectedSize] = useState(SIZES[1]); // Medium default
   const [isWaterproof, setIsWaterproof] = useState(false);
@@ -239,6 +281,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
 
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const boundsRef = useRef<HTMLDivElement>(null);
   const [dynamicScale, setDynamicScale] = useState<number | null>(null);
 
   const handleColorSelect = (c: typeof COLORS[number]) => {
@@ -358,13 +401,13 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
     <main className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender bg-[#080808]">
       
       {/* 1. Minimalist Configurator Header (Addressing Point #7: Removed competing navigation, kept only Logo, Help, Save, Cart) */}
-      <header className="w-full bg-[#0a0a0a]/95 backdrop-blur-2xl border-b border-white/10 px-4 md:px-8 h-20 flex items-center justify-between sticky top-0 z-50 shadow-2xl">
+      <header className="w-full bg-[#0a0a0a]/95 backdrop-blur-2xl border-b-[3px] border-brand-green px-4 md:px-8 h-20 flex items-center justify-between sticky top-0 z-50 shadow-2xl">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2 group">
             <img 
               src="/main logo.png" 
               alt="The Neon Stack Logo" 
-              className="h-[76px] md:h-[95px] w-auto object-contain my-[-15px] group-hover:scale-105 transition-transform" 
+              className="h-[90px] md:h-[120px] w-auto object-contain my-[-25px] group-hover:scale-105 transition-transform" 
             />
           </Link>
           <div className="hidden md:flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full">
@@ -400,7 +443,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
               triggerMascot(`Added "${text}" neon sign to cart! Total: ₹${price.toLocaleString()}`, MascotState.CELEBRATING);
             }}
             label={`ADD TO CART — ₹${price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`}
-            icon={<ShoppingBag className="w-5 h-5 text-white transition-colors duration-300 group-hover:text-[#6eff86]" />}
+            icon={<ShoppingBag className="w-5 h-5 transition-colors duration-300" />}
           />
 
           <button
@@ -437,165 +480,74 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
       </header>
 
       {/* Main Studio Workshop Area */}
-      <div className="w-full flex flex-col lg:flex-row min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] lg:max-h-[860px] lg:overflow-hidden bg-[#070707] border-b border-gray-800">
+      <div className="w-full flex flex-col lg:flex-row min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] lg:max-h-[860px] lg:overflow-hidden bg-[#f5f5f5] border-b border-gray-800">
         
-        {/* Left Step Navigation Bar */}
-        <div className="studio-left-menu w-full lg:w-20 bg-[#0b0b0b] border-b lg:border-b-0 lg:border-r border-white/10 flex lg:flex-col items-center justify-between py-2 lg:py-5 px-1.5 z-30 flex-shrink-0">
-          <div className="flex lg:flex-col items-center justify-around lg:justify-start w-full gap-2 lg:gap-4">
+        {/* 1. Left Navigation Sidebar (Thin & Dark) */}
+        <div className="w-full lg:w-24 bg-black border-b lg:border-b-0 lg:border-r border-white/40 flex lg:flex-col items-center py-2 lg:py-6 z-30 flex-shrink-0">
+          <div className="flex lg:flex-col w-full gap-2 lg:gap-4 overflow-x-auto lg:overflow-x-visible scrollbar-none px-2 lg:px-0 lg:pl-2">
             {[
-              { id: 'create', label: 'CREATE', icon: <Type className="w-5 h-5" /> },
-              ...(!isMojoMix ? [{ id: 'color', label: 'COLOR', icon: <Palette className="w-5 h-5" /> }] : []),
-              { id: 'backboard', label: 'BACKING', icon: <Layers className="w-5 h-5" /> },
-              { id: 'hardware', label: 'HARDWARE', icon: <Settings className="w-5 h-5" /> },
-              { id: 'room', label: 'ROOM', icon: <ImageIcon className="w-5 h-5" /> },
-            ].map((item) => {
+              { id: 'create', label: 'CREATE', icon: <Type className="w-6 h-6 mb-1" /> },
+              { id: 'size', label: 'SIZE', icon: <Ruler className="w-6 h-6 mb-1" /> },
+              { id: 'shapes', label: 'SHAPES', icon: <Sparkles className="w-6 h-6 mb-1" /> },
+              ...(!isMojoMix ? [{ id: 'color', label: 'COLOR', icon: <Palette className="w-6 h-6 mb-1" /> }] : []),
+              { id: 'backboard', label: 'BACKBOARD', icon: <Layers className="w-6 h-6 mb-1" /> },
+              { id: 'hardware', label: 'HARDWARE', icon: <Settings className="w-6 h-6 mb-1" /> },
+              { id: 'room', label: 'ROOM', icon: <ImageIcon className="w-6 h-6 mb-1" /> },
+            ].map((item, index, array) => {
               const isActive = activeTab === item.id;
               return (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id as any)}
-                  className={`group relative flex lg:flex-col items-center justify-center gap-1.5 w-full py-2.5 lg:py-3 rounded-xl transition-all ${
-                    isActive 
-                      ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]' 
-                      : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
-                  }`}
-                  title={item.label}
-                >
-                  <div className="flex items-center justify-center">{item.icon}</div>
-                  <span className="text-[10px] tracking-wider font-bold">{item.label}</span>
-                  {isActive && (
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-brand-purple rounded-l-full hidden lg:block" />
+                <React.Fragment key={item.id}>
+                  <button
+                    onClick={() => setActiveTab(item.id as any)}
+                    className={`flex flex-col items-center justify-center py-3 transition-all min-w-[75px] lg:min-w-0 ${
+                      isActive 
+                        ? 'bg-white text-[#252b42] rounded-lg lg:rounded-l-lg lg:rounded-r-none relative z-40 lg:translate-x-[1px] shadow-[-4px_0_10px_rgba(0,0,0,0.1)] w-full' 
+                        : 'text-white/70 hover:text-white hover:bg-white/10 rounded-lg w-full lg:w-[calc(100%-8px)]'
+                    }`}
+                  >
+                    {item.icon}
+                    <span className="text-[10px] font-black tracking-widest">{item.label}</span>
+                  </button>
+                  {index < array.length - 1 && (
+                    <div className="hidden lg:block w-[80%] h-[1px] bg-white/60 mx-auto self-center" />
                   )}
-                </button>
+                </React.Fragment>
               );
             })}
           </div>
-
-          <div className="hidden lg:flex flex-col items-center gap-4">
-            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest rotate-180 [writing-mode:vertical-lr]">
-              NEON STACK
-            </span>
-          </div>
         </div>
 
-        {/* 2. Layered Glassmorphic Sidebar Card (Addressing Point #1 & #5: 40% Less Green, Generous Spacing, Premium Cards) */}
-        <div className="w-full lg:w-[450px] bg-zinc-900/60 backdrop-blur-2xl border-r border-white/10 p-5 md:p-6 overflow-y-auto z-20 flex flex-col justify-between flex-shrink-0">
-          <div className="space-y-7">
+        {/* 2. Middle Options Panel (White) */}
+        <div className="w-full lg:w-[400px] bg-white border-r border-gray-200 p-5 md:p-6 overflow-y-auto z-20 flex flex-col flex-shrink-0 relative shadow-xl">
+          <div className="space-y-8 flex-grow text-gray-900">
             
             {/* TAB 1: CREATE (Text, Font, Size) */}
             {activeTab === 'create' && (
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-8">
                 
-                {/* 1. Text Input */}
-                <div>
+                {/* STEP 1: Text */}
+                <div className="mb-2">
                   <div className="flex items-center justify-between mb-2">
-                    <label className="text-xs font-extrabold text-white uppercase tracking-wider">
-                      1. Enter Neon Text
-                    </label>
-                    <span className="text-xs text-gray-400">{text.length} chars</span>
+                    <label className="text-xs font-bold text-gray-900 uppercase tracking-wider">Enter Neon Text</label>
+                    <span className="text-xs text-gray-500">{text.length} chars</span>
                   </div>
                   <textarea
                     rows={2}
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     placeholder="Type something magical..."
-                    className="w-full bg-black/60 border border-white/20 focus:border-white rounded-xl p-3.5 text-white text-lg font-bold outline-none resize-none transition-colors shadow-inner"
+                    className="w-full bg-gray-50 border border-gray-300 focus:border-brand-purple rounded-xl p-3.5 text-gray-900 text-lg font-bold outline-none resize-none transition-colors"
                   />
-                </div>
-
-                {/* 2. Categorized Font Selector (Addressing Point #6: Categorized Pills & Dropdown) */}
-                <div>
-                  <div className="flex items-center justify-between mb-2.5">
-                    <label className="text-xs font-extrabold text-white uppercase tracking-wider">
-                      2. Choose Font Style
-                    </label>
-                    <span className="text-[11px] text-gray-400 font-medium">
-                      {FONTS.length} Fonts Available
-                    </span>
-                  </div>
-
-                  {/* Category Filter Pills */}
-                  <div className="flex items-center gap-1.5 overflow-x-auto pb-2 mb-3 scrollbar-none">
-                    {[
-                      { id: 'popular', label: 'Popular ⭐' },
-                      { id: 'elegant', label: 'Elegant' },
-                      { id: 'modern', label: 'Modern' },
-                      { id: 'script', label: 'Script' },
-                      { id: 'bold', label: 'Bold' },
-                      { id: 'classic', label: 'Classic' },
-                      { id: 'all', label: 'See All ▾' },
-                    ].map((cat) => (
-                      <button
-                        key={cat.id}
-                        onClick={() => setFontCategory(cat.id as any)}
-                        className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
-                          fontCategory === cat.id
-                            ? 'bg-white text-black shadow-md'
-                            : 'bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10'
-                        }`}
-                      >
-                        {cat.label}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Dropdown menu when 'all' is selected */}
-                  {fontCategory === 'all' && (
-                    <div className="mb-3">
-                      <select
-                        value={selectedFont.name}
-                        onChange={(e) => {
-                          const f = FONTS.find(font => font.name === e.target.value);
-                          if (f) {
-                            setSelectedFont(f);
-                            triggerMascot(`${f.name} font looks awesome!`, MascotState.WAVE);
-                          }
-                        }}
-                        className="w-full bg-black/80 border border-white/20 rounded-xl px-3.5 py-3 text-white font-bold outline-none focus:border-white transition-colors"
-                      >
-                        {FONTS.map((f) => (
-                          <option key={f.name} value={f.name}>
-                            {f.name} Font Style
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-
-                  {/* Font Cards Grid */}
-                  <div className="grid grid-cols-2 gap-2 mb-3 max-h-52 overflow-y-auto pr-1">
-                    {FONTS.filter(f => fontCategory === 'all' || f.category === fontCategory).map((f) => {
-                      const isSelected = selectedFont.name === f.name;
-                      return (
-                        <button
-                          key={f.name}
-                          onClick={() => {
-                            setSelectedFont(f);
-                            triggerMascot(`${f.name} font looks awesome!`, MascotState.WAVE);
-                          }}
-                          className={`px-3.5 py-2.5 rounded-xl transition-all text-left flex items-center justify-between ${
-                            isSelected
-                              ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
-                              : 'bg-white/[0.04] border border-white/10 hover:border-white/30 text-gray-200 hover:text-white font-semibold'
-                          }`}
-                        >
-                          <span className={`text-base truncate ${f.class}`}>{f.name}</span>
-                          {isSelected && <Check className="w-4 h-4 text-brand-purple shrink-0 ml-1" />}
-                        </button>
-                      );
-                    })}
-                  </div>
-
                   {/* Alignment Controls */}
-                  <div className="flex bg-black/60 border border-white/10 rounded-xl p-1 gap-1">
+                  <div className="flex bg-gray-100 border border-gray-200 rounded-xl p-1 gap-1 mt-3">
                     {(['left', 'center', 'right'] as const).map((align) => (
                       <button
                         key={align}
                         onClick={() => setTextAlign(align)}
                         className={`flex-1 py-1.5 rounded-lg flex items-center justify-center transition-all ${
                           textAlign === align
-                            ? 'bg-white/20 text-white font-bold shadow-sm'
-                            : 'text-gray-400 hover:text-white'
+                            ? 'bg-white text-gray-900 font-bold shadow-sm border border-gray-200'
+                            : 'text-gray-500 hover:text-gray-900'
                         }`}
                       >
                         {align === 'left' && <AlignLeft className="w-4 h-4" />}
@@ -606,75 +558,34 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                   </div>
                 </div>
 
-                {/* 3. Add Neon Shapes */}
-                <div>
-                  <div className="flex items-center justify-between mb-2.5">
-                    <label className="text-xs font-extrabold text-white uppercase tracking-wider">
-                      3. Add Neon Shapes (+₹1,500)
-                    </label>
+                {/* STEP 2: Style (Fonts) */}
+                <div className="mb-2">
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="text-xs font-bold text-gray-900 uppercase tracking-wider">Choose Font Style</label>
+                    <span className="text-[11px] text-gray-500 font-medium">{FONTS.length} Fonts</span>
                   </div>
-                  <div className="grid grid-cols-5 gap-2">
-                    {[
-                      { type: 'heart', icon: <Heart className="w-5 h-5" /> },
-                      { type: 'star', icon: <Star className="w-5 h-5" /> },
-                      { type: 'zap', icon: <Zap className="w-5 h-5" /> },
-                      { type: 'crown', icon: <Crown className="w-5 h-5" /> },
-                      { type: 'moon', icon: <Moon className="w-5 h-5" /> },
-                    ].map((shape) => (
-                      <button
-                        key={shape.type}
-                        onClick={() => {
-                          setAddedShapes([...addedShapes, { id: Date.now().toString(), type: shape.type }]);
-                          triggerMascot(`Added a ${shape.type} to your sign! Drag it around to place it.`, MascotState.CELEBRATING);
-                        }}
-                        className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl py-3 flex items-center justify-center transition-colors text-white hover:text-brand-purple hover:border-brand-purple"
-                      >
-                        {shape.icon}
-                      </button>
-                    ))}
-                  </div>
-                  {addedShapes.length > 0 && (
-                    <div className="mt-2 text-xs text-brand-purple font-semibold">
-                      {addedShapes.length} shape{addedShapes.length > 1 ? 's' : ''} added (Total +₹{(addedShapes.length * 1500).toLocaleString('en-IN')}). <br/>
-                      <span className="text-gray-400">Drag shapes on the wall to position them!</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* 3. Select Size Grid */}
-                <div>
-                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-2.5 block">
-                    3. Select Physical Size
-                  </label>
-                  <div className="flex flex-col gap-2.5">
-                    {SIZES.map((size) => {
-                      const isSelected = selectedSize.id === size.id;
-                      const dims = getCalculatedDimensions(size.id, selectedColor.name, text, addedShapes.length);
+                  
+                  {/* Font Cards Grid (3 Columns, No Categories) */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3 max-h-72 overflow-y-auto pr-1">
+                    {FONTS.map((f) => {
+                      const isSelected = selectedFont.name === f.name;
                       return (
-                        <div 
-                          key={size.id}
+                        <button
+                          key={f.name}
                           onClick={() => {
-                            setSelectedSize(size);
+                            setSelectedFont(f);
+                            triggerMascot(`${f.name} font looks awesome!`, MascotState.WAVE);
                           }}
-                          className={`flex items-center justify-between p-4 rounded-xl cursor-pointer transition-all border-2 ${
-                            isSelected 
-                              ? 'bg-black border-brand-purple shadow-[0_0_15px_rgba(117,46,255,0.4)]' 
-                              : 'bg-white/5 border-transparent hover:bg-white/10'
+                          className={`py-3 px-2 rounded-xl transition-all text-center flex items-center justify-center border ${
+                            isSelected
+                              ? 'bg-brand-purple border-brand-purple text-white shadow-sm'
+                              : 'bg-white border-gray-200 hover:border-brand-purple/40 text-gray-900'
                           }`}
                         >
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="font-bold text-sm">{size.name}</span>
-                              {isSelected && <Check className="w-4 h-4 text-brand-purple" />}
-                            </div>
-                            <div className="text-xs text-gray-400 mt-0.5">
-                              {dims.length} × {dims.height}
-                            </div>
-                          </div>
-                          <div className="text-sm font-extrabold text-white">
-                            ₹{dims.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-                          </div>
-                        </div>
+                          <span className={`text-sm md:text-base truncate w-full ${f.class} ${f.name === 'Original' ? '[-webkit-text-stroke:0.5px_currentColor] font-bold' : ''}`}>
+                            {f.name}
+                          </span>
+                        </button>
                       );
                     })}
                   </div>
@@ -683,11 +594,112 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
               </div>
             )}
 
+            {/* SIZE TAB */}
+            {activeTab === 'size' && (
+              <div className="animate-fade-in flex flex-col gap-6">
+                <div className="mb-2">
+                  <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">Select Size</label>
+                  <div className="flex flex-col gap-3">
+                    {SIZES.map((size) => {
+                      const isSelected = selectedSize.id === size.id;
+                      const dims = getCalculatedDimensions(size.id, selectedColor.name, text, addedShapes.length);
+                      return (
+                        <div 
+                          key={size.id}
+                          onClick={() => setSelectedSize(size)}
+                          className={`flex items-center justify-between p-4 rounded-xl cursor-pointer transition-all border-2 ${
+                            isSelected 
+                              ? 'bg-purple-50/50 border-brand-purple shadow-sm' 
+                              : 'bg-white border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className={`font-bold text-sm ${isSelected ? 'text-brand-purple' : 'text-gray-900'}`}>{size.name}</span>
+                              {isSelected && <Check className="w-4 h-4 text-brand-purple" />}
+                            </div>
+                            <div className="text-xs text-gray-500 mt-1">
+                              {dims.length} × {dims.height}
+                            </div>
+                          </div>
+                          <div className={`text-sm font-extrabold ${isSelected ? 'text-brand-purple' : 'text-gray-900'}`}>
+                            ₹{dims.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* SHAPES TAB */}
+            {activeTab === 'shapes' && (
+              <div className="animate-fade-in flex flex-col gap-6">
+                <div className="mb-2">
+                  <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">Add Neon Shapes (+₹300)</label>
+                  <div className="flex flex-col gap-3">
+                    {[
+                      { type: 'heart', label: 'Heart', icon: <Heart className="w-5 h-5" /> },
+                      { type: 'star', label: 'Star', icon: <Star className="w-5 h-5" /> },
+                      { type: 'zap', label: 'Lightning', icon: <Zap className="w-5 h-5" /> },
+                      { type: 'crown', label: 'Crown', icon: <Crown className="w-5 h-5" /> },
+                      { type: 'moon', label: 'Moon', icon: <Moon className="w-5 h-5" /> },
+                    ].map((shape) => {
+                      const count = addedShapes.filter(s => s.type === shape.type).length;
+                      return (
+                        <div key={shape.type} className="bg-white border border-gray-200 rounded-xl p-3 flex items-center justify-between">
+                          <div className="flex items-center gap-3 text-gray-700">
+                            {shape.icon}
+                            <span className="font-semibold text-sm">{shape.label}</span>
+                          </div>
+                          <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-1 border border-gray-100">
+                            <button 
+                              onClick={() => {
+                                if (count > 0) {
+                                  const indexToRemove = addedShapes.findIndex(s => s.type === shape.type);
+                                  if (indexToRemove !== -1) {
+                                    const newShapes = [...addedShapes];
+                                    newShapes.splice(indexToRemove, 1);
+                                    setAddedShapes(newShapes);
+                                  }
+                                }
+                              }}
+                              disabled={count === 0}
+                              className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors ${count === 0 ? 'text-gray-300 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm border border-gray-200'}`}
+                            >
+                              <Minus className="w-4 h-4" />
+                            </button>
+                            <span className="w-4 text-center font-bold text-sm text-gray-900">{count}</span>
+                            <button 
+                              onClick={() => {
+                                setAddedShapes([...addedShapes, { id: Date.now().toString() + Math.random(), type: shape.type }]);
+                                triggerMascot(`Added a ${shape.type} to your sign! Drag it around to place it.`, MascotState.CELEBRATING);
+                              }}
+                              className="w-7 h-7 bg-white text-gray-700 hover:text-brand-purple hover:bg-brand-purple/5 shadow-sm border border-gray-200 rounded-md flex items-center justify-center transition-colors"
+                            >
+                              <Plus className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {addedShapes.length > 0 && (
+                    <div className="mt-4 text-xs text-brand-purple font-semibold">
+                      Total Shape Price: +₹{(addedShapes.length * 300).toLocaleString('en-IN')}<br/>
+                      <span className="text-gray-500">Drag shapes on the wall to position them!</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* TAB 2: COLOR */}
             {activeTab === 'color' && (
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-8">
                 <div>
-                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-3 block">
+                  <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">
                     SPECIAL EFFECTS
                   </label>
                   <div className="flex flex-col gap-3 mb-6">
@@ -695,36 +707,36 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                       onClick={() => setIsMultiColor(false)}
                       className={`p-3.5 rounded-xl transition-all flex flex-col items-start gap-1 border-2 ${
                         !isMultiColor
-                          ? 'bg-black border-brand-purple text-white shadow-[0_0_15px_rgba(117,46,255,0.45)]'
-                          : 'bg-white/[0.04] border-white/10 hover:border-white/25 text-gray-200'
+                          ? 'bg-purple-50/50 border-brand-purple text-brand-purple shadow-sm'
+                          : 'bg-white border-gray-200 hover:border-gray-300 text-gray-800'
                       }`}
                     >
                       <span className="text-sm font-bold flex items-center gap-2">
                         Single Color <Info className="w-4 h-4 text-gray-400" />
                       </span>
-                      <span className="text-xs text-gray-400 font-normal">A sign in a single Color.</span>
+                      <span className="text-xs text-gray-500 font-normal">A sign in a single Color.</span>
                     </button>
                     <button
                       onClick={() => setIsMultiColor(true)}
                       className={`p-3.5 rounded-xl transition-all flex flex-col items-start gap-1 border-2 ${
                         isMultiColor
-                          ? 'bg-black border-brand-purple text-white shadow-[0_0_15px_rgba(117,46,255,0.45)]'
-                          : 'bg-white/[0.04] border-white/10 hover:border-white/25 text-gray-200'
+                          ? 'bg-purple-50/50 border-brand-purple text-brand-purple shadow-sm'
+                          : 'bg-white border-gray-200 hover:border-gray-300 text-gray-800'
                       }`}
                     >
                       <span className="text-sm font-bold flex items-center gap-2">
                         Multicolored Text <Info className="w-4 h-4 text-gray-400" />
                       </span>
-                      <span className="text-xs text-gray-400 font-normal">Click individual letters to customize their colors.</span>
+                      <span className="text-xs text-gray-500 font-normal">Click individual letters to customize their colors.</span>
                     </button>
                   </div>
 
                   {isMultiColor && (
                     <div className="mb-6">
-                      <p className="text-xs text-gray-400 mb-3">
+                      <p className="text-xs text-gray-500 mb-3">
                         Click a letter below, then choose a color for each character.
                       </p>
-                      <div className="bg-white/5 border border-white/10 p-4 rounded-xl max-h-48 overflow-y-auto">
+                      <div className="bg-gray-50 border border-gray-200 p-4 rounded-xl max-h-48 overflow-y-auto">
                         <div className="flex flex-wrap gap-2">
                           {text.split('').map((char, index) => {
                             if (char.trim() === '') return null;
@@ -736,8 +748,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                                 onClick={() => setSelectedItemForColor(index)}
                                 className={`w-9 h-9 rounded-lg flex items-center justify-center font-black text-lg transition-all border-2 ${
                                   isSelected
-                                    ? 'border-white shadow-[0_0_15px_rgba(255,255,255,0.8)] scale-110 z-10'
-                                    : 'border-white/80 hover:border-white hover:scale-105'
+                                    ? 'border-gray-900 shadow-md scale-110 z-10'
+                                    : 'border-transparent hover:border-gray-300 hover:scale-105 shadow-sm'
                                 }`}
                                 style={{
                                   backgroundColor: charColor.hex,
@@ -765,8 +777,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                                 onClick={() => setSelectedItemForColor(shape.id)}
                                 className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all border-2 ${
                                   isSelected
-                                    ? 'border-white shadow-[0_0_15px_rgba(255,255,255,0.8)] scale-110 z-10'
-                                    : 'border-white/80 hover:border-white hover:scale-105'
+                                    ? 'border-gray-900 shadow-md scale-110 z-10'
+                                    : 'border-transparent hover:border-gray-300 hover:scale-105 shadow-sm'
                                 }`}
                                 style={{
                                   backgroundColor: shapeColor.hex,
@@ -782,8 +794,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                     </div>
                   )}
 
-                  <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                    <label className="text-[11px] font-extrabold text-white uppercase tracking-wider mb-4 block">
+                  <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                    <label className="text-[11px] font-bold text-gray-900 uppercase tracking-wider mb-4 block">
                       {isMultiColor ? (selectedItemForColor !== null ? 'Choose color for selected item' : 'Select a letter above first') : 'Choose LED Neon Color'}
                     </label>
                     <div className="flex flex-wrap gap-2.5">
@@ -797,36 +809,70 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                           : selectedColor.name === c.name;
 
                         return (
-                          <button
-                            key={c.name}
-                            onClick={() => handleColorSelect(c)}
-                            title={c.name}
-                            className={`w-10 h-10 rounded-xl transition-all border-2 flex-shrink-0 ${
-                              isSelected
-                                ? 'border-white scale-110 shadow-[0_0_15px_rgba(255,255,255,0.4)] z-10'
-                                : 'border-white/20 hover:border-white/60 hover:scale-105'
-                            }`}
-                            style={{
-                              backgroundColor: c.hex,
-                              boxShadow: isSelected ? `0 0 15px ${c.glow}, inset 0 0 4px #ffffff` : `inset 0 0 4px rgba(255,255,255,0.3)`
-                            }}
-                          />
+                          <div key={c.name} className="flex flex-col items-center gap-1.5 w-12">
+                            <button
+                              onClick={() => handleColorSelect(c)}
+                              title={c.name}
+                              className={`w-10 h-10 rounded-xl transition-all border-2 flex-shrink-0 ${
+                                isSelected
+                                  ? 'border-gray-900 scale-110 shadow-md z-10'
+                                  : 'border-gray-200 hover:border-gray-400 hover:scale-105 shadow-sm'
+                              }`}
+                              style={{
+                                backgroundColor: c.hex,
+                                boxShadow: isSelected ? `0 0 15px ${c.glow}` : `none`
+                              }}
+                            />
+                            <span className="text-[9px] text-gray-600 font-bold text-center leading-tight">
+                              {c.name}
+                            </span>
+                          </div>
                         );
                       })}
                     </div>
                   </div>
+
+                  {/* Silicone Tubing Colour Selector */}
+                  <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm mt-4">
+                    <label className="text-[11px] font-bold text-gray-900 uppercase tracking-wider mb-4 block">
+                      Select your Neon Silicone Tubing Colour
+                    </label>
+                    <div className="flex flex-col gap-2">
+                      {[
+                        { id: 'coloured', name: 'Coloured Neon Silicone Tubing', price: 'Free' },
+                        { id: 'white', name: 'White Neon Silicone Tubing', price: 'Free' },
+                      ].map((tubing) => (
+                        <div 
+                          key={tubing.id}
+                          onClick={() => setSiliconeTubing(tubing.id as 'coloured'|'white')}
+                          className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all border-2 ${
+                            siliconeTubing === tubing.id 
+                              ? 'bg-purple-50/50 border-brand-purple' 
+                              : 'bg-white border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          <span className={`text-sm font-bold ${siliconeTubing === tubing.id ? 'text-brand-purple' : 'text-gray-800'}`}>{tubing.name}</span>
+                          <div className="flex items-center gap-3">
+                            <span className="text-xs text-gray-500">{tubing.price}</span>
+                            {siliconeTubing === tubing.id && <Check className="w-4 h-4 text-brand-purple" />}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
                 </div>
               </div>
             )}
 
             {/* TAB 3: BACKBOARD */}
             {activeTab === 'backboard' && (
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-8">
                 <div>
-                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-2.5 block">
+                  <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">
                     1. Acrylic Backing Shape
                   </label>
-                  <div className="flex flex-col gap-2.5">
+                  <div className="flex flex-col gap-3">
                     {[
                       { id: 'cut', name: 'Cut to Shape', desc: 'Acrylic closely follows the letter contours (Most Popular)' },
                       { id: 'square', name: 'Whole Board / Square', desc: 'Full rectangular or square clear acrylic backing' },
@@ -840,17 +886,17 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                             setSelectedBackboardShape(shape.id as any);
                             triggerMascot(`${shape.name} backing looks super clean!`, MascotState.WAVE);
                           }}
-                          className={`p-3.5 rounded-xl transition-all cursor-pointer ${
+                          className={`p-4 rounded-xl transition-all cursor-pointer border-2 ${
                             isSelected
-                              ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
-                              : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                              ? 'bg-purple-50/50 border-brand-purple text-brand-purple shadow-sm'
+                              : 'bg-white border-gray-200 hover:border-gray-300 text-gray-800'
                           }`}
                         >
                           <div className="flex items-center justify-between font-bold text-sm">
                             <span>{shape.name}</span>
                             {isSelected && <Check className="w-4 h-4 text-brand-purple" />}
                           </div>
-                          <p className="text-xs text-gray-400 mt-1">{shape.desc}</p>
+                          <p className="text-xs text-gray-500 mt-1">{shape.desc}</p>
                         </div>
                       );
                     })}
@@ -858,25 +904,24 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                 </div>
 
                 <div>
-                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-2.5 block">
+                  <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">
                     2. Backboard Color
                   </label>
-                  <div className="grid grid-cols-2 gap-2.5">
+                  <div className="grid grid-cols-2 gap-3">
                     {[
                       { id: 'clear', name: 'Transparent Clear' },
                       { id: 'black', name: 'Gloss Black' },
-                      { id: 'white', name: 'Gloss White' },
-                      { id: 'mirror', name: 'Mirrored Silver' },
+
                     ].map((color) => {
                       const isSelected = selectedBackboardColor === color.id;
                       return (
                         <button
                           key={color.id}
                           onClick={() => setSelectedBackboardColor(color.id as any)}
-                          className={`p-3 rounded-xl transition-all text-sm font-bold ${
+                          className={`p-3 rounded-xl transition-all text-sm font-bold border-2 ${
                             isSelected
-                              ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
-                              : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                              ? 'bg-purple-50/50 border-brand-purple text-brand-purple shadow-sm'
+                              : 'bg-white border-gray-200 hover:border-gray-300 text-gray-800'
                           }`}
                         >
                           {color.name}
@@ -890,33 +935,33 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
 
             {/* TAB 4: HARDWARE */}
             {activeTab === 'hardware' && (
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-8">
                 <div>
-                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-2.5 block">
+                  <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">
                     1. Mounting Kit
                   </label>
-                  <div className="flex flex-col gap-2.5">
+                  <div className="flex flex-col gap-3">
                     {[
                       { id: 'screws', name: 'Wall Screws & Drill Holes', desc: 'Pre-drilled holes with stainless steel spacers included (Free)' },
                       { id: 'wire', name: 'Hanging Wire Kit', desc: 'Stainless steel wire loop kit for window or ceiling hanging (Free)' },
-                      { id: 'stand', name: 'Tabletop Acrylic Stand', desc: 'Stable desk mount for tables & reception counters (+₹800)' },
+
                     ].map((mount) => {
                       const isSelected = selectedMounting === mount.id;
                       return (
                         <div
                           key={mount.id}
                           onClick={() => setSelectedMounting(mount.id as any)}
-                          className={`p-3.5 rounded-xl transition-all cursor-pointer ${
+                          className={`p-4 rounded-xl transition-all cursor-pointer border-2 ${
                             isSelected
-                              ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
-                              : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                              ? 'bg-purple-50/50 border-brand-purple text-brand-purple shadow-sm'
+                              : 'bg-white border-gray-200 hover:border-gray-300 text-gray-800'
                           }`}
                         >
                           <div className="flex items-center justify-between font-bold text-sm">
                             <span>{mount.name}</span>
                             {isSelected && <Check className="w-4 h-4 text-brand-purple" />}
                           </div>
-                          <p className="text-xs text-gray-400 mt-1">{mount.desc}</p>
+                          <p className="text-xs text-gray-500 mt-1">{mount.desc}</p>
                         </div>
                       );
                     })}
@@ -924,76 +969,76 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                 </div>
 
                 <div>
-                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-2.5 block">
+                  <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">
                     2. Dimmer & Controller
                   </label>
-                  <div className="flex flex-col gap-2.5">
+                  <div className="flex flex-col gap-3">
                     <div
                       onClick={() => setHasSmartController(false)}
-                      className={`p-3.5 rounded-xl transition-all cursor-pointer ${
+                      className={`p-4 rounded-xl transition-all cursor-pointer border-2 ${
                         !hasSmartController
-                          ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
-                          : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                          ? 'bg-purple-50/50 border-brand-purple text-brand-purple shadow-sm'
+                          : 'bg-white border-gray-200 hover:border-gray-300 text-gray-800'
                       }`}
                     >
                       <div className="flex items-center justify-between font-bold text-sm">
                         <span>Standard Brightness Dimmer</span>
-                        <span className="text-xs font-extrabold text-white">FREE</span>
+                        <span className="text-xs font-bold text-brand-purple">FREE</span>
                       </div>
-                      <p className="text-xs text-gray-400 mt-1">Manual inline dimmer button to adjust 10–100% brightness</p>
+                      <p className="text-xs text-gray-500 mt-1">Manual inline dimmer button to adjust 10–100% brightness</p>
                     </div>
                     <div
                       onClick={() => {
                         setHasSmartController(true);
                         triggerMascot("Smart WiFi/Remote added! Adjust brightness from your couch.", MascotState.WAVE);
                       }}
-                      className={`p-3.5 rounded-xl transition-all cursor-pointer ${
+                      className={`p-4 rounded-xl transition-all cursor-pointer border-2 ${
                         hasSmartController
-                          ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
-                          : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                          ? 'bg-purple-50/50 border-brand-purple text-brand-purple shadow-sm'
+                          : 'bg-white border-gray-200 hover:border-gray-300 text-gray-800'
                       }`}
                     >
                       <div className="flex items-center justify-between font-bold text-sm">
                         <span>Smart WiFi & Wireless Remote</span>
-                        <span className="text-xs font-extrabold text-white">+₹2,000</span>
+                        <span className="text-xs font-bold text-brand-purple">+₹2,000</span>
                       </div>
-                      <p className="text-xs text-gray-400 mt-1">Remote control, party flash modes, timer & Alexa/Google Assistant</p>
+                      <p className="text-xs text-gray-500 mt-1">Remote control, party flash modes, timer & Alexa/Google Assistant</p>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-2.5 block">
+                  <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">
                     3. Indoor / Outdoor Protection
                   </label>
-                  <div className="flex flex-col gap-2.5">
+                  <div className="flex flex-col gap-3">
                     <div
                       onClick={() => setIsWaterproof(false)}
-                      className={`p-3.5 rounded-xl transition-all cursor-pointer ${
+                      className={`p-4 rounded-xl transition-all cursor-pointer border-2 ${
                         !isWaterproof
-                          ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
-                          : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                          ? 'bg-purple-50/50 border-brand-purple text-brand-purple shadow-sm'
+                          : 'bg-white border-gray-200 hover:border-gray-300 text-gray-800'
                       }`}
                     >
                       <div className="flex items-center justify-between font-bold text-sm">
                         <span>Standard Indoor LED</span>
-                        <span className="text-xs font-extrabold text-white">FREE</span>
+                        <span className="text-xs font-bold text-brand-purple">FREE</span>
                       </div>
-                      <p className="text-xs text-gray-400 mt-1">Perfect for bedroom, living room, office & indoor events</p>
+                      <p className="text-xs text-gray-500 mt-1">Perfect for bedroom, living room, office & indoor events</p>
                     </div>
                     <div
                       onClick={() => setIsWaterproof(true)}
-                      className={`p-3.5 rounded-xl transition-all cursor-pointer ${
+                      className={`p-4 rounded-xl transition-all cursor-pointer border-2 ${
                         isWaterproof
-                          ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
-                          : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200 hover:text-white'
+                          ? 'bg-purple-50/50 border-brand-purple text-brand-purple shadow-sm'
+                          : 'bg-white border-gray-200 hover:border-gray-300 text-gray-800'
                       }`}
                     >
                       <div className="flex items-center justify-between font-bold text-sm">
                         <span>IP67 Waterproof Outdoor</span>
-                        <span className="text-xs font-extrabold text-white">+₹3,000</span>
+                        <span className="text-xs font-bold text-brand-purple">+₹3,000</span>
                       </div>
-                      <p className="text-xs text-gray-400 mt-1">Sealed weatherproof silicone housing for rain, snow & direct sun</p>
+                      <p className="text-xs text-gray-500 mt-1">Sealed weatherproof silicone housing for rain, snow & direct sun</p>
                     </div>
                   </div>
                 </div>
@@ -1002,9 +1047,9 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
 
             {/* TAB 5: ROOM */}
             {activeTab === 'room' && (
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-8">
                 <div>
-                  <label className="text-xs font-extrabold text-white uppercase tracking-wider mb-3 block">
+                  <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">
                     Select Room Background
                   </label>
                   <div className="grid grid-cols-2 gap-3 mb-4">
@@ -1016,14 +1061,14 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                           setIsCalibrating(false);
                           triggerMascot(`Changed room to ${bg.name}!`, MascotState.WAVE);
                         }}
-                        className={`p-2 rounded-xl transition-all flex flex-col gap-2 ${
+                        className={`p-2 rounded-xl transition-all flex flex-col gap-2 border-2 ${
                           selectedBg.id === bg.id
-                            ? 'bg-black border-2 border-brand-purple text-white font-extrabold shadow-[0_0_15px_rgba(117,46,255,0.45)]'
-                            : 'bg-white/[0.04] border border-white/10 hover:border-white/25 text-gray-200'
+                            ? 'bg-purple-50/50 border-brand-purple text-brand-purple shadow-sm'
+                            : 'bg-white border-gray-200 hover:border-gray-300 text-gray-800'
                         }`}
                       >
                         <div
-                          className="w-full h-20 rounded-lg bg-cover bg-center"
+                          className="w-full h-20 rounded-lg bg-cover bg-center border border-gray-200"
                           style={{ backgroundImage: `url('${bg.url}')` }}
                         />
                         <span className="text-xs font-bold text-center truncate w-full">{bg.name}</span>
@@ -1035,16 +1080,16 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                     <label className="text-xs font-bold text-brand-purple uppercase tracking-wider">
                       Preview On Your Own Wall
                     </label>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-purple/20 text-brand-lavender border border-brand-purple/40">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-purple/10 text-brand-purple border border-brand-purple/20">
                       ✨ Recommended
                     </span>
                   </div>
-                  <label className="w-full bg-gradient-to-r from-brand-purple/15 via-black to-white/5 border-2 border-dashed border-brand-purple/60 hover:border-white rounded-xl p-5 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all duration-300 group shadow-lg relative overflow-hidden">
-                    <Upload className="w-6 h-6 text-brand-lavender group-hover:scale-110 transition-transform" />
-                    <span className="text-sm font-extrabold text-white text-center">
+                  <label className="w-full bg-white border-2 border-dashed border-brand-purple/40 hover:border-brand-purple rounded-xl p-5 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all duration-300 group shadow-sm relative overflow-hidden">
+                    <Upload className="w-6 h-6 text-brand-purple group-hover:scale-110 transition-transform" />
+                    <span className="text-sm font-extrabold text-gray-900 text-center">
                       See Your Neon Sign On Your Own Wall
                     </span>
-                    <span className="text-[10px] text-gray-400 font-medium">
+                    <span className="text-[10px] text-gray-500 font-medium">
                       Upload photo of your room or wall (JPG, PNG)
                     </span>
                     <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
@@ -1052,7 +1097,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                 </div>
 
                 {selectedBg.id === 'custom' && (
-                  <div className="bg-[#151515] border border-brand-purple/40 rounded-xl p-4 flex flex-col gap-2">
+                  <div className="bg-purple-50/50 border border-brand-purple/20 rounded-xl p-4 flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-brand-purple uppercase">Room Scale Calibration</span>
                       <button
@@ -1060,12 +1105,12 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                           setIsCalibrating(true);
                           triggerMascot("Drag the red line over a known object in your photo to calibrate dimensions!", MascotState.TALKING);
                         }}
-                        className="text-xs font-bold text-white hover:underline"
+                        className="text-xs font-bold text-brand-purple hover:underline"
                       >
                         {calibrationRatio ? 'Recalibrate' : 'Start Calibration'}
                       </button>
                     </div>
-                    <p className="text-[11px] text-gray-400">
+                    <p className="text-[11px] text-gray-600">
                       {calibrationRatio ? 'Room scale calibrated! Your sign is shown at realistic physical dimensions.' : 'Calibrate your room photo to preview your sign at 100% accurate physical scale.'}
                     </p>
                   </div>
@@ -1076,7 +1121,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
           </div>
 
           {/* 3. Bottom Navigation Actions */}
-          <div className="pt-4 border-t border-white/10 mt-6">
+          <div className="pt-6 mt-8 border-t border-gray-200">
             {/* UNDERSTATED SECONDARY ACTIONS */}
             <div className="flex items-center justify-between gap-2">
               <button
@@ -1084,8 +1129,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                 disabled={activeTab === 'create'}
                 className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-all ${
                   activeTab === 'create'
-                    ? 'opacity-30 border-gray-800 bg-[#111] text-gray-600 cursor-not-allowed'
-                    : 'bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:border-white/30'
+                    ? 'opacity-50 bg-gray-100 text-gray-400 cursor-not-allowed'
+                    : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                 }`}
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
@@ -1094,7 +1139,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
 
               <button
                 onClick={() => setShowHelpModal(true)}
-                className="flex-1 py-2 px-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:border-white/30 transition-all"
+                className="flex-1 py-2 px-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all"
               >
                 <Info className="w-3.5 h-3.5" />
                 <span>Tips</span>
@@ -1105,8 +1150,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                 disabled={activeTab === 'room'}
                 className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-all ${
                   activeTab === 'room'
-                    ? 'opacity-30 border-gray-800 bg-[#111] text-gray-600 cursor-not-allowed'
-                    : 'bg-white/10 border border-white/20 text-white hover:bg-white/20'
+                    ? 'opacity-50 bg-gray-100 text-gray-400 cursor-not-allowed'
+                    : 'bg-brand-purple text-white hover:bg-brand-purple/90 shadow-md'
                 }`}
               >
                 <span>Next</span>
@@ -1327,16 +1372,16 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
               >
                 <div
                   ref={textRef}
-                  className={`relative inline-block max-w-full p-4 md:p-6 transition-colors duration-300 ${
-                    selectedBackboardShape === 'square'
-                      ? 'rounded-2xl border border-white/10 bg-black/20 backdrop-blur-sm shadow-2xl'
-                      : 'bg-transparent'
-                  }`}
+                  className={`relative inline-block max-w-full p-4 md:p-6 transition-colors duration-300 bg-transparent`}
                   style={{
                     transform: `scale(${finalScale})`,
                     transformOrigin: 'center center',
                   }}
                 >
+
+                  {/* Invisible Boundary for Shape Dragging (strict 3-inch margin around text) */}
+                  <div ref={boundsRef} className="absolute -inset-[200px] pointer-events-none" />
+                  
                   {/* Realistic LED Neon Text with White Tube Core & Multi-layer Bloom */}
                   <style>{`
                     @keyframes flowMoGradient {
@@ -1349,24 +1394,6 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                     }
                   `}</style>
                   <div className="relative">
-                    {/* Realistic Cut-to-Shape Acrylic Backing (Visible) */}
-                    {selectedBackboardShape === 'cut' && (
-                      <h2
-                        className={`absolute inset-0 studio-neon-sign-preview font-bold transition-all duration-300 text-center ${selectedFont.class}`}
-                        style={{
-                          textAlign: textAlign,
-                          whiteSpace: 'pre-wrap',
-                          lineHeight: '1.1',
-                          fontSize: 'clamp(2.4rem, 5.8vw, 6.5rem)',
-                          color: 'rgba(60, 60, 60, 0.45)',
-                          WebkitTextStroke: '28px rgba(60, 60, 60, 0.45)',
-                          filter: 'drop-shadow(0px 8px 15px rgba(0,0,0,0.6)) drop-shadow(0px 0px 2px rgba(255,255,255,0.2))',
-                          zIndex: -1
-                        }}
-                      >
-                        {text || 'Your Neon Sign'}
-                      </h2>
-                    )}
                     {isMojoMix && isLightOn && (
                       <h2
                         className={`absolute inset-0 studio-neon-sign-preview animate-flow-mo font-bold transition-all duration-300 text-center ${selectedFont.class}`}
@@ -1395,15 +1422,15 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                               WebkitBackgroundClip: 'text',
                               color: 'transparent',
                               WebkitTextStroke: '1px rgba(255,255,255,0.8)',
-                              whiteSpace: 'pre-wrap',
+                              whiteSpace: 'pre',
                               lineHeight: '1.1',
                               fontSize: 'clamp(2.4rem, 5.8vw, 6.5rem)',
                               opacity: isLightOn ? 1 : 0.3,
                             }
                           : {
-                              ...(isMultiColor ? {} : getNeonTextStyle(selectedColor, isLightOn)),
+                              ...(isMultiColor ? {} : getNeonTextStyle(selectedColor, isLightOn, siliconeTubing)),
                               textAlign: textAlign,
-                              whiteSpace: 'pre-wrap',
+                              whiteSpace: 'pre',
                               lineHeight: '1.1',
                               fontSize: 'clamp(2.4rem, 5.8vw, 6.5rem)',
                             }
@@ -1413,7 +1440,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                         (text || 'Your Neon Sign').split('').map((char, index) => {
                           const charColor = letterColors[index] || selectedColor;
                           return (
-                            <span key={index} style={getNeonTextStyle(charColor, isLightOn)}>
+                            <span key={index} style={getNeonTextStyle(charColor, isLightOn, siliconeTubing)}>
                               {char}
                             </span>
                           );
@@ -1437,10 +1464,11 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                         <motion.div
                           key={shape.id}
                           drag
+                          dragConstraints={boundsRef}
                           dragMomentum={false}
                           className="absolute z-20 cursor-grab active:cursor-grabbing group"
                           style={{
-                            top: '50%',
+                            top: '110%',
                             left: '50%',
                             x: '-50%',
                             y: '-50%',
@@ -1448,7 +1476,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                         >
                           <div className="relative p-4">
                             <Icon 
-                              className="w-[2em] h-[2em]"
+                              className="w-[0.5em] h-[0.5em]"
                               style={{
                                 color: isLightOn ? shapeColor.hex : '#ffffff',
                                 filter: isLightOn 
@@ -1462,16 +1490,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                               }} 
                               stroke={isMojoMix && isLightOn ? "url(#mojoGradient)" : "currentColor"}
                             />
-                            {/* Delete button that appears on hover */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setAddedShapes(shapes => shapes.filter(s => s.id !== shape.id));
-                              }}
-                              className="absolute top-0 right-0 bg-red-500/80 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 hover:scale-110"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
+
                           </div>
                         </motion.div>
                       );
@@ -1627,7 +1646,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
             <div className="pt-2">
               <Link 
                 href="/products/customize-neon-signs"
-                className="inline-flex items-center gap-2 bg-white text-black hover:bg-gray-200 font-extrabold px-8 py-4 rounded-full transition-all shadow-lg hover:scale-105"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-[#752eff] to-[#6eff86] hover:from-[#6eff86] hover:to-[#752eff] text-white font-extrabold px-8 py-4 rounded-full transition-all shadow-md hover:shadow-lg"
               >
                 <span>Upload Artwork For Quote</span>
               </Link>

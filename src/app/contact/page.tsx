@@ -15,8 +15,11 @@ export default function ContactPage() {
       <div className="min-h-screen pt-32 pb-20 px-4">
       <div className="max-w-[1200px] mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight uppercase">
-            Get in <span className="text-brand-purple">Touch</span>
+          <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight uppercase">
+            <span className="text-white">Get</span>{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
+              in Touch
+            </span>
           </h1>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
             Got some neon-related news? Get in touch regarding any doubt, questions or simply tell us how much you love Neon Stack (we love ourselves some good feedback!)
@@ -51,7 +54,7 @@ export default function ContactPage() {
                 <label className="block text-sm font-medium text-gray-400 mb-2 uppercase tracking-wide">Message</label>
                 <textarea rows={4} className="w-full bg-black border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple text-white transition-colors resize-none" placeholder="How can we help you?"></textarea>
               </div>
-              <button type="button" className="w-full bg-brand-purple text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 hover:bg-brand-purple/80 transition-all shadow-[0_0_15px_rgba(117,46,255,0.4)]">
+              <button type="button" className="w-full bg-gradient-to-r from-[#752eff] to-[#6eff86] hover:from-[#6eff86] hover:to-[#752eff] text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg">
                 Submit <Send className="w-5 h-5" />
               </button>
             </form>

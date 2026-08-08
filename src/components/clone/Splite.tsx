@@ -21,7 +21,7 @@ export function SpliteInteractive() {
 
   return (
     <div 
-      className="w-full min-h-[70vh] flex flex-col md:flex-row rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_0_15px_rgba(110,255,134,0.05)] hover:border-brand-green hover:shadow-[0_0_30px_rgba(110,255,134,0.4)] transition-all duration-500 relative z-10 my-10 group cursor-pointer"
+      className="w-full h-[calc(100vh-80px)] flex flex-col md:flex-row rounded-b-[2rem] overflow-hidden border-b border-x border-brand-green shadow-[0_0_30px_rgba(110,255,134,0.4)] transition-all duration-500 relative z-10 mb-10 group cursor-pointer"
     >
       
       {/* Shared Full-Width Background with crossfade */}
@@ -39,19 +39,19 @@ export function SpliteInteractive() {
       <div className="absolute inset-0 bg-black/80 group-hover:bg-black/60 transition-colors duration-500 z-0" />
 
       {/* Left: Static Robot Mascot (Hidden on mobile) */}
-      <div className="hidden md:flex w-full md:w-1/2 relative min-h-[400px] md:min-h-[600px] items-center justify-center p-8 pointer-events-none z-10">
+      <div className="hidden md:flex w-full md:w-1/2 relative h-full items-center justify-center p-8 pointer-events-none z-10">
         {/* Glow behind the robot */}
         <div className="absolute inset-0 bg-gradient-to-br from-brand-green/20 via-transparent to-brand-purple/20 opacity-50 blur-2xl z-0" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img 
           src="/Mascot.png" 
           alt="Neon Stack Mascot" 
-          className="relative z-10 w-[80%] h-auto object-contain drop-shadow-[0_0_20px_rgba(110,255,134,0.3)] transition-transform duration-700 group-hover:scale-105"
+          className="relative z-10 w-auto h-auto max-w-[80%] max-h-[90%] object-contain drop-shadow-[0_0_20px_rgba(110,255,134,0.3)] transition-transform duration-700"
         />
       </div>
 
       {/* Right: Carousel */}
-      <div className="w-full md:w-1/2 p-8 md:p-16 relative flex flex-col justify-center min-h-[500px]">
+      <div className="w-full md:w-1/2 p-8 md:p-16 relative flex flex-col justify-center h-full">
         {/* Carousel Content */}
         <div className="relative z-10 flex-1 flex flex-col justify-center items-center text-center">
           <AnimatePresence mode="wait">
@@ -74,7 +74,7 @@ export function SpliteInteractive() {
         </div>
 
         {/* Carousel Controls */}
-        <div className="relative z-10 mt-12 flex items-center justify-center gap-6">
+        <div className="relative z-10 mt-4 flex items-center justify-center gap-6">
           <button 
             onClick={(e) => { e.stopPropagation(); prev(); }}
             className="w-12 h-12 flex items-center justify-center rounded-full bg-brand-purple/10 border border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] transition-all duration-300"

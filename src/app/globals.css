@@ -20,6 +20,19 @@
   --font-kaushan-script: var(--font-kaushan-script);
   --font-clonoid: var(--font-clonoid);
   --font-poppins: var(--font-poppins), sans-serif;
+  --font-yellowtail: var(--font-yellowtail);
+  --font-allura: var(--font-allura);
+  --font-montserrat: var(--font-montserrat);
+  --font-mr-de-haviland: var(--font-mr-de-haviland);
+  --font-herr-von-muellerhoff: var(--font-herr-von-muellerhoff);
+  --font-nothing-you-could-do: var(--font-nothing-you-could-do);
+  --font-vibur: var(--font-vibur);
+  --font-montez: var(--font-montez);
+  --font-monoton: var(--font-monoton);
+  --font-sacramento: var(--font-sacramento);
+  --font-rye: var(--font-rye);
+  --font-mountains-of-christmas: var(--font-mountains-of-christmas);
+  --font-cinzel-decorative: var(--font-cinzel-decorative);
   
   --color-brand-green: #6eff86;
   --color-brand-purple: #752eff;
@@ -192,7 +205,7 @@
 html,
 body {
   max-width: 100vw !important;
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
@@ -508,5 +521,6 @@ header img:focus {
   box-shadow: none !important;
   text-decoration: none !important;
 }
+
 
 

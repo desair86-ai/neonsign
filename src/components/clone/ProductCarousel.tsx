@@ -20,7 +20,17 @@ export function ProductCarousel({ title, products, theme = "dark" }: ProductCaro
   return (
     <section className="py-16 max-w-[1600px] mx-auto px-4">
       <div className="flex items-center justify-between mb-10 gap-6">
-        <h2 className={`text-3xl md:text-5xl font-black whitespace-nowrap ${theme === 'light' ? 'text-black' : 'text-white'}`}>{title}</h2>
+        <h2 className={`text-3xl md:text-5xl font-black whitespace-nowrap`}>
+          <span className={theme === 'light' ? 'text-black' : 'text-white'}>{title.split(' ')[0]}</span>
+          {title.split(' ').length > 1 && (
+            <>
+              {" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
+                {title.split(' ').slice(1).join(' ')}
+              </span>
+            </>
+          )}
+        </h2>
         <div className="flex gap-2 hidden md:flex">
           <button onClick={scrollPrev} className={`p-3 rounded-full border transition-all duration-300 ${theme === 'light' ? 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-black' : 'bg-brand-purple/10 border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)]'}`}>
             <ChevronLeft className="w-6 h-6" />

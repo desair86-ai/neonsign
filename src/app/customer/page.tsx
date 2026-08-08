@@ -544,10 +544,12 @@ export default function CustomerAccountPage() {
               <span>Customer Portal Session</span>
             </div>
             <h1 
-              className="text-3xl md:text-5xl font-black tracking-tight text-white"
-              style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
+              className="text-3xl md:text-5xl font-black tracking-tight"
             >
-              Welcome, {user?.fullName || "Valued Customer"}
+              <span className="text-white">Welcome,</span>{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
+                {user?.fullName || "Valued Customer"}
+              </span>
             </h1>
           </div>
 

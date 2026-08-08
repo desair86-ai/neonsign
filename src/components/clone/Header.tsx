@@ -30,21 +30,6 @@ export function Header() {
       ]
     },
     { 
-      label: 'Celebrations & Events', 
-      href: '/shop-neon-collection?cat=celebrations',
-      dropdown: [
-        { label: 'Wedding Neon Signs', href: '/shop-neon-collection?cat=wedding' },
-        { label: 'Christmas Neon Signs', href: '/shop-neon-collection?cat=christmas' },
-        { label: 'Ganesh Chaturthi Neon Signs', href: '/shop-neon-collection?cat=ganesh-chaturthi' },
-        { label: 'Diwali Neon Signs', href: '/shop-neon-collection?cat=diwali' },
-        { label: 'Halloween Neon Signs', href: '/shop-neon-collection?cat=halloween' },
-        { label: 'Valentines Neon Signs', href: '/shop-neon-collection?cat=valentines' },
-        { label: 'Father’s Day Neon Signs', href: '/shop-neon-collection?cat=fathers-day' },
-        { label: 'Mother’s Day Neon Signs', href: '/shop-neon-collection?cat=mothers-day' },
-        { label: 'Holiday & Special Occasions Neon Signs', href: '/shop-neon-collection?cat=special-occasions' },
-      ]
-    },
-    { 
       label: 'Neon Shop', 
       href: '/shop-neon-collection',
       isMega: true,
@@ -86,24 +71,18 @@ export function Header() {
           { label: 'Bollywood & Cinema', href: '/shop-neon-collection?cat=bollywood' },
           { label: 'Hollywood & Movie Signs', href: '/shop-neon-collection?cat=hollywood' },
           { label: 'Rock N Roll & Band Signs', href: '/shop-neon-collection?cat=rock-n-roll' },
-          { 
-            label: 'Home Decor Neon Signs', 
-            href: '/shop-neon-collection?cat=home-decor',
-            subMenu: [
-              { label: 'Neon Signs for Bedroom', href: '/shop-neon-collection?cat=bedroom' },
-              { label: 'Neon Sign for Kitchen', href: '/shop-neon-collection?cat=kitchen' },
-              { label: 'Neon Sign for Kids Room', href: '/shop-neon-collection?cat=kids-room' },
-            ]
-          },
+          { label: 'Home Decor Neon Signs', href: '/shop-neon-collection?cat=home-decor' },
+          { label: 'Celebrations & Events', href: '/shop-neon-collection?cat=celebrations' },
         ]
       ]
     },
     { label: 'About Us', href: '/about' },
+    { label: 'Blogs', href: '/blogs' },
     { label: 'Under 4000', href: '#' },
   ];
 
   return (
-    <div className="sticky top-0 z-[60] w-full bg-black text-white border-b border-gray-800 font-poppins">
+    <div className="sticky top-0 z-[60] w-full bg-black text-white border-b border-brand-green shadow-[0_4px_20px_rgba(110,255,134,0.2)] font-poppins">
       {/* Main Header */}
       <header className="max-w-[1600px] mx-auto px-4 lg:px-10 h-20 flex items-center justify-between relative">
         
@@ -167,7 +146,7 @@ export function Header() {
 
                 {/* Dropdowns */}
                 {(item.dropdown || item.columns) && (
-                  <div className={`absolute top-full pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ${item.isMega ? 'right-0' : 'left-1/2 -translate-x-1/2'}`}>
+                  <div className={`absolute top-full pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 left-1/2 -translate-x-1/2`}>
                     <div className={`bg-black/95 backdrop-blur-xl border-2 ${item.isMega ? 'border-[#752eff]/50 shadow-[0_0_20px_rgba(117,46,255,0.3)]' : 'border-[#752eff]/50 shadow-[0_0_20px_rgba(117,46,255,0.3)]'} rounded-lg p-2 whitespace-normal`}>
                       
                       {/* Single Column */}
@@ -186,7 +165,7 @@ export function Header() {
                         <div className="flex gap-4 p-2">
                           {item.columns.map((col, colIdx) => (
                             <div key={colIdx} className="flex flex-col w-[250px] lg:w-[270px]">
-                              {col.map(subItem => (
+                              {col.map((subItem, itemIdx) => (
                                 <div key={subItem.label} className="group/sub relative">
                                   <Link href={subItem.href} className="flex items-center justify-between px-3.5 py-2 text-sm leading-snug break-words whitespace-normal !text-white rounded-md transition-all border border-transparent border-b-white/5 hover:!text-[#6eff86] hover:border-[#752eff] hover:shadow-[0_0_10px_rgba(117,46,255,0.3)]">
                                     {subItem.label}
@@ -195,7 +174,7 @@ export function Header() {
                                   
                                   {/* Sub-menu (pops to left) */}
                                   {subItem.subMenu && (
-                                    <div className="absolute right-full top-0 pr-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 z-50">
+                                    <div className={`absolute right-full ${itemIdx > col.length / 2 ? 'bottom-0 -mb-2' : 'top-0'} pr-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 z-50`}>
                                       <div className="bg-black/95 backdrop-blur-xl border-2 border-[#752eff]/50 rounded-lg p-2 shadow-[0_0_15px_rgba(117,46,255,0.3)] whitespace-normal flex flex-col w-[230px]">
                                         {subItem.subMenu.map(deepItem => (
                                           <Link key={deepItem.label} href={deepItem.href} className="px-3.5 py-2 text-sm leading-snug break-words whitespace-normal !text-white rounded-md transition-all border border-transparent border-b-white/5 hover:!text-[#6eff86] hover:border-[#752eff] hover:shadow-[0_0_10px_rgba(117,46,255,0.3)]">

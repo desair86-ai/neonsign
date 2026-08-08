@@ -69,9 +69,12 @@ export function Stories() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-black uppercase tracking-tight text-white mb-6"
+            className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-6"
           >
-            Stories From <span className="text-brand-lavender">Real Spaces</span>
+            <span className="text-white">Stories</span>{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
+              From Real Spaces
+            </span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}

@@ -16,7 +16,20 @@ import {
   Bad_Script,
   Gochi_Hand,
   Kaushan_Script,
-  Poppins 
+  Poppins,
+  Yellowtail,
+  Allura,
+  Montserrat,
+  Mr_De_Haviland,
+  Herr_Von_Muellerhoff,
+  Nothing_You_Could_Do,
+  Vibur,
+  Montez,
+  Monoton,
+  Sacramento,
+  Rye,
+  Mountains_of_Christmas,
+  Cinzel_Decorative
 } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -47,6 +60,19 @@ const badScript = Bad_Script({ weight: "400", subsets: ["latin"], variable: "--f
 const gochiHand = Gochi_Hand({ weight: "400", subsets: ["latin"], variable: "--font-gochi-hand" });
 const kaushanScript = Kaushan_Script({ weight: "400", subsets: ["latin"], variable: "--font-kaushan-script" });
 const poppins = Poppins({ weight: ["300", "400", "500", "600", "700", "800", "900"], subsets: ["latin"], variable: "--font-poppins" });
+const yellowtail = Yellowtail({ weight: "400", subsets: ["latin"], variable: "--font-yellowtail" });
+const allura = Allura({ weight: "400", subsets: ["latin"], variable: "--font-allura" });
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
+const mrDeHaviland = Mr_De_Haviland({ weight: "400", subsets: ["latin"], variable: "--font-mr-de-haviland" });
+const herrVonMuellerhoff = Herr_Von_Muellerhoff({ weight: "400", subsets: ["latin"], variable: "--font-herr-von-muellerhoff" });
+const nothingYouCouldDo = Nothing_You_Could_Do({ weight: "400", subsets: ["latin"], variable: "--font-nothing-you-could-do" });
+const vibur = Vibur({ weight: "400", subsets: ["latin"], variable: "--font-vibur" });
+const montez = Montez({ weight: "400", subsets: ["latin"], variable: "--font-montez" });
+const monoton = Monoton({ weight: "400", subsets: ["latin"], variable: "--font-monoton" });
+const sacramento = Sacramento({ weight: "400", subsets: ["latin"], variable: "--font-sacramento" });
+const rye = Rye({ weight: "400", subsets: ["latin"], variable: "--font-rye" });
+const mountainsOfChristmas = Mountains_of_Christmas({ weight: "400", subsets: ["latin"], variable: "--font-mountains-of-christmas" });
+const cinzelDecorative = Cinzel_Decorative({ weight: "400", subsets: ["latin"], variable: "--font-cinzel-decorative" });
 
 const clonoid = localFont({
   src: [
@@ -82,7 +108,20 @@ const fontVariables = [
   gochiHand.variable,
   kaushanScript.variable,
   clonoid.variable,
-  poppins.variable
+  poppins.variable,
+  yellowtail.variable,
+  allura.variable,
+  montserrat.variable,
+  mrDeHaviland.variable,
+  herrVonMuellerhoff.variable,
+  nothingYouCouldDo.variable,
+  vibur.variable,
+  montez.variable,
+  monoton.variable,
+  sacramento.variable,
+  rye.variable,
+  mountainsOfChristmas.variable,
+  cinzelDecorative.variable
 ].join(" ");
 
 export const metadata: Metadata = {

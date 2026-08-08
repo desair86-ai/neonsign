@@ -1,6 +1,6 @@
 import React from "react";
 import { Header } from "@/components/clone/Header";
-import { Hero } from "@/components/clone/Hero";
+import { SpliteInteractive } from "@/components/clone/Splite";
 import { ValueBar } from "@/components/clone/ValueBar";
 import { ProductExplorerGrid } from "@/components/clone/ProductExplorerGrid";
 import { ProductCarousel } from "@/components/clone/ProductCarousel";
@@ -123,7 +123,7 @@ export default function Home() {
   return (
     <main>
       <Header />
-      <Hero />
+      <SpliteInteractive />
       <ValueBar />
       <ProductExplorerGrid />
       <ProductCarousel title="Curated Favourites" products={mostLovedProducts} />
