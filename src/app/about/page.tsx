@@ -2,8 +2,93 @@
 import React, { useRef } from "react";
 import { Header } from "@/components/clone/Header";
 import { Footer } from "@/components/clone/Footer";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { Eye, Sparkles, MessageCircle, Heart, Star } from "lucide-react";
+import { CoverflowCarousel } from "@/components/ui/coverflow-carousel";
 
+const PROMISE_VALUES = ['Trust', 'Quality', 'Innovation', 'Ethics', 'Premium Service', 'Client Relationships'];
+
+const DIFFERENCE_SLIDES = [
+  {
+    src: "/generated/neon_tube_close_1782443029110.png",
+    alt: "Signature Layered Acrylic Craftsmanship",
+    title: "Layered Craftsmanship",
+    subtitle: "Signature acrylic techniques for deep, vibrant colors.",
+  },
+  {
+    src: "/generated/glowing_logo_split_1782443098549.png",
+    alt: "Bespoke, Design-Led Solutions",
+    title: "Bespoke Solutions",
+    subtitle: "Custom designs tailored to your unique brand identity.",
+  },
+  {
+    src: "/generated/neon_sign_kit_1782443038661.png",
+    alt: "Premium Quality Materials",
+    title: "Premium Materials",
+    subtitle: "Using only the highest grade LEDs and acrylics.",
+  },
+  {
+    src: "/generated/drilling_wall_hole_1782443059654.png",
+    alt: "Fast Turnaround",
+    title: "Fast Turnaround",
+    subtitle: "Rapid production without compromising on quality.",
+  },
+  {
+    src: "/generated/mounting_screw_install_1782443069589.png",
+    alt: "Precision Manufacturing",
+    title: "Precision Built",
+    subtitle: "State-of-the-art CNC routing for flawless edges.",
+  },
+  {
+    src: "/generated/media__1782442791885.png",
+    alt: "Modern Design Language",
+    title: "Modern Aesthetics",
+    subtitle: "Clean, contemporary designs that elevate any space.",
+  },
+  {
+    src: "/generated/measuring_tape_wall_1782443048985.png",
+    alt: "Exceptional Customer Service",
+    title: "Exceptional Service",
+    subtitle: "Dedicated support from design through to installation.",
+  },
+  {
+    src: "/generated/plugging_power_1782443080893.png",
+    alt: "Reliable After-Sales Support",
+    title: "Reliable Support",
+    subtitle: "Comprehensive warranties and after-sales care.",
+  }
+];
+
+const PromiseFlippingText = () => {
+  const [index, setIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % PROMISE_VALUES.length);
+    }, 1500); // slightly slower (1500ms) since it's continuous
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="group relative flex flex-col justify-center min-h-[60px] md:min-h-[80px]">
+      <div className="overflow-hidden relative h-[60px] md:h-[80px] w-full">
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={index}
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -50, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="absolute top-0 left-0 text-3xl md:text-5xl font-black uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-brand-green to-brand-purple whitespace-nowrap"
+          >
+            {PROMISE_VALUES[index]}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
+  )
+}
 
 const LayerItem = ({ title, children, index, total, bgImage }: { title: string, children: React.ReactNode, index: number, total: number, bgImage?: string }) => {
   return (
@@ -101,8 +186,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* A Letter From The Founder & Why We Exist (Split layout) */}
-      <section className="py-32 px-4 relative overflow-hidden">
+      {/* A Letter From The Founder */}
+      <section className="py-24 px-4 relative overflow-hidden">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-24 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -149,18 +234,6 @@ export default function AboutPage() {
             className="space-y-16"
           >
             <div>
-              <h3 className="text-3xl font-bold mb-8 text-brand-lavender">Why We Exist</h3>
-              <ul className="space-y-4 text-xl font-light">
-                <li className="flex items-center gap-4"><span className="w-2 h-2 rounded-full bg-brand-green" /> Most people see neon signs.</li>
-                <li className="flex items-center gap-4"><span className="w-2 h-2 rounded-full bg-brand-green" /> We see atmosphere.</li>
-                <li className="flex items-center gap-4"><span className="w-2 h-2 rounded-full bg-brand-green" /> We see conversations.</li>
-                <li className="flex items-center gap-4"><span className="w-2 h-2 rounded-full bg-brand-green" /> We see memories.</li>
-                <li className="flex items-center gap-4"><span className="w-2 h-2 rounded-full bg-brand-green" /> We see brands becoming unforgettable.</li>
-              </ul>
-              <p className="mt-8 text-zinc-400">Whether it's a neighbourhood café, a luxury residence, a retail store or a corporate office, our purpose is to create lighting that gives every space its own unique personality.</p>
-            </div>
-
-            <div>
               <h3 className="text-3xl font-bold mb-8 text-brand-lavender">What Drives Us</h3>
               <p className="text-xl font-light text-zinc-300 mb-6">Success, for us, isn't measured only by growth.<br/><strong className="text-white">It is measured by trust.</strong></p>
               <p className="text-zinc-400">We aspire to become the company customers never have to think twice about. A brand known for premium quality, fastest delivery, ethical business practices and exceptional customer service.</p>
@@ -172,57 +245,125 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Why We Exist - Now below Founder Letter, using animated cards */}
+      <section className="py-24 px-4 relative z-50 bg-[#0a0a0a]">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="text-center mb-16">
+            <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-6">
+              <span className="text-white">Why</span>{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
+                We Exist
+              </span>
+            </h3>
+            <p className="text-xl text-zinc-400 max-w-3xl mx-auto font-light">
+              Whether it's a neighbourhood café, a luxury residence, a retail store or a corporate office, our purpose is to create lighting that gives every space its own unique personality.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {[
+              { 
+                text: "Most people see neon signs.", 
+                icon: <Eye className="w-8 h-8 text-white mb-4" />,
+                borderClass: "border-white/30 hover:border-white",
+                shadowClass: "hover:shadow-[0_0_25px_rgba(255,255,255,0.4)]"
+              },
+              { 
+                text: "We see atmosphere.", 
+                icon: <Sparkles className="w-8 h-8 text-[#17dd7e] mb-4" />,
+                borderClass: "border-[#17dd7e]/30 hover:border-[#17dd7e]",
+                shadowClass: "hover:shadow-[0_0_25px_rgba(23,221,126,0.4)]"
+              },
+              { 
+                text: "We see conversations.", 
+                icon: <MessageCircle className="w-8 h-8 text-amber-400 mb-4" />,
+                borderClass: "border-amber-400/30 hover:border-amber-400",
+                shadowClass: "hover:shadow-[0_0_25px_rgba(251,191,36,0.4)]"
+              },
+              { 
+                text: "We see memories.", 
+                icon: <Heart className="w-8 h-8 text-rose-400 mb-4" />,
+                borderClass: "border-rose-400/30 hover:border-rose-400",
+                shadowClass: "hover:shadow-[0_0_25px_rgba(251,113,133,0.4)]"
+              },
+              { 
+                text: "We see brands becoming unforgettable.", 
+                icon: <Star className="w-8 h-8 text-cyan-400 mb-4" />,
+                borderClass: "border-cyan-400/30 hover:border-cyan-400",
+                shadowClass: "hover:shadow-[0_0_25px_rgba(34,211,238,0.4)]"
+              }
+            ].map((card, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className={`bg-zinc-900/50 p-8 rounded-2xl border transition-all duration-300 flex flex-col items-center text-center shadow-lg hover:bg-zinc-800/80 group cursor-pointer ${card.borderClass} ${card.shadowClass}`}
+              >
+                <div className="group-hover:scale-110 transition-transform duration-300">
+                  {card.icon}
+                </div>
+                <p className="text-lg font-medium text-zinc-200 group-hover:text-white transition-colors">{card.text}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
 
-      {/* Our Promise & Differences */}
-      <section className="py-32 px-4 relative z-50 bg-black">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16">
+
+      {/* Our Promise Section */}
+      <section className="py-24 px-4 relative z-50 bg-black">
+        <div className="max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="group bg-zinc-900/50 p-12 rounded-[2rem] transition-all duration-500 border border-[#6eff86]/40 shadow-[0_0_15px_rgba(110,255,134,0.2)] hover:border-[#6eff86] hover:shadow-[0_0_30px_rgba(110,255,134,0.6)]"
+              className="group bg-zinc-900/50 p-12 md:p-16 rounded-[2rem] transition-all duration-500 border border-[#6eff86]/40 shadow-[0_0_15px_rgba(110,255,134,0.2)] hover:border-[#6eff86] hover:shadow-[0_0_30px_rgba(110,255,134,0.6)] flex flex-col justify-between"
             >
-              <h3 className="text-4xl font-bold mb-10 text-brand-green">Our Promise</h3>
-              <p className="text-xl mb-8 text-white/70">There are values we'll never compromise.</p>
-              <div className="grid grid-cols-2 gap-6">
-                {['Trust', 'Quality', 'Innovation', 'Ethics', 'Premium Service', 'Client Relationships'].map((val, i) => (
-                  <div key={i} className="flex items-center gap-3 text-lg font-light">
-                    <div className="w-2 h-2 rounded-full bg-brand-green" />
-                    {val}
+              <div>
+                <div className="flex flex-col xl:flex-row xl:items-center gap-6 mb-12">
+                  <h3 className="text-4xl font-bold text-white whitespace-nowrap">Our Promise</h3>
+                  <div className="hidden xl:block w-px h-12 bg-white/20 mx-2"></div>
+                  <div className="flex-1">
+                    <PromiseFlippingText />
                   </div>
-                ))}
+                </div>
+                
+                <div className="space-y-4 pt-6 border-t border-white/10">
+                  <p className="text-xl text-white/70 font-light">There are values we'll never compromise.</p>
+                  <p className="text-zinc-400 italic">Every project is treated with the same care, attention and passion as if it were our own.</p>
+                </div>
               </div>
-              <p className="mt-10 pt-6 border-t border-white/10 text-zinc-400 italic">Every project is treated with the same care, attention and passion as if it were our own.</p>
             </motion.div>
+        </div>
+      </section>
 
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="group bg-zinc-900/50 p-12 rounded-[2rem] transition-all duration-500 border border-[#ca6eff]/40 shadow-[0_0_15px_rgba(202,110,255,0.2)] hover:border-[#ca6eff] hover:shadow-[0_0_30px_rgba(202,110,255,0.6)]"
-            >
-              <h3 className="text-4xl font-bold mb-10 text-brand-purple">The Neon Stack Difference</h3>
-              <ul className="space-y-4">
-                {[
-                  'Signature Layered Acrylic Craftsmanship',
-                  'Bespoke, Design-Led Solutions',
-                  'Premium Quality Materials',
-                  'Fast Turnaround',
-                  'Precision Manufacturing',
-                  'Modern Design Language',
-                  'Exceptional Customer Service',
-                  'Reliable After-Sales Support'
-                ].map((diff, i) => (
-                  <li key={i} className="flex items-start gap-4 text-lg font-light text-zinc-300">
-                    <svg className="w-6 h-6 text-brand-purple flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                    {diff}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+      {/* The Neon Stack Difference Section */}
+      <section className="py-32 px-4 relative z-50 bg-black overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-6">
+              <span className="text-white">The Neon Stack</span>{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-lavender animate-neon-gradient">
+                Difference
+              </span>
+            </h3>
+            <p className="text-xl text-zinc-400 max-w-3xl mx-auto font-light">
+              We go beyond standard signs. Every piece is a testament to our commitment to quality, design, and innovation.
+            </p>
+          </div>
+          
+          <div className="w-full">
+            <CoverflowCarousel 
+              slides={DIFFERENCE_SLIDES} 
+              showCaption 
+              showNavigation 
+              showPagination
+              loop
+              className="py-12"
+            />
           </div>
         </div>
       </section>

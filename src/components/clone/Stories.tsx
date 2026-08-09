@@ -125,31 +125,33 @@ export function Stories() {
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     style={{ zIndex: isActive ? 50 : 30 }}
                     className={cn(
-                      "absolute w-[90%] md:w-[600px] h-[500px] rounded-3xl overflow-hidden bg-zinc-900 border transition-all duration-500 cursor-pointer group",
+                      "absolute w-[90%] md:w-[600px] h-[550px] rounded-3xl overflow-hidden bg-zinc-950 border transition-colors transition-shadow duration-500 will-change-transform cursor-pointer group flex flex-col",
                       glows[theme]
                     )}
                     onClick={() => setActiveIndex(index)}
                   >
-                    <div 
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
-                      style={{ backgroundImage: `url(${story.image})` }}
-                    />
-                    <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent ${isActive ? 'opacity-100' : 'opacity-80'}`} />
+                    {/* Top Image Section */}
+                    <div className="relative w-full h-[45%] shrink-0 overflow-hidden bg-black">
+                      <div 
+                        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                        style={{ backgroundImage: `url(${story.image})` }}
+                      />
+                      <div className={`absolute inset-0 bg-black transition-opacity duration-500 ${isActive ? 'opacity-0' : 'opacity-60'}`} />
+                    </div>
                     
-                    {isActive && (
-                      <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end"
-                      >
-                        <h3 className="text-2xl md:text-4xl font-bold text-white mb-4 drop-shadow-md">{story.title}</h3>
-                        <p className="text-sm md:text-lg text-zinc-300 font-light mb-6 line-clamp-3 md:line-clamp-none">{story.description}</p>
+                    {/* Bottom Text Section */}
+                    <div className="flex-1 p-6 md:p-8 flex flex-col justify-between relative z-10">
+                      <div className={`transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}>
+                        <h3 className="text-xl md:text-3xl font-bold text-white mb-3 line-clamp-2">{story.title}</h3>
+                        <p className="text-sm md:text-base text-zinc-400 font-light mb-6 line-clamp-4">{story.description}</p>
+                      </div>
+                      
+                      <div className={`transition-all duration-500 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                         <div className="inline-block bg-brand-purple/20 border border-brand-purple/50 px-4 py-2 rounded-lg text-brand-lavender font-semibold text-sm">
                           {story.growth}
                         </div>
-                      </motion.div>
-                    )}
+                      </div>
+                    </div>
                   </motion.div>
                 );
               })}
