@@ -483,8 +483,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
       <div className="w-full flex flex-col lg:flex-row min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] lg:max-h-[860px] lg:overflow-hidden bg-[#f5f5f5] border-b border-gray-800">
         
         {/* 1. Left Navigation Sidebar (Thin & Dark) */}
-        <div className="w-full lg:w-24 bg-black border-b lg:border-b-0 lg:border-r border-white/40 flex lg:flex-col items-center py-2 lg:py-6 z-30 flex-shrink-0">
-          <div className="flex lg:flex-col w-full gap-2 lg:gap-4 overflow-x-auto lg:overflow-x-visible scrollbar-none px-2 lg:px-0 lg:pl-2">
+        <div className="w-full lg:w-24 bg-black border-b lg:border-b-0 lg:border-r border-white/40 flex lg:flex-col items-center py-2 lg:py-2 z-30 flex-shrink-0">
+          <div className="flex lg:flex-col w-full gap-2 lg:gap-2 overflow-x-auto lg:overflow-x-visible scrollbar-none px-2 lg:px-0 lg:pl-2">
             {[
               { id: 'create', label: 'CREATE', icon: <Type className="w-6 h-6 mb-1" /> },
               { id: 'size', label: 'SIZE', icon: <Ruler className="w-6 h-6 mb-1" /> },
