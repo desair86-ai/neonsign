@@ -47,7 +47,7 @@ export function ValueBar() {
             <div className="transform group-hover:scale-110 transition-transform duration-300">
               {val.icon}
             </div>
-            <span className="text-zinc-200 font-bold text-lg md:text-2xl whitespace-nowrap tracking-wide group-hover:text-white transition-colors">
+            <span className="text-zinc-200 font-bold text-base md:text-lg whitespace-nowrap tracking-wide group-hover:text-white transition-colors">
               {val.text}
             </span>
           </div>

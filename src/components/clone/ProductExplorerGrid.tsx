@@ -59,7 +59,18 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       badgeClass: "bg-[#fe8a2e] text-black shadow-[0_0_12px_rgba(254,138,46,0.6)]",
       textClass: "text-[#fe8a2e]",
       glowTheme: "orange",
-      colSpan: "md:col-span-2", // Wide secondary card
+      colSpan: "md:col-span-1", // Changed from col-span-2 to 1
+    },
+    {
+      title: "Business Logo",
+      description: "Custom neon signs for your brand identity.",
+      label: "For Business",
+      image: "/5604.webp",
+      linkText: "Customize Now",
+      badgeClass: "bg-[#ca6eff] text-black shadow-[0_0_12px_rgba(202,110,255,0.6)]",
+      textClass: "text-[#ca6eff]",
+      glowTheme: "purple",
+      colSpan: "md:col-span-1",
     }
   ];
 
@@ -78,7 +89,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
   };
 
   return (
-    <section className="py-24 max-w-[1600px] mx-auto px-4 bg-zinc-950">
+    <section className="py-12 max-w-[1600px] mx-auto px-4 bg-zinc-950">
       <div className="mb-16 text-center">
         <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">
           <span className="text-white">Spaces</span>{" "}
@@ -94,7 +105,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]"
+        className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[220px] md:auto-rows-[260px]"
       >
         {categories.map((cat, idx) => {
           const href = cat.linkText && cat.linkText.toLowerCase().includes('custom') ? '/products/customize-neon-signs' : '/';
@@ -120,29 +131,19 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                   
                   {/* Content */}
-                  <div className="absolute inset-0 p-8 flex flex-col justify-end z-10">
-                    {cat.label && (
-                      <span className={`self-start mb-auto text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-wider ${cat.badgeClass}`}>
-                        {cat.label}
-                      </span>
-                    )}
+                  <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end z-10">
                     
-                    <h3 className="text-3xl md:text-4xl font-black mb-3 text-white drop-shadow-md">{cat.title}</h3>
+                    {/* Text block that hides on hover */}
+                    <div className="transition-opacity duration-300 group-hover:opacity-0 mb-4">
+                      <h3 className="text-2xl md:text-3xl font-black mb-2 text-white drop-shadow-md">{cat.title}</h3>
+                      <p className="text-sm line-clamp-2 text-zinc-300 drop-shadow-md">{cat.description}</p>
+                    </div>
                     
-                    {/* Tagline Slide-Up */}
-                    <div className="overflow-hidden">
-                      <motion.div 
-                        initial={{ y: 20, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="opacity-80 group-hover:opacity-100 transition-opacity"
-                      >
-                        <p className="text-sm md:text-base mb-6 line-clamp-2 text-zinc-300">{cat.description}</p>
-                        
-                        <div className={`inline-flex items-center ${cat.textClass} font-bold transition-colors uppercase tracking-wider text-sm group-hover:translate-x-2 transition-transform duration-300`}>
-                          {cat.linkText} <ArrowRight className="ml-2 w-5 h-5" />
-                        </div>
-                      </motion.div>
+                    {/* CTA Link (Always Visible) */}
+                    <div className="mt-auto pt-2">
+                      <div className={`inline-flex items-center ${cat.textClass} font-bold uppercase tracking-wider text-sm transition-transform duration-300 group-hover:translate-x-2`}>
+                        {cat.linkText} <ArrowRight className="ml-2 w-5 h-5" />
+                      </div>
                     </div>
                   </div>
                 </Link>

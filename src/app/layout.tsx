@@ -189,14 +189,13 @@ export default async function RootLayout({
       </head>
       <body 
         className={`${fontVariables} font-sans text-white antialiased selection:bg-brand-purple/30 selection:text-brand-lavender`}
-        style={gradientStr ? { background: gradientStr } : undefined}
       >
         <CustomerAuthProvider>
           <CartProvider>
             <MascotProvider>
-              <AuroraBackground className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender" speed={0.8} blur={90}>
+              <div className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender">
                 {children}
-              </AuroraBackground>
+              </div>
               {/* <Mascot /> */}
             </MascotProvider>
           </CartProvider>

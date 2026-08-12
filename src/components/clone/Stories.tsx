@@ -147,7 +147,7 @@ export function Stories() {
                       </div>
                       
                       <div className={`transition-all duration-500 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                        <div className="inline-block bg-brand-purple/20 border border-brand-purple/50 px-4 py-2 rounded-lg text-brand-lavender font-semibold text-sm">
+                        <div className="inline-block bg-transparent border border-brand-green/50 px-4 py-2 rounded-lg text-white font-semibold text-sm">
                           {story.growth}
                         </div>
                       </div>

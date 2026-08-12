@@ -145,7 +145,8 @@ export function getCalculatedDimensions(sizeId: string, colorName: string, textS
   const isMojo = colorName.includes('Mojo');
   const config = isMojo ? size.mojoConfig : size.singleConfig;
   const chars = Math.max(1, textStr.replace(/\s/g, '').length);
-  let length = chars * config.lengthPerLetter;
+  const spaceCount = (textStr.match(/ /g) || []).length;
+  let length = (chars * config.lengthPerLetter) + (spaceCount * 1.75);
   let price = config.firstLetterPrice + (chars - 1) * config.addedLetterPrice;
   
   // Add 300 for each shape
@@ -422,29 +423,6 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
 
         {/* Action Buttons (Addressing Point #8: Clear Hierarchy) */}
         <div className="flex items-center gap-2 md:gap-3">
-          {/* Primary CTA in Header (Sticky & Accessible from Anywhere) */}
-          <ButtonParticles
-            onClick={() => {
-              addToCart({
-                name: `Custom Neon Sign — "${text}"`,
-                price,
-                quantity: 1,
-                isCustom: true,
-                customDetails: {
-                  text,
-                  font: selectedFont.name,
-                  color: selectedColor.name,
-                  size: `${selectedSize.name} (${getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).length} × ${getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).height})`,
-                  widthInches: parseFloat(getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).length),
-                  backboard: `${selectedBackboardShape} (${selectedBackboardColor})`,
-                  usage: isWaterproof ? "Outdoor Waterproof IP67" : "Standard Indoor LED"
-                }
-              });
-              triggerMascot(`Added "${text}" neon sign to cart! Total: ₹${price.toLocaleString()}`, MascotState.CELEBRATING);
-            }}
-            label={`ADD TO CART — ₹${price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`}
-            icon={<ShoppingBag className="w-5 h-5 transition-colors duration-300" />}
-          />
 
           <button
             onClick={() => setShowHelpModal(true)}
@@ -466,6 +444,30 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
             <span>Save</span>
           </button>
 
+          <ButtonParticles
+            onClick={() => {
+              addToCart({
+                name: `Custom Neon Sign — "${text}"`,
+                price,
+                quantity: 1,
+                isCustom: true,
+                customDetails: {
+                  text,
+                  font: selectedFont.name,
+                  color: selectedColor.name,
+                  size: `${selectedSize.name} (${getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).length} × ${getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).height})`,
+                  widthInches: parseFloat(getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).length),
+                  backboard: `${selectedBackboardShape} (${selectedBackboardColor})`,
+                  usage: isWaterproof ? "Outdoor Waterproof IP67" : "Standard Indoor LED"
+                }
+              });
+              triggerMascot(`Added "${text}" neon sign to cart! Total: ₹${price.toLocaleString()}`, MascotState.CELEBRATING);
+            }}
+            label={`ADD TO CART — ₹${price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`}
+            icon={<ShoppingBag className="w-4 h-4 transition-colors duration-300" />}
+            className="hidden lg:flex"
+          />
+
           <Link
             href="/cart"
             className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-bold uppercase tracking-wider text-white transition-all flex items-center gap-2"
@@ -484,7 +486,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
         
         {/* 1. Left Navigation Sidebar (Thin & Dark) */}
         <div className="w-full lg:w-24 bg-black border-b lg:border-b-0 lg:border-r border-white/40 flex lg:flex-col items-center py-2 lg:py-2 z-30 flex-shrink-0">
-          <div className="flex lg:flex-col w-full gap-2 lg:gap-2 overflow-x-auto lg:overflow-x-visible scrollbar-none px-2 lg:px-0 lg:pl-2">
+          <div className="flex lg:flex-col w-full h-full gap-2 lg:gap-2 overflow-x-auto lg:overflow-x-visible scrollbar-none px-2 lg:px-0 lg:pl-2">
+            <div className="flex lg:flex-col w-full gap-2 lg:gap-2 flex-grow">
             {[
               { id: 'create', label: 'CREATE', icon: <Type className="w-6 h-6 mb-1" /> },
               { id: 'size', label: 'SIZE', icon: <Ruler className="w-6 h-6 mb-1" /> },
@@ -509,11 +512,40 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                     <span className="text-[10px] font-black tracking-widest">{item.label}</span>
                   </button>
                   {index < array.length - 1 && (
-                    <div className="hidden lg:block w-[80%] h-[1px] bg-white/60 mx-auto self-center" />
+                    <div className="hidden lg:block w-[80%] h-[1px] bg-white/60 mx-auto self-center shrink-0" />
                   )}
                 </React.Fragment>
               );
             })}
+              {/* Separator before Cart */}
+              <div className="hidden lg:block w-[80%] h-[1px] bg-white/60 mx-auto self-center shrink-0" />
+              
+              {/* Extra ADD TO CART button below ROOM tab */}
+              <button
+                onClick={() => {
+                  addToCart({
+                    name: `Custom Neon Sign — "${text}"`,
+                    price,
+                    quantity: 1,
+                    isCustom: true,
+                    customDetails: {
+                      text,
+                      font: selectedFont.name,
+                      color: selectedColor.name,
+                      size: `${selectedSize.name} (${getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).length} × ${getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).height})`,
+                      widthInches: parseFloat(getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).length),
+                      backboard: `${selectedBackboardShape} (${selectedBackboardColor})`,
+                      usage: isWaterproof ? "Outdoor Waterproof IP67" : "Standard Indoor LED"
+                    }
+                  });
+                  triggerMascot(`Added "${text}" neon sign to cart! Total: ₹${price.toLocaleString()}`, MascotState.CELEBRATING);
+                }}
+                className="flex flex-col items-center justify-center py-3 transition-all duration-300 min-w-[75px] lg:min-w-0 w-full lg:w-[calc(100%-8px)] bg-brand-green/10 border border-brand-green/30 text-brand-green rounded-lg hover:border-brand-green hover:shadow-[0_0_20px_rgba(110,255,134,0.5)] group"
+              >
+                <ShoppingBag className="w-6 h-6 mb-1 group-hover:scale-110 transition-transform" />
+                <span className="text-[10px] font-black tracking-widest text-center leading-tight">ADD TO<br/>CART</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1048,9 +1080,53 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
             {/* TAB 5: ROOM */}
             {activeTab === 'room' && (
               <div className="flex flex-col gap-8">
+                
+                {/* 1. Upload Option (Moved to Top) */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs font-bold text-brand-purple uppercase tracking-wider">
+                      Preview On Your Own Wall
+                    </label>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-purple/10 text-brand-purple border border-brand-purple/20">
+                      ✨ Recommended
+                    </span>
+                  </div>
+                  <label className="w-full bg-white border-2 border-dashed border-brand-purple/40 hover:border-brand-purple rounded-xl p-5 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all duration-300 group shadow-sm relative overflow-hidden">
+                    <Upload className="w-6 h-6 text-brand-purple group-hover:scale-110 transition-transform" />
+                    <span className="text-sm font-extrabold text-gray-900 text-center">
+                      See Your Neon Sign On Your Own Wall
+                    </span>
+                    <span className="text-[10px] text-gray-500 font-medium">
+                      Upload photo of your room or wall (JPG, PNG)
+                    </span>
+                    <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
+                  </label>
+                </div>
+
+                {selectedBg.id === 'custom' && (
+                  <div className="bg-purple-50/50 border border-brand-purple/20 rounded-xl p-4 flex flex-col gap-2 -mt-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-brand-purple uppercase">Room Scale Calibration</span>
+                      <button
+                        onClick={() => {
+                          setIsCalibrating(true);
+                          triggerMascot("Drag the red line over a known object in your photo to calibrate dimensions!", MascotState.TALKING);
+                        }}
+                        className="text-xs font-bold text-brand-purple hover:underline"
+                      >
+                        {calibrationRatio ? 'Recalibrate' : 'Start Calibration'}
+                      </button>
+                    </div>
+                    <p className="text-[11px] text-gray-600">
+                      {calibrationRatio ? 'Room scale calibrated! Your sign is shown at realistic physical dimensions.' : 'Calibrate your room photo to preview your sign at 100% accurate physical scale.'}
+                    </p>
+                  </div>
+                )}
+
+                {/* 2. Predefined Backgrounds */}
                 <div>
                   <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">
-                    Select Room Background
+                    Or Select A Room Background
                   </label>
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     {backgroundsList.map((bg) => (
@@ -1075,46 +1151,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                       </button>
                     ))}
                   </div>
-
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="text-xs font-bold text-brand-purple uppercase tracking-wider">
-                      Preview On Your Own Wall
-                    </label>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-purple/10 text-brand-purple border border-brand-purple/20">
-                      ✨ Recommended
-                    </span>
-                  </div>
-                  <label className="w-full bg-white border-2 border-dashed border-brand-purple/40 hover:border-brand-purple rounded-xl p-5 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all duration-300 group shadow-sm relative overflow-hidden">
-                    <Upload className="w-6 h-6 text-brand-purple group-hover:scale-110 transition-transform" />
-                    <span className="text-sm font-extrabold text-gray-900 text-center">
-                      See Your Neon Sign On Your Own Wall
-                    </span>
-                    <span className="text-[10px] text-gray-500 font-medium">
-                      Upload photo of your room or wall (JPG, PNG)
-                    </span>
-                    <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
-                  </label>
                 </div>
 
-                {selectedBg.id === 'custom' && (
-                  <div className="bg-purple-50/50 border border-brand-purple/20 rounded-xl p-4 flex flex-col gap-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-brand-purple uppercase">Room Scale Calibration</span>
-                      <button
-                        onClick={() => {
-                          setIsCalibrating(true);
-                          triggerMascot("Drag the red line over a known object in your photo to calibrate dimensions!", MascotState.TALKING);
-                        }}
-                        className="text-xs font-bold text-brand-purple hover:underline"
-                      >
-                        {calibrationRatio ? 'Recalibrate' : 'Start Calibration'}
-                      </button>
-                    </div>
-                    <p className="text-[11px] text-gray-600">
-                      {calibrationRatio ? 'Room scale calibrated! Your sign is shown at realistic physical dimensions.' : 'Calibrate your room photo to preview your sign at 100% accurate physical scale.'}
-                    </p>
-                  </div>
-                )}
               </div>
             )}
 
@@ -1162,16 +1200,16 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
 
         </div>
 
-        {/* 3. Center/Right Workshop Preview Canvas (Addressing Point #3 & #9: Larger Sign & Realistic Light Emission) */}
-        <div className="flex-1 relative overflow-hidden bg-[#090909] h-[560px] lg:h-full lg:min-h-0 flex items-center justify-center p-4 sm:p-8 lg:p-10 xl:p-12">
+        {/* 3. Center/Right Workshop Preview Canvas */}
+        <div className="flex-1 relative overflow-hidden bg-[#090909] h-[560px] lg:h-full lg:min-h-0 flex items-start justify-center p-4 lg:p-6 lg:pt-4">
           
           {/* Measurement Workshop Grid Pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#141414_1px,transparent_1px),linear-gradient(to_bottom,#141414_1px,transparent_1px)] bg-[size:24px_24px] opacity-90 pointer-events-none min-h-full" />
 
-          {/* Wrapper for Top Toolbar Strip (Option 4) + Room Photo Box */}
-          <div className="relative flex flex-col items-center justify-center gap-3 w-full max-w-[660px] h-full max-h-[720px] z-20">
+          {/* Wrapper for Top Toolbar Strip + Room Photo Box */}
+          <div className="relative flex flex-col items-center justify-start gap-4 w-full max-w-[900px] h-full z-20">
             
-            {/* Top Toolbar Strip (Above the Photo Box) - Option 4 */}
+            {/* Top Toolbar Strip */}
             <div className="w-full bg-black/85 backdrop-blur-md border border-white/15 px-3.5 py-2 rounded-2xl shadow-xl flex flex-wrap items-center justify-between gap-2 shrink-0">
               {/* Left: Lighting Moods */}
               <div className="flex items-center gap-1">
@@ -1547,6 +1585,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                 </div>
               </motion.div>
             </div>
+
             </div>
 
           </div>

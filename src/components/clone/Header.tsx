@@ -122,7 +122,7 @@ export function Header() {
                       e.preventDefault();
                     }
                   }}
-                  className={`relative px-3.5 py-2.5 rounded-full flex items-center justify-center gap-1.5 uppercase transition-all duration-300 hover:scale-105 cursor-pointer border ${isActive ? 'font-extrabold !text-[#6eff86] border-[#752eff] shadow-[0_0_15px_rgba(117,46,255,0.5)]' : '!text-white border-transparent hover:!text-[#6eff86] hover:border-[#752eff] hover:shadow-[0_0_15px_rgba(117,46,255,0.5)]'}`}
+                  className={`relative px-3.5 py-2.5 rounded-full flex items-center justify-center gap-1.5 uppercase transition-all duration-300 hover:scale-105 cursor-pointer border ${isActive ? 'font-extrabold !text-white border-[#752eff] shadow-[0_0_15px_rgba(117,46,255,0.5)]' : '!text-white border-transparent hover:!text-white hover:border-[#752eff] hover:shadow-[0_0_15px_rgba(117,46,255,0.5)]'}`}
                 >
                   {isActive && (
                     <>
@@ -153,7 +153,7 @@ export function Header() {
                       {item.dropdown && (
                         <div className="flex flex-col min-w-[220px]">
                           {item.dropdown.map(subItem => (
-                            <Link key={subItem.label} href={subItem.href} className="px-4 py-3 !text-white rounded-md transition-all border border-transparent border-b-white/5 hover:!text-[#6eff86] hover:border-[#752eff] hover:shadow-[0_0_10px_rgba(117,46,255,0.3)]">
+                            <Link key={subItem.label} href={subItem.href} className="px-4 py-3 !text-white rounded-md transition-all border border-transparent border-b-white/5 hover:!text-white hover:border-[#752eff] hover:shadow-[0_0_10px_rgba(117,46,255,0.3)]">
                               {subItem.label}
                             </Link>
                           ))}
@@ -167,9 +167,9 @@ export function Header() {
                             <div key={colIdx} className="flex flex-col w-[250px] lg:w-[270px]">
                               {col.map((subItem, itemIdx) => (
                                 <div key={subItem.label} className="group/sub relative">
-                                  <Link href={subItem.href} className="flex items-center justify-between px-3.5 py-2 text-sm leading-snug break-words whitespace-normal !text-white rounded-md transition-all border border-transparent border-b-white/5 hover:!text-[#6eff86] hover:border-[#752eff] hover:shadow-[0_0_10px_rgba(117,46,255,0.3)]">
+                                  <Link href={subItem.href} className="flex items-center justify-between px-3.5 py-2 text-sm leading-snug break-words whitespace-normal !text-white rounded-md transition-all border border-transparent border-b-white/5 hover:!text-white hover:border-[#752eff] hover:shadow-[0_0_10px_rgba(117,46,255,0.3)]">
                                     {subItem.label}
-                                    {subItem.subMenu && <ChevronDown className="w-4 h-4 -rotate-90 hover:!text-[#6eff86] flex-shrink-0 ml-1" />}
+                                    {subItem.subMenu && <ChevronDown className="w-4 h-4 -rotate-90 hover:!text-white flex-shrink-0 ml-1" />}
                                   </Link>
                                   
                                   {/* Sub-menu (pops to left) */}
@@ -177,7 +177,7 @@ export function Header() {
                                     <div className={`absolute right-full ${itemIdx > col.length / 2 ? 'bottom-0 -mb-2' : 'top-0'} pr-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 z-50`}>
                                       <div className="bg-black/95 backdrop-blur-xl border-2 border-[#752eff]/50 rounded-lg p-2 shadow-[0_0_15px_rgba(117,46,255,0.3)] whitespace-normal flex flex-col w-[230px]">
                                         {subItem.subMenu.map(deepItem => (
-                                          <Link key={deepItem.label} href={deepItem.href} className="px-3.5 py-2 text-sm leading-snug break-words whitespace-normal !text-white rounded-md transition-all border border-transparent border-b-white/5 hover:!text-[#6eff86] hover:border-[#752eff] hover:shadow-[0_0_10px_rgba(117,46,255,0.3)]">
+                                          <Link key={deepItem.label} href={deepItem.href} className="px-3.5 py-2 text-sm leading-snug break-words whitespace-normal !text-white rounded-md transition-all border border-transparent border-b-white/5 hover:!text-white hover:border-[#752eff] hover:shadow-[0_0_10px_rgba(117,46,255,0.3)]">
                                             {deepItem.label}
                                           </Link>
                                         ))}
@@ -200,11 +200,11 @@ export function Header() {
 
         {/* Icons */}
         <div className="flex items-center gap-4 md:gap-6">
-          <button className="text-neon-green-hover transition-all hover:scale-110"><Search className="w-6 h-6" /></button>
-          <Link href="/customer" className="text-neon-green-hover transition-all hover:scale-110 hidden md:block" title="My Customer Profile & Orders">
+          <button className="text-white transition-all hover:scale-110"><Search className="w-6 h-6" /></button>
+          <Link href="/customer" className="text-white transition-all hover:scale-110 hidden md:block" title="My Customer Profile & Orders">
             <User className="w-6 h-6" />
           </Link>
-          <Link href="/cart" className="text-neon-green-hover transition-all hover:scale-110 relative" title="Shopping Cart">
+          <Link href="/cart" className="text-white transition-all hover:scale-110 relative" title="Shopping Cart">
             <ShoppingBag className="w-6 h-6" />
             <span className="absolute -top-1 -right-2 bg-brand-green text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-[0_0_8px_#6eff86]">
               {cartCount}
@@ -230,7 +230,7 @@ export function Header() {
               return (
                 <div key={item.label} className="flex flex-col border-b border-white/10">
                   <div 
-                    className={`flex items-center justify-between py-4 px-6 hover:bg-white/5 cursor-pointer transition-colors text-neon-green-hover ${isActive ? 'font-black' : ''}`}
+                    className={`flex items-center justify-between py-4 px-6 hover:bg-white/5 cursor-pointer transition-colors text-white ${isActive ? 'font-black' : ''}`}
                     onClick={() => {
                       if (hasDropdown) {
                         setMobileExpanded(isExpanded ? null : item.label);
@@ -266,7 +266,7 @@ export function Header() {
                             key={subItem.label}
                             href={subItem.href}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="block py-3 px-10 text-neon-green-hover hover:bg-white/10 border-b border-white/5 last:border-0"
+                            className="block py-3 px-10 text-white hover:bg-white/10 border-b border-white/5 last:border-0"
                           >
                             {subItem.label}
                           </Link>
@@ -276,7 +276,7 @@ export function Header() {
                             <Link 
                               href={subItem.href}
                               onClick={() => setIsMobileMenuOpen(false)}
-                              className="block py-3 px-10 text-neon-green-hover hover:bg-white/10 border-b border-white/5"
+                              className="block py-3 px-10 text-white hover:bg-white/10 border-b border-white/5"
                             >
                               {subItem.label}
                             </Link>
@@ -285,7 +285,7 @@ export function Header() {
                                 key={deepItem.label}
                                 href={deepItem.href}
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="block py-2 px-14 text-sm text-neon-green-hover hover:bg-white/10 border-b border-white/5"
+                                className="block py-2 px-14 text-sm text-white hover:bg-white/10 border-b border-white/5"
                               >
                                 ↳ {deepItem.label}
                               </Link>
