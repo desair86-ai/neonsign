@@ -68,7 +68,6 @@ export default function CartPage() {
           </div>
         </div>
 
-        {/* Cart Contents */}
         {cart.length === 0 ? (
           <div className="bg-[#111111] border border-gray-800 rounded-3xl p-12 text-center max-w-2xl mx-auto my-12">
             <div className="w-20 h-20 bg-brand-purple/10 border border-brand-purple/30 rounded-full flex items-center justify-center mx-auto mb-6 text-brand-purple shadow-[0_0_25px_rgba(117,46,255,0.3)]">
@@ -101,192 +100,158 @@ export default function CartPage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
-            {/* Left Items Column (2 cols width on large screens) */}
-            <div className="lg:col-span-2 space-y-4">
-              {cart.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-[#111111] border border-gray-800 hover:border-gray-700 rounded-2xl p-5 md:p-6 transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative group"
-                >
-                  <div className="flex items-start gap-4 flex-1 min-w-0">
-                    <div className="w-20 h-20 rounded-xl bg-black border border-gray-800 flex items-center justify-center flex-shrink-0 relative overflow-hidden shadow-inner">
-                      {item.image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="text-center p-2">
-                          <Sparkles className="w-6 h-6 text-[#6eff86] mx-auto mb-1 animate-pulse" />
-                          <span className="text-[10px] uppercase font-bold text-gray-400 block">Neon</span>
-                        </div>
-                      )}
-                    </div>
+          <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+            
+            {/* Left Column: Cart Table */}
+            <div className="w-full lg:w-2/3 flex flex-col">
+              
+              {/* Table Header (Desktop) */}
+              <div className="hidden md:grid grid-cols-[auto_3fr_1fr_1.5fr_1fr] gap-4 items-center pb-4 border-b border-white/10 text-xs font-bold text-gray-400 uppercase tracking-wider">
+                <div className="w-8"></div> {/* Spacer for remove icon */}
+                <div className="pl-4">Product</div>
+                <div className="text-center">Price</div>
+                <div className="text-center">Quantity</div>
+                <div className="text-right">Subtotal</div>
+              </div>
 
-                    <div className="space-y-1.5 flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        {item.isCustom && (
-                          <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-brand-purple/20 text-brand-purple border border-brand-purple/30">
-                            Custom Studio
-                          </span>
-                        )}
-                        <h3 
-                          className="font-black text-lg text-white truncate"
-                          style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                        >
-                          {item.name}
-                        </h3>
-                      </div>
-
-                      {item.customDetails && (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1 text-xs text-gray-400">
-                          <div>
-                            <span className="text-gray-500">Font:</span>{" "}
-                            <strong className="text-gray-300">{item.customDetails.font}</strong>
-                          </div>
-                          <div>
-                            <span className="text-gray-500">Color:</span>{" "}
-                            <strong className="text-[#6eff86]">{item.customDetails.color}</strong>
-                          </div>
-                          <div>
-                            <span className="text-gray-500">Size:</span>{" "}
-                            <strong className="text-gray-300">{item.customDetails.size}</strong>
-                          </div>
-                          {item.customDetails.backboard && (
-                            <div>
-                              <span className="text-gray-500">Backboard:</span>{" "}
-                              <strong className="text-gray-300">{item.customDetails.backboard}</strong>
-                            </div>
-                          )}
-                          {item.customDetails.usage && (
-                            <div>
-                              <span className="text-gray-500">Usage:</span>{" "}
-                              <strong className="text-gray-300">{item.customDetails.usage}</strong>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      <div 
-                        className="text-sm font-bold text-[#6eff86]"
-                        style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                      >
-                        ₹{item.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Quantity and Actions */}
-                  <div className="flex items-center justify-between w-full md:w-auto gap-6 border-t md:border-t-0 pt-4 md:pt-0 border-white/10">
-                    <div className="flex items-center bg-black border border-gray-800 rounded-full p-1">
-                      <button
-                        onClick={() => updateQuantity(item.id, -1)}
-                        className="w-8 h-8 rounded-full bg-zinc-900 hover:bg-zinc-800 flex items-center justify-center text-gray-300 transition-colors"
-                      >
-                        <Minus className="w-3.5 h-3.5" />
-                      </button>
-                      <span 
-                        className="w-10 text-center font-bold text-sm text-white"
-                        style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                      >
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() => updateQuantity(item.id, 1)}
-                        className="w-8 h-8 rounded-full bg-zinc-900 hover:bg-zinc-800 flex items-center justify-center text-gray-300 transition-colors"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-
-                    <div className="text-right min-w-[100px]">
-                      <div 
-                        className="font-extrabold text-base text-white"
-                        style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                      >
-                        ₹{(item.price * item.quantity).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-                      </div>
-                    </div>
-
+              {/* Cart Items */}
+              <div className="divide-y divide-white/10 border-b border-white/10">
+                {cart.map((item) => (
+                  <div key={item.id} className="py-6 flex flex-col md:grid md:grid-cols-[auto_3fr_1fr_1.5fr_1fr] md:gap-4 md:items-center relative group">
+                    
+                    {/* Remove Icon (Desktop/Mobile top right) */}
                     <button
                       onClick={() => removeFromCart(item.id)}
-                      className="p-2 text-gray-500 hover:text-red-400 transition-colors"
+                      className="absolute top-6 right-0 md:static md:w-8 md:h-8 flex items-center justify-center text-gray-500 hover:text-red-400 transition-colors border border-gray-800 md:border-transparent hover:border-red-500/50 rounded-full"
                       title="Remove Item"
                     >
-                      <Trash2 className="w-5 h-5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
+
+                    {/* Product Column (Image + Title) */}
+                    <div className="flex items-center gap-4 pr-10 md:pr-0 pl-0 md:pl-4 mb-4 md:mb-0">
+                      <div className="w-20 h-20 rounded-xl bg-black border border-gray-800 flex items-center justify-center flex-shrink-0 relative overflow-hidden shadow-inner">
+                        {item.image ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="text-center p-2">
+                            <Sparkles className="w-6 h-6 text-[#6eff86] mx-auto mb-1 animate-pulse" />
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="min-w-0 flex-1">
+                        <Link href={item.isCustom ? "/products/customize-neon-signs" : "#"} className="font-bold text-base text-white hover:text-brand-purple transition-colors truncate block">
+                          {item.name}
+                        </Link>
+                        {item.customDetails && (
+                          <div className="text-xs text-gray-400 mt-1 space-y-0.5">
+                            <div>Font: <span className="text-gray-300">{item.customDetails.font}</span></div>
+                            <div>Color: <span className="text-gray-300">{item.customDetails.color}</span></div>
+                            <div>Size: <span className="text-gray-300">{item.customDetails.size}</span></div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Mobile Only: Price Header inline */}
+                    <div className="md:hidden flex justify-between items-center text-sm mb-3">
+                      <span className="text-gray-500">Price:</span>
+                      <span className="font-bold text-white">₹{item.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</span>
+                    </div>
+
+                    {/* Price Column (Desktop) */}
+                    <div className="hidden md:block text-center font-bold text-sm text-white">
+                      ₹{item.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                    </div>
+
+                    {/* Mobile Only: Quantity Header inline */}
+                    <div className="md:hidden flex justify-between items-center text-sm mb-3">
+                      <span className="text-gray-500">Quantity:</span>
+                      {/* Quantity Controls Mobile */}
+                      <div className="flex items-center bg-black border border-gray-800 rounded px-2 py-1">
+                        <button onClick={() => updateQuantity(item.id, -1)} className="text-gray-400 hover:text-white px-2"><Minus className="w-3 h-3" /></button>
+                        <span className="w-8 text-center text-sm font-bold text-white">{item.quantity}</span>
+                        <button onClick={() => updateQuantity(item.id, 1)} className="text-gray-400 hover:text-white px-2"><Plus className="w-3 h-3" /></button>
+                      </div>
+                    </div>
+
+                    {/* Quantity Column (Desktop) */}
+                    <div className="hidden md:flex justify-center">
+                      <div className="flex items-center bg-black border border-gray-800 rounded px-2 py-1">
+                        <button onClick={() => updateQuantity(item.id, -1)} className="text-gray-400 hover:text-white px-2"><Minus className="w-3 h-3" /></button>
+                        <span className="w-8 text-center text-sm font-bold text-white">{item.quantity}</span>
+                        <button onClick={() => updateQuantity(item.id, 1)} className="text-gray-400 hover:text-white px-2"><Plus className="w-3 h-3" /></button>
+                      </div>
+                    </div>
+
+                    {/* Mobile Only: Subtotal Header inline */}
+                    <div className="md:hidden flex justify-between items-center text-sm">
+                      <span className="text-gray-500">Subtotal:</span>
+                      <span className="font-bold text-white text-base">₹{(item.price * item.quantity).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</span>
+                    </div>
+
+                    {/* Subtotal Column (Desktop) */}
+                    <div className="hidden md:block text-right font-bold text-white text-base">
+                      ₹{(item.price * item.quantity).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                    </div>
+
                   </div>
+                ))}
+              </div>
+
+              {/* Actions Row (Coupon & Update Cart) */}
+              <div className="py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div className="flex w-full sm:w-auto gap-3">
+                  <input 
+                    type="text" 
+                    placeholder="Coupon code" 
+                    className="w-full sm:w-48 bg-transparent border border-gray-800 focus:border-brand-purple rounded-full px-4 py-3 text-sm text-white outline-none"
+                  />
+                  <button className="px-6 py-3 border border-gray-800 hover:border-brand-purple rounded-full text-sm font-bold text-gray-300 hover:text-white transition-colors flex-shrink-0">
+                    Apply coupon
+                  </button>
                 </div>
-              ))}
+                <button 
+                  onClick={() => window.location.reload()}
+                  className="w-full sm:w-auto px-6 py-3 border border-gray-800 hover:border-white rounded-full text-sm font-bold text-gray-400 hover:text-white transition-colors"
+                >
+                  Update cart
+                </button>
+              </div>
+
             </div>
 
-            {/* Right Summary Column */}
-            <div className="bg-[#111111] border-2 border-brand-purple/50 rounded-3xl p-6 md:p-8 shadow-[0_0_35px_rgba(117,46,255,0.25)] space-y-6 sticky top-24">
-              <h2 
-                className="text-xl font-black border-b border-white/10 pb-4 text-white"
-                style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-              >
-                Order Summary
+            {/* Right Column: Cart Totals */}
+            <div className="w-full lg:w-1/3 bg-[#111111]/40 border border-gray-800 p-8">
+              <h2 className="text-2xl font-black text-white mb-6 border-b border-white/10 pb-4">
+                Cart totals
               </h2>
 
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between text-gray-300">
-                  <span style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>Subtotal</span>
-                  <span className="font-bold text-white" style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>
+              <div className="space-y-4 mb-8 text-sm">
+                <div className="flex justify-between items-center border-b border-white/5 pb-4">
+                  <span className="text-gray-400 font-bold">Subtotal</span>
+                  <span className="font-bold text-white">
                     ₹{cartTotal.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
                   </span>
                 </div>
-                <div className="flex justify-between text-gray-300">
-                  <span style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>Shipping across India</span>
-                  <span className="font-extrabold text-[#6eff86]" style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>
-                    FREE
-                  </span>
-                </div>
-                <div className="flex justify-between text-gray-300">
-                  <span style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>Warranty & Insurance</span>
-                  <span className="font-extrabold text-[#6eff86]" style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>
-                    2-Year Included
-                  </span>
-                </div>
-
-                <div className="border-t border-white/10 pt-4 mt-4 flex justify-between items-center">
-                  <span 
-                    className="text-base font-black text-white uppercase tracking-wider"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    Estimated Total
-                  </span>
-                  <span 
-                    className="text-2xl font-black text-[#6eff86] drop-shadow-[0_0_12px_rgba(110,255,134,0.6)]"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
+                <div className="flex justify-between items-center border-b border-white/5 pb-4">
+                  <span className="text-gray-400 font-bold">Total</span>
+                  <span className="text-xl font-black text-white">
                     ₹{finalTotal.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
                   </span>
                 </div>
               </div>
 
-              <ButtonParticles
+              <Link 
                 href="/checkout"
-                className="w-full"
-                label="Proceed to Checkout"
-                icon={<ArrowRight className="w-5 h-5 text-white transition-colors duration-300 group-hover:text-[#6eff86]" />}
-              />
-
-              {/* Guarantees Box */}
-              <div className="bg-black/50 border border-gray-800 rounded-2xl p-4 space-y-2 text-xs text-gray-400">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-[#6eff86] flex-shrink-0" />
-                  <span style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>
-                    2-Year Full Manufacturer Warranty Included
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Truck className="w-4 h-4 text-[#6eff86] flex-shrink-0" />
-                  <span style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>
-                    Free Express Shipping across India (7-10 days)
-                  </span>
-                </div>
-              </div>
+                className="block w-full py-4 text-center bg-transparent border border-brand-purple hover:bg-brand-purple/10 text-white font-bold rounded-full transition-all text-sm uppercase tracking-wider"
+              >
+                Proceed to checkout
+              </Link>
             </div>
+            
           </div>
         )}
       </div>

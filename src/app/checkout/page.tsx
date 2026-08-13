@@ -178,93 +178,65 @@ export default function CheckoutPage() {
           </Link>
         </div>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
-          {/* Left Checkout Form (2 cols) */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* 1. Contact Information */}
-            <div className="bg-[#111111] border border-gray-800 rounded-3xl p-6 md:p-8 space-y-6">
-              <h2 
-                className="text-xl font-black flex items-center gap-2 border-b border-white/10 pb-4 text-white"
-                style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-              >
-                <User className="w-5 h-5 text-brand-purple" />
-                <span>1. Contact Information</span>
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start max-w-6xl mx-auto">
+          {/* Left Checkout Form (Billing Details) */}
+          <div className="space-y-10">
+            
+            {/* Coupon Toggle (if needed) */}
+            <div className="bg-[#111111]/40 border-t border-brand-purple/50 p-4 text-sm text-gray-300">
+              <span className="text-gray-400">Have a coupon?</span> <Link href="/cart" className="text-white hover:text-brand-purple underline transition-colors">Click here to enter your code</Link>
+            </div>
+
+            {/* Billing details */}
+            <div className="space-y-6">
+              <h2 className="text-2xl font-black text-white border-b border-white/10 pb-4" style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>
+                Billing details
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label 
-                    className="text-xs font-bold uppercase tracking-wider text-gray-300"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    Full Name *
+                  <label className="text-xs font-bold text-gray-400">
+                    First name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     name="fullName"
                     required
-                    value={form.fullName}
-                    onChange={handleChange}
-                    placeholder="e.g. Rahul Sharma"
-                    className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white outline-none transition-colors"
+                    value={form.fullName.split(" ")[0] || ""}
+                    onChange={(e) => setForm({...form, fullName: `${e.target.value} ${form.fullName.split(" ").slice(1).join(" ")}`.trim()})}
+                    className="w-full bg-[#0a0a0a] border border-gray-800 focus:border-[#6eff86] rounded px-4 py-3 text-white text-sm outline-none transition-colors"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label 
-                    className="text-xs font-bold uppercase tracking-wider text-gray-300"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    Email Address *
+                  <label className="text-xs font-bold text-gray-400">
+                    Last name <span className="text-red-500">*</span>
                   </label>
                   <input
-                    type="email"
-                    name="email"
+                    type="text"
+                    name="lastName"
                     required
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder="rahul@example.com"
-                    className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white outline-none transition-colors"
+                    value={form.fullName.split(" ").slice(1).join(" ") || ""}
+                    onChange={(e) => setForm({...form, fullName: `${form.fullName.split(" ")[0] || ""} ${e.target.value}`.trim()})}
+                    className="w-full bg-[#0a0a0a] border border-gray-800 focus:border-[#6eff86] rounded px-4 py-3 text-white text-sm outline-none transition-colors"
                   />
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label 
-                    className="text-xs font-bold uppercase tracking-wider text-gray-300"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    Mobile Phone (For SMS/WhatsApp Delivery Updates) *
+                  <label className="text-xs font-bold text-gray-400">
+                    Country / Region <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    required
-                    value={form.phone}
-                    onChange={handleChange}
-                    placeholder="+91 98765 43210"
-                    className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white outline-none transition-colors"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* 2. Shipping Address */}
-            <div className="bg-[#111111] border border-gray-800 rounded-3xl p-6 md:p-8 space-y-6">
-              <h2 
-                className="text-xl font-black flex items-center gap-2 border-b border-white/10 pb-4 text-white"
-                style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-              >
-                <MapPin className="w-5 h-5 text-brand-purple" />
-                <span>2. Delivery Address</span>
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2 md:col-span-2">
-                  <label 
-                    className="text-xs font-bold uppercase tracking-wider text-gray-300"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
+                  <select
+                    disabled
+                    className="w-full bg-[#0a0a0a] border border-gray-800 rounded px-4 py-3 text-white text-sm outline-none opacity-80"
                   >
-                    Street Address / Apartment / Landmark *
+                    <option>India</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-bold text-gray-400">
+                    Street address <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -272,17 +244,19 @@ export default function CheckoutPage() {
                     required
                     value={form.address}
                     onChange={handleChange}
-                    placeholder="Flat 402, Green Tower, MG Road"
-                    className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white outline-none transition-colors"
+                    placeholder="House number and street name"
+                    className="w-full bg-[#0a0a0a] border border-gray-800 focus:border-[#6eff86] rounded px-4 py-3 text-white text-sm outline-none transition-colors mb-3"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Apartment, suite, unit, etc. (optional)"
+                    className="w-full bg-[#0a0a0a] border border-gray-800 focus:border-[#6eff86] rounded px-4 py-3 text-white text-sm outline-none transition-colors"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label 
-                    className="text-xs font-bold uppercase tracking-wider text-gray-300"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    City *
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-bold text-gray-400">
+                    Town / City <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -290,17 +264,13 @@ export default function CheckoutPage() {
                     required
                     value={form.city}
                     onChange={handleChange}
-                    placeholder="Mumbai"
-                    className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white outline-none transition-colors"
+                    className="w-full bg-[#0a0a0a] border border-gray-800 focus:border-[#6eff86] rounded px-4 py-3 text-white text-sm outline-none transition-colors"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label 
-                    className="text-xs font-bold uppercase tracking-wider text-gray-300"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    State *
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-bold text-gray-400">
+                    State <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -308,17 +278,13 @@ export default function CheckoutPage() {
                     required
                     value={form.state}
                     onChange={handleChange}
-                    placeholder="Maharashtra"
-                    className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white outline-none transition-colors"
+                    className="w-full bg-[#0a0a0a] border border-gray-800 focus:border-[#6eff86] rounded px-4 py-3 text-white text-sm outline-none transition-colors"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label 
-                    className="text-xs font-bold uppercase tracking-wider text-gray-300"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    PIN Code *
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-bold text-gray-400">
+                    PIN Code <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -326,137 +292,135 @@ export default function CheckoutPage() {
                     required
                     value={form.pincode}
                     onChange={handleChange}
-                    placeholder="400001"
-                    className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white outline-none transition-colors"
+                    className="w-full bg-[#0a0a0a] border border-gray-800 focus:border-[#6eff86] rounded px-4 py-3 text-white text-sm outline-none transition-colors"
+                  />
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-bold text-gray-400">
+                    Phone <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    required
+                    value={form.phone}
+                    onChange={handleChange}
+                    className="w-full bg-[#0a0a0a] border border-gray-800 focus:border-[#6eff86] rounded px-4 py-3 text-white text-sm outline-none transition-colors"
+                  />
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-xs font-bold text-gray-400">
+                    Email address <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={form.email}
+                    onChange={handleChange}
+                    className="w-full bg-[#0a0a0a] border border-gray-800 focus:border-[#6eff86] rounded px-4 py-3 text-white text-sm outline-none transition-colors"
                   />
                 </div>
               </div>
             </div>
 
-            {/* 3. Payment Method */}
-            <div className="bg-[#111111] border border-gray-800 rounded-3xl p-6 md:p-8 space-y-6">
-              <h2 
-                className="text-xl font-black flex items-center gap-2 border-b border-white/10 pb-4 text-white"
-                style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-              >
-                <CreditCard className="w-5 h-5 text-[#6eff86]" />
-                <span>3. Payment Method</span>
+            {/* Additional Information */}
+            <div className="space-y-6 pt-4">
+              <h2 className="text-xl font-bold text-white border-b border-white/10 pb-4">
+                Additional information
               </h2>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <label className={`border-2 rounded-2xl p-4 cursor-pointer flex flex-col items-center justify-center gap-2 text-center transition-all ${form.paymentMethod === 'razorpay' ? 'border-[#6eff86] bg-[#6eff86]/10 text-white' : 'border-gray-800 bg-black text-gray-400'}`}>
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="razorpay"
-                    checked={form.paymentMethod === 'razorpay'}
-                    onChange={handleChange}
-                    className="hidden"
-                  />
-                  <span className="font-bold text-sm" style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>Razorpay / UPI</span>
-                  <span className="text-[10px] text-gray-400">Cards, GPay, PhonePe</span>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-gray-400">
+                  Order notes (optional)
                 </label>
-
-                <label className={`border-2 rounded-2xl p-4 cursor-pointer flex flex-col items-center justify-center gap-2 text-center transition-all ${form.paymentMethod === 'card' ? 'border-[#6eff86] bg-[#6eff86]/10 text-white' : 'border-gray-800 bg-black text-gray-400'}`}>
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="card"
-                    checked={form.paymentMethod === 'card'}
-                    onChange={handleChange}
-                    className="hidden"
-                  />
-                  <span className="font-bold text-sm" style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>Credit / Debit Card</span>
-                  <span className="text-[10px] text-gray-400">Visa, Mastercard, RuPay</span>
-                </label>
-
-                <label className={`border-2 rounded-2xl p-4 cursor-pointer flex flex-col items-center justify-center gap-2 text-center transition-all ${form.paymentMethod === 'cod' ? 'border-[#6eff86] bg-[#6eff86]/10 text-white' : 'border-gray-800 bg-black text-gray-400'}`}>
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="cod"
-                    checked={form.paymentMethod === 'cod'}
-                    onChange={handleChange}
-                    className="hidden"
-                  />
-                  <span className="font-bold text-sm" style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>Cash on Delivery</span>
-                  <span className="text-[10px] text-gray-400">Pay upon delivery</span>
-                </label>
+                <textarea
+                  rows={4}
+                  placeholder="Notes about your order, e.g. special notes for delivery."
+                  className="w-full bg-[#0a0a0a] border border-gray-800 focus:border-[#6eff86] rounded px-4 py-3 text-white text-sm outline-none transition-colors resize-none"
+                />
               </div>
             </div>
           </div>
 
           {/* Right Order Summary Column */}
-          <div className="bg-[#111111] border-2 border-brand-purple/50 rounded-3xl p-6 md:p-8 shadow-[0_0_35px_rgba(117,46,255,0.25)] space-y-6 sticky top-24">
-            <h2 
-              className="text-xl font-black border-b border-white/10 pb-4 text-white"
-              style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-            >
-              Order Review
+          <div className="bg-[#111111]/40 border border-gray-800 p-8 sticky top-24">
+            <h2 className="text-2xl font-black text-white mb-6">
+              Your order
             </h2>
 
-            <div className="space-y-4 max-h-60 overflow-y-auto pr-2">
-              {cart.map((item) => (
-                <div key={item.id} className="flex justify-between items-center text-sm border-b border-white/5 pb-2">
-                  <div className="min-w-0 flex-1 pr-4">
-                    <div 
-                      className="font-bold text-white truncate"
-                      style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                    >
-                      {item.name}
+            {/* Order Table */}
+            <div className="border-b border-white/10 pb-4 mb-4">
+              <div className="flex justify-between text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 border-b border-white/10 pb-2">
+                <span>Product</span>
+                <span>Subtotal</span>
+              </div>
+              <div className="space-y-4 max-h-60 overflow-y-auto pr-2">
+                {cart.map((item) => (
+                  <div key={item.id} className="flex justify-between items-start text-sm">
+                    <div className="min-w-0 flex-1 pr-4 text-gray-300">
+                      {item.name} <span className="text-gray-500">× {item.quantity}</span>
                     </div>
-                    <div className="text-xs text-gray-400">Qty: {item.quantity}</div>
+                    <div className="font-bold text-white">
+                      ₹{(item.price * item.quantity).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                    </div>
                   </div>
-                  <div className="font-extrabold text-[#6eff86]">
-                    ₹{(item.price * item.quantity).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Totals */}
+            <div className="space-y-4 text-sm mb-6">
+              <div className="flex justify-between text-gray-400 border-b border-white/10 pb-4">
+                <span className="font-bold">Subtotal</span>
+                <span className="font-bold text-white">
+                  ₹{cartTotal.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                <span className="font-bold text-white">Total</span>
+                <span className="text-xl font-black text-white">
+                  ₹{cartTotal.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                </span>
+              </div>
+            </div>
+
+            {/* Payment Method Selector */}
+            <div className="bg-[#0a0a0a] border border-gray-800 p-4 mb-6 text-sm text-gray-400">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="razorpay"
+                  checked={form.paymentMethod === 'razorpay'}
+                  onChange={handleChange}
+                  className="mt-1"
+                />
+                <div>
+                  <span className="font-bold text-white block mb-1">Razorpay (Cards, NetBanking, Wallet, UPI)</span>
+                  <span className="text-xs">Securely pay via Razorpay. Powered by WooCommerce.</span>
                 </div>
-              ))}
+              </label>
             </div>
 
-            <div className="space-y-3 text-sm border-t border-white/10 pt-4">
-              <div className="flex justify-between text-gray-300">
-                <span style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>Subtotal</span>
-                <span className="font-bold text-white" style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>
-                  ₹{cartTotal.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-                </span>
-              </div>
-              <div className="flex justify-between text-gray-300">
-                <span style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>Express Shipping (India)</span>
-                <span className="font-extrabold text-[#6eff86]" style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>
-                  FREE
-                </span>
-              </div>
+            <p className="text-xs text-gray-500 mb-6 leading-relaxed">
+              Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.
+            </p>
 
-              <div className="border-t border-white/10 pt-4 mt-4 flex justify-between items-center">
-                <span 
-                  className="text-base font-black text-white uppercase tracking-wider"
-                  style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                >
-                  Total Due
-                </span>
-                <span 
-                  className="text-2xl font-black text-[#6eff86] drop-shadow-[0_0_12px_rgba(110,255,134,0.6)]"
-                  style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                >
-                  ₹{cartTotal.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-                </span>
-              </div>
-            </div>
+            <label className="flex items-center gap-2 cursor-pointer mb-6 text-sm text-gray-300">
+              <input type="checkbox" className="w-4 h-4 rounded border-gray-700 bg-black text-[#6eff86] focus:ring-[#6eff86] focus:ring-offset-black" />
+              <span>Subscribe to our Newsletter</span>
+            </label>
 
-            <ButtonParticles
+            <button
               type="submit"
               disabled={isProcessing || cart.length === 0}
-              className="w-full"
-              label={isProcessing ? "Processing Order..." : `Place Order (₹${cartTotal.toLocaleString("en-IN")})`}
-            />
-
-            <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
-              <ShieldCheck className="w-4 h-4 text-[#6eff86]" />
-              <span style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>
-                2-Year Replacement Guarantee & Insurance Included
-              </span>
-            </div>
+              className="w-full py-4 bg-transparent border border-gray-700 hover:border-white text-white font-bold rounded-full transition-all text-sm uppercase tracking-wider disabled:opacity-50"
+            >
+              {isProcessing ? "Processing..." : "Place order"}
+            </button>
           </div>
         </form>
       </div>

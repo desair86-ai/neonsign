@@ -198,89 +198,109 @@ export default function CustomerAccountPage() {
     }
   };
 
-  // 1. IF CUSTOMER IS NOT LOGGED IN -> SHOW AUTHENTICATION WINDOW (LOGIN / REGISTER / FORGOT PASSWORD)
+  // 1. IF CUSTOMER IS NOT LOGGED IN -> SHOW AUTHENTICATION WINDOW (SIDE-BY-SIDE)
   if (!isLoggedIn) {
     return (
       <main className="min-h-screen bg-[#080808] text-white flex flex-col justify-between selection:bg-brand-purple/30">
         <Header />
 
-        <div className="max-w-md w-full mx-auto px-4 py-16 flex-1 flex flex-col justify-center">
-          <div className="bg-[#111111] border-2 border-brand-purple/50 rounded-3xl p-8 md:p-10 shadow-[0_0_40px_rgba(117,46,255,0.25)] space-y-6 relative">
-            {/* Header Icon */}
-            <div className="w-16 h-16 bg-brand-purple/10 border-2 border-brand-purple/50 rounded-full flex items-center justify-center mx-auto text-brand-purple shadow-[0_0_20px_rgba(117,46,255,0.5)]">
-              {authMode === "forgot" ? (
-                <KeyRound className="w-8 h-8" />
-              ) : (
-                <User className="w-8 h-8" />
-              )}
+        <div className="max-w-6xl w-full mx-auto px-4 py-16 flex-1 flex flex-col justify-center">
+          
+          <h1 className="text-3xl md:text-5xl font-black text-center mb-12 tracking-tight" style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>
+            My Account
+          </h1>
+
+          {/* Error & Success Messages */}
+          {authError && (
+            <div className="max-w-3xl mx-auto w-full mb-8 p-4 rounded-xl bg-red-500/10 border border-red-500/40 text-red-400 text-sm text-center font-bold">
+              {authError}
             </div>
+          )}
 
-            {/* Title & Description */}
-            <div className="text-center space-y-1">
-              <h1 
-                className="text-2xl md:text-3xl font-black text-white"
-                style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-              >
-                {authMode === "login" && "Sign In to Your Account"}
-                {authMode === "register" && "Create Customer Account"}
-                {authMode === "forgot" && "Reset Your Password"}
-              </h1>
-              <p 
-                className="text-xs text-gray-400"
-                style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-              >
-                {authMode === "login" && "Access your saved orders, warranty & custom designs"}
-                {authMode === "register" && "Register to save custom signs & enjoy express warranty tracking"}
-                {authMode === "forgot" && "Enter your email to receive a secure password reset link"}
-              </p>
+          {resetMessage && (
+            <div className="max-w-3xl mx-auto w-full mb-8 p-4 rounded-xl bg-[#6eff86]/10 border border-[#6eff86]/40 text-[#6eff86] text-sm text-center font-bold space-y-2">
+              <div className="flex items-center justify-center gap-2">
+                <CheckCircle2 className="w-5 h-5" />
+                <span>Password Reset Email Sent</span>
+              </div>
+              <p className="text-gray-200">{resetMessage}</p>
             </div>
+          )}
 
-            {/* Error & Success Messages */}
-            {authError && (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/40 text-red-400 text-xs text-center font-bold">
-                {authError}
-              </div>
-            )}
-
-            {resetMessage && (
-              <div className="p-4 rounded-xl bg-[#6eff86]/10 border border-[#6eff86]/40 text-[#6eff86] text-xs text-center font-bold space-y-2">
-                <div className="flex items-center justify-center gap-2">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Password Reset Email Sent</span>
+          {authMode === "forgot" ? (
+             <div className="max-w-md w-full mx-auto bg-[#111111] border-2 border-brand-purple/50 rounded-3xl p-8 shadow-[0_0_40px_rgba(117,46,255,0.15)]">
+                <div className="w-16 h-16 bg-brand-purple/10 border-2 border-brand-purple/50 rounded-full flex items-center justify-center mx-auto text-brand-purple shadow-[0_0_20px_rgba(117,46,255,0.5)] mb-6">
+                  <KeyRound className="w-8 h-8" />
                 </div>
-                <p className="text-gray-200">{resetMessage}</p>
-              </div>
-            )}
+                <h2 className="text-2xl font-black text-white text-center mb-2">Reset Your Password</h2>
+                <p className="text-sm text-gray-400 text-center mb-8">Enter your email to receive a secure password reset link</p>
+                <form onSubmit={handleForgotSubmit} className="space-y-5">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-300">Registered Email Address *</label>
+                    <input
+                      type="email"
+                      required
+                      value={forgotEmail}
+                      onChange={(e) => setForgotEmail(e.target.value)}
+                      className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
+                    />
+                  </div>
+                  <ButtonParticles type="submit" disabled={isSubmitting} className="w-full" label={isSubmitting ? "Sending Link..." : "Send Reset Link"} />
+                  <div className="pt-2 text-center">
+                    <button type="button" onClick={() => { setAuthMode("login"); setAuthError(""); setResetMessage(""); }} className="text-sm font-bold text-gray-400 hover:text-white flex items-center justify-center gap-1.5 mx-auto">
+                      <ArrowLeft className="w-4 h-4" /> Back to Sign In
+                    </button>
+                  </div>
+                </form>
+             </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-start max-w-5xl mx-auto w-full">
+              
+              {/* LOGIN COLUMN */}
+              <div className="bg-[#111111]/40 border border-gray-800 rounded-3xl p-8 md:p-10">
+                <h2 className="text-3xl font-black text-white mb-8" style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>
+                  Login
+                </h2>
+                <form onSubmit={handleLoginSubmit} className="space-y-5">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={loginForm.email}
+                      onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+                      className="w-full bg-black border border-gray-700 focus:border-brand-purple rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
+                    />
+                  </div>
 
-            {/* LOGIN FORM */}
-            {authMode === "login" && (
-              <form onSubmit={handleLoginSubmit} className="space-y-4">
-                <div className="space-y-1.5">
-                  <label 
-                    className="text-xs font-bold uppercase tracking-wider text-gray-300 flex items-center gap-2"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    <Mail className="w-3.5 h-3.5 text-brand-purple" />
-                    <span>Email Address *</span>
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={loginForm.email}
-                    onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
-                    placeholder="you@example.com"
-                    className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
-                  />
-                </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                      Password *
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        required
+                        value={loginForm.password}
+                        onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                        className="w-full bg-black border border-gray-700 focus:border-brand-purple rounded-xl pl-4 pr-11 py-3 text-white text-sm outline-none transition-colors"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white p-1"
+                      >
+                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
 
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <label 
-                      className="text-xs font-bold uppercase tracking-wider text-gray-300 flex items-center gap-2"
-                      style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                    >
-                      <Lock className="w-3.5 h-3.5 text-brand-purple" />
-                      <span>Password *</span>
+                  <div className="flex items-center justify-between pt-2">
+                    <label className="flex items-center gap-2 cursor-pointer group">
+                      <input type="checkbox" className="w-4 h-4 rounded border-gray-700 bg-black text-brand-purple focus:ring-brand-purple focus:ring-offset-black" />
+                      <span className="text-sm text-gray-400 group-hover:text-white transition-colors">Remember me</span>
                     </label>
                     <button
                       type="button"
@@ -289,648 +309,411 @@ export default function CustomerAccountPage() {
                         setAuthError("");
                         setResetMessage("");
                       }}
-                      className="text-xs font-bold text-[#6eff86] hover:underline"
-                      style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
+                      className="text-sm font-bold text-gray-400 hover:text-white transition-colors"
                     >
-                      Forgot Password?
+                      Lost your password?
                     </button>
                   </div>
 
-                  <div className="relative">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      required
-                      value={loginForm.password}
-                      onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
-                      placeholder="••••••••"
-                      className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl pl-4 pr-11 py-3 text-white text-sm outline-none transition-colors"
+                  <div className="pt-4">
+                    <ButtonParticles
+                      type="submit"
+                      disabled={isSubmitting}
+                      label={isSubmitting ? "Logging In..." : "Log In"}
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors p-1"
-                      title={showPassword ? "Hide Password" : "Show Password"}
-                    >
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
                   </div>
-                </div>
+                </form>
+              </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-4 bg-gradient-to-r from-brand-purple to-[#9d4edd] hover:from-[#853aff] hover:to-[#a95dff] text-white font-black rounded-full shadow-[0_0_25px_rgba(117,46,255,0.6)] hover:scale-[1.02] transition-all text-sm uppercase tracking-wider disabled:opacity-50"
-                  style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                >
-                  {isSubmitting ? "Signing In..." : "Sign In"}
-                </button>
-
-                <div className="pt-2 text-center">
-                  <span className="text-xs text-gray-400">Don&apos;t have an account? </span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAuthMode("register");
-                      setAuthError("");
-                      setResetMessage("");
-                    }}
-                    className="text-xs font-bold text-[#6eff86] hover:underline"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    Create New Account (Register)
-                  </button>
-                </div>
-              </form>
-            )}
-
-            {/* REGISTER FORM */}
-            {authMode === "register" && (
-              <form onSubmit={handleRegisterSubmit} className="space-y-4">
-                <div className="space-y-1.5">
-                  <label 
-                    className="text-xs font-bold uppercase tracking-wider text-gray-300 flex items-center gap-2"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    <User className="w-3.5 h-3.5 text-[#6eff86]" />
-                    <span>Full Name *</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={regForm.fullName}
-                    onChange={(e) => setRegForm({ ...regForm, fullName: e.target.value })}
-                    placeholder="e.g. Rahul Sharma"
-                    className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label 
-                    className="text-xs font-bold uppercase tracking-wider text-gray-300 flex items-center gap-2"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    <Mail className="w-3.5 h-3.5 text-[#6eff86]" />
-                    <span>Email Address *</span>
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={regForm.email}
-                    onChange={(e) => setRegForm({ ...regForm, email: e.target.value })}
-                    placeholder="you@example.com"
-                    className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label 
-                    className="text-xs font-bold uppercase tracking-wider text-gray-300 flex items-center gap-2"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    <Phone className="w-3.5 h-3.5 text-[#6eff86]" />
-                    <span>Mobile Phone Number *</span>
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={regForm.phone}
-                    onChange={(e) => setRegForm({ ...regForm, phone: e.target.value })}
-                    placeholder="+91 98765 43210"
-                    className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="space-y-1.5">
-                    <label 
-                      className="text-xs font-bold uppercase tracking-wider text-gray-300 flex items-center gap-2"
-                      style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                    >
-                      <Lock className="w-3.5 h-3.5 text-[#6eff86]" />
-                      <span>Password *</span>
+              {/* REGISTER COLUMN */}
+              <div className="bg-[#111111]/40 border border-gray-800 rounded-3xl p-8 md:p-10">
+                <h2 className="text-3xl font-black text-white mb-8" style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}>
+                  Register
+                </h2>
+                <form onSubmit={handleRegisterSubmit} className="space-y-5">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                      Email Address *
                     </label>
-                    <div className="relative">
+                    <input
+                      type="email"
+                      required
+                      value={regForm.email}
+                      onChange={(e) => setRegForm({ ...regForm, email: e.target.value })}
+                      className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={regForm.fullName}
+                      onChange={(e) => setRegForm({ ...regForm, fullName: e.target.value })}
+                      className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={regForm.phone}
+                      onChange={(e) => setRegForm({ ...regForm, phone: e.target.value })}
+                      className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                        Password *
+                      </label>
                       <input
-                        type={showPassword ? "text" : "password"}
+                        type={showConfirmPassword ? "text" : "password"}
                         required
                         value={regForm.password}
                         onChange={(e) => setRegForm({ ...regForm, password: e.target.value })}
-                        placeholder="••••••••"
-                        className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl pl-3.5 pr-10 py-3 text-white text-sm outline-none transition-colors"
+                        className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
                       />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors p-1"
-                        title={showPassword ? "Hide Password" : "Show Password"}
-                      >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
                     </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label 
-                      className="text-xs font-bold uppercase tracking-wider text-gray-300"
-                      style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                    >
-                      <span>Confirm *</span>
-                    </label>
-                    <div className="relative">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                        Confirm *
+                      </label>
                       <input
                         type={showConfirmPassword ? "text" : "password"}
                         required
                         value={regForm.confirmPassword}
                         onChange={(e) => setRegForm({ ...regForm, confirmPassword: e.target.value })}
-                        placeholder="••••••••"
-                        className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl pl-3.5 pr-10 py-3 text-white text-sm outline-none transition-colors"
+                        className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
                       />
-                      <button
-                        type="button"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors p-1"
-                        title={showConfirmPassword ? "Hide Password" : "Show Password"}
-                      >
-                        {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
                     </div>
                   </div>
-                </div>
 
-                <ButtonParticles
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full"
-                  label={isSubmitting ? "Creating Account..." : "Create Account"}
-                />
+                  <p className="text-xs text-gray-400 leading-relaxed pt-2">
+                    Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy.
+                  </p>
 
-                <div className="pt-2 text-center">
-                  <span className="text-xs text-gray-400">Already have an account? </span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAuthMode("login");
-                      setAuthError("");
-                      setResetMessage("");
-                    }}
-                    className="text-xs font-bold text-[#6eff86] hover:underline"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    Sign In Here
-                  </button>
-                </div>
-              </form>
-            )}
+                  <div className="pt-2">
+                    <ButtonParticles
+                      type="submit"
+                      disabled={isSubmitting}
+                      label={isSubmitting ? "Registering..." : "Register"}
+                    />
+                  </div>
+                </form>
+              </div>
 
-            {/* FORGOT PASSWORD FORM */}
-            {authMode === "forgot" && (
-              <form onSubmit={handleForgotSubmit} className="space-y-4">
-                <div className="space-y-1.5">
-                  <label 
-                    className="text-xs font-bold uppercase tracking-wider text-gray-300 flex items-center gap-2"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    <Mail className="w-3.5 h-3.5 text-brand-purple" />
-                    <span>Registered Email Address *</span>
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={forgotEmail}
-                    onChange={(e) => setForgotEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
-                  />
-                </div>
+            </div>
+          )}
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-4 bg-gradient-to-r from-brand-purple to-[#9d4edd] hover:from-[#853aff] hover:to-[#a95dff] text-white font-black rounded-full shadow-[0_0_25px_rgba(117,46,255,0.6)] hover:scale-[1.02] transition-all text-sm uppercase tracking-wider disabled:opacity-50"
-                  style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                >
-                  {isSubmitting ? "Sending Link..." : "Send Password Reset Link"}
-                </button>
-
-                <div className="pt-2 text-center">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAuthMode("login");
-                      setAuthError("");
-                      setResetMessage("");
-                    }}
-                    className="text-xs font-bold text-gray-300 hover:text-white flex items-center justify-center gap-1.5 mx-auto"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    <ArrowLeft className="w-3.5 h-3.5" />
-                    <span>Back to Sign In</span>
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
         </div>
-
         <Footer />
       </main>
     );
   }
 
   // 2. IF CUSTOMER IS LOGGED IN -> SHOW CUSTOMER ACCOUNT PORTAL
+  // Update state type for activeTab
+  const [currentTab, setCurrentTab] = useState<"dashboard" | "orders" | "addresses" | "account-details">("dashboard");
+
+  const tabList = [
+    { id: "dashboard", label: "Dashboard", icon: <User className="w-4 h-4" /> },
+    { id: "orders", label: "Orders", icon: <Package className="w-4 h-4" /> },
+    { id: "addresses", label: "Addresses", icon: <MapPin className="w-4 h-4" /> },
+    { id: "account-details", label: "Account details", icon: <User className="w-4 h-4" /> },
+  ] as const;
+
   return (
     <main className="min-h-screen bg-[#080808] text-white flex flex-col justify-between selection:bg-brand-purple/30">
       <Header />
 
       <div className="max-w-[1400px] w-full mx-auto px-4 md:px-8 py-12 flex-1">
-        {/* Top Header Banner */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 pb-6 border-b border-white/10">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-purple/10 border border-brand-purple/30 text-brand-purple text-xs font-black uppercase tracking-wider mb-2">
-              <User className="w-3.5 h-3.5" />
-              <span>Customer Portal Session</span>
-            </div>
-            <h1 
-              className="text-3xl md:text-5xl font-black tracking-tight"
-            >
-              <span className="text-white">Welcome,</span>{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
-                {user?.fullName || "Valued Customer"}
-              </span>
-            </h1>
-          </div>
+        <h1 
+          className="text-3xl md:text-5xl font-black tracking-tight mb-10"
+          style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
+        >
+          My Account
+        </h1>
 
-          {/* Quick Action Buttons */}
-          <div className="flex flex-wrap items-center gap-4">
-            <ButtonParticles
-              href="/products/customize-neon-signs"
-              label="Customize A New Sign"
-              icon={<Sparkles className="w-4 h-4 text-white transition-colors duration-300 group-hover:text-[#6eff86]" />}
-            />
-
-            <button
-              onClick={logout}
-              className="px-5 py-3 bg-zinc-900 border border-zinc-700 hover:border-red-500/50 text-gray-300 hover:text-red-400 font-extrabold rounded-full transition-all text-xs uppercase tracking-wider flex items-center gap-2"
-              style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-            >
-              <LogOut className="w-4 h-4" />
-              <span>Sign Out</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Tab Selection */}
-        <div className="flex gap-4 mb-8">
-          <button
-            onClick={() => setActiveTab("orders")}
-            className={`px-6 py-3 rounded-full font-extrabold text-sm transition-all flex items-center gap-2 ${
-              activeTab === "orders"
-                ? "bg-brand-purple text-white shadow-[0_0_20px_rgba(117,46,255,0.6)]"
-                : "bg-[#111111] text-gray-400 hover:text-white border border-gray-800"
-            }`}
-            style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-          >
-            <Package className="w-4 h-4" />
-            <span>My Orders ({orders.length})</span>
-          </button>
-          <button
-            onClick={() => setActiveTab("profile")}
-            className={`px-6 py-3 rounded-full font-extrabold text-sm transition-all flex items-center gap-2 ${
-              activeTab === "profile"
-                ? "bg-brand-purple text-white shadow-[0_0_20px_rgba(117,46,255,0.6)]"
-                : "bg-[#111111] text-gray-400 hover:text-white border border-gray-800"
-            }`}
-            style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-          >
-            <User className="w-4 h-4" />
-            <span>My Customer Profile</span>
-          </button>
-        </div>
-
-        {/* Orders Tab Content */}
-        {activeTab === "orders" && (
-          <div>
-            {orders.length === 0 ? (
-              <div className="bg-[#111111] border border-gray-800 rounded-3xl p-12 text-center max-w-2xl mx-auto my-8">
-                <div className="w-20 h-20 bg-brand-purple/10 border border-brand-purple/30 rounded-full flex items-center justify-center mx-auto mb-6 text-brand-purple shadow-[0_0_25px_rgba(117,46,255,0.3)]">
-                  <Package className="w-10 h-10" />
-                </div>
-                <h2 
-                  className="text-2xl font-black mb-3 text-white"
-                  style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
+        <div className="flex flex-col md:flex-row gap-8 lg:gap-16">
+          {/* SIDEBAR NAVIGATION */}
+          <aside className="w-full md:w-64 flex-shrink-0">
+            <nav className="flex flex-col space-y-1">
+              {tabList.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setCurrentTab(tab.id)}
+                  className={`text-left px-5 py-4 font-bold text-sm transition-all border-l-2 ${
+                    currentTab === tab.id
+                      ? "border-brand-purple text-white bg-white/5"
+                      : "border-transparent text-gray-400 hover:text-white hover:bg-white/5"
+                  }`}
+                  style={{ textShadow: currentTab === tab.id ? "0 0 2px rgba(255, 255, 255, 0.6)" : "none" }}
                 >
-                  No Orders Yet
-                </h2>
-                <p 
-                  className="text-gray-400 mb-8 max-w-md mx-auto text-sm"
-                  style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                >
-                  When you customize or purchase a neon sign from our workshop, your order tracking and 2-year warranty details will appear right here.
-                </p>
-                <ButtonParticles
-                  href="/products/customize-neon-signs"
-                  label="Design My Custom Sign"
-                  icon={<ArrowRight className="w-5 h-5 text-white transition-colors duration-300 group-hover:text-[#6eff86]" />}
-                />
-              </div>
-            ) : (
+                  {tab.label}
+                </button>
+              ))}
+              <button
+                onClick={logout}
+                className="text-left px-5 py-4 font-bold text-sm transition-all border-l-2 border-transparent text-gray-400 hover:text-red-400 hover:bg-red-500/5"
+              >
+                Log out
+              </button>
+            </nav>
+          </aside>
+
+          {/* TAB CONTENT */}
+          <div className="flex-1">
+            
+            {/* DASHBOARD TAB */}
+            {currentTab === "dashboard" && (
               <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                  <h3 
-                    className="text-sm font-bold text-gray-400 uppercase tracking-wider"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    Past Orders & Production History
-                  </h3>
-                  <button
-                    onClick={clearOrderHistory}
-                    className="text-xs font-bold text-gray-500 hover:text-red-400 transition-colors"
-                  >
-                    Clear Local History
-                  </button>
+                <p className="text-gray-300 text-lg">
+                  Hello <strong className="text-white">{user?.fullName || user?.email}</strong> (not <strong className="text-white">{user?.fullName || user?.email}</strong>?{" "}
+                  <button onClick={logout} className="text-[#6eff86] hover:underline">Log out</button>)
+                </p>
+                <p className="text-gray-400 text-sm max-w-2xl leading-relaxed">
+                  From your account dashboard you can view your{" "}
+                  <button onClick={() => setCurrentTab("orders")} className="text-white hover:text-brand-purple transition-colors">recent orders</button>, manage your{" "}
+                  <button onClick={() => setCurrentTab("addresses")} className="text-white hover:text-brand-purple transition-colors">shipping and billing addresses</button>, and{" "}
+                  <button onClick={() => setCurrentTab("account-details")} className="text-white hover:text-brand-purple transition-colors">edit your password and account details</button>.
+                </p>
+
+                <div className="mt-8 pt-8 border-t border-white/10">
+                   <ButtonParticles
+                    href="/products/customize-neon-signs"
+                    label="Customize A New Sign"
+                    icon={<Sparkles className="w-4 h-4 text-white transition-colors duration-300 group-hover:text-[#6eff86]" />}
+                  />
                 </div>
-
-                {orders.map((order) => (
-                  <div
-                    key={order.id}
-                    className="bg-[#111111] border border-gray-800 rounded-2xl p-6 md:p-8 space-y-6 hover:border-gray-700 transition-all"
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-3">
-                          <span 
-                            className="font-black text-xl text-[#6eff86]"
-                            style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                          >
-                            Order #{order.id}
-                          </span>
-                          <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-[#6eff86]/10 text-[#6eff86] border border-[#6eff86]/30 flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5 animate-pulse" />
-                            {order.status}
-                          </span>
-                        </div>
-                        <div className="text-xs text-gray-400">
-                          Placed on <strong className="text-white">{order.date}</strong> — Estimated Delivery: 7–10 Days
-                        </div>
-                      </div>
-
-                      <div className="text-left sm:text-right">
-                        <div className="text-xs text-gray-400 uppercase font-semibold">Total Amount</div>
-                        <div 
-                          className="text-xl font-black text-[#6eff86] drop-shadow-[0_0_8px_rgba(110,255,134,0.6)]"
-                          style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                        >
-                          ₹{order.total.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Order Items */}
-                    <div className="space-y-3">
-                      {order.items.map((item, idx) => (
-                        <div
-                          key={idx}
-                          className="bg-black/50 border border-gray-800 rounded-xl p-4 flex flex-col md:flex-row justify-between gap-4"
-                        >
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span 
-                                className="font-bold text-white text-base"
-                                style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                              >
-                                {item.name}
-                              </span>
-                              <span className="text-xs text-gray-400">× {item.quantity}</span>
-                            </div>
-
-                            {item.customDetails && (
-                              <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-400">
-                                <div>
-                                  Font: <strong className="text-gray-200">{item.customDetails.font}</strong>
-                                </div>
-                                <div>
-                                  Color: <strong className="text-[#6eff86]">{item.customDetails.color}</strong>
-                                </div>
-                                <div>
-                                  Size: <strong className="text-gray-200">{item.customDetails.size}</strong>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-
-                          <div 
-                            className="font-extrabold text-white text-sm"
-                            style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                          >
-                            ₹{(item.price * item.quantity).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Shipping Address Summary */}
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-t border-white/5 pt-4 text-xs text-gray-400">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-brand-purple flex-shrink-0" />
-                        <span>
-                          Delivering to: <strong className="text-gray-200">{order.customer.fullName}</strong> ({order.customer.address}, {order.customer.city})
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2 text-[#6eff86]">
-                        <ShieldCheck className="w-4 h-4" />
-                        <span>2-Year Warranty & Express Insurance Active</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
               </div>
             )}
-          </div>
-        )}
 
-        {/* Profile Tab Content (REPLACED DEFAULT CURRENCY & WARRANTY TIER BOXES) */}
-        {activeTab === "profile" && (
-          <div className="space-y-8 max-w-4xl">
-            <div className="bg-[#111111] border-2 border-brand-purple/50 rounded-3xl p-6 md:p-10 shadow-[0_0_30px_rgba(117,46,255,0.2)] space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
-                <div>
-                  <h2 
-                    className="text-xl md:text-2xl font-black text-white"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    Customer Personal Information
-                  </h2>
-                  <p 
-                    className="text-xs text-gray-400 mt-1"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    Manage your contact details and default delivery address for faster studio checkouts.
-                  </p>
-                </div>
+            {/* ORDERS TAB */}
+            {currentTab === "orders" && (
+              <div>
+                {orders.length === 0 ? (
+                  <div className="bg-[#111111] border border-gray-800 rounded-3xl p-10 flex flex-col items-center justify-center text-center space-y-4">
+                    <span className="text-gray-400">No order has been made yet.</span>
+                    <ButtonParticles
+                      href="/products/customize-neon-signs"
+                      label="Browse Products"
+                    />
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">
+                        Past Orders
+                      </h3>
+                      <button
+                        onClick={clearOrderHistory}
+                        className="text-xs font-bold text-gray-500 hover:text-red-400 transition-colors"
+                      >
+                        Clear Local History
+                      </button>
+                    </div>
 
-                {!isEditingProfile && (
-                  <button
-                    onClick={() => setIsEditingProfile(true)}
-                    className="px-4 py-2 bg-zinc-900 border border-zinc-700 hover:border-[#6eff86] text-white rounded-xl text-xs font-bold transition-all flex items-center gap-2 self-start sm:self-auto"
-                    style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                  >
-                    <Edit3 className="w-3.5 h-3.5 text-[#6eff86]" />
-                    <span>Edit Profile Details</span>
-                  </button>
+                    {orders.map((order) => (
+                      <div
+                        key={order.id}
+                        className="bg-[#111111] border border-gray-800 rounded-2xl p-6 md:p-8 space-y-6 hover:border-brand-purple/30 transition-all"
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-3">
+                              <span className="font-black text-xl text-[#6eff86]">
+                                Order #{order.id}
+                              </span>
+                              <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-[#6eff86]/10 text-[#6eff86] border border-[#6eff86]/30 flex items-center gap-1.5">
+                                <Clock className="w-3.5 h-3.5 animate-pulse" />
+                                {order.status}
+                              </span>
+                            </div>
+                            <div className="text-xs text-gray-400">
+                              Placed on <strong className="text-white">{order.date}</strong>
+                            </div>
+                          </div>
+                          <div className="text-left sm:text-right">
+                            <div className="text-xl font-black text-[#6eff86]">
+                              ₹{order.total.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="space-y-3">
+                          {order.items.map((item, idx) => (
+                            <div key={idx} className="bg-black/50 border border-gray-800 rounded-xl p-4 flex flex-col md:flex-row justify-between gap-4">
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className="font-bold text-white text-base">{item.name}</span>
+                                  <span className="text-xs text-gray-400">× {item.quantity}</span>
+                                </div>
+                              </div>
+                              <div className="font-extrabold text-white text-sm">
+                                ₹{(item.price * item.quantity).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
+            )}
 
-              {!isEditingProfile ? (
-                /* Display Mode */
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                  <div className="bg-black/60 border border-gray-800 rounded-2xl p-5 space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 block">
-                      Full Name
-                    </span>
-                    <span 
-                      className="text-base font-black text-white block"
-                      style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                    >
-                      {user?.fullName || "Not Specified"}
-                    </span>
+            {/* ADDRESSES TAB */}
+            {currentTab === "addresses" && (
+              <div className="space-y-6">
+                <p className="text-gray-400 text-sm mb-8">
+                  The following addresses will be used on the checkout page by default.
+                </p>
+
+                <div className="bg-[#111111] border border-gray-800 rounded-3xl p-6 md:p-10 shadow-[0_0_30px_rgba(117,46,255,0.05)]">
+                  <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-xl font-black text-white">Billing address</h3>
+                    {!isEditingProfile && (
+                      <button
+                        onClick={() => setIsEditingProfile(true)}
+                        className="text-[#6eff86] font-bold text-sm hover:underline"
+                      >
+                        Edit
+                      </button>
+                    )}
                   </div>
 
-                  <div className="bg-black/60 border border-gray-800 rounded-2xl p-5 space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 block">
-                      Registered Email
-                    </span>
-                    <span 
-                      className="text-base font-black text-[#6eff86] block"
-                      style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                    >
-                      {user?.email || "Not Specified"}
-                    </span>
-                  </div>
-
-                  <div className="bg-black/60 border border-gray-800 rounded-2xl p-5 space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 block">
-                      Mobile Phone Number
-                    </span>
-                    <span 
-                      className="text-base font-black text-white block"
-                      style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                    >
-                      {user?.phone || "No phone added yet"}
-                    </span>
-                  </div>
-
-                  <div className="bg-black/60 border border-gray-800 rounded-2xl p-5 space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 block">
-                      Default Delivery Address
-                    </span>
-                    <span 
-                      className="text-base font-black text-gray-300 block"
-                      style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
-                    >
-                      {user?.address
-                        ? `${user.address}, ${user.city || ""} ${user.state || ""} - ${user.pincode || ""}`
-                        : "No default shipping address saved yet"}
-                    </span>
-                  </div>
+                  {!isEditingProfile ? (
+                    <div className="text-gray-300 text-sm space-y-1">
+                      {user?.fullName ? <div className="text-white font-bold mb-2">{user.fullName}</div> : <div className="italic text-gray-500 mb-2">You have not set up this type of address yet.</div>}
+                      {user?.address && <div>{user.address}</div>}
+                      {user?.city && <div>{user.city}</div>}
+                      {user?.state && <div>{user.state}</div>}
+                      {user?.pincode && <div>{user.pincode}</div>}
+                    </div>
+                  ) : (
+                    <form onSubmit={handleProfileSave} className="space-y-5 pt-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-gray-400">Street Address</label>
+                        <input
+                          type="text"
+                          value={profileForm.address}
+                          onChange={(e) => setProfileForm({ ...profileForm, address: e.target.value })}
+                          className="w-full bg-black border border-gray-700 focus:border-brand-purple rounded-xl px-4 py-3 text-white text-sm outline-none"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-bold uppercase text-gray-400">City</label>
+                          <input
+                            type="text"
+                            value={profileForm.city}
+                            onChange={(e) => setProfileForm({ ...profileForm, city: e.target.value })}
+                            className="w-full bg-black border border-gray-700 focus:border-brand-purple rounded-xl px-4 py-3 text-white text-sm outline-none"
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-bold uppercase text-gray-400">PIN Code</label>
+                          <input
+                            type="text"
+                            value={profileForm.pincode}
+                            onChange={(e) => setProfileForm({ ...profileForm, pincode: e.target.value })}
+                            className="w-full bg-black border border-gray-700 focus:border-brand-purple rounded-xl px-4 py-3 text-white text-sm outline-none"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex gap-4 pt-4">
+                        <ButtonParticles type="submit" label="Save Address" />
+                        <button
+                          type="button"
+                          onClick={() => setIsEditingProfile(false)}
+                          className="px-6 py-3 text-gray-400 hover:text-white font-bold rounded-full transition-all text-xs uppercase"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  )}
                 </div>
-              ) : (
-                /* Edit Mode Form */
-                <form onSubmit={handleProfileSave} className="space-y-6 pt-2">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
-                        Full Name
-                      </label>
-                      <input
-                        type="text"
-                        value={profileForm.fullName}
-                        onChange={(e) =>
-                          setProfileForm({ ...profileForm, fullName: e.target.value })
-                        }
-                        placeholder="Your full name"
-                        className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
-                      />
-                    </div>
+              </div>
+            )}
 
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
-                        Mobile Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        value={profileForm.phone}
-                        onChange={(e) =>
-                          setProfileForm({ ...profileForm, phone: e.target.value })
-                        }
-                        placeholder="+91 98765 43210"
-                        className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5 md:col-span-2">
-                      <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
-                        Street Address / Apartment
-                      </label>
-                      <input
-                        type="text"
-                        value={profileForm.address}
-                        onChange={(e) =>
-                          setProfileForm({ ...profileForm, address: e.target.value })
-                        }
-                        placeholder="Flat 402, Green Tower, MG Road"
-                        className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
-                        City
-                      </label>
-                      <input
-                        type="text"
-                        value={profileForm.city}
-                        onChange={(e) =>
-                          setProfileForm({ ...profileForm, city: e.target.value })
-                        }
-                        placeholder="Mumbai"
-                        className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
-                        PIN Code
-                      </label>
-                      <input
-                        type="text"
-                        value={profileForm.pincode}
-                        onChange={(e) =>
-                          setProfileForm({ ...profileForm, pincode: e.target.value })
-                        }
-                        placeholder="400001"
-                        className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
-                      />
-                    </div>
+            {/* ACCOUNT DETAILS TAB */}
+            {currentTab === "account-details" && (
+              <div className="bg-[#111111] border border-gray-800 rounded-3xl p-6 md:p-10 shadow-[0_0_30px_rgba(117,46,255,0.05)]">
+                <form onSubmit={handleProfileSave} className="space-y-6">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold uppercase text-gray-400">Full Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={profileForm.fullName}
+                      onChange={(e) => setProfileForm({ ...profileForm, fullName: e.target.value })}
+                      className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none"
+                    />
+                  </div>
+                  
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold uppercase text-gray-400">Email Address *</label>
+                    <input
+                      type="email"
+                      disabled
+                      value={user?.email || ""}
+                      className="w-full bg-black/50 border border-gray-800 text-gray-500 rounded-xl px-4 py-3 text-sm cursor-not-allowed"
+                    />
+                    <p className="text-xs text-gray-600 italic mt-1">Email address cannot be changed</p>
                   </div>
 
-                  <div className="flex items-center gap-4 pt-2">
-                    <ButtonParticles
-                      type="submit"
-                      label="Save Changes"
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold uppercase text-gray-400">Phone Number</label>
+                    <input
+                      type="tel"
+                      value={profileForm.phone}
+                      onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
+                      className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none"
                     />
-                    <button
-                      type="button"
-                      onClick={() => setIsEditingProfile(false)}
-                      className="px-6 py-3 bg-zinc-900 border border-zinc-700 hover:border-white text-white font-bold rounded-full transition-all text-xs uppercase tracking-wider"
-                    >
-                      Cancel
-                    </button>
+                  </div>
+
+                  <div className="pt-6 border-t border-white/10">
+                    <h3 className="text-lg font-black text-white mb-4">Password change</h3>
+                    <div className="space-y-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-gray-400">Current password (leave blank to leave unchanged)</label>
+                        <input
+                          type="password"
+                          className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-gray-400">New password (leave blank to leave unchanged)</label>
+                        <input
+                          type="password"
+                          className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none"
+                        />
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-3 italic">
+                      Note: Password change via API requires a dedicated endpoint. Updating your profile name/phone will work above!
+                    </p>
+                  </div>
+
+                  <div className="pt-4">
+                    <ButtonParticles type="submit" label={isSubmitting ? "Saving..." : "Save changes"} disabled={isSubmitting} />
                   </div>
                 </form>
-              )}
-            </div>
+              </div>
+            )}
+
           </div>
-        )}
+        </div>
       </div>
 
       <Footer />
