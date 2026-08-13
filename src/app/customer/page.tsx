@@ -198,6 +198,9 @@ export default function CustomerAccountPage() {
     }
   };
 
+  // 2. Customer Portal Tabs State
+  const [currentTab, setCurrentTab] = useState<"dashboard" | "orders" | "addresses" | "account-details">("dashboard");
+
   // 1. IF CUSTOMER IS NOT LOGGED IN -> SHOW AUTHENTICATION WINDOW (SIDE-BY-SIDE)
   if (!isLoggedIn) {
     return (
@@ -421,9 +424,6 @@ export default function CustomerAccountPage() {
   }
 
   // 2. IF CUSTOMER IS LOGGED IN -> SHOW CUSTOMER ACCOUNT PORTAL
-  // Update state type for activeTab
-  const [currentTab, setCurrentTab] = useState<"dashboard" | "orders" | "addresses" | "account-details">("dashboard");
-
   const tabList = [
     { id: "dashboard", label: "Dashboard", icon: <User className="w-4 h-4" /> },
     { id: "orders", label: "Orders", icon: <Package className="w-4 h-4" /> },
