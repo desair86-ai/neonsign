@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import { Truck, Palette, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -7,22 +8,56 @@ export function InfoSections() {
   return (
     <>
       {/* Mojo Mix Promo */}
-      <section className="relative py-24 my-20 overflow-hidden">
-        {/* Animated Top Border removed */}
-        
-        {/* Animated Bottom Border removed */}
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
-          <div className="inline-block bg-blue-500/20 text-blue-300 px-4 py-1.5 rounded-full text-sm font-bold tracking-wider mb-6">
-            NEW TECHNOLOGY
-          </div>
-          <h2 className="text-5xl md:text-7xl font-black mb-6">
-            Meet <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-green">Mojo Mix</span>
-          </h2>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed">
-            Unlimited color changing options, 200+ flow modes, music sync, and app control. It&apos;s not just a sign, it&apos;s an experience.
-          </p>
-          <ButtonParticles label="Explore Mojo Mix Collection" className="w-fit" />
+      <section className="relative py-16 overflow-hidden">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+          
+          {/* Left Text Column */}
+          <motion.div 
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="w-full md:w-1/2 flex flex-col items-start text-left"
+          >
+            <div className="inline-block bg-blue-500/20 text-blue-300 px-4 py-1.5 rounded-full text-sm font-bold tracking-wider mb-4">
+              NEW TECHNOLOGY
+            </div>
+            
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img 
+              src="/main logo.png" 
+              alt="Neon Stack Logo" 
+              className="h-20 md:h-24 mb-6 object-contain drop-shadow-[0_0_15px_rgba(110,255,134,0.2)]" 
+            />
+            
+            <h2 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
+              Meet <br className="hidden md:block" /><span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-green drop-shadow-lg">Mojo Mix</span>
+            </h2>
+            <p className="text-xl md:text-2xl text-gray-300 max-w-xl mb-10 leading-relaxed">
+              Unlimited color changing options, 200+ flow modes, music sync, and app control. It&apos;s not just a sign, it&apos;s an experience.
+            </p>
+            <ButtonParticles label="Explore Mojo Mix Collection" className="w-fit" />
+          </motion.div>
+
+          {/* Right Mascot Column */}
+          <motion.div 
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="w-full md:w-1/2 flex justify-center items-center relative"
+          >
+            {/* Glow behind the mascot */}
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/20 via-transparent to-brand-green/20 opacity-60 blur-[100px] z-0 rounded-full" />
+            
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img 
+              src="/Mascot.png" 
+              alt="Neon Stack Mascot" 
+              className="relative z-10 w-auto h-auto max-w-[85%] max-h-[500px] object-contain drop-shadow-[0_0_30px_rgba(110,255,134,0.4)]"
+            />
+          </motion.div>
+          
         </div>
       </section>
 

@@ -132,17 +132,10 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
                   
                   {/* Content */}
                   <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end z-10">
-                    
-                    {/* Text block that hides on hover */}
-                    <div className="transition-opacity duration-300 group-hover:opacity-0 mb-4">
-                      <h3 className="text-2xl md:text-3xl font-black mb-2 text-white drop-shadow-md">{cat.title}</h3>
-                      <p className="text-sm line-clamp-2 text-zinc-300 drop-shadow-md">{cat.description}</p>
-                    </div>
-                    
                     {/* CTA Link (Always Visible) */}
                     <div className="mt-auto pt-2">
-                      <div className={`inline-flex items-center ${cat.textClass} font-bold uppercase tracking-wider text-sm transition-transform duration-300 group-hover:translate-x-2`}>
-                        {cat.linkText} <ArrowRight className="ml-2 w-5 h-5" />
+                      <div className={`inline-flex items-center ${cat.textClass} font-bold uppercase tracking-wider text-lg md:text-xl transition-transform duration-300 group-hover:translate-x-2`}>
+                        {cat.title} <ArrowRight className="ml-2 w-6 h-6" />
                       </div>
                     </div>
                   </div>

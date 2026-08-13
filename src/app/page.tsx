@@ -5,6 +5,7 @@ import { ValueBar } from "@/components/clone/ValueBar";
 import { ProductExplorerGrid } from "@/components/clone/ProductExplorerGrid";
 import { ProductCarousel } from "@/components/clone/ProductCarousel";
 import { Stories } from "@/components/clone/Stories";
+import { Features } from "@/components/clone/Features";
 import { InfoSections } from "@/components/clone/InfoSections";
 import { FAQ } from "@/components/clone/FAQ";
 import { Footer } from "@/components/clone/Footer";
@@ -85,41 +86,6 @@ export default function Home() {
     }
   ];
 
-  const trendingProducts = [
-    {
-      id: "t1",
-      name: "Coffee Love",
-      regularPrice: "Rs. 3,500.00",
-      salePrice: "Rs. 2,450.00",
-      discountBadge: "Save 30%",
-      image: "/product-5.jpeg"
-    },
-    {
-      id: "t2",
-      name: "Open Sign",
-      regularPrice: "Rs. 4,000.00",
-      salePrice: "Rs. 2,800.00",
-      discountBadge: "Save 30%",
-      image: "/product-6.jpeg"
-    },
-    {
-      id: "t3",
-      name: "Pizza & Burger",
-      regularPrice: "Rs. 6,000.00",
-      salePrice: "Rs. 4,200.00",
-      discountBadge: "Save 30%",
-      image: "https://images.unsplash.com/photo-1549419141-9457a44f0ceb?q=80&w=600&auto=format&fit=crop"
-    },
-    {
-      id: "t4",
-      name: "Live Music",
-      regularPrice: "Rs. 5,500.00",
-      salePrice: "Rs. 3,850.00",
-      discountBadge: "Save 30%",
-      image: "https://images.unsplash.com/photo-1577401239170-897942555fb3?q=80&w=600&auto=format&fit=crop"
-    }
-  ];
-
   return (
     <main>
       <Header />
@@ -128,7 +94,7 @@ export default function Home() {
       <ProductExplorerGrid />
       <ProductCarousel title="Curated Favourites" products={mostLovedProducts} />
       <Stories />
-      <ProductCarousel title="Trending" products={trendingProducts} />
+      <Features />
       <InfoSections />
       <FAQ />
       <Footer />

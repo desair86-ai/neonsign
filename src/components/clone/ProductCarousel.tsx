@@ -19,8 +19,8 @@ export function ProductCarousel({ title, products, theme = "dark" }: ProductCaro
 
   return (
     <section className="py-16 max-w-[1600px] mx-auto px-4">
-      <div className="flex items-center justify-between mb-10 gap-6">
-        <h2 className={`text-3xl md:text-5xl font-black whitespace-nowrap`}>
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 md:mb-10 gap-4 md:gap-6">
+        <h2 className={`text-3xl sm:text-4xl md:text-5xl font-black leading-tight tracking-tight`}>
           <span className={theme === 'light' ? 'text-black' : 'text-white'}>{title.split(' ')[0]}</span>
           {title.split(' ').length > 1 && (
             <>
@@ -31,12 +31,12 @@ export function ProductCarousel({ title, products, theme = "dark" }: ProductCaro
             </>
           )}
         </h2>
-        <div className="flex gap-2 hidden md:flex">
-          <button onClick={scrollPrev} className={`p-3 rounded-full border transition-all duration-300 ${theme === 'light' ? 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-black' : 'bg-brand-purple/10 border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)]'}`}>
-            <ChevronLeft className="w-6 h-6" />
+        <div className="flex gap-2 self-start md:self-auto">
+          <button onClick={scrollPrev} className={`p-2.5 md:p-3 rounded-full border transition-all duration-300 ${theme === 'light' ? 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-black' : 'bg-brand-purple/10 border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] hover:bg-brand-purple/20'}`}>
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
           </button>
-          <button onClick={scrollNext} className={`p-3 rounded-full border transition-all duration-300 ${theme === 'light' ? 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-black' : 'bg-brand-green/10 border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)]'}`}>
-            <ChevronRight className="w-6 h-6" />
+          <button onClick={scrollNext} className={`p-2.5 md:p-3 rounded-full border transition-all duration-300 ${theme === 'light' ? 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-black' : 'bg-brand-green/10 border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)] hover:bg-brand-green/20'}`}>
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </div>
       </div>
@@ -44,7 +44,7 @@ export function ProductCarousel({ title, products, theme = "dark" }: ProductCaro
       <div className="overflow-hidden -mx-6 px-6 -my-8 py-8" ref={emblaRef}>
         <div className="flex gap-6 items-stretch">
           {products.map((product, index) => (
-            <div key={product.id} className="flex-[0_0_85%] sm:flex-[0_0_45%] md:flex-[0_0_32%] lg:flex-[0_0_23%] min-w-0">
+            <div key={product.id} className="flex-[0_0_65%] sm:flex-[0_0_45%] md:flex-[0_0_32%] lg:flex-[0_0_23%] min-w-0">
               <ProductCard product={product} index={index} theme={theme} />
             </div>
           ))}

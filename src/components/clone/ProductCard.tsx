@@ -53,7 +53,7 @@ export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardP
         }`}
       >
           {/* Top Product Image Area */}
-          <div className={`relative aspect-square w-full overflow-hidden ${theme === 'light' ? 'bg-zinc-100' : 'bg-zinc-900'}`}>
+          <div className={`relative aspect-[4/3] sm:aspect-square w-full overflow-hidden ${theme === 'light' ? 'bg-zinc-100' : 'bg-zinc-900'}`}>
             {product.discountBadge && (
               <span className="absolute top-4 left-4 z-20 px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-[0_0_15px_rgba(110,255,134,0.8)] bg-gradient-to-r from-[#6eff86] via-[#752eff] to-[#bca9ff] bg-[length:200%_200%] animate-neon-gradient text-black">
                 {product.discountBadge}
@@ -70,9 +70,9 @@ export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardP
           </div>
 
           {/* Card Content & Pricing Details */}
-          <div className="p-5 flex flex-col justify-between flex-1 gap-4 relative z-10">
+          <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 gap-3 sm:gap-4 relative z-10">
             <div>
-              <h3 className={`font-black text-lg md:text-xl mb-2 line-clamp-1 transition-colors text-white`}>
+              <h3 className={`font-black text-base sm:text-lg md:text-xl mb-1 sm:mb-2 line-clamp-1 transition-colors text-white`}>
                 {product.name}
               </h3>
 

@@ -35,11 +35,11 @@ export function Footer() {
               India&apos;s No.1 Neon Lights brand. Handcrafted, premium quality LED neon signs for your home, business or events.
             </p>
             <div className="flex items-center gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-brand-purple hover:shadow-[0_0_15px_rgba(117,46,255,0.5)] transition-colors"><FaInstagram /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-blue-600 transition-colors"><FaFacebook /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-blue-400 transition-colors"><FaTwitter /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-red-600 transition-colors"><FaPinterest /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-white hover:bg-blue-700 transition-colors"><FaLinkedin /></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-[#E1306C] hover:text-white hover:bg-brand-purple hover:shadow-[0_0_15px_rgba(117,46,255,0.5)] transition-colors"><FaInstagram size={20} /></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-[#1877F2] hover:text-white hover:bg-blue-600 hover:shadow-[0_0_15px_rgba(24,119,242,0.5)] transition-colors"><FaFacebook size={20} /></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-[#1DA1F2] hover:text-white hover:bg-[#1DA1F2] hover:shadow-[0_0_15px_rgba(29,161,242,0.5)] transition-colors"><FaTwitter size={20} /></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-[#E60023] hover:text-white hover:bg-[#E60023] hover:shadow-[0_0_15px_rgba(230,0,35,0.5)] transition-colors"><FaPinterest size={20} /></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-[#0A66C2] hover:text-white hover:bg-[#0A66C2] hover:shadow-[0_0_15px_rgba(10,102,194,0.5)] transition-colors"><FaLinkedin size={20} /></a>
             </div>
           </div>
 
@@ -75,9 +75,9 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-lg mb-6 uppercase tracking-wider">Join The Club</h4>
             <p className="text-gray-400 mb-4">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <input type="email" placeholder="Enter your email" className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 h-12 flex-1 min-w-0 focus:outline-none focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/50" />
-              <ButtonParticles label="Join" className="h-12 px-6 w-full sm:w-auto flex-shrink-0" />
+            <div className="flex flex-col sm:flex-row gap-2">
+              <input type="email" placeholder="Enter Your Email ID" className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 h-12 flex-1 min-w-0 text-sm focus:outline-none focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/50" />
+              <ButtonParticles label="Join" className="h-12 px-5 w-full sm:w-auto flex-shrink-0 text-sm" />
             </div>
           </div>
         </div>

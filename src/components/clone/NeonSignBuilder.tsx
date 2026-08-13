@@ -6,7 +6,7 @@ import { Footer } from "@/components/clone/Footer";
 import { 
   Check, Ruler, Info, X, AlignLeft, AlignCenter, AlignRight, Upload,
   Type, Palette, Layers, Settings, Image as ImageIcon, ChevronLeft, ChevronRight, ChevronDown,
-  ShoppingBag, Bookmark, Sparkles, Sliders, Moon, Sun, Sunset, Heart, Star, Zap, Crown, Trash2, Plus, Minus
+  ShoppingBag, Bookmark, Sparkles, Sliders, Moon, Sun, Sunset, Heart, Star, Zap, Lightbulb, Crown, Trash2, Plus, Minus
 } from 'lucide-react';
 import { motion } from "framer-motion";
 import { useMascot } from "@/hooks/useMascot";
@@ -197,12 +197,13 @@ const BACKGROUNDS: Background[] = [
   { id: 'bg-gym', name: 'Home Gym', url: '/home-gym.png' },
 ];
 
-const DEFAULT_ROOM_BACKGROUND = BACKGROUNDS[0];
+const DEFAULT_ROOM_BACKGROUND = BACKGROUNDS.find(bg => bg.id === 'bg-cafe') || BACKGROUNDS[0];
 
 export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) {
   const [text, setText] = useState('The Neon Stack');
   const [isLightOn, setIsLightOn] = useState(true);
   const [showMeasurements, setShowMeasurements] = useState(false);
+  const [isBgPopoverOpen, setIsBgPopoverOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'create' | 'size' | 'shapes' | 'color' | 'backboard' | 'hardware' | 'room'>('create');
   const [showRuler, setShowRuler] = useState(true);
   const [selectedBackboardShape, setSelectedBackboardShape] = useState<'cut' | 'square' | 'stand' | 'none'>('cut');
@@ -282,7 +283,21 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
 
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  const boundsRef = useRef<HTMLDivElement>(null);
+  const [textDims, setTextDims] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    if (!textRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        setTextDims({
+          width: entry.contentRect.width,
+          height: entry.contentRect.height
+        });
+      }
+    });
+    observer.observe(textRef.current);
+    return () => observer.disconnect();
+  }, []);
   const [dynamicScale, setDynamicScale] = useState<number | null>(null);
 
   const handleColorSelect = (c: typeof COLORS[number]) => {
@@ -315,8 +330,9 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
     let total = getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).price;
     if (isWaterproof) total += 3000;
     if (hasSmartController) total += 2000;
+    if (selectedBackboardShape === 'none') total += 1000;
     return Math.round(total);
-  }, [selectedSize, selectedColor, text, isWaterproof, hasSmartController]);
+  }, [selectedSize, selectedColor, text, isWaterproof, hasSmartController, selectedBackboardShape]);
 
   const roomFocalPoint = 'center center';
 
@@ -485,8 +501,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
       <div className="w-full flex flex-col lg:flex-row min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] lg:max-h-[860px] lg:overflow-hidden bg-[#f5f5f5] border-b border-gray-800">
         
         {/* 1. Left Navigation Sidebar (Thin & Dark) */}
-        <div className="w-full lg:w-24 bg-black border-b lg:border-b-0 lg:border-r border-white/40 flex lg:flex-col items-center py-2 lg:py-2 z-30 flex-shrink-0">
-          <div className="flex lg:flex-col w-full h-full gap-2 lg:gap-2 overflow-x-auto lg:overflow-x-visible scrollbar-none px-2 lg:px-0 lg:pl-2">
+        <div className="order-1 lg:order-1 w-full lg:w-24 bg-black border-b lg:border-b-0 lg:border-r border-white/10 flex lg:flex-col items-center py-2 lg:py-4 z-30 flex-shrink-0">
+          <div className="flex lg:flex-col w-full h-full gap-2 lg:gap-4 overflow-x-auto lg:overflow-x-visible scrollbar-none px-2 lg:px-0 lg:pl-2">
             <div className="flex lg:flex-col w-full gap-2 lg:gap-2 flex-grow">
             {[
               { id: 'create', label: 'CREATE', icon: <Type className="w-6 h-6 mb-1" /> },
@@ -495,7 +511,6 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
               ...(!isMojoMix ? [{ id: 'color', label: 'COLOR', icon: <Palette className="w-6 h-6 mb-1" /> }] : []),
               { id: 'backboard', label: 'BACKBOARD', icon: <Layers className="w-6 h-6 mb-1" /> },
               { id: 'hardware', label: 'HARDWARE', icon: <Settings className="w-6 h-6 mb-1" /> },
-              { id: 'room', label: 'ROOM', icon: <ImageIcon className="w-6 h-6 mb-1" /> },
             ].map((item, index, array) => {
               const isActive = activeTab === item.id;
               return (
@@ -540,7 +555,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                   });
                   triggerMascot(`Added "${text}" neon sign to cart! Total: ₹${price.toLocaleString()}`, MascotState.CELEBRATING);
                 }}
-                className="flex flex-col items-center justify-center py-3 transition-all duration-300 min-w-[75px] lg:min-w-0 w-full lg:w-[calc(100%-8px)] bg-brand-green/10 border border-brand-green/30 text-brand-green rounded-lg hover:border-brand-green hover:shadow-[0_0_20px_rgba(110,255,134,0.5)] group"
+                className="hidden lg:flex flex-col items-center justify-center py-3 transition-all duration-300 min-w-[75px] lg:min-w-0 w-full lg:w-[calc(100%-8px)] bg-brand-green/10 border border-brand-green/30 text-brand-green rounded-lg hover:border-brand-green hover:shadow-[0_0_20px_rgba(110,255,134,0.5)] group"
               >
                 <ShoppingBag className="w-6 h-6 mb-1 group-hover:scale-110 transition-transform" />
                 <span className="text-[10px] font-black tracking-widest text-center leading-tight">ADD TO<br/>CART</span>
@@ -550,8 +565,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
         </div>
 
         {/* 2. Middle Options Panel (White) */}
-        <div className="w-full lg:w-[400px] bg-white border-r border-gray-200 p-5 md:p-6 overflow-y-auto z-20 flex flex-col flex-shrink-0 relative shadow-xl">
-          <div className="space-y-8 flex-grow text-gray-900">
+        <div className="order-3 lg:order-2 w-full lg:w-[420px] bg-white border-r border-gray-200 p-6 md:p-8 overflow-y-auto z-20 flex flex-col flex-shrink-0 relative shadow-lg">
+          <div className="space-y-10 flex-grow text-gray-900">
             
             {/* TAB 1: CREATE (Text, Font, Size) */}
             {activeTab === 'create' && (
@@ -908,7 +923,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                     {[
                       { id: 'cut', name: 'Cut to Shape', desc: 'Acrylic closely follows the letter contours (Most Popular)' },
                       { id: 'square', name: 'Whole Board / Square', desc: 'Full rectangular or square clear acrylic backing' },
-                      { id: 'none', name: 'No Backing / Minimal', desc: 'Minimalist backing for ultra-clean look' },
+                      { id: 'none', name: 'No Backing / Minimal', desc: 'Minimalist backing for ultra-clean look', price: '+₹1,000' },
                     ].map((shape) => {
                       const isSelected = selectedBackboardShape === shape.id;
                       return (
@@ -925,7 +940,14 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                           }`}
                         >
                           <div className="flex items-center justify-between font-bold text-sm">
-                            <span>{shape.name}</span>
+                            <div className="flex items-center gap-2">
+                              <span>{shape.name}</span>
+                              {shape.price && (
+                                <span className="text-[11px] font-bold text-brand-purple bg-brand-purple/10 px-2 py-0.5 rounded-full">
+                                  {shape.price}
+                                </span>
+                              )}
+                            </div>
                             {isSelected && <Check className="w-4 h-4 text-brand-purple" />}
                           </div>
                           <p className="text-xs text-gray-500 mt-1">{shape.desc}</p>
@@ -1077,84 +1099,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
               </div>
             )}
 
-            {/* TAB 5: ROOM */}
-            {activeTab === 'room' && (
-              <div className="flex flex-col gap-8">
-                
-                {/* 1. Upload Option (Moved to Top) */}
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="text-xs font-bold text-brand-purple uppercase tracking-wider">
-                      Preview On Your Own Wall
-                    </label>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-purple/10 text-brand-purple border border-brand-purple/20">
-                      ✨ Recommended
-                    </span>
-                  </div>
-                  <label className="w-full bg-white border-2 border-dashed border-brand-purple/40 hover:border-brand-purple rounded-xl p-5 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all duration-300 group shadow-sm relative overflow-hidden">
-                    <Upload className="w-6 h-6 text-brand-purple group-hover:scale-110 transition-transform" />
-                    <span className="text-sm font-extrabold text-gray-900 text-center">
-                      See Your Neon Sign On Your Own Wall
-                    </span>
-                    <span className="text-[10px] text-gray-500 font-medium">
-                      Upload photo of your room or wall (JPG, PNG)
-                    </span>
-                    <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
-                  </label>
-                </div>
 
-                {selectedBg.id === 'custom' && (
-                  <div className="bg-purple-50/50 border border-brand-purple/20 rounded-xl p-4 flex flex-col gap-2 -mt-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-brand-purple uppercase">Room Scale Calibration</span>
-                      <button
-                        onClick={() => {
-                          setIsCalibrating(true);
-                          triggerMascot("Drag the red line over a known object in your photo to calibrate dimensions!", MascotState.TALKING);
-                        }}
-                        className="text-xs font-bold text-brand-purple hover:underline"
-                      >
-                        {calibrationRatio ? 'Recalibrate' : 'Start Calibration'}
-                      </button>
-                    </div>
-                    <p className="text-[11px] text-gray-600">
-                      {calibrationRatio ? 'Room scale calibrated! Your sign is shown at realistic physical dimensions.' : 'Calibrate your room photo to preview your sign at 100% accurate physical scale.'}
-                    </p>
-                  </div>
-                )}
-
-                {/* 2. Predefined Backgrounds */}
-                <div>
-                  <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">
-                    Or Select A Room Background
-                  </label>
-                  <div className="grid grid-cols-2 gap-3 mb-4">
-                    {backgroundsList.map((bg) => (
-                      <button
-                        key={bg.id}
-                        onClick={() => {
-                          setSelectedBg(bg);
-                          setIsCalibrating(false);
-                          triggerMascot(`Changed room to ${bg.name}!`, MascotState.WAVE);
-                        }}
-                        className={`p-2 rounded-xl transition-all flex flex-col gap-2 border-2 ${
-                          selectedBg.id === bg.id
-                            ? 'bg-purple-50/50 border-brand-purple text-brand-purple shadow-sm'
-                            : 'bg-white border-gray-200 hover:border-gray-300 text-gray-800'
-                        }`}
-                      >
-                        <div
-                          className="w-full h-20 rounded-lg bg-cover bg-center border border-gray-200"
-                          style={{ backgroundImage: `url('${bg.url}')` }}
-                        />
-                        <span className="text-xs font-bold text-center truncate w-full">{bg.name}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-              </div>
-            )}
 
           </div>
 
@@ -1185,9 +1130,9 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
 
               <button
                 onClick={nextTab}
-                disabled={activeTab === 'room'}
+                disabled={activeTab === 'hardware'}
                 className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-all ${
-                  activeTab === 'room'
+                  activeTab === 'hardware'
                     ? 'opacity-50 bg-gray-100 text-gray-400 cursor-not-allowed'
                     : 'bg-brand-purple text-white hover:bg-brand-purple/90 shadow-md'
                 }`}
@@ -1201,7 +1146,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
         </div>
 
         {/* 3. Center/Right Workshop Preview Canvas */}
-        <div className="flex-1 relative overflow-hidden bg-[#090909] h-[560px] lg:h-full lg:min-h-0 flex items-start justify-center p-4 lg:p-6 lg:pt-4">
+        <div className="order-2 lg:order-3 flex-none lg:flex-1 w-full lg:w-auto relative overflow-hidden bg-[#090909] h-[350px] md:h-[500px] lg:h-full lg:min-h-0 flex items-start justify-center p-4 lg:p-6 lg:pt-4">
           
           {/* Measurement Workshop Grid Pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#141414_1px,transparent_1px),linear-gradient(to_bottom,#141414_1px,transparent_1px)] bg-[size:24px_24px] opacity-90 pointer-events-none min-h-full" />
@@ -1210,7 +1155,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
           <div className="relative flex flex-col items-center justify-start gap-4 w-full max-w-[900px] h-full z-20">
             
             {/* Top Toolbar Strip */}
-            <div className="w-full bg-black/85 backdrop-blur-md border border-white/15 px-3.5 py-2 rounded-2xl shadow-xl flex flex-wrap items-center justify-between gap-2 shrink-0">
+            <div className="hidden lg:flex w-full bg-black/85 backdrop-blur-md border border-white/15 px-3.5 py-2 rounded-2xl shadow-xl flex-wrap items-center justify-between gap-2 shrink-0">
               {/* Left: Lighting Moods */}
               <div className="flex items-center gap-1">
                 {[
@@ -1252,7 +1197,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
 
             {/* Centered Studio Room Photo Box */}
             <div className="relative flex-1 min-h-0 w-full flex justify-center items-center">
-              <div className="relative h-full aspect-square max-w-full bg-[#101010] rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.95)] flex items-center justify-center">
+              <div className="relative h-full aspect-square max-w-full bg-transparent overflow-hidden flex items-center justify-center">
             
             {/* Room background photo with dynamic lighting mood (Addressing Point #9) */}
             <img
@@ -1284,29 +1229,57 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
               </>
             )}
 
-            {/* Top-Left: Realistic ON/OFF Switch */}
-            <div className="absolute top-4 left-4 z-30 flex items-center gap-2">
-              <button
-                onClick={() => setIsLightOn(!isLightOn)}
-                className={`w-[76px] h-[34px] rounded-full transition-all duration-300 relative flex items-center shadow-lg focus:outline-none border-2 ${
-                  isLightOn
-                    ? 'bg-brand-purple border-brand-purple shadow-[0_0_15px_rgba(117,46,255,0.7)]'
-                    : 'bg-[#2a2a2a] border-white/20'
-                }`}
-                aria-label="Toggle neon light on or off"
-              >
-                <span className={`absolute font-black text-[11px] tracking-wide text-white transition-opacity duration-300 ${isLightOn ? 'left-3 opacity-100' : 'left-3 opacity-0'}`}>
-                  ON
-                </span>
-                <span className={`absolute font-black text-[11px] tracking-wide text-white transition-opacity duration-300 ${!isLightOn ? 'right-2.5 opacity-100' : 'right-2.5 opacity-0'}`}>
-                  OFF
-                </span>
-                <div
-                  className={`w-[24px] h-[24px] bg-white rounded-full absolute transition-transform duration-300 ease-in-out shadow-md ${
-                    isLightOn ? 'translate-x-[46px]' : 'translate-x-[4px]'
+            {/* Bottom-Center: Floating Controls Toolbar */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center">
+              {isBgPopoverOpen && (
+                <div className="mb-4 p-3 bg-[#2a2a2a]/95 backdrop-blur-md rounded-xl border border-white/10 shadow-2xl flex gap-3 max-w-[300px] sm:max-w-[400px] overflow-x-auto items-center no-scrollbar">
+                  {/* Upload Custom Wall Option */}
+                  <label className="relative w-16 h-16 rounded-lg flex-shrink-0 border-2 border-dashed border-white/30 hover:border-brand-purple flex flex-col items-center justify-center gap-1 cursor-pointer transition-all bg-white/5" title="Preview on your own wall">
+                    <Upload className="w-5 h-5 text-brand-purple" />
+                    <span className="text-[8px] font-bold text-white text-center leading-tight px-1">Your Wall</span>
+                    <input type="file" accept="image/*" onChange={(e) => { handleFileUpload(e); setIsBgPopoverOpen(false); }} className="hidden" />
+                  </label>
+                  
+                  <div className="w-[1px] h-10 bg-white/10 shrink-0 mx-1" />
+
+                  {backgroundsList.map((bg) => (
+                    <button
+                      key={bg.id}
+                      onClick={() => {
+                        setSelectedBg(bg);
+                        setIsBgPopoverOpen(false);
+                      }}
+                      className={`relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${
+                        selectedBg.id === bg.id ? 'border-brand-purple' : 'border-transparent hover:border-white/30'
+                      }`}
+                      title={bg.name}
+                    >
+                      <img src={bg.url} alt={bg.name} className="absolute inset-0 w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
+              
+              <div className="flex items-center gap-2 bg-[#2a2a2a]/90 backdrop-blur-md border border-white/10 rounded-2xl p-2 shadow-2xl">
+                <button
+                  onClick={() => setIsLightOn(!isLightOn)}
+                  className={`hidden lg:flex w-12 h-12 rounded-xl items-center justify-center transition-all ${
+                    isLightOn ? 'bg-brand-purple text-white shadow-[0_0_15px_rgba(117,46,255,0.5)]' : 'bg-transparent text-white/50 hover:bg-white/10 hover:text-white'
                   }`}
-                />
-              </button>
+                  aria-label="Toggle neon light on or off"
+                >
+                  <Lightbulb className={`w-5 h-5 ${isLightOn ? 'fill-white' : ''}`} />
+                </button>
+                <button
+                  onClick={() => setIsBgPopoverOpen(!isBgPopoverOpen)}
+                  className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
+                    isBgPopoverOpen ? 'bg-white/20 text-white' : 'bg-transparent text-white/50 hover:bg-white/10 hover:text-white'
+                  }`}
+                  aria-label="Choose Background"
+                >
+                  <ImageIcon className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Calibration Overlay */}
@@ -1416,9 +1389,6 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                     transformOrigin: 'center center',
                   }}
                 >
-
-                  {/* Invisible Boundary for Shape Dragging (strict 3-inch margin around text) */}
-                  <div ref={boundsRef} className="absolute -inset-[200px] pointer-events-none" />
                   
                   {/* Realistic LED Neon Text with White Tube Core & Multi-layer Bloom */}
                   <style>{`
@@ -1497,22 +1467,39 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                       if (shape.type === 'moon') Icon = Moon;
                       
                       const shapeColor = shape.color || selectedColor;
+                      
+                      // Calculate pixel constraints for 3 inches based on physical mapping
+                      const physicalDims = getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length);
+                      const wInches = parseFloat(physicalDims.length) || 1;
+                      const pixelsPerInch = textDims.width ? textDims.width / wInches : 10; // fallback 10px/inch
+                      
+                      const dragLimitPx = 15 * pixelsPerInch; // Allow massive drag area (15 inches) so it never feels stuck on mobile
+                      const leftExtraStretch = 10 * pixelsPerInch; // Extra stretch for the left side
+
+                      // Origin is now at left: 50%, top: 100%
+                      const limitLeft = (textDims.width / 2) + dragLimitPx + leftExtraStretch;
+                      const limitRight = (textDims.width / 2) + dragLimitPx;
+                      const limitTop = textDims.height + dragLimitPx; // distance to top edge + generous limit
+                      const limitBottom = dragLimitPx; // origin is at bottom edge
 
                       return (
-                        <motion.div
+                        <div 
                           key={shape.id}
-                          drag
-                          dragConstraints={boundsRef}
-                          dragMomentum={false}
-                          className="absolute z-20 cursor-grab active:cursor-grabbing group"
-                          style={{
-                            top: '110%',
-                            left: '50%',
-                            x: '-50%',
-                            y: '-50%',
-                          }}
+                          className="absolute z-20 pointer-events-none flex items-center justify-center"
+                          style={{ top: '100%', left: '50%', transform: 'translate(-50%, 20px)' }}
                         >
-                          <div className="relative p-4">
+                          <motion.div
+                            drag
+                            dragConstraints={{
+                              top: -limitTop,
+                              bottom: limitBottom,
+                              left: -limitLeft,
+                              right: limitRight,
+                            }}
+                            dragMomentum={false}
+                            className="cursor-grab active:cursor-grabbing group pointer-events-auto"
+                          >
+                            <div className="relative p-4">
                             <Icon 
                               className="w-[0.5em] h-[0.5em]"
                               style={{
@@ -1531,6 +1518,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
 
                           </div>
                         </motion.div>
+                        </div>
                       );
                     })}
 
@@ -1567,8 +1555,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                         <div className="flex-1 border-t border-dashed border-white opacity-60" style={{ borderWidth: `${Math.max(1, 1 / finalScale)}px` }} />
                       </div>
 
-                      <div className="absolute top-0 -left-6 bottom-0 flex flex-col items-center justify-center">
-                        <div className="flex-1 border-l border-dashed border-white opacity-60" style={{ borderWidth: `${Math.max(1, 1 / finalScale)}px` }} />
+                      <div className="absolute -top-8 -left-6 bottom-0 flex flex-col items-center justify-center">
+                        <div className="flex-[2] border-l border-dashed border-white opacity-60" style={{ borderWidth: `${Math.max(1, 1 / finalScale)}px` }} />
                         <span 
                           className="text-white text-sm md:text-base font-extrabold tracking-wide my-3 whitespace-nowrap block"
                           style={{ 
@@ -1586,13 +1574,34 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
               </motion.div>
             </div>
 
-            </div>
+            {/* Mobile Only: Top Left ON/OFF Toggle (Moved here for absolute visibility) */}
+            <button
+              onClick={() => setIsLightOn(!isLightOn)}
+              className={`lg:hidden absolute top-4 left-4 z-[60] w-[68px] h-8 rounded-full flex items-center p-1 transition-all shadow-lg border border-white/20 ${
+                isLightOn ? 'bg-[#8ec32d]' : 'bg-gray-600'
+              }`}
+              aria-label="Toggle neon light"
+            >
+              <div className={`bg-white w-6 h-6 rounded-full shadow-sm transform transition-transform duration-300 ${isLightOn ? 'translate-x-9' : 'translate-x-0'}`} />
+              <span className={`absolute font-black text-[10px] text-white tracking-widest ${isLightOn ? 'left-2.5' : 'right-2'}`}>{isLightOn ? 'ON' : 'OFF'}</span>
+            </button>
 
+            {/* Mobile Only: Top Right Ruler Toggle (Moved here for absolute visibility) */}
+            <button
+              onClick={() => setShowRuler(!showRuler)}
+              className={`lg:hidden absolute top-4 right-4 z-[60] w-10 h-10 rounded-full border-2 transition-all flex items-center justify-center shadow-lg ${
+                showRuler ? 'border-white bg-black/80' : 'border-white/50 bg-black/40 backdrop-blur-sm'
+              }`}
+            >
+              <Ruler className="w-5 h-5 text-white" />
+            </button>
+            
           </div>
         </div>
         </div>
       </div>
 
+      </div>
       {/* Help Modal */}
       {showHelpModal && (
         <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
@@ -1693,6 +1702,40 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
           </div>
         </section>
 
+      </div>
+
+      {/* Mobile Sticky Footer */}
+      <div className="lg:hidden sticky bottom-0 z-50 bg-white border-t border-gray-200 p-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] flex items-center justify-between">
+        <div>
+          <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-0.5">Your Discounted Price</div>
+          <div className="text-lg font-black text-[#a63086] flex items-center gap-2">
+            ₹{price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+            <span className="text-xs text-gray-400 font-normal underline decoration-dashed cursor-pointer">Detail</span>
+          </div>
+        </div>
+        <button
+          onClick={() => {
+            addToCart({
+              name: `Custom Neon Sign — "${text}"`,
+              price,
+              quantity: 1,
+              isCustom: true,
+              customDetails: {
+                text,
+                font: selectedFont.name,
+                color: selectedColor.name,
+                size: `${selectedSize.name} (${getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).length} × ${getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).height})`,
+                widthInches: parseFloat(getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length).length),
+                backboard: `${selectedBackboardShape} (${selectedBackboardColor})`,
+                usage: isWaterproof ? "Outdoor Waterproof IP67" : "Standard Indoor LED"
+              }
+            });
+            triggerMascot(`Added "${text}" neon sign to cart! Total: ₹${price.toLocaleString()}`, MascotState.CELEBRATING);
+          }}
+          className="bg-[#8ec32d] hover:bg-[#7db025] text-white px-5 py-2.5 rounded-full font-bold text-sm tracking-wider shadow-md transition-colors whitespace-nowrap"
+        >
+          ADD TO CART
+        </button>
       </div>
 
       <Footer />
