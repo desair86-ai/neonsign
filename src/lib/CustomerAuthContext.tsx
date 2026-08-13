@@ -25,7 +25,7 @@ interface CustomerAuthContextType {
     password?: string;
   }) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
-  updateProfile: (updatedData: Partial<CustomerUser>) => void;
+  updateProfile: (updatedData: Partial<CustomerUser>) => Promise<{ success: boolean; error?: string }>;
   resetPassword: (email: string) => Promise<{ success: boolean; message: string }>;
 }
 
@@ -61,33 +61,21 @@ export const CustomerAuthProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
   };
 
-  const login = async (email: string, _password?: string) => {
-    // Check if user exists in saved accounts or create a session
+  const login = async (email: string, password?: string) => {
     try {
-      const existingAccountsStr = localStorage.getItem("neon_registered_customers");
-      const existingAccounts: CustomerUser[] = existingAccountsStr
-        ? JSON.parse(existingAccountsStr)
-        : [];
+      const res = await fetch('/api/customer/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
 
-      const found = existingAccounts.find(
-        (acc) => acc.email.toLowerCase() === email.trim().toLowerCase()
-      );
+      const data = await res.json();
 
-      if (found) {
-        saveUserToStorage(found);
-        return { success: true };
+      if (!res.ok) {
+        return { success: false, error: data.error || 'Login failed. Please check your credentials.' };
       }
 
-      // If not in registry but logging in, create session from stored user or basic info
-      const fallbackUser: CustomerUser = {
-        id: `cust-${Date.now()}`,
-        fullName: email.split("@")[0] || "Valued Customer",
-        email: email.trim(),
-        phone: "",
-        createdAt: new Date().toLocaleDateString("en-IN"),
-      };
-
-      saveUserToStorage(fallbackUser);
+      saveUserToStorage(data.customer);
       return { success: true };
     } catch (e) {
       console.error("Login error", e);
@@ -102,34 +90,19 @@ export const CustomerAuthProvider: React.FC<{ children: React.ReactNode }> = ({ 
     password?: string;
   }) => {
     try {
-      const existingAccountsStr = localStorage.getItem("neon_registered_customers");
-      const existingAccounts: CustomerUser[] = existingAccountsStr
-        ? JSON.parse(existingAccountsStr)
-        : [];
+      const res = await fetch('/api/customer/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
 
-      const exists = existingAccounts.some(
-        (acc) => acc.email.toLowerCase() === data.email.trim().toLowerCase()
-      );
+      const resData = await res.json();
 
-      if (exists) {
-        return {
-          success: false,
-          error: "An account with this email address already exists. Please sign in.",
-        };
+      if (!res.ok) {
+        return { success: false, error: resData.error || 'Registration failed.' };
       }
 
-      const newUser: CustomerUser = {
-        id: `cust-${Date.now()}`,
-        fullName: data.fullName.trim(),
-        email: data.email.trim(),
-        phone: data.phone.trim(),
-        createdAt: new Date().toLocaleDateString("en-IN"),
-      };
-
-      const updatedAccounts = [...existingAccounts, newUser];
-      localStorage.setItem("neon_registered_customers", JSON.stringify(updatedAccounts));
-
-      saveUserToStorage(newUser);
+      saveUserToStorage(resData.customer);
       return { success: true };
     } catch (e) {
       console.error("Registration error", e);
@@ -141,31 +114,36 @@ export const CustomerAuthProvider: React.FC<{ children: React.ReactNode }> = ({ 
     saveUserToStorage(null);
   };
 
-  const updateProfile = (updatedData: Partial<CustomerUser>) => {
-    if (!user) return;
-    const nextUser = { ...user, ...updatedData };
-    saveUserToStorage(nextUser);
-
-    // Also update in registered list
+  const updateProfile = async (updatedData: Partial<CustomerUser>) => {
+    if (!user) return { success: false, error: 'Not logged in' };
+    
     try {
-      const existingAccountsStr = localStorage.getItem("neon_registered_customers");
-      if (existingAccountsStr) {
-        const existingAccounts: CustomerUser[] = JSON.parse(existingAccountsStr);
-        const updated = existingAccounts.map((acc) =>
-          acc.id === nextUser.id ? nextUser : acc
-        );
-        localStorage.setItem("neon_registered_customers", JSON.stringify(updated));
+      const res = await fetch('/api/customer/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: user.id, ...updatedData })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return { success: false, error: data.error || 'Failed to update profile' };
       }
+
+      saveUserToStorage(data.customer);
+      return { success: true };
     } catch (e) {
-      console.error("Failed to update profile in list", e);
+      console.error("Update profile error", e);
+      return { success: false, error: "An unexpected error occurred while updating." };
     }
   };
 
   const resetPassword = async (email: string) => {
-    // Simulate password reset token email
+    // Password resets in WooCommerce typically require triggering a reset email endpoint,
+    // For now, we return a simulated success message until we build the specific WP endpoint.
     return {
       success: true,
-      message: `A secure password reset link has been sent to ${email}. Please check your inbox and spam folder.`,
+      message: `If an account exists, a secure password reset link has been sent to ${email}. Please check your inbox and spam folder.`,
     };
   };
 

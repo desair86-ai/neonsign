@@ -171,9 +171,10 @@ export default function CustomerAccountPage() {
     }
   };
 
-  const handleProfileSave = (e: React.FormEvent) => {
+  const handleProfileSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    updateProfile({
+    setIsSubmitting(true);
+    const res = await updateProfile({
       fullName: profileForm.fullName,
       phone: profileForm.phone,
       address: profileForm.address,
@@ -181,7 +182,13 @@ export default function CustomerAccountPage() {
       state: profileForm.state,
       pincode: profileForm.pincode,
     });
-    setIsEditingProfile(false);
+    setIsSubmitting(false);
+    
+    if (res.success) {
+      setIsEditingProfile(false);
+    } else {
+      alert(res.error || "Failed to update profile.");
+    }
   };
 
   const clearOrderHistory = () => {

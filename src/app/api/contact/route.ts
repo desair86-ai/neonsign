@@ -12,7 +12,7 @@ export async function POST(req: Request) {
 
     const { data, error } = await resend.emails.send({
       from: 'Contact Form <onboarding@resend.dev>', // Replace with your verified domain in production
-      to: 'hello@neonsign.com', // Replace with the owner's email
+      to: 'desai.r.86@gmail.com', // Replace with the owner's email
       subject: `New Contact Form Submission from ${name}`,
       html: `
         <h2>New Message from Neon Sign Website</h2>
