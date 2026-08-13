@@ -39,11 +39,12 @@ export async function PUT(req: Request) {
     if (state) updatePayload.billing.state = state;
     if (pincode) updatePayload.billing.postcode = pincode;
 
-    const wcResponse = await fetch(`${wcStoreUrl}/wp-json/wc/v3/customers/${id}`, {
+    const wcUrl = `${wcStoreUrl}/wp-json/wc/v3/customers/${id}?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+
+    const wcResponse = await fetch(wcUrl, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': authHeader
       },
       body: JSON.stringify(updatePayload)
     });

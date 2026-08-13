@@ -19,13 +19,13 @@ export async function POST(req: Request) {
     const [firstName, ...lastNameParts] = fullName.split(' ');
     const lastName = lastNameParts.join(' ');
 
-    const authHeader = `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`;
+    // Pass credentials via query string instead of Auth header to bypass server header stripping
+    const wcUrl = `${wcStoreUrl}/wp-json/wc/v3/customers?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
 
-    const wcResponse = await fetch(`${wcStoreUrl}/wp-json/wc/v3/customers`, {
+    const wcResponse = await fetch(wcUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': authHeader
       },
       body: JSON.stringify({
         email,

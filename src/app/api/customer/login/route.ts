@@ -43,12 +43,9 @@ export async function POST(req: Request) {
     }
 
     // Now that we've verified the password, let's fetch the customer data via WooCommerce API
-    const authHeader = `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`;
-    const customerRes = await fetch(`${wcStoreUrl}/wp-json/wc/v3/customers?email=${encodeURIComponent(email)}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': authHeader
-      }
+    const wcUrl = `${wcStoreUrl}/wp-json/wc/v3/customers?email=${encodeURIComponent(email)}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`;
+    const customerRes = await fetch(wcUrl, {
+      method: 'GET'
     });
 
     const contentType = customerRes.headers.get("content-type");
