@@ -69,6 +69,12 @@ export const CustomerAuthProvider: React.FC<{ children: React.ReactNode }> = ({ 
         body: JSON.stringify({ email, password })
       });
 
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        console.error("Non-JSON response from server", await res.text());
+        return { success: false, error: 'Server returned an unexpected response. Please try again later.' };
+      }
+
       const data = await res.json();
 
       if (!res.ok) {
@@ -95,6 +101,12 @@ export const CustomerAuthProvider: React.FC<{ children: React.ReactNode }> = ({ 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
+
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        console.error("Non-JSON response from server", await res.text());
+        return { success: false, error: 'Server returned an unexpected response. Please check your environment variables.' };
+      }
 
       const resData = await res.json();
 
@@ -123,6 +135,12 @@ export const CustomerAuthProvider: React.FC<{ children: React.ReactNode }> = ({ 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: user.id, ...updatedData })
       });
+
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        console.error("Non-JSON response from server", await res.text());
+        return { success: false, error: 'Server returned an unexpected response. Please try again later.' };
+      }
 
       const data = await res.json();
 
