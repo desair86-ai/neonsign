@@ -35,13 +35,23 @@ export default function BusinessLogoPage() {
     e.preventDefault();
     setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      setFile(e.dataTransfer.files[0]);
+      const file = e.dataTransfer.files[0];
+      if (file.size > 4 * 1024 * 1024) {
+        alert("File size exceeds 4MB limit. Please upload a smaller image.");
+        return;
+      }
+      setFile(file);
     }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+      const file = e.target.files[0];
+      if (file.size > 4 * 1024 * 1024) {
+        alert("File size exceeds 4MB limit. Please upload a smaller image.");
+        return;
+      }
+      setFile(file);
     }
   };
 
