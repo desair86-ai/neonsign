@@ -41,6 +41,13 @@ export async function POST(req: Request) {
       })
     });
 
+    const contentType = wcResponse.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await wcResponse.text();
+      console.error("WooCommerce returned non-JSON:", text.substring(0, 200));
+      return NextResponse.json({ error: 'WooCommerce API returned an invalid response (HTML). Please check your WOOCOMMERCE_STORE_URL in Vercel.' }, { status: 502 });
+    }
+
     const wcData = await wcResponse.json();
 
     if (!wcResponse.ok) {
