@@ -12,7 +12,7 @@ import { Footer } from "@/components/clone/Footer";
 import { getProducts } from "@/lib/wordpress";
 
 export default async function Home() {
-  const wpProducts = await getProducts(undefined, 8); // fetch 8 products
+  const wpProducts = await getProducts("curated-favourites", 8); // fetch 8 products
 
   const mappedProducts = wpProducts.map((p: any) => ({
     id: p.id,

@@ -14,22 +14,25 @@ export default async function ShopNeonCollection({
   const resolvedParams = await searchParams;
   const categorySlug = resolvedParams.cat;
 
-  // Fetch from WP
-  const wpProducts = await getProducts(categorySlug, 20);
+  // Fetch from WP based on category
+  const wpProducts = categorySlug ? await getProducts(categorySlug, 20) : [];
+  
+  // If no category, fetch curated and generic trending products
+  const curatedWpProducts = !categorySlug ? await getProducts("curated-favourites", 8) : [];
+  const trendingWpProducts = !categorySlug ? await getProducts(undefined, 8) : []; // just get generic products for trending
 
-  // Map WP products to the format expected by ProductCarousel
-  const mappedProducts = wpProducts.map((p: any) => ({
+  const mapProduct = (p: any) => ({
     id: p.id,
     name: p.name,
     regularPrice: p.regularPrice || p.price || "Rs. 0",
     salePrice: p.salePrice || p.price || "Rs. 0",
     discountBadge: p.onSale ? "Sale" : undefined,
-    image: p.image?.sourceUrl || "/5580.webp" // fallback image
-  }));
+    image: p.image?.sourceUrl || "/5580.webp"
+  });
 
-  // For demonstration, let's just use the mapped products for both carousels for now.
-  // We can show all products in one carousel or split them.
-  const displayProducts = mappedProducts.length > 0 ? mappedProducts : [];
+  const displayProducts = wpProducts.map(mapProduct);
+  const curatedProducts = curatedWpProducts.map(mapProduct);
+  const trendingProducts = trendingWpProducts.map(mapProduct);
 
   return (
     <main>
@@ -45,16 +48,18 @@ export default async function ShopNeonCollection({
           <ProductCarousel title={`Products in ${categorySlug.replace(/-/g, ' ')}`} products={displayProducts} />
         )}
 
-        {!categorySlug && displayProducts.length > 0 && (
+        {!categorySlug && (
           <>
-            <ProductCarousel title="Curated Favourites" products={displayProducts.slice(0, 8)} />
-            {displayProducts.length > 8 && (
-              <ProductCarousel title="Trending" products={displayProducts.slice(8, 16)} />
+            {curatedProducts.length > 0 && (
+              <ProductCarousel title="Curated Favourites" products={curatedProducts} />
+            )}
+            {trendingProducts.length > 0 && (
+              <ProductCarousel title="Trending" products={trendingProducts} />
             )}
           </>
         )}
 
-        {displayProducts.length === 0 && (
+        {((categorySlug && displayProducts.length === 0) || (!categorySlug && curatedProducts.length === 0 && trendingProducts.length === 0)) && (
           <div className="py-20 text-center text-zinc-400">
             <h2 className="text-2xl font-bold mb-4">No products found</h2>
             <p>We couldn't find any products in this category.</p>
