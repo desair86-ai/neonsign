@@ -32,11 +32,11 @@ export async function fetchGraphQL(query: string, variables: any = {}) {
 }
 
 export async function getProducts(categorySlug?: string, first = 20) {
-  const categoryFilter = categorySlug ? `where: { categoryIn: ["${categorySlug}"] },` : '';
+  const categoryFilter = categorySlug ? `categoryIn: ["${categorySlug}"], ` : '';
   
   const query = `
     query GetProducts($first: Int!) {
-      products(first: $first, ${categoryFilter} where: { status: "publish" }) {
+      products(first: $first, where: { ${categoryFilter} status: "PUBLISH" }) {
         nodes {
           id
           databaseId
