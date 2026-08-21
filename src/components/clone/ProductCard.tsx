@@ -70,7 +70,7 @@ export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardP
         }`}
       >
           {/* Top Product Image Area */}
-          <Link href={productUrl} className={`relative aspect-[4/3] sm:aspect-square w-full overflow-hidden block ${theme === 'light' ? 'bg-zinc-100' : 'bg-zinc-900'}`}>
+          <Link href={productUrl} onPointerDown={(e) => e.stopPropagation()} className={`relative aspect-[4/3] sm:aspect-square w-full overflow-hidden block ${theme === 'light' ? 'bg-zinc-100' : 'bg-zinc-900'}`}>
             {product.discountBadge && (
               <span className="absolute top-4 left-4 z-20 px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-[0_0_15px_rgba(110,255,134,0.8)] bg-gradient-to-r from-[#6eff86] via-[#752eff] to-[#bca9ff] bg-[length:200%_200%] animate-neon-gradient text-black">
                 {product.discountBadge}
@@ -88,7 +88,7 @@ export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardP
 
           {/* Card Content & Pricing Details */}
           <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 gap-3 sm:gap-4 relative z-10">
-            <Link href={productUrl} className="block">
+            <Link href={productUrl} onPointerDown={(e) => e.stopPropagation()} className="block">
               <h3 className={`font-black text-base sm:text-lg md:text-xl mb-1 sm:mb-2 line-clamp-1 transition-colors text-white hover:text-[#6eff86]`}>
                 {product.name}
               </h3>
@@ -116,14 +116,19 @@ export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardP
                 <Sparkles className="w-3.5 h-3.5 text-[#6eff86]" />
                 Neon Sign
               </span>
-              <div className="flex items-center gap-3 ml-auto">
+              <div className="flex items-center gap-3 ml-auto relative z-50">
                 <button 
                   onClick={handleAddToCart}
-                  className="inline-flex items-center text-xs font-bold text-white bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full transition-all"
+                  onPointerDown={(e) => e.stopPropagation()}
+                  className="inline-flex items-center text-xs font-bold text-white bg-gradient-to-r from-[#752eff] to-[#bca9ff] hover:from-[#bca9ff] hover:to-[#752eff] px-3 py-1.5 rounded-full transition-all shadow-[0_0_10px_rgba(117,46,255,0.4)]"
                 >
                   Add to Cart
                 </button>
-                <Link href={productUrl} className="inline-flex items-center text-sm font-bold text-[#6eff86] drop-shadow-[0_0_6px_rgba(110,255,134,0.5)] hover:text-white transition-all">
+                <Link 
+                  href={productUrl} 
+                  onPointerDown={(e) => e.stopPropagation()}
+                  className="inline-flex items-center text-sm font-bold text-[#6eff86] drop-shadow-[0_0_6px_rgba(110,255,134,0.5)] hover:text-white transition-all"
+                >
                   Shop Now <ArrowRight className="ml-1.5 w-4 h-4 transition-transform" />
                 </Link>
               </div>

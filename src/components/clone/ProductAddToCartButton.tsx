@@ -22,27 +22,25 @@ export default function ProductAddToCartButton({ product }: { product: { name: s
   };
 
   return (
-    <ButtonParticles>
-      <button 
-        onClick={handleAdd}
-        className={`flex items-center justify-center gap-2 w-full py-4 rounded-xl font-bold text-lg transition-all ${
-          added 
-            ? 'bg-[#6eff86] text-black shadow-[0_0_20px_rgba(110,255,134,0.6)]'
-            : 'bg-white/10 hover:bg-white/20 text-white hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]'
-        }`}
-      >
-        {added ? (
-          <>
-            <Check className="w-6 h-6" />
-            Added to Cart
-          </>
-        ) : (
-          <>
-            <ShoppingBag className="w-6 h-6" />
-            Add to Cart
-          </>
-        )}
-      </button>
-    </ButtonParticles>
+    <button 
+      onClick={handleAdd}
+      className={`flex items-center justify-center gap-2 w-full py-4 rounded-xl font-bold text-lg transition-all shadow-md hover:shadow-lg ${
+        added 
+          ? 'bg-[#6eff86] text-black shadow-[0_0_20px_rgba(110,255,134,0.6)]'
+          : 'bg-gradient-to-r from-[#752eff] to-[#bca9ff] hover:from-[#bca9ff] hover:to-[#752eff] text-white'
+      }`}
+    >
+      {added ? (
+        <>
+          <Check className="w-6 h-6" />
+          Added to Cart
+        </>
+      ) : (
+        <>
+          <ShoppingBag className="w-6 h-6" />
+          Add to Cart
+        </>
+      )}
+    </button>
   );
 }
