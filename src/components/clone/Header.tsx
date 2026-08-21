@@ -105,7 +105,11 @@ export function Header() {
   ];
 
   return (
-    <div className="sticky top-0 z-[60] w-full bg-black text-white border-b border-brand-green shadow-[0_4px_20px_rgba(110,255,134,0.2)] font-poppins">
+    <>
+      {/* Placeholder for fixed header */}
+      <div className="h-20 w-full" />
+      
+      <div className="fixed top-0 left-0 z-[60] w-full bg-black text-white border-b border-brand-green shadow-[0_4px_20px_rgba(110,255,134,0.2)] font-poppins">
       {/* Main Header */}
       <header className="max-w-[1600px] mx-auto px-4 lg:px-10 h-20 flex items-center justify-between relative">
         
@@ -356,5 +360,6 @@ export function Header() {
         </div>
       )}
     </div>
+    </>
   );
 }

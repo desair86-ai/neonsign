@@ -13,6 +13,7 @@ export interface CoverflowSlide {
 }
 export interface CoverflowCarouselProps {
   slides: CoverflowSlide[];
+  renderCard?: (slide: CoverflowSlide, index: number, isSelected: boolean) => React.ReactNode;
   /** Degrees the first neighbour tilts. */ rotate?: number;
   /** How far the first neighbour recedes, as a fraction of card width. */ depth?: number;
   /** Viewer distance as a multiple of card width — smaller is a wider lens. */ perspective?: number;
@@ -30,6 +31,7 @@ export interface CoverflowCarouselProps {
 }
 export function CoverflowCarousel({
   slides,
+  renderCard,
   rotate = 44,
   depth = 0.6,
   perspective = 3,
@@ -244,52 +246,77 @@ export function CoverflowCarousel({
                 aria-roledescription="slide"
                 aria-label={`${index + 1} of ${count}`}
                 className={cn(
-                  "absolute left-1/2 top-0 flex flex-col overflow-hidden rounded-2xl bg-zinc-900 border will-change-transform transition-all duration-300",
-                  index === selected ? "border-[#ca6eff] shadow-[0_0_30px_rgba(202,110,255,0.4)]" : "border-zinc-800 shadow-xl",
+                  "absolute left-1/2 top-0 flex flex-col overflow-hidden rounded-2xl will-change-transform transition-colors transition-shadow duration-300",
+                  !renderCard && "bg-zinc-900 border",
+                  !renderCard && (index === selected ? "border-[#ca6eff] shadow-[0_0_30px_rgba(202,110,255,0.4)]" : "border-zinc-800 shadow-xl"),
                   cardClassName,
                 )}
                 style={{ width: "var(--cf-card)", height: "calc(var(--cf-card) * 1.4)" }}
               >
-                <div className="w-full h-[60%] relative">
-                  <img
-                    src={slide.src}
-                    alt={slide.alt}
-                    draggable={false}
-                    className="h-full w-full select-none object-cover"
-                  />
-                </div>
-                <div className="flex-1 flex flex-col items-center justify-center p-4 text-center">
-                  <p className="text-lg font-bold text-white mb-2">{slide.title}</p>
-                  <p className="text-sm text-zinc-400 leading-tight">{slide.subtitle}</p>
-                </div>
+                {renderCard ? renderCard(slide, index, index === selected) : (
+                  <>
+                    <div className="w-full h-[60%] relative">
+                      <img
+                        src={slide.src}
+                        alt={slide.alt}
+                        draggable={false}
+                        className="h-full w-full select-none object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 flex flex-col items-center justify-center p-4 text-center">
+                      <p className="text-lg font-bold text-white mb-2">{slide.title}</p>
+                      <p className="text-sm text-zinc-400 leading-tight">{slide.subtitle}</p>
+                    </div>
+                  </>
+                )}
               </div>
             ))}{" "}
           </div>{" "}
         </div>{" "}
         {showNavigation && (
           <>
-            {" "}
+            {/* Desktop Side Navigation */}
             <button
               type="button"
               aria-label="Previous slide"
               onClick={() => nudge(-1)}
-              className="absolute left-3 top-1/2 z-[200] -translate-y-1/2 rounded-full bg-background/70 p-2 text-foreground backdrop-blur transition hover:bg-background"
+              className="absolute left-4 md:left-8 top-1/2 z-[200] -translate-y-1/2 p-4 rounded-full bg-brand-purple/10 border border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] backdrop-blur-md transition-all duration-300 hover:bg-brand-purple/20 active:scale-95 hidden lg:flex"
             >
-              {" "}
-              <ChevronLeft className="size-5" />{" "}
-            </button>{" "}
+              <ChevronLeft className="w-6 h-6" />
+            </button>
             <button
               type="button"
               aria-label="Next slide"
               onClick={() => nudge(1)}
-              className="absolute right-3 top-1/2 z-[200] -translate-y-1/2 rounded-full bg-background/70 p-2 text-foreground backdrop-blur transition hover:bg-background"
+              className="absolute right-4 md:right-8 top-1/2 z-[200] -translate-y-1/2 p-4 rounded-full bg-brand-green/10 border border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)] backdrop-blur-md transition-all duration-300 hover:bg-brand-green/20 active:scale-95 hidden lg:flex"
             >
-              {" "}
-              <ChevronRight className="size-5" />{" "}
-            </button>{" "}
+              <ChevronRight className="w-6 h-6" />
+            </button>
           </>
-        )}{" "}
-      </div>{" "}
+        )}
+      </div>
+
+      {showNavigation && (
+        /* Mobile Bottom Navigation */
+        <div className="flex justify-center items-center gap-6 mt-8 lg:hidden">
+          <button
+            type="button"
+            aria-label="Previous slide"
+            onClick={() => nudge(-1)}
+            className="p-4 rounded-full bg-brand-purple/10 border border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] backdrop-blur-md transition-all duration-300 hover:bg-brand-purple/20 active:scale-95"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button
+            type="button"
+            aria-label="Next slide"
+            onClick={() => nudge(1)}
+            className="p-4 rounded-full bg-brand-green/10 border border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)] backdrop-blur-md transition-all duration-300 hover:bg-brand-green/20 active:scale-95"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        </div>
+      )}
       {showPagination && (
         <div className="mt-6 flex items-center justify-center gap-2">
           {" "}

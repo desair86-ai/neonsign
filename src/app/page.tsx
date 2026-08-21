@@ -4,6 +4,7 @@ import { SpliteInteractive } from "@/components/clone/Splite";
 import { ValueBar } from "@/components/clone/ValueBar";
 import { ProductExplorerGrid } from "@/components/clone/ProductExplorerGrid";
 import { ProductCarousel } from "@/components/clone/ProductCarousel";
+import { CuratedFavourites } from "@/components/clone/CuratedFavourites";
 import { Stories } from "@/components/clone/Stories";
 import { Features } from "@/components/clone/Features";
 import { InfoSections } from "@/components/clone/InfoSections";
@@ -92,7 +93,7 @@ export default function Home() {
       <SpliteInteractive />
       <ValueBar />
       <ProductExplorerGrid />
-      <ProductCarousel title="Curated Favourites" products={mostLovedProducts} />
+      <CuratedFavourites products={mostLovedProducts} />
       <Stories />
       <Features />
       <InfoSections />

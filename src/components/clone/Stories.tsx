@@ -69,7 +69,7 @@ export function Stories() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-6"
+            className="text-4xl md:text-6xl font-black capitalize tracking-tight mb-6"
           >
             <span className="text-white">Stories</span>{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
@@ -158,17 +158,27 @@ export function Stories() {
             </AnimatePresence>
           </div>
           
-          {/* Controls */}
-          <div className="absolute top-1/2 -translate-y-1/2 left-4 md:left-20 z-50">
-            <button onClick={handlePrev} className="p-4 rounded-full bg-brand-purple/10 border border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] backdrop-blur-md transition-all duration-300">
+          {/* Desktop Controls */}
+          <div className="absolute top-1/2 -translate-y-1/2 left-4 md:left-20 z-50 hidden lg:block">
+            <button onClick={handlePrev} className="p-4 rounded-full bg-brand-purple/10 border border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] backdrop-blur-md transition-all duration-300 hover:bg-brand-purple/20">
               <ChevronLeft className="w-6 h-6" />
             </button>
           </div>
-          <div className="absolute top-1/2 -translate-y-1/2 right-4 md:right-20 z-50">
-            <button onClick={handleNext} className="p-4 rounded-full bg-brand-green/10 border border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)] backdrop-blur-md transition-all duration-300">
+          <div className="absolute top-1/2 -translate-y-1/2 right-4 md:right-20 z-50 hidden lg:block">
+            <button onClick={handleNext} className="p-4 rounded-full bg-brand-green/10 border border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)] backdrop-blur-md transition-all duration-300 hover:bg-brand-green/20">
               <ChevronRight className="w-6 h-6" />
             </button>
           </div>
+        </div>
+
+        {/* Mobile/Tablet Controls */}
+        <div className="flex justify-center items-center gap-6 mt-8 lg:hidden">
+          <button onClick={handlePrev} className="p-4 rounded-full bg-brand-purple/10 border border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] backdrop-blur-md transition-all duration-300 active:scale-95">
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button onClick={handleNext} className="p-4 rounded-full bg-brand-green/10 border border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)] backdrop-blur-md transition-all duration-300 active:scale-95">
+            <ChevronRight className="w-6 h-6" />
+          </button>
         </div>
 
       </div>

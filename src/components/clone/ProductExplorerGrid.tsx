@@ -91,7 +91,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
   return (
     <section className="py-12 max-w-[1600px] mx-auto px-4 bg-zinc-950">
       <div className="mb-16 text-center">
-        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">
+        <h2 className="text-4xl md:text-6xl font-black capitalize tracking-tight mb-4">
           <span className="text-white">Spaces</span>{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
             We Illuminate
@@ -115,28 +115,24 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
                 
                 <Link 
                   href={href} 
-                  className={`relative z-10 block h-full w-full overflow-hidden border transition-all duration-300 bg-zinc-900 ${
+                  className={`relative z-10 flex flex-col h-full w-full overflow-hidden border transition-all duration-300 bg-zinc-900 ${
                     cat.glowTheme === 'green' ? 'border-[#6eff86]/40 shadow-[0_0_15px_rgba(110,255,134,0.2)] group-hover:border-[#6eff86] group-hover:shadow-[0_0_30px_rgba(110,255,134,0.6)]' :
                     cat.glowTheme === 'pink' ? 'border-[#f967fb]/40 shadow-[0_0_15px_rgba(249,103,251,0.2)] group-hover:border-[#f967fb] group-hover:shadow-[0_0_30px_rgba(249,103,251,0.6)]' :
                     cat.glowTheme === 'blue' ? 'border-[#00e5ff]/40 shadow-[0_0_15px_rgba(0,229,255,0.2)] group-hover:border-[#00e5ff] group-hover:shadow-[0_0_30px_rgba(0,229,255,0.6)]' :
                     'border-[#fe8a2e]/40 shadow-[0_0_15px_rgba(254,138,46,0.2)] group-hover:border-[#fe8a2e] group-hover:shadow-[0_0_30px_rgba(254,138,46,0.6)]'
                   }`}
                 >
-                  <div 
-                    className={`absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-50 group-hover:opacity-70`} 
-                    style={{ backgroundImage: `url(${cat.image})` }} 
-                  />
+                  <div className="flex-1 w-full relative overflow-hidden bg-zinc-950">
+                    <div 
+                      className={`absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100`} 
+                      style={{ backgroundImage: `url(${cat.image})` }} 
+                    />
+                  </div>
                   
-                  {/* Subtle Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                  
-                  {/* Content */}
-                  <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end z-10">
-                    {/* CTA Link (Always Visible) */}
-                    <div className="mt-auto pt-2">
-                      <div className={`inline-flex items-center ${cat.textClass} font-bold uppercase tracking-wider text-lg md:text-xl transition-transform duration-300 group-hover:translate-x-2`}>
-                        {cat.title} <ArrowRight className="ml-2 w-6 h-6" />
-                      </div>
+                  {/* Content Below Image */}
+                  <div className="p-4 md:p-6 bg-zinc-900 border-t border-white/5 shrink-0">
+                    <div className={`inline-flex items-center ${cat.textClass} font-bold uppercase tracking-wider text-sm md:text-base transition-transform duration-300 group-hover:translate-x-2`}>
+                      {cat.title} <ArrowRight className="ml-2 w-5 h-5" />
                     </div>
                   </div>
                 </Link>

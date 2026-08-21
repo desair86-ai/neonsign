@@ -249,7 +249,7 @@ export default function AboutPage() {
       <section className="py-24 px-4 relative z-50 bg-[#0a0a0a]">
         <div className="max-w-[1400px] mx-auto">
           <div className="text-center mb-16">
-            <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-6">
+            <h3 className="text-4xl md:text-6xl font-black capitalize tracking-tight mb-6">
               <span className="text-white">Why</span>{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
                 We Exist
@@ -344,7 +344,7 @@ export default function AboutPage() {
       <section className="py-32 px-4 relative z-50 bg-black overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-6">
+            <h3 className="text-4xl md:text-6xl font-black capitalize tracking-tight mb-6">
               <span className="text-white">The Neon Stack</span>{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-lavender animate-neon-gradient">
                 Difference
