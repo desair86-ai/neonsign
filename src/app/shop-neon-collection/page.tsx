@@ -2,10 +2,9 @@ import React from "react";
 import { Header } from "@/components/clone/Header";
 import { CategoryBar } from "@/components/clone/CategoryBar";
 import { ProductCarousel } from "@/components/clone/ProductCarousel";
-import { ProductExplorerGrid } from "@/components/clone/ProductExplorerGrid";
 import { AnimatedFeatures } from "@/components/ui/animated-features";
 import { Footer } from "@/components/clone/Footer";
-import { getProducts, getProductCategories } from "@/lib/wordpress";
+import { getProducts } from "@/lib/wordpress";
 
 export default async function ShopNeonCollection({
   searchParams,
@@ -41,7 +40,6 @@ export default async function ShopNeonCollection({
 
       {/* Grids and Carousels Area */}
       <div className="w-full">
-        <ProductExplorerGrid />
         
         {categorySlug && displayProducts.length > 0 && (
           <ProductCarousel title={`Products in ${categorySlug.replace(/-/g, ' ')}`} products={displayProducts} />
