@@ -90,3 +90,36 @@ export async function getProductCategories() {
   const data = await fetchGraphQL(query);
   return data?.productCategories?.nodes || [];
 }
+
+export async function getProduct(slug: string) {
+  const query = `
+    query GetProduct($slug: ID!) {
+      product(id: $slug, idType: SLUG) {
+        id
+        databaseId
+        name
+        slug
+        description
+        image {
+          sourceUrl
+          altText
+        }
+        ... on SimpleProduct {
+          price
+          regularPrice
+          salePrice
+          onSale
+        }
+        ... on VariableProduct {
+          price
+          regularPrice
+          salePrice
+          onSale
+        }
+      }
+    }
+  `;
+
+  const data = await fetchGraphQL(query, { slug });
+  return data?.product;
+}

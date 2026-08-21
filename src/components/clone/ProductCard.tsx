@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { GlowCard, GlowCardColorTheme } from '@/components/ui/spotlight-card';
+import { useCart } from '@/lib/CartContext';
 
 export interface Product {
   id: string;
@@ -34,11 +35,22 @@ const glowThemes: GlowCardColorTheme[] = [
 ];
 
 export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardProps) {
+  const { addToCart } = useCart();
   const glowTheme = glowThemes[index % glowThemes.length];
   
-  const wpDomain = process.env.NEXT_PUBLIC_WORDPRESS_URL?.replace('/graphql', '') || '';
-  const productUrl = product.slug ? `${wpDomain}/product/${product.slug}` : '#';
-  const addToCartUrl = product.databaseId ? `${wpDomain}/?add-to-cart=${product.databaseId}` : '#';
+  const productUrl = product.slug ? `/product/${product.slug}` : '#';
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigating to productUrl
+    e.stopPropagation();
+    addToCart({
+      name: product.name,
+      price: parseFloat(product.salePrice.replace(/[^0-9.]/g, '') || '0'),
+      quantity: 1,
+      image: product.image,
+      isCustom: false,
+    });
+  };
 
   return (
     <div className="relative block h-full">
@@ -105,9 +117,12 @@ export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardP
                 Neon Sign
               </span>
               <div className="flex items-center gap-3 ml-auto">
-                <a href={addToCartUrl} className="inline-flex items-center text-xs font-bold text-white bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full transition-all">
+                <button 
+                  onClick={handleAddToCart}
+                  className="inline-flex items-center text-xs font-bold text-white bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full transition-all"
+                >
                   Add to Cart
-                </a>
+                </button>
                 <Link href={productUrl} className="inline-flex items-center text-sm font-bold text-[#6eff86] drop-shadow-[0_0_6px_rgba(110,255,134,0.5)] hover:text-white transition-all">
                   Shop Now <ArrowRight className="ml-1.5 w-4 h-4 transition-transform" />
                 </Link>
