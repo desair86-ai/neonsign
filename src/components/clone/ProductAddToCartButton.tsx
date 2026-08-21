@@ -5,12 +5,13 @@ import { useCart } from '@/lib/CartContext';
 import { ShoppingBag, Check } from 'lucide-react';
 import { ButtonParticles } from '@/components/ui/button-particles';
 
-export default function ProductAddToCartButton({ product }: { product: { name: string, price: number, image: string } }) {
+export default function ProductAddToCartButton({ product }: { product: { id: string, name: string, price: number, image: string } }) {
   const { addToCart } = useCart();
   const [added, setAdded] = useState(false);
 
   const handleAdd = () => {
     addToCart({
+      id: product.id,
       name: product.name,
       price: product.price,
       quantity: 1,

@@ -44,6 +44,7 @@ export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardP
     e.preventDefault(); // Prevent navigating to productUrl
     e.stopPropagation();
     addToCart({
+      id: product.id,
       name: product.name,
       price: parseFloat(product.salePrice.replace(/[^0-9.]/g, '') || '0'),
       quantity: 1,

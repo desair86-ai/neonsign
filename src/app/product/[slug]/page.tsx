@@ -70,6 +70,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
             <ProductAddToCartButton 
               product={{
+                id: product.id,
                 name: product.name,
                 price: displayPrice,
                 image: product.image?.sourceUrl || '/5580.webp'
