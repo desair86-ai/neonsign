@@ -27,7 +27,9 @@ export default async function ShopNeonCollection({
     regularPrice: p.regularPrice || p.price || "Rs. 0",
     salePrice: p.salePrice || p.price || "Rs. 0",
     discountBadge: p.onSale ? "Sale" : undefined,
-    image: p.image?.sourceUrl || "/5580.webp"
+    image: p.image?.sourceUrl || "/5580.webp",
+    slug: p.slug,
+    databaseId: p.databaseId
   });
 
   const displayProducts = wpProducts.map(mapProduct);
