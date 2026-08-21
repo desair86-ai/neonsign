@@ -1,23 +1,29 @@
 import React from 'react';
+import { getProductCategories } from '@/lib/wordpress';
 
-export function CategoryBar({ theme = "dark" }: { theme?: "light" | "dark" }) {
-  const categories = [
-    { name: "Shop All", image: "/5580.webp" },
-    { name: "Gods", image: "/5607.webp" },
-    { name: "Cafe", image: "/5595.webp" },
-    { name: "Cricket", image: "/5592 (1).webp" },
-    { name: "Wings", image: "/5593.webp" },
-    { name: "Table Top", image: "/5594.webp" },
-    { name: "Millionaire", image: "/5605.webp" },
-    { name: "Love", image: "/5591.webp" },
-    { name: "Cars", image: "/5589 (1).webp" },
-    { name: "Gaming", image: "/5596.webp" },
-    { name: "Gym", image: "/5606.webp" },
-    { name: "Kids", image: "/5604.webp" },
-    { name: "Under 400", image: "/5597.webp" }
-  ];
+export async function CategoryBar({ theme = "dark" }: { theme?: "light" | "dark" }) {
+  // Fetch dynamic categories from WordPress
+  const wpCategories = await getProductCategories();
+  
+  // Map WP categories. If none exist, fallback to an empty array.
+  // Add a "Shop All" fallback as the first item if needed.
+  let categories = wpCategories.map((cat: any) => ({
+    name: cat.name,
+    image: cat.image?.sourceUrl || "/5580.webp",
+    slug: cat.slug
+  }));
 
-  const duplicatedCategories = [...categories, ...categories];
+  // Limit to a reasonable number to prevent massive marquees, or keep all.
+  if (categories.length === 0) {
+    // Fallback if WP fails or is empty
+    categories = [
+      { name: "Shop All", image: "/5580.webp", slug: "all" },
+      { name: "Gods", image: "/5607.webp", slug: "gods" },
+      { name: "Cafe", image: "/5595.webp", slug: "cafe" },
+    ];
+  }
+
+  const duplicatedCategories = [...categories, ...categories, ...categories]; // Triple it to ensure smooth infinite scroll if few categories
 
   return (
     <div className={`w-full py-6 border-b overflow-hidden ${theme === 'light' ? 'bg-white border-black/10' : 'bg-black border-white/10'}`}>
@@ -26,10 +32,8 @@ export function CategoryBar({ theme = "dark" }: { theme?: "light" | "dark" }) {
         <div className="flex animate-marquee whitespace-nowrap min-w-full gap-6 md:gap-8 hover-pause cursor-pointer">
           {duplicatedCategories.map((cat, idx) => (
             <a 
-              key={idx}
-              href={`/collections/${cat.name.toLowerCase().replace(" ", "-")}`} 
-              target="_blank" 
-              rel="noopener noreferrer"
+              key={`${cat.slug}-${idx}`}
+              href={`/shop-neon-collection?cat=${cat.slug}`} 
               className="group flex flex-col items-center gap-3 flex-shrink-0"
             >
               <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 ${idx % categories.length === 0 ? 'border-brand-purple shadow-[0_0_12px_rgba(117,46,255,0.4)]' : 'border-transparent'} group-hover:border-brand-purple group-hover:shadow-[0_0_12px_rgba(117,46,255,0.4)] transition-all p-1`}>

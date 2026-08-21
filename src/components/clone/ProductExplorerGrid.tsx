@@ -12,6 +12,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
     label: string;
     image: string;
     linkText: string;
+    href: string;
     badgeClass: string;
     textClass: string;
     glowTheme: GlowCardColorTheme;
@@ -23,10 +24,11 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "Fixed color",
       image: "/5580.webp",
       linkText: "Customize Now",
+      href: "/shop-neon-collection?cat=neon-signs",
       badgeClass: "bg-brand-green text-black shadow-[0_0_12px_rgba(110,255,134,0.6)]",
       textClass: "text-brand-green",
       glowTheme: "green",
-      colSpan: "md:col-span-2 md:row-span-2", // Large primary card
+      colSpan: "md:col-span-2 md:row-span-2", 
     },
     {
       title: "Mojo Mix Signs",
@@ -34,6 +36,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "Color changeable",
       image: "/5591.webp",
       linkText: "Customize Now",
+      href: "/shop-neon-collection?cat=mojo-mix",
       badgeClass: "bg-[#f967fb] text-black shadow-[0_0_12px_rgba(249,103,251,0.6)]",
       textClass: "text-[#f967fb]",
       glowTheme: "pink",
@@ -45,6 +48,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "Intricate Design",
       image: "/5597.webp",
       linkText: "Customize Now",
+      href: "/products/uv-printed-neon",
       badgeClass: "bg-[#00e5ff] text-black shadow-[0_0_12px_rgba(0,229,255,0.6)]",
       textClass: "text-[#00e5ff]",
       glowTheme: "blue",
@@ -56,10 +60,11 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "Popular Choice",
       image: "/5593.webp",
       linkText: "Shop Now",
+      href: "/shop-neon-collection",
       badgeClass: "bg-[#fe8a2e] text-black shadow-[0_0_12px_rgba(254,138,46,0.6)]",
       textClass: "text-[#fe8a2e]",
       glowTheme: "orange",
-      colSpan: "md:col-span-1", // Changed from col-span-2 to 1
+      colSpan: "md:col-span-1",
     },
     {
       title: "Business Logo",
@@ -67,6 +72,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       label: "For Business",
       image: "/5604.webp",
       linkText: "Customize Now",
+      href: "/products/business-logo",
       badgeClass: "bg-[#ca6eff] text-black shadow-[0_0_12px_rgba(202,110,255,0.6)]",
       textClass: "text-[#ca6eff]",
       glowTheme: "purple",
@@ -108,13 +114,12 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
         className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[220px] md:auto-rows-[260px]"
       >
         {categories.map((cat, idx) => {
-          const href = cat.linkText && cat.linkText.toLowerCase().includes('custom') ? '/products/customize-neon-signs' : '/';
           return (
             <motion.div key={idx} variants={itemVariants} className={`relative block h-full ${cat.colSpan}`}>
               <div className="h-full w-full group relative rounded-3xl overflow-hidden">
                 
                 <Link 
-                  href={href} 
+                  href={cat.href} 
                   className={`relative z-10 flex flex-col h-full w-full overflow-hidden border transition-all duration-300 bg-zinc-900 ${
                     cat.glowTheme === 'green' ? 'border-[#6eff86]/40 shadow-[0_0_15px_rgba(110,255,134,0.2)] group-hover:border-[#6eff86] group-hover:shadow-[0_0_30px_rgba(110,255,134,0.6)]' :
                     cat.glowTheme === 'pink' ? 'border-[#f967fb]/40 shadow-[0_0_15px_rgba(249,103,251,0.2)] group-hover:border-[#f967fb] group-hover:shadow-[0_0_30px_rgba(249,103,251,0.6)]' :
