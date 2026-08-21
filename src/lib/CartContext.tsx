@@ -9,6 +9,7 @@ export interface CartItem {
   quantity: number;
   image?: string;
   isCustom?: boolean;
+  databaseId?: number;
   customDetails?: {
     text?: string;
     font?: string;

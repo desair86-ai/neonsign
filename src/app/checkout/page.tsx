@@ -51,11 +51,25 @@ export default function CheckoutPage() {
 
     setIsProcessing(true);
 
-    // Simulate order placement and save to localStorage for customer account
-    setTimeout(() => {
-      const generatedOrderId = `NEON-${Math.floor(1000 + Math.random() * 9000)}`;
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ form, cart }),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to process checkout');
+      }
+
+      // Order created successfully
+      const createdOrder = data.order;
+      const orderId = createdOrder?.id ? `NEON-${createdOrder.id}` : `NEON-${Math.floor(1000 + Math.random() * 9000)}`;
+      
       const newOrder = {
-        id: generatedOrderId,
+        id: orderId,
         date: new Date().toLocaleDateString("en-IN", {
           day: "numeric",
           month: "short",
@@ -64,7 +78,7 @@ export default function CheckoutPage() {
         items: [...cart],
         total: cartTotal,
         customer: { ...form },
-        status: "In Production",
+        status: "Processing",
       };
 
       try {
@@ -75,11 +89,15 @@ export default function CheckoutPage() {
         console.error("Failed to save order to localStorage", err);
       }
 
-      setOrderId(generatedOrderId);
+      setOrderId(orderId);
       setIsSubmitted(true);
-      setIsProcessing(false);
       clearCart();
-    }, 1200);
+    } catch (error: any) {
+      console.error(error);
+      alert(error.message || 'An error occurred during checkout. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (isSubmitted) {

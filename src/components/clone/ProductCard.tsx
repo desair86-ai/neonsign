@@ -50,6 +50,7 @@ export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardP
       quantity: 1,
       image: product.image,
       isCustom: false,
+      databaseId: product.databaseId,
     });
   };
 
