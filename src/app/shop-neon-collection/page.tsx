@@ -2,6 +2,7 @@ import React from "react";
 import { Header } from "@/components/clone/Header";
 import { CategoryBar } from "@/components/clone/CategoryBar";
 import { ProductCarousel } from "@/components/clone/ProductCarousel";
+import { ProductGrid } from "@/components/clone/ProductGrid";
 import { AnimatedFeatures } from "@/components/ui/animated-features";
 import { Footer } from "@/components/clone/Footer";
 import { getProducts } from "@/lib/wordpress";
@@ -47,7 +48,7 @@ export default async function ShopNeonCollection({
       <div className="w-full">
         
         {categorySlug && displayProducts.length > 0 && (
-          <ProductCarousel title={`Products in ${categorySlug.replace(/-/g, ' ')}`} products={displayProducts} />
+          <ProductGrid title={`Products in ${categorySlug.replace(/-/g, ' ')}`} products={displayProducts} />
         )}
 
         {!categorySlug && (
