@@ -32,7 +32,7 @@ export default function CartPage() {
         {/* Top Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-white/10">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#6eff86]/10 border border-[#6eff86]/30 text-[#6eff86] text-xs font-black uppercase tracking-wider mb-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#6eff86]/10 border border-[#6eff86]/30 text-[#6eff86] text-sm font-black uppercase tracking-wider mb-2">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Studio Workshop Cart</span>
             </div>
@@ -59,7 +59,7 @@ export default function CartPage() {
             {cart.length > 0 && (
               <button
                 onClick={clearCart}
-                className="text-xs font-bold text-red-400 hover:text-red-300 transition-colors px-3 py-1.5 rounded-lg border border-red-500/30 hover:border-red-500/50"
+                className="text-sm font-bold text-red-400 hover:text-red-300 transition-colors px-3 py-1.5 rounded-lg border border-red-500/30 hover:border-red-500/50"
                 style={{ textShadow: "0 0 2px rgba(255, 255, 255, 0.6)" }}
               >
                 Clear Cart
@@ -106,7 +106,7 @@ export default function CartPage() {
             <div className="w-full lg:w-2/3 flex flex-col">
               
               {/* Table Header (Desktop) */}
-              <div className="hidden md:grid grid-cols-[auto_3fr_1fr_1.5fr_1fr] gap-4 items-center pb-4 border-b border-white/10 text-xs font-bold text-gray-400 uppercase tracking-wider">
+              <div className="hidden md:grid grid-cols-[auto_3fr_1fr_1.5fr_1fr] gap-4 items-center pb-4 border-b border-white/10 text-sm font-bold text-gray-400 uppercase tracking-wider">
                 <div className="w-8"></div> {/* Spacer for remove icon */}
                 <div className="pl-4">Product</div>
                 <div className="text-center">Price</div>
@@ -146,7 +146,7 @@ export default function CartPage() {
                           {item.name}
                         </Link>
                         {item.customDetails && (
-                          <div className="text-xs text-gray-400 mt-1 space-y-0.5">
+                          <div className="text-sm text-gray-400 mt-1 space-y-0.5">
                             <div>Font: <span className="text-gray-300">{item.customDetails.font}</span></div>
                             <div>Color: <span className="text-gray-300">{item.customDetails.color}</span></div>
                             <div>Size: <span className="text-gray-300">{item.customDetails.size}</span></div>

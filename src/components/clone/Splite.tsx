@@ -44,7 +44,7 @@ export function SpliteInteractive() {
           <img 
             src="/Mascot.png" 
             alt="Neon Stack Mascot" 
-            className="relative z-10 w-auto h-auto max-w-[80%] max-h-[75%] object-contain drop-shadow-[0_0_20px_rgba(110,255,134,0.3)]"
+            className="relative z-10 w-auto h-auto max-w-full max-h-[90%] object-contain drop-shadow-[0_0_20px_rgba(110,255,134,0.3)]"
           />
         </div>
 

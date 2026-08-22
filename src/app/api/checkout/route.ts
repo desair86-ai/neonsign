@@ -43,17 +43,32 @@ export async function POST(request: Request) {
     // If it's a completely custom sign, we should ideally have a generic "Custom Neon Sign" product ID to map it to, 
     // but we will try creating it as a simple fee or passing name.
     const formattedLineItems = cart.map((item: any) => {
+        // Convert customDetails into WooCommerce meta_data
+        const metaData = [];
+        if (item.customDetails) {
+            for (const [key, value] of Object.entries(item.customDetails)) {
+                if (value !== undefined && value !== null && value !== '') {
+                    metaData.push({ key: key.charAt(0).toUpperCase() + key.slice(1), value: String(value) });
+                }
+            }
+        }
+
         if (item.databaseId) {
             return {
                 product_id: item.databaseId,
-                quantity: item.quantity
+                quantity: item.quantity,
+                // Passing 'total' overrides the WooCommerce base product price
+                total: String(item.price * item.quantity),
+                meta_data: metaData
             };
         } else {
-            // It's a custom sign not from database
+            // It's a custom sign with no database ID provided yet
+            // WooCommerce typically accepts a line item with just name and total, but meta_data makes it robust
             return {
                 name: item.name,
                 total: String(item.price * item.quantity),
-                quantity: item.quantity
+                quantity: item.quantity,
+                meta_data: metaData
             };
         }
     });

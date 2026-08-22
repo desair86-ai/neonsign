@@ -140,6 +140,13 @@ const SIZES = [
   },
 ];
 
+const SHAPE_SIZES = SIZES.map(s => ({
+  id: s.id,
+  name: s.name.replace(/\d+" Height/, `${Math.max(1, s.heightInches - 2)}" Height`),
+  heightInches: Math.max(1, s.heightInches - 2),
+  multiplier: s.multiplier
+}));
+
 export function getCalculatedDimensions(sizeId: string, colorName: string, textStr: string, shapeCount: number = 0) {
   const size = SIZES.find((s) => s.id === sizeId) || SIZES[1];
   const isMojo = colorName.includes('Mojo');
@@ -270,9 +277,10 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
   const defaultColor = isMojoMix ? COLORS.find(c => c.name.includes('Mojo'))! : COLORS[0];
   const [selectedColor, setSelectedColor] = useState(defaultColor);
   const [selectedSize, setSelectedSize] = useState(SIZES[1]); // Medium default
+  const [selectedShapeSize, setSelectedShapeSize] = useState(SHAPE_SIZES[1]); // Medium default for shapes
   const [isWaterproof, setIsWaterproof] = useState(false);
   const [hasSmartController, setHasSmartController] = useState(false);
-  const [addedShapes, setAddedShapes] = useState<{ id: string, type: string, color?: typeof COLORS[number] }[]>([]);
+  const [addedShapes, setAddedShapes] = useState<{ id: string, type: string, color?: typeof COLORS[number], position?: 'left' | 'right' }[]>([]);
   const [isMultiColor, setIsMultiColor] = useState(false);
   const [letterColors, setLetterColors] = useState<Record<number, typeof COLORS[number]>>({});
   const [selectedItemForColor, setSelectedItemForColor] = useState<number | string | null>(null);
@@ -373,11 +381,11 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
         const maxAllowedScale = currentScale * 2.4;
         normalizedScale = Math.min(normalizedScale, maxAllowedScale);
       } else {
-        let baseScale = 0.5;
-        if (selectedSize.id === 'small') baseScale = 0.4;
-        else if (selectedSize.id === 'medium') baseScale = 0.5;
-        else if (selectedSize.id === 'large') baseScale = 0.65;
-        else if (selectedSize.id === 'xlarge') baseScale = 0.8;
+        let baseScale = 0.75;
+        if (selectedSize.id === 'small') baseScale = 0.6;
+        else if (selectedSize.id === 'medium') baseScale = 0.75;
+        else if (selectedSize.id === 'large') baseScale = 0.9;
+        else if (selectedSize.id === 'xlarge') baseScale = 1.1;
         
         // Exact replication of NeonChamp logic: 
         // We allow the text to scale up visually, BUT we rigidly clamp it at 90% of the container width.
@@ -683,6 +691,32 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
             {/* SHAPES TAB */}
             {activeTab === 'shapes' && (
               <div className="animate-fade-in flex flex-col gap-6">
+                
+                <div className="mb-2">
+                  <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">Select Shape Size</label>
+                  <div className="flex flex-col gap-3">
+                    {SHAPE_SIZES.map((size) => {
+                      const isSelected = selectedShapeSize.id === size.id;
+                      return (
+                        <div 
+                          key={size.id}
+                          onClick={() => setSelectedShapeSize(size)}
+                          className={`flex items-center justify-between p-4 rounded-xl cursor-pointer transition-all border-2 ${
+                            isSelected 
+                              ? 'bg-purple-50/50 border-brand-purple shadow-sm' 
+                              : 'bg-white border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className={`font-bold text-sm ${isSelected ? 'text-brand-purple' : 'text-gray-900'}`}>{size.name}</span>
+                            {isSelected && <Check className="w-4 h-4 text-brand-purple" />}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
                 <div className="mb-2">
                   <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">Add Neon Shapes (+₹300)</label>
                   <div className="flex flex-col gap-3">
@@ -721,7 +755,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                             <button 
                               onClick={() => {
                                 setAddedShapes([...addedShapes, { id: Date.now().toString() + Math.random(), type: shape.type }]);
-                                triggerMascot(`Added a ${shape.type} to your sign! Drag it around to place it.`, MascotState.CELEBRATING);
+                                triggerMascot(`Added a ${shape.type} to your sign!`, MascotState.CELEBRATING);
                               }}
                               className="w-7 h-7 bg-white text-gray-700 hover:text-brand-purple hover:bg-brand-purple/5 shadow-sm border border-gray-200 rounded-md flex items-center justify-center transition-colors"
                             >
@@ -733,9 +767,54 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                     })}
                   </div>
                   {addedShapes.length > 0 && (
-                    <div className="mt-4 text-xs text-brand-purple font-semibold">
-                      Total Shape Price: +₹{(addedShapes.length * 300).toLocaleString('en-IN')}<br/>
-                      <span className="text-gray-500">Drag shapes on the wall to position them!</span>
+                    <div className="mt-6 flex flex-col gap-3">
+                      <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-1 block">Position Your Shapes</label>
+                      {addedShapes.map((shape, idx) => {
+                        const typeCount = addedShapes.slice(0, idx).filter(s => s.type === shape.type).length + 1;
+                        return (
+                        <div key={shape.id} className="flex flex-col gap-3 p-3 bg-gray-50 border border-gray-200 rounded-xl">
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-sm text-gray-700 capitalize">{shape.type} {typeCount}</span>
+                            <div className="flex bg-white rounded-lg p-1 border border-gray-200">
+                              <button
+                                onClick={() => setAddedShapes(prev => prev.map(s => s.id === shape.id ? { ...s, position: 'left' } : s))}
+                                className={`px-3 py-1.5 text-xs font-bold rounded-md transition-colors ${shape.position === 'left' ? 'bg-brand-purple text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100'}`}
+                              >
+                                Left
+                              </button>
+                              <button
+                                onClick={() => setAddedShapes(prev => prev.map(s => s.id === shape.id ? { ...s, position: 'right' } : s))}
+                                className={`px-3 py-1.5 text-xs font-bold rounded-md transition-colors ${shape.position !== 'left' ? 'bg-brand-purple text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100'}`}
+                              >
+                                Right
+                              </button>
+                            </div>
+                          </div>
+                          
+                          {/* Shape Color Selection */}
+                          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                            {COLORS.filter(c => !c.name.includes('Mojo')).map(c => {
+                              const isSelected = (shape.color?.name === c.name) || (!shape.color && selectedColor.name === c.name && !isMojoMix);
+                              return (
+                                <button
+                                  key={c.name}
+                                  onClick={() => setAddedShapes(prev => prev.map(s => s.id === shape.id ? { ...s, color: c } : s))}
+                                  className={`flex-shrink-0 w-7 h-7 rounded-full border-2 transition-all ${
+                                    isSelected ? 'border-brand-purple scale-110 shadow-sm' : 'border-transparent hover:scale-105'
+                                  }`}
+                                  style={{ backgroundColor: c.hex }}
+                                  title={c.name}
+                                />
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                      })}
+                      <div className="mt-2 text-xs text-brand-purple font-semibold">
+                        Total Shape Price: +₹{(addedShapes.length * 300).toLocaleString('en-IN')}<br/>
+                        <span className="text-gray-500">Shapes will stack on their selected side.</span>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -879,34 +958,6 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                     </div>
                   </div>
 
-                  {/* Silicone Tubing Colour Selector */}
-                  <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm mt-4">
-                    <label className="text-[11px] font-bold text-gray-900 uppercase tracking-wider mb-4 block">
-                      Select your Neon Silicone Tubing Colour
-                    </label>
-                    <div className="flex flex-col gap-2">
-                      {[
-                        { id: 'coloured', name: 'Coloured Neon Silicone Tubing', price: 'Free' },
-                        { id: 'white', name: 'White Neon Silicone Tubing', price: 'Free' },
-                      ].map((tubing) => (
-                        <div 
-                          key={tubing.id}
-                          onClick={() => setSiliconeTubing(tubing.id as 'coloured'|'white')}
-                          className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all border-2 ${
-                            siliconeTubing === tubing.id 
-                              ? 'bg-purple-50/50 border-brand-purple' 
-                              : 'bg-white border-gray-200 hover:border-gray-300'
-                          }`}
-                        >
-                          <span className={`text-sm font-bold ${siliconeTubing === tubing.id ? 'text-brand-purple' : 'text-gray-800'}`}>{tubing.name}</span>
-                          <div className="flex items-center gap-3">
-                            <span className="text-xs text-gray-500">{tubing.price}</span>
-                            {siliconeTubing === tubing.id && <Check className="w-4 h-4 text-brand-purple" />}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -1458,8 +1509,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                       )}
                     </h2>
 
-                    {/* Draggable Shapes */}
-                    {addedShapes.map((shape) => {
+                    {/* Shapes positioned on edges */}
+                    {addedShapes.map((shape, index) => {
                       let Icon = Heart;
                       if (shape.type === 'star') Icon = Star;
                       if (shape.type === 'zap') Icon = Zap;
@@ -1468,56 +1519,38 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                       
                       const shapeColor = shape.color || selectedColor;
                       
-                      // Calculate pixel constraints for 3 inches based on physical mapping
-                      const physicalDims = getCalculatedDimensions(selectedSize.id, selectedColor.name, text, addedShapes.length);
-                      const wInches = parseFloat(physicalDims.length) || 1;
-                      const pixelsPerInch = textDims.width ? textDims.width / wInches : 10; // fallback 10px/inch
-                      
-                      const dragLimitPx = 15 * pixelsPerInch; // Allow massive drag area (15 inches) so it never feels stuck on mobile
-                      const leftExtraStretch = 10 * pixelsPerInch; // Extra stretch for the left side
-
-                      // Origin is now at left: 50%, top: 100%
-                      const limitLeft = (textDims.width / 2) + dragLimitPx + leftExtraStretch;
-                      const limitRight = (textDims.width / 2) + dragLimitPx;
-                      const limitTop = textDims.height + dragLimitPx; // distance to top edge + generous limit
-                      const limitBottom = dragLimitPx; // origin is at bottom edge
+                      const isLeft = shape.position === 'left';
+                      const sideIndex = addedShapes.filter((s, i) => i < index && (s.position === 'left' === isLeft)).length;
+                      const offsetGap = 0.5 + sideIndex * 0.9; // in ems
 
                       return (
                         <div 
                           key={shape.id}
-                          className="absolute z-20 pointer-events-none flex items-center justify-center"
-                          style={{ top: '100%', left: '50%', transform: 'translate(-50%, 20px)' }}
+                          className="absolute z-20 flex items-center justify-center"
+                          style={{ 
+                            top: '50%', 
+                            left: isLeft ? `calc(0% - ${offsetGap}em)` : `calc(100% + ${offsetGap}em)`,
+                            transform: 'translate(-50%, -50%)',
+                            fontSize: `calc(clamp(2.4rem, 5.8vw, 6.5rem) * ${(selectedShapeSize.heightInches / selectedSize.heightInches).toFixed(2)})`
+                          }}
                         >
-                          <motion.div
-                            drag
-                            dragConstraints={{
-                              top: -limitTop,
-                              bottom: limitBottom,
-                              left: -limitLeft,
-                              right: limitRight,
-                            }}
-                            dragMomentum={false}
-                            className="cursor-grab active:cursor-grabbing group pointer-events-auto"
-                          >
-                            <div className="relative p-4">
+                          <div className="relative p-4">
                             <Icon 
-                              className="w-[0.5em] h-[0.5em]"
+                              className="w-[0.8em] h-[0.8em]"
                               style={{
                                 color: isLightOn ? shapeColor.hex : '#ffffff',
                                 filter: isLightOn 
-                                  ? isMojoMix 
+                                  ? (isMojoMix && !shape.color)
                                     ? `drop-shadow(0 0 10px #ff007b) drop-shadow(0 0 20px #00d4ff)` 
                                     : `drop-shadow(0 0 15px ${shapeColor.glow}) drop-shadow(0 0 30px ${shapeColor.glow})` 
                                   : 'none',
                                 opacity: isLightOn ? 1 : 0.4,
-                                strokeWidth: 1.5,
-                                fontSize: 'clamp(2.4rem, 5.8vw, 6.5rem)'
+                                strokeWidth: 1.5
                               }} 
-                              stroke={isMojoMix && isLightOn ? "url(#mojoGradient)" : "currentColor"}
+                              stroke={(isMojoMix && isLightOn && !shape.color) ? "url(#mojoGradient)" : "currentColor"}
                             />
 
                           </div>
-                        </motion.div>
                         </div>
                       );
                     })}

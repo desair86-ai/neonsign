@@ -31,7 +31,7 @@ export function InfoSections() {
             />
             
             <h2 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
-              Meet <br className="hidden md:block" /><span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-green drop-shadow-lg">Mojo Mix</span>
+              Meet <br className="hidden md:block" /><span className="text-6xl md:text-9xl text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-green drop-shadow-lg">Mojo Mix</span>
             </h2>
             <p className="text-xl md:text-2xl text-gray-300 max-w-xl mb-10 leading-relaxed">
               Unlimited color changing options, 200+ flow modes, music sync, and app control. It&apos;s not just a sign, it&apos;s an experience.
@@ -54,7 +54,7 @@ export function InfoSections() {
             <img 
               src="/Mascot.png" 
               alt="Neon Stack Mascot" 
-              className="relative z-10 w-auto h-auto max-w-[85%] max-h-[500px] object-contain drop-shadow-[0_0_30px_rgba(110,255,134,0.4)]"
+              className="relative z-10 w-auto h-auto max-w-full md:h-[650px] object-contain drop-shadow-[0_0_30px_rgba(110,255,134,0.4)]"
             />
           </motion.div>
           

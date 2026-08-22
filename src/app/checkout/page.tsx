@@ -112,7 +112,7 @@ export default function CheckoutPage() {
             </div>
 
             <div className="space-y-2">
-              <span className="text-xs font-black uppercase tracking-widest text-[#6eff86]">
+              <span className="text-sm font-black uppercase tracking-widest text-[#6eff86]">
                 Order Confirmed!
               </span>
               <h1 
@@ -172,7 +172,7 @@ export default function CheckoutPage() {
         {/* Top Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-white/10">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#6eff86]/10 border border-[#6eff86]/30 text-[#6eff86] text-xs font-black uppercase tracking-wider mb-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#6eff86]/10 border border-[#6eff86]/30 text-[#6eff86] text-sm font-black uppercase tracking-wider mb-2">
               <Lock className="w-3.5 h-3.5" />
               <span>256-Bit SSL Secure Studio Checkout</span>
             </div>
@@ -213,7 +213,7 @@ export default function CheckoutPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-400">
+                  <label className="text-sm font-bold text-gray-400">
                     First name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -227,7 +227,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-400">
+                  <label className="text-sm font-bold text-gray-400">
                     Last name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -241,7 +241,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-xs font-bold text-gray-400">
+                  <label className="text-sm font-bold text-gray-400">
                     Country / Region <span className="text-red-500">*</span>
                   </label>
                   <select
@@ -253,7 +253,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-xs font-bold text-gray-400">
+                  <label className="text-sm font-bold text-gray-400">
                     Street address <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -273,7 +273,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-xs font-bold text-gray-400">
+                  <label className="text-sm font-bold text-gray-400">
                     Town / City <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -287,7 +287,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-xs font-bold text-gray-400">
+                  <label className="text-sm font-bold text-gray-400">
                     State <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -301,7 +301,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-xs font-bold text-gray-400">
+                  <label className="text-sm font-bold text-gray-400">
                     PIN Code <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -315,7 +315,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-xs font-bold text-gray-400">
+                  <label className="text-sm font-bold text-gray-400">
                     Phone <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -329,7 +329,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-xs font-bold text-gray-400">
+                  <label className="text-sm font-bold text-gray-400">
                     Email address <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -350,7 +350,7 @@ export default function CheckoutPage() {
                 Additional information
               </h2>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-400">
+                <label className="text-sm font-bold text-gray-400">
                   Order notes (optional)
                 </label>
                 <textarea
@@ -370,7 +370,7 @@ export default function CheckoutPage() {
 
             {/* Order Table */}
             <div className="border-b border-white/10 pb-4 mb-4">
-              <div className="flex justify-between text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 border-b border-white/10 pb-2">
+              <div className="flex justify-between text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 border-b border-white/10 pb-2">
                 <span>Product</span>
                 <span>Subtotal</span>
               </div>
@@ -418,12 +418,12 @@ export default function CheckoutPage() {
                 />
                 <div>
                   <span className="font-bold text-white block mb-1">Razorpay (Cards, NetBanking, Wallet, UPI)</span>
-                  <span className="text-xs">Securely pay via Razorpay. Powered by WooCommerce.</span>
+                  <span className="text-sm">Securely pay via Razorpay. Powered by WooCommerce.</span>
                 </div>
               </label>
             </div>
 
-            <p className="text-xs text-gray-500 mb-6 leading-relaxed">
+            <p className="text-sm text-gray-500 mb-6 leading-relaxed">
               Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.
             </p>
 

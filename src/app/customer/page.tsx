@@ -239,7 +239,7 @@ export default function CustomerAccountPage() {
                 <p className="text-sm text-gray-400 text-center mb-8">Enter your email to receive a secure password reset link</p>
                 <form onSubmit={handleForgotSubmit} className="space-y-5">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-wider text-gray-300">Registered Email Address *</label>
+                    <label className="text-sm font-bold uppercase tracking-wider text-gray-300">Registered Email Address *</label>
                     <input
                       type="email"
                       required
@@ -266,7 +266,7 @@ export default function CustomerAccountPage() {
                 </h2>
                 <form onSubmit={handleLoginSubmit} className="space-y-5">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                    <label className="text-sm font-bold uppercase tracking-wider text-gray-300">
                       Email Address *
                     </label>
                     <input
@@ -279,7 +279,7 @@ export default function CustomerAccountPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                    <label className="text-sm font-bold uppercase tracking-wider text-gray-300">
                       Password *
                     </label>
                     <div className="relative">
@@ -335,7 +335,7 @@ export default function CustomerAccountPage() {
                 </h2>
                 <form onSubmit={handleRegisterSubmit} className="space-y-5">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                    <label className="text-sm font-bold uppercase tracking-wider text-gray-300">
                       Email Address *
                     </label>
                     <input
@@ -348,7 +348,7 @@ export default function CustomerAccountPage() {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                    <label className="text-sm font-bold uppercase tracking-wider text-gray-300">
                       Full Name *
                     </label>
                     <input
@@ -361,7 +361,7 @@ export default function CustomerAccountPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                    <label className="text-sm font-bold uppercase tracking-wider text-gray-300">
                       Phone Number *
                     </label>
                     <input
@@ -375,7 +375,7 @@ export default function CustomerAccountPage() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                      <label className="text-sm font-bold uppercase tracking-wider text-gray-300">
                         Password *
                       </label>
                       <input
@@ -387,7 +387,7 @@ export default function CustomerAccountPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-wider text-gray-300">
+                      <label className="text-sm font-bold uppercase tracking-wider text-gray-300">
                         Confirm *
                       </label>
                       <input
@@ -400,7 +400,7 @@ export default function CustomerAccountPage() {
                     </div>
                   </div>
 
-                  <p className="text-xs text-gray-400 leading-relaxed pt-2">
+                  <p className="text-sm text-gray-400 leading-relaxed pt-2">
                     Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy.
                   </p>
 
@@ -516,7 +516,7 @@ export default function CustomerAccountPage() {
                       </h3>
                       <button
                         onClick={clearOrderHistory}
-                        className="text-xs font-bold text-gray-500 hover:text-red-400 transition-colors"
+                        className="text-sm font-bold text-gray-500 hover:text-red-400 transition-colors"
                       >
                         Clear Local History
                       </button>
@@ -533,12 +533,12 @@ export default function CustomerAccountPage() {
                               <span className="font-black text-xl text-[#6eff86]">
                                 Order #{order.id}
                               </span>
-                              <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-[#6eff86]/10 text-[#6eff86] border border-[#6eff86]/30 flex items-center gap-1.5">
+                              <span className="px-3 py-1 rounded-full text-sm font-extrabold bg-[#6eff86]/10 text-[#6eff86] border border-[#6eff86]/30 flex items-center gap-1.5">
                                 <Clock className="w-3.5 h-3.5 animate-pulse" />
                                 {order.status}
                               </span>
                             </div>
-                            <div className="text-xs text-gray-400">
+                            <div className="text-sm text-gray-400">
                               Placed on <strong className="text-white">{order.date}</strong>
                             </div>
                           </div>
@@ -555,7 +555,7 @@ export default function CustomerAccountPage() {
                               <div>
                                 <div className="flex items-center gap-2">
                                   <span className="font-bold text-white text-base">{item.name}</span>
-                                  <span className="text-xs text-gray-400">× {item.quantity}</span>
+                                  <span className="text-sm text-gray-400">× {item.quantity}</span>
                                 </div>
                               </div>
                               <div className="font-extrabold text-white text-sm">
@@ -602,7 +602,7 @@ export default function CustomerAccountPage() {
                   ) : (
                     <form onSubmit={handleProfileSave} className="space-y-5 pt-4">
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase text-gray-400">Street Address</label>
+                        <label className="text-sm font-bold uppercase text-gray-400">Street Address</label>
                         <input
                           type="text"
                           value={profileForm.address}
@@ -612,7 +612,7 @@ export default function CustomerAccountPage() {
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-1.5">
-                          <label className="text-xs font-bold uppercase text-gray-400">City</label>
+                          <label className="text-sm font-bold uppercase text-gray-400">City</label>
                           <input
                             type="text"
                             value={profileForm.city}
@@ -621,7 +621,7 @@ export default function CustomerAccountPage() {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-xs font-bold uppercase text-gray-400">PIN Code</label>
+                          <label className="text-sm font-bold uppercase text-gray-400">PIN Code</label>
                           <input
                             type="text"
                             value={profileForm.pincode}
@@ -635,7 +635,7 @@ export default function CustomerAccountPage() {
                         <button
                           type="button"
                           onClick={() => setIsEditingProfile(false)}
-                          className="px-6 py-3 text-gray-400 hover:text-white font-bold rounded-full transition-all text-xs uppercase"
+                          className="px-6 py-3 text-gray-400 hover:text-white font-bold rounded-full transition-all text-sm uppercase"
                         >
                           Cancel
                         </button>
@@ -651,7 +651,7 @@ export default function CustomerAccountPage() {
               <div className="bg-[#111111] border border-gray-800 rounded-3xl p-6 md:p-10 shadow-[0_0_30px_rgba(117,46,255,0.05)]">
                 <form onSubmit={handleProfileSave} className="space-y-6">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase text-gray-400">Full Name *</label>
+                    <label className="text-sm font-bold uppercase text-gray-400">Full Name *</label>
                     <input
                       type="text"
                       required
@@ -662,18 +662,18 @@ export default function CustomerAccountPage() {
                   </div>
                   
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase text-gray-400">Email Address *</label>
+                    <label className="text-sm font-bold uppercase text-gray-400">Email Address *</label>
                     <input
                       type="email"
                       disabled
                       value={user?.email || ""}
                       className="w-full bg-black/50 border border-gray-800 text-gray-500 rounded-xl px-4 py-3 text-sm cursor-not-allowed"
                     />
-                    <p className="text-xs text-gray-600 italic mt-1">Email address cannot be changed</p>
+                    <p className="text-sm text-gray-600 italic mt-1">Email address cannot be changed</p>
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase text-gray-400">Phone Number</label>
+                    <label className="text-sm font-bold uppercase text-gray-400">Phone Number</label>
                     <input
                       type="tel"
                       value={profileForm.phone}
@@ -686,21 +686,21 @@ export default function CustomerAccountPage() {
                     <h3 className="text-lg font-black text-white mb-4">Password change</h3>
                     <div className="space-y-4">
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase text-gray-400">Current password (leave blank to leave unchanged)</label>
+                        <label className="text-sm font-bold uppercase text-gray-400">Current password (leave blank to leave unchanged)</label>
                         <input
                           type="password"
                           className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none"
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase text-gray-400">New password (leave blank to leave unchanged)</label>
+                        <label className="text-sm font-bold uppercase text-gray-400">New password (leave blank to leave unchanged)</label>
                         <input
                           type="password"
                           className="w-full bg-black border border-gray-700 focus:border-[#6eff86] rounded-xl px-4 py-3 text-white text-sm outline-none"
                         />
                       </div>
                     </div>
-                    <p className="text-xs text-gray-500 mt-3 italic">
+                    <p className="text-sm text-gray-500 mt-3 italic">
                       Note: Password change via API requires a dedicated endpoint. Updating your profile name/phone will work above!
                     </p>
                   </div>
