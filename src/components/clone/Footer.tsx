@@ -61,9 +61,6 @@ export function Footer() {
             <ul className="space-y-3 text-gray-400">
               <li><Link href="/about" className="hover:text-brand-green transition-colors">About Us</Link></li>
               <li><Link href="/contact" className="hover:text-brand-green transition-colors">Contact Us</Link></li>
-              <li><Link href="/shipping-policy" className="hover:text-brand-green transition-colors">Shipping Policy</Link></li>
-              <li><Link href="/return-refund" className="hover:text-brand-green transition-colors">Return & Refund</Link></li>
-              <li><Link href="/terms-of-service" className="hover:text-brand-green transition-colors">Terms of Service</Link></li>
               {pages?.map((page) => (
                 <li key={page.id}>
                   <Link href={`/${page.slug.replace(/^\//, '')}`} className="hover:text-brand-green transition-colors">
