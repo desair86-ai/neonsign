@@ -30,8 +30,8 @@ export function Footer() {
                   <div className="h-12 w-12 lg:h-16 lg:w-16 relative cursor-pointer flex-shrink-0">
                     <NeonIcon />
                   </div>
-                  {/* Desktop Full Logo (shown on medium and up) */}
-                  <div className="hidden md:block h-14 lg:h-20 w-[240px] lg:w-[320px] relative cursor-pointer transition-transform duration-500 origin-left flex-shrink-0">
+                  {/* Full Logo */}
+                  <div className="h-14 lg:h-20 w-[240px] lg:w-[320px] relative cursor-pointer transition-transform duration-500 origin-left flex-shrink-0">
                     <NeonLogo />
                   </div>
               </Link>

@@ -10,7 +10,7 @@ export function NeonIcon({ className = "" }: { className?: string }) {
       animate={{ scale: [1, 1.05, 1] }}
       transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
     >
-      <img src="/The Neon Stack ICON-03.svg" className="w-full h-full object-contain" alt="Neon Stack Icon" />
+      <img src="/neon-stack-icon.svg" className="w-full h-full object-contain" alt="Neon Stack Icon" />
     </motion.div>
   );
 }
