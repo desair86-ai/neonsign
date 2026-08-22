@@ -526,3 +526,12 @@ header img:focus {
 
 
 
+
+@keyframes logo-glow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(110,255,134,0.7)) drop-shadow(0 0 12px rgba(202,110,255,0.5)); }
+  50% { filter: drop-shadow(0 0 16px rgba(110,255,134,1)) drop-shadow(0 0 24px rgba(202,110,255,0.9)); }
+}
+.animate-logo-glow {
+  animation: logo-glow 3s infinite alternate ease-in-out;
+}
+

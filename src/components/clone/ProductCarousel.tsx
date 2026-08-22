@@ -43,11 +43,14 @@ export function ProductCarousel({ title, products, theme = "dark" }: ProductCaro
 
       <div className="overflow-hidden -mx-6 px-6 -my-8 py-8" ref={emblaRef}>
         <div className="flex gap-6 items-stretch">
-          {products.map((product, index) => (
-            <div key={product.id} className="flex-[0_0_65%] sm:flex-[0_0_45%] md:flex-[0_0_32%] lg:flex-[0_0_23%] min-w-0">
-              <ProductCard product={product} index={index} theme={theme} />
-            </div>
-          ))}
+          {products.map((product, index) => {
+            const isCenterCurated = title === "Curated Favourites" && index === Math.floor(products.length / 2);
+            return (
+              <div key={product.id} className="flex-[0_0_65%] sm:flex-[0_0_45%] md:flex-[0_0_32%] lg:flex-[0_0_23%] min-w-0">
+                <ProductCard product={product} index={index} theme={theme} isHighlighted={isCenterCurated} />
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

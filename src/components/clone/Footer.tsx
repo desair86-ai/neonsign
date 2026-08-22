@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { FaInstagram, FaFacebook, FaTwitter, FaPinterest, FaLinkedin } from 'react-icons/fa';
 import { supabase } from '@/lib/supabase';
 import { ButtonParticles } from '@/components/ui/button-particles';
+import { NeonLogo } from '@/components/clone/NeonLogo';
+import { NeonIcon } from '@/components/clone/NeonIcon';
 
 export function Footer() {
   const [pages, setPages] = useState<{id: number, title: string, slug: string}[] | null>(null);
@@ -23,12 +25,15 @@ export function Footer() {
           {/* Brand Col */}
           <div>
             <div className="mb-6 select-none w-full relative z-50 outline-none border-none">
-              <Link href="/" className="block cursor-pointer inline-block outline-none border-none focus:outline-none focus-visible:outline-none shadow-none group">
-                  <img 
-                    src="/main logo.png" 
-                    alt="The Neon Stack Logo" 
-                    className="h-[120px] md:h-[150px] w-auto object-contain cursor-pointer group-hover:scale-105 transition-transform duration-500 origin-left outline-none border-none drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] drop-shadow-[0_0_20px_rgba(117,46,255,0.6)]" 
-                  />
+              <Link href="/" className="flex items-center gap-4 mb-6 outline-none border-none focus:outline-none shadow-none group">
+                  {/* Icon (always shown) */}
+                  <div className="h-12 w-12 lg:h-16 lg:w-16 relative cursor-pointer flex-shrink-0">
+                    <NeonIcon />
+                  </div>
+                  {/* Desktop Full Logo (shown on medium and up) */}
+                  <div className="hidden md:block h-14 lg:h-20 w-[240px] lg:w-[320px] relative cursor-pointer transition-transform duration-500 origin-left flex-shrink-0">
+                    <NeonLogo />
+                  </div>
               </Link>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">

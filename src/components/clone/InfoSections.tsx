@@ -25,9 +25,9 @@ export function InfoSections() {
             
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
-              src="/main logo.png" 
+              src="/The Neon Stack Logo + Tagline-02.svg" 
               alt="Neon Stack Logo" 
-              className="h-20 md:h-24 mb-6 object-contain drop-shadow-[0_0_15px_rgba(110,255,134,0.2)]" 
+              className="h-16 md:h-20 mb-6 object-contain" 
             />
             
             <h2 className="text-5xl md:text-7xl font-black mb-6 leading-tight">

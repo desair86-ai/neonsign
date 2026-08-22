@@ -31,12 +31,25 @@ export async function fetchGraphQL(query: string, variables: any = {}) {
   return json.data;
 }
 
-export async function getProducts(categorySlug?: string, first = 20) {
+export async function getProducts(categorySlug?: string, first = 20, sort?: string) {
   const categoryFilter = categorySlug ? `categoryIn: ["${categorySlug}"], ` : '';
   
+  let orderbyFilter = '';
+  if (sort === 'popularity') {
+    orderbyFilter = `orderby: { field: TOTAL_SALES, order: DESC }, `;
+  } else if (sort === 'rating') {
+    orderbyFilter = `orderby: { field: RATING, order: DESC }, `;
+  } else if (sort === 'date') {
+    orderbyFilter = `orderby: { field: DATE, order: DESC }, `;
+  } else if (sort === 'price-asc') {
+    orderbyFilter = `orderby: { field: PRICE, order: ASC }, `;
+  } else if (sort === 'price-desc') {
+    orderbyFilter = `orderby: { field: PRICE, order: DESC }, `;
+  }
+
   const query = `
     query GetProducts($first: Int!) {
-      products(first: $first, where: { ${categoryFilter} status: "PUBLISH" }) {
+      products(first: $first, where: { ${categoryFilter}${orderbyFilter}status: "PUBLISH" }) {
         nodes {
           id
           databaseId

@@ -36,15 +36,15 @@ export function SpliteInteractive() {
           {/* Glow behind the robot */}
           <div className="absolute inset-0 bg-gradient-to-br from-brand-green/20 via-transparent to-brand-purple/20 opacity-50 blur-2xl z-0" />
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-4 uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient relative z-10 text-center drop-shadow-[0_0_10px_rgba(110,255,134,0.3)]">
-            THE NEON STACK
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-pacifico mb-4 tracking-normal text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient relative z-10 text-center drop-shadow-[0_0_15px_rgba(110,255,134,0.4)] pt-8">
+            The Neon Stack
           </h1>
 
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
             src="/Mascot.png" 
             alt="Neon Stack Mascot" 
-            className="relative z-10 w-auto h-auto max-w-full max-h-[90%] object-contain drop-shadow-[0_0_20px_rgba(110,255,134,0.3)]"
+            className="relative z-10 w-auto h-auto max-w-full max-h-[75%] object-contain drop-shadow-[0_0_20px_rgba(110,255,134,0.3)]"
           />
         </div>
 

@@ -57,9 +57,9 @@ export function Features() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-black uppercase tracking-tight text-white mb-4"
+            className="text-3xl md:text-5xl font-black tracking-tight text-white mb-4"
           >
-            Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">The Neon Stack</span>
+            Why choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">the neon stack</span>
           </motion.h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10">
@@ -72,16 +72,16 @@ export function Features() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 viewport={{ once: true, margin: "-50px" }}
-                className="flex flex-col items-center text-center group cursor-default bg-zinc-900/30 hover:bg-zinc-900/70 border border-white/5 rounded-2xl p-6 md:p-8 transition-all duration-300"
+                className="flex flex-col items-center text-justify group cursor-default bg-zinc-900/30 hover:bg-zinc-900/70 border border-white/5 rounded-2xl p-6 md:p-8 transition-all duration-300"
               >
                 <div className={`w-16 h-16 md:w-20 md:h-20 mb-6 rounded-full border border-white/10 flex items-center justify-center bg-zinc-950 group-hover:bg-zinc-900 transition-all duration-500 shadow-xl group-hover:scale-110 ${feature.glow}`}>
                   <Icon className={`w-7 h-7 md:w-8 md:h-8 ${feature.color} transition-transform duration-500 group-hover:scale-110`} strokeWidth={1.5} />
                 </div>
-                <div className="transition-transform duration-500 group-hover:-translate-y-1">
-                  <h3 className={`text-sm font-bold uppercase tracking-widest mb-4 text-white transition-colors duration-500 ${feature.hoverText}`}>
+                <div className="transition-transform duration-500 group-hover:-translate-y-1 w-full">
+                  <h3 className={`text-sm text-center font-bold uppercase tracking-widest mb-4 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-colors duration-500 ${feature.hoverText}`}>
                     {feature.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-zinc-400 opacity-70 translate-y-2 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 group-hover:text-zinc-100">
+                  <p className="text-sm leading-relaxed text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.3)] transition-all duration-500 group-hover:text-white">
                     {feature.description}
                   </p>
                 </div>

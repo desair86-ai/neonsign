@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/lib/CartContext';
+import { NeonLogo } from '@/components/clone/NeonLogo';
+import { NeonIcon } from '@/components/clone/NeonIcon';
 
 type NavItem = {
   label: string;
@@ -109,9 +111,12 @@ export function Header() {
       {/* Placeholder for fixed header */}
       <div className="h-20 w-full" />
       
-      <div className="fixed top-0 left-0 z-[60] w-full bg-black text-white border-b border-brand-green shadow-[0_4px_20px_rgba(110,255,134,0.2)] font-poppins">
+      <div className="fixed top-0 left-0 z-[60] w-full bg-black text-white shadow-[0_4px_30px_rgba(202,110,255,0.2)] font-poppins pb-[2px]">
+      {/* Moving border for the header menu */}
+      <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient z-50" />
+      
       {/* Main Header */}
-      <header className="max-w-[1600px] mx-auto px-4 lg:px-10 h-20 flex items-center justify-between relative">
+      <header className="max-w-[1600px] mx-auto px-4 lg:px-10 h-20 flex items-center justify-between relative z-10">
         
         {/* Mobile Menu Icon */}
         <div className="lg:hidden flex items-center">
@@ -126,17 +131,21 @@ export function Header() {
 
         {/* Logo */}
         <div className="flex-shrink-0 relative z-50 outline-none border-none flex items-center">
-          <Link href="/" className="block select-none cursor-pointer outline-none border-none focus:outline-none focus:border-none focus-visible:outline-none shadow-none group">
-              <img 
-                src="/main logo.png" 
-                alt="The Neon Stack Logo" 
-                className="h-[140px] md:h-[180px] w-auto object-contain mb-[-30px] md:mb-[-50px] -mt-6 md:-mt-10 cursor-pointer group-hover:scale-105 transition-transform duration-500 outline-none border-none drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] drop-shadow-[0_0_20px_rgba(117,46,255,0.6)]" 
-              />
-          </Link>
+              <Link href="/" className="flex items-center gap-3 select-none cursor-pointer outline-none border-none focus:outline-none focus:border-none focus-visible:outline-none shadow-none group">
+                {/* Icon (always shown) */}
+                <div className="h-10 w-10 lg:h-14 lg:w-14 relative cursor-pointer flex-shrink-0">
+                  <NeonIcon />
+                </div>
+                
+                {/* Desktop Full Logo (shown on medium and up) */}
+                <div className="hidden md:block h-12 lg:h-16 w-[220px] lg:w-[280px] relative cursor-pointer transition-all duration-700 hover:scale-105 flex-shrink-0">
+                  <NeonLogo />
+                </div>
+            </Link>
         </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-2 xl:gap-5 font-bold text-sm tracking-widest" style={{ fontFamily: 'var(--font-poppins)' }}>
+        <nav className="hidden lg:flex items-center gap-2 xl:gap-5 font-bold text-base tracking-widest" style={{ fontFamily: 'var(--font-poppins)' }}>
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             
@@ -149,7 +158,7 @@ export function Header() {
                       e.preventDefault();
                     }
                   }}
-                  className={`relative px-3.5 py-2.5 rounded-full flex items-center justify-center gap-1.5 uppercase transition-all duration-300 hover:scale-105 cursor-pointer border ${isActive ? 'font-extrabold !text-white border-[#752eff] shadow-[0_0_15px_rgba(117,46,255,0.5)]' : '!text-white border-transparent hover:!text-white hover:border-[#752eff] hover:shadow-[0_0_15px_rgba(117,46,255,0.5)]'}`}
+                  className={`relative px-3.5 py-2.5 rounded-full flex items-center justify-center gap-1.5 capitalize transition-all duration-300 hover:scale-105 cursor-pointer border ${isActive ? 'font-extrabold !text-white border-[#752eff] shadow-[0_0_15px_rgba(117,46,255,0.5)]' : '!text-white border-transparent hover:!text-white hover:border-[#752eff] hover:shadow-[0_0_15px_rgba(117,46,255,0.5)]'}`}
                 >
                   {isActive && (
                     <>
@@ -180,8 +189,11 @@ export function Header() {
                       {item.dropdown && (
                         <div className="flex flex-col min-w-[240px] p-2">
                           {item.dropdown.map(subItem => (
-                            <Link key={subItem.label} href={subItem.href} className="px-4 py-3 text-[15px] font-medium text-zinc-300 rounded-md transition-all duration-300 hover:text-white hover:bg-white/5 hover:translate-x-1 border border-transparent hover:border-brand-purple/50">
-                              {subItem.label}
+                            <Link key={subItem.label} href={subItem.href} className="relative block rounded-md transition-all duration-300 hover:translate-x-1 group/link overflow-hidden mb-1">
+                              <div className="absolute inset-0 bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient opacity-0 group-hover/link:opacity-100 transition-opacity duration-300 rounded-md" />
+                              <div className="relative m-[2px] px-4 py-3 bg-transparent group-hover/link:bg-black rounded-[4px] text-[15px] font-medium text-zinc-300 group-hover/link:text-white transition-colors z-10">
+                                {subItem.label}
+                              </div>
                             </Link>
                           ))}
                         </div>
@@ -200,10 +212,13 @@ export function Header() {
                                     </h4>
                                   )}
                                   {section.items.map((subItem, itemIdx) => (
-                                    <div key={subItem.label} className="group/sub relative">
-                                      <Link href={subItem.href} className="flex items-center justify-between px-3 py-2.5 text-[14px] font-medium leading-snug break-words whitespace-normal text-zinc-400 rounded-md transition-all duration-300 hover:text-white hover:bg-white/5 hover:translate-x-1 border border-transparent hover:border-brand-purple/50">
-                                        {subItem.label}
-                                        {subItem.subMenu && <ChevronDown className="w-4 h-4 -rotate-90 flex-shrink-0 ml-1 opacity-50 group-hover/sub:opacity-100 transition-opacity" />}
+                                    <div key={subItem.label} className="group/sub relative mb-1">
+                                      <Link href={subItem.href} className="relative block rounded-md transition-all duration-300 hover:translate-x-1 group/link overflow-hidden">
+                                        <div className="absolute inset-0 bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient opacity-0 group-hover/link:opacity-100 transition-opacity duration-300 rounded-md" />
+                                        <div className="relative m-[2px] px-3 py-2.5 bg-transparent group-hover/link:bg-black rounded-[4px] flex items-center justify-between text-[14px] font-medium leading-snug break-words whitespace-normal text-zinc-400 group-hover/link:text-white transition-colors z-10">
+                                          {subItem.label}
+                                          {subItem.subMenu && <ChevronDown className="w-4 h-4 -rotate-90 flex-shrink-0 ml-1 opacity-50 group-hover/sub:opacity-100 transition-opacity" />}
+                                        </div>
                                       </Link>
                                       
                                       {/* Sub-menu (pops to left) */}
@@ -211,8 +226,11 @@ export function Header() {
                                         <div className={`absolute right-full ${itemIdx > section.items.length / 2 ? 'bottom-0 -mb-2' : 'top-0'} pr-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 z-50`}>
                                           <div className="bg-black/95 backdrop-blur-xl border-2 border-[#752eff]/50 rounded-lg p-2 shadow-[0_0_15px_rgba(117,46,255,0.3)] whitespace-normal flex flex-col w-[230px]">
                                             {subItem.subMenu.map(deepItem => (
-                                              <Link key={deepItem.label} href={deepItem.href} className="px-3.5 py-2.5 text-sm font-medium leading-snug break-words whitespace-normal text-zinc-400 rounded-md transition-all duration-300 hover:text-white hover:bg-white/5 hover:translate-x-1 border border-transparent hover:border-brand-purple/50">
-                                                {deepItem.label}
+                                              <Link key={deepItem.label} href={deepItem.href} className="relative block rounded-md transition-all duration-300 hover:translate-x-1 group/link overflow-hidden mb-1">
+                                                <div className="absolute inset-0 bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient opacity-0 group-hover/link:opacity-100 transition-opacity duration-300 rounded-md" />
+                                                <div className="relative m-[2px] px-3.5 py-2.5 bg-transparent group-hover/link:bg-black rounded-[4px] text-sm font-medium leading-snug break-words whitespace-normal text-zinc-400 group-hover/link:text-white transition-colors z-10">
+                                                  {deepItem.label}
+                                                </div>
                                               </Link>
                                             ))}
                                           </div>

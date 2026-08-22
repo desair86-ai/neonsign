@@ -430,9 +430,9 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2 group">
             <img 
-              src="/main logo.png" 
+              src="/The Neon Stack Logo + Tagline-02.svg" 
               alt="The Neon Stack Logo" 
-              className="h-[90px] md:h-[120px] w-auto object-contain my-[-25px] group-hover:scale-105 transition-transform" 
+              className="h-10 w-auto object-contain my-0 group-hover:scale-105 transition-transform" 
             />
           </Link>
           <div className="hidden md:flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full">

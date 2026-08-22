@@ -197,21 +197,18 @@ export default function AboutPage() {
             className="p-10 rounded-[2rem] bg-zinc-900/50 backdrop-blur-xl relative group overflow-hidden transition-all duration-500 border border-[#ca6eff]/40 shadow-[0_0_15px_rgba(202,110,255,0.2)] hover:border-[#ca6eff] hover:shadow-[0_0_30px_rgba(202,110,255,0.6)]"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-brand-green/10 to-brand-purple/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <h3 className="text-3xl font-bold mb-8 text-brand-lavender relative z-10">A Letter From The Founder</h3>
+            <h3 className="text-3xl md:text-4xl font-black mb-8 capitalize tracking-tight relative z-10">
+              <span className="text-white">A Letter From</span>{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
+                The Founder
+              </span>
+            </h3>
             <div className="space-y-6 text-zinc-300 font-light text-lg">
               <p>I've always believed that lighting has the power to change the way people experience a space.</p>
               <p>Every time I travelled through Southeast Asia and during my month-long journey across Vietnam, I found myself admiring the vibrant neon-lit streets. Every café had a personality. Every restaurant had an identity. Every lane had a story waiting to be discovered through light.</p>
               <p>When I returned to Mumbai, one thought stayed with me—why shouldn't our spaces tell stories like these?</p>
               <p>That single thought became The Neon Stack.</p>
               <div className="pt-6 border-t border-white/10 mt-8 flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                {/* Founder Photo PlaceHolder with Neon Card Border Effect */}
-                <div className="group relative w-32 h-32 shrink-0 rounded-[2rem] overflow-hidden bg-zinc-900 border-2 border-[#6eff86]/40 shadow-[0_0_15px_rgba(110,255,134,0.2)] transition-all duration-300 hover:border-[#6eff86] hover:shadow-[0_0_30px_rgba(110,255,134,0.6)] hover:scale-105 cursor-pointer">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/placeholder-founder.jpg" alt="Founder Photo" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity hidden" />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/60 group-hover:bg-black/40 transition-colors">
-                    <span className="text-xs text-center font-bold text-[#6eff86] uppercase tracking-wider p-2">Add Photo<br/>Here</span>
-                  </div>
-                </div>
                 
                 <div className="text-center sm:text-left mt-2 sm:mt-0">
                   <p className="italic text-zinc-300">
@@ -227,20 +224,25 @@ export default function AboutPage() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-16"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, margin: "-50px" }}
+            transition={{ duration: 0.8 }}
+            className="flex justify-center items-center h-full w-full relative min-h-[400px] lg:min-h-[550px]"
           >
-            <div>
-              <h3 className="text-3xl font-bold mb-8 text-brand-lavender">What Drives Us</h3>
-              <p className="text-xl font-light text-zinc-300 mb-6">Success, for us, isn't measured only by growth.<br/><strong className="text-white">It is measured by trust.</strong></p>
-              <p className="text-zinc-400">We aspire to become the company customers never have to think twice about. A brand known for premium quality, fastest delivery, ethical business practices and exceptional customer service.</p>
-              <div className="mt-8 p-6 bg-brand-purple/10 border border-brand-purple/20 rounded-xl">
-                <p className="text-lg italic">When someone asks, 'Who makes the best neon signs?', we want the answer to be simple—<strong className="text-brand-purple not-italic ml-2">The Neon Stack.</strong></p>
-              </div>
-            </div>
+            <motion.div
+              animate={{ y: [0, -20, 0] }}
+              transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}
+              className="relative w-full h-full flex justify-center items-center"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-green/20 via-transparent to-brand-purple/20 opacity-50 blur-3xl rounded-full scale-125" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src="/Mascot.png" 
+                alt="Mojo - The Neon Stack Mascot" 
+                className="w-full h-full object-contain relative z-10 drop-shadow-[0_0_30px_rgba(110,255,134,0.4)]"
+              />
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -341,9 +343,9 @@ export default function AboutPage() {
       </section>
 
       {/* The Neon Stack Difference Section */}
-      <section className="py-32 px-4 relative z-50 bg-black overflow-hidden">
+      <section className="pt-32 pb-4 px-4 relative z-50 bg-black overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <h3 className="text-4xl md:text-6xl font-black capitalize tracking-tight mb-6">
               <span className="text-white">The Neon Stack</span>{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-lavender animate-neon-gradient">
@@ -362,9 +364,49 @@ export default function AboutPage() {
               showNavigation 
               showPagination
               loop
-              className="py-12"
+              className="py-6"
             />
           </div>
+        </div>
+      </section>
+
+      {/* What Drives Us Section (Moved from top) */}
+      <section className="pt-4 pb-24 px-4 relative z-50 bg-black">
+        <div className="max-w-5xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            <h3 className="text-4xl md:text-5xl font-black mb-8 capitalize tracking-tight">
+              <span className="text-white">What</span>{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
+                Drives Us
+              </span>
+            </h3>
+            <p className="text-xl md:text-2xl font-light text-zinc-300">
+              Success, for us, isn't measured only by growth.<br/>
+              <strong className="text-white text-3xl mt-4 block">It is measured by trust.</strong>
+            </p>
+            <p className="text-lg text-zinc-400 max-w-3xl mx-auto">
+              We aspire to become the company customers never have to think twice about. A brand known for premium quality, fastest delivery, ethical business practices and exceptional customer service.
+            </p>
+            <div className="mt-12 relative max-w-4xl mx-auto rounded-[20px] p-[2px] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient shadow-[0_0_25px_rgba(202,110,255,0.3)]">
+              <div className="bg-black/95 rounded-[18px] p-8 md:p-10 flex flex-col items-center justify-center relative z-10">
+                <p className="text-xl md:text-2xl italic font-light mb-6">
+                  When someone asks, 'Who makes the best neon signs?', we want the answer to be simple—
+                </p>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img 
+                  src="/The Neon Stack Logo + Tagline-02.svg" 
+                  alt="The Neon Stack" 
+                  className="h-[80px] md:h-[110px] object-contain -mb-4"
+                />
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 

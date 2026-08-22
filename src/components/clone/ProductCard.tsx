@@ -22,6 +22,7 @@ export interface ProductCardProps {
   product: Product;
   index?: number;
   theme?: "light" | "dark";
+  isHighlighted?: boolean;
 }
 
 const glowThemes: GlowCardColorTheme[] = [
@@ -34,7 +35,7 @@ const glowThemes: GlowCardColorTheme[] = [
   "red",
 ];
 
-export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardProps) {
+export function ProductCard({ product, index = 0, theme = "dark", isHighlighted = false }: ProductCardProps) {
   const { addToCart } = useCart();
   const glowTheme = glowThemes[index % glowThemes.length];
   
@@ -55,14 +56,16 @@ export function ProductCard({ product, index = 0, theme = "dark" }: ProductCardP
   };
 
   return (
-    <div className="relative block h-full">
+    <div className={`relative block h-full ${isHighlighted ? 'p-[3px] rounded-2xl bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient shadow-[0_0_20px_rgba(202,110,255,0.4)]' : ''}`}>
       <div 
         className={`relative z-10 block rounded-2xl overflow-hidden border transition-all duration-300 flex flex-col h-full ${
           theme === 'light' 
             ? 'bg-white text-black' 
             : 'bg-zinc-900 text-white'
         } ${
-          glowTheme === 'green' ? 'border-[#6eff86]/40 shadow-[0_0_15px_rgba(110,255,134,0.2)] hover:border-[#6eff86] hover:shadow-[0_0_30px_rgba(110,255,134,0.6)]' :
+          isHighlighted 
+            ? 'border-transparent' // Border is handled by the wrapper gradient
+            : glowTheme === 'green' ? 'border-[#6eff86]/40 shadow-[0_0_15px_rgba(110,255,134,0.2)] hover:border-[#6eff86] hover:shadow-[0_0_30px_rgba(110,255,134,0.6)]' :
           glowTheme === 'pink' ? 'border-[#f967fb]/40 shadow-[0_0_15px_rgba(249,103,251,0.2)] hover:border-[#f967fb] hover:shadow-[0_0_30px_rgba(249,103,251,0.6)]' :
           glowTheme === 'blue' ? 'border-[#00e5ff]/40 shadow-[0_0_15px_rgba(0,229,255,0.2)] hover:border-[#00e5ff] hover:shadow-[0_0_30px_rgba(0,229,255,0.6)]' :
           glowTheme === 'orange' ? 'border-[#fe8a2e]/40 shadow-[0_0_15px_rgba(254,138,46,0.2)] hover:border-[#fe8a2e] hover:shadow-[0_0_30px_rgba(254,138,46,0.6)]' :
