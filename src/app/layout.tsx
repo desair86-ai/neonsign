@@ -127,6 +127,11 @@ const fontVariables = [
 export const metadata: Metadata = {
   title: "The Neon Stack - Custom LED Neon Signs",
   description: "Create and order your own custom premium neon signs.",
+  icons: {
+    icon: "/The Neon Stack ICON-03.svg",
+    shortcut: "/The Neon Stack ICON-03.svg",
+    apple: "/The Neon Stack ICON-03.svg",
+  },
 };
 
 export default async function RootLayout({

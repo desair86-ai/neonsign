@@ -13,6 +13,8 @@ import { useMascot } from "@/hooks/useMascot";
 import { MascotState } from "@/components/mascot/MascotStateMachine";
 import { ButtonParticles } from '@/components/ui/button-particles';
 import { useCart } from "@/lib/CartContext";
+import { NeonLogo } from '@/components/clone/NeonLogo';
+import { NeonIcon } from '@/components/clone/NeonIcon';
 
 const FONTS = [
   { name: 'Passionate', class: 'font-pacifico', category: 'popular' },
@@ -427,13 +429,14 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
       
       {/* 1. Minimalist Configurator Header (Addressing Point #7: Removed competing navigation, kept only Logo, Help, Save, Cart) */}
       <header className="w-full bg-[#0a0a0a]/95 backdrop-blur-2xl border-b-[3px] border-brand-green px-4 md:px-8 h-20 flex items-center justify-between sticky top-0 z-50 shadow-2xl">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 group">
-            <img 
-              src="/The Neon Stack Logo + Tagline-02.svg" 
-              alt="The Neon Stack Logo" 
-              className="h-10 w-auto object-contain my-0 group-hover:scale-105 transition-transform" 
-            />
+        <div className="flex items-center gap-4 md:gap-6">
+          <Link href="/" className="flex items-center gap-2 lg:gap-3 select-none cursor-pointer outline-none border-none focus:outline-none shadow-none group flex-shrink-0">
+            <div className="hidden md:block h-12 lg:h-16 w-[200px] lg:w-[260px] relative cursor-pointer transition-all duration-700 hover:scale-105 flex-shrink-0">
+              <NeonLogo />
+            </div>
+            <div className="h-10 w-10 lg:h-14 lg:w-14 relative cursor-pointer flex-shrink-0">
+              <NeonIcon />
+            </div>
           </Link>
           <div className="hidden md:flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full">
             <span className="text-xs font-black text-brand-green uppercase tracking-widest flex items-center gap-1.5">

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { Search, ShoppingBag, User, Menu, X, ChevronDown } from 'lucide-react';
+import { Search, ShoppingBag, User, Menu, X, ChevronDown, ShieldCheck, Truck, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -109,10 +109,47 @@ export function Header() {
   return (
     <>
       {/* Placeholder for fixed header */}
-      <div className="h-20 w-full" />
+      <div className="h-[160px] w-full" />
       
       <div className="fixed top-0 left-0 z-[60] w-full bg-black text-white shadow-[0_4px_30px_rgba(202,110,255,0.2)] font-poppins pb-[2px]">
-      {/* Moving border for the header menu */}
+              {/* Top Announcement Bar 1 */}
+        <div className="w-full bg-black flex items-center justify-center py-2 px-4 border-b border-[#222]">
+          <div className="text-[13px] md:text-[15px] font-bold tracking-wide flex items-center flex-wrap justify-center gap-3">
+            <div>
+              <span className="text-[#D946EF]">FESTIVE SALE:</span>
+              <span className="text-white ml-1 font-normal">10% OFF SITEWIDE (CODE: </span>
+              <span className="text-[#D946EF]">NEON10</span>
+              <span className="text-white font-normal">)</span>
+            </div>
+            
+            <div className="rounded-md p-[1px] bg-gradient-to-r from-[#D946EF] via-purple-500 to-[#6EFF86]">
+              <div className="rounded-md bg-black px-4 py-1 flex items-center">
+                <span className="text-white font-bold tracking-widest text-[14px]">Ends In : &nbsp;07 : 41 : 31</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Top Announcement Bar 2 */}
+        <div className="w-full bg-[#151515] flex items-center justify-center py-2.5 px-4 text-[12px] md:text-[14px] font-semibold text-white border-b border-[#222]">
+          <div className="flex items-center gap-3 md:gap-6 flex-wrap justify-center">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4" />
+              <span>3 Years Warranty</span>
+            </div>
+            <span className="text-white/30 font-light">|</span>
+            <div className="flex items-center gap-2">
+              <Truck className="w-4 h-4" />
+              <span>Free Shipping</span>
+            </div>
+            <span className="text-white/30 font-light">|</span>
+            <div className="flex items-center gap-2">
+              <Phone className="w-4 h-4" />
+              <span>1800-102-6484</span>
+            </div>
+          </div>
+        </div>
+        {/* Moving border for the header menu */}
       <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient z-50" />
       
       {/* Main Header */}
@@ -131,15 +168,13 @@ export function Header() {
 
         {/* Logo */}
         <div className="flex-shrink-0 relative z-50 outline-none border-none flex items-center">
-              <Link href="/" className="flex items-center gap-3 select-none cursor-pointer outline-none border-none focus:outline-none focus:border-none focus-visible:outline-none shadow-none group">
-                {/* Icon (always shown) */}
+              <Link href="/" className="flex items-center gap-2 lg:gap-3 select-none cursor-pointer outline-none border-none focus:outline-none focus:border-none focus-visible:outline-none shadow-none group">
+                {/* Full logo (desktop) or icon-only (mobile) */}
+                <div className="hidden md:block h-12 lg:h-16 w-[200px] lg:w-[260px] relative cursor-pointer transition-all duration-700 hover:scale-105 flex-shrink-0">
+                  <NeonLogo />
+                </div>
                 <div className="h-10 w-10 lg:h-14 lg:w-14 relative cursor-pointer flex-shrink-0">
                   <NeonIcon />
-                </div>
-                
-                {/* Desktop Full Logo (shown on medium and up) */}
-                <div className="hidden md:block h-12 lg:h-16 w-[220px] lg:w-[280px] relative cursor-pointer transition-all duration-700 hover:scale-105 flex-shrink-0">
-                  <NeonLogo />
                 </div>
             </Link>
         </div>
@@ -381,3 +416,5 @@ export function Header() {
     </>
   );
 }
+
+

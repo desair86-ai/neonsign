@@ -62,7 +62,7 @@ export function NeonLogo({ className = "" }: { className?: string }) {
 
 
 <svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" 
-	 x="0px" y="0px" viewBox="0 0 960 227.5" overflow="visible" >
+	 x="0px" y="0px" viewBox="65 32 870 175" overflow="visible" className="w-full h-full" preserveAspectRatio="xMinYMid meet" >
 
 <g>
 	<g>

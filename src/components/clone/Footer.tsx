@@ -24,15 +24,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand Col */}
           <div>
-            <div className="mb-6 select-none w-full relative z-50 outline-none border-none">
-              <Link href="/" className="flex items-center gap-4 mb-6 outline-none border-none focus:outline-none shadow-none group">
-                  {/* Icon (always shown) */}
-                  <div className="h-12 w-12 lg:h-16 lg:w-16 relative cursor-pointer flex-shrink-0">
-                    <NeonIcon />
-                  </div>
-                  {/* Full Logo */}
-                  <div className="h-14 lg:h-20 w-[240px] lg:w-[320px] relative cursor-pointer transition-transform duration-500 origin-left flex-shrink-0">
+            <div className="mb-6 select-none relative z-50 outline-none border-none">
+              <Link href="/" className="inline-flex items-center gap-3 mb-6 outline-none border-none focus:outline-none shadow-none group">
+                  <div className="h-14 lg:h-20 w-[200px] sm:w-[240px] lg:w-[280px] relative cursor-pointer transition-transform duration-500 flex-shrink-0">
                     <NeonLogo />
+                  </div>
+                  <div className="h-10 w-10 lg:h-14 lg:w-14 relative cursor-pointer flex-shrink-0 self-center">
+                    <NeonIcon />
                   </div>
               </Link>
             </div>
