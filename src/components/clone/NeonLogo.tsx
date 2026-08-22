@@ -22,6 +22,10 @@ export function NeonLogo({ className = "" }: { className?: string }) {
           0%, 100% { filter: brightness(1.3) drop-shadow(0 0 5px #752EFF) drop-shadow(0 0 15px #752EFF); }
           50% { filter: brightness(1.6) drop-shadow(0 0 8px #752EFF) drop-shadow(0 0 25px #752EFF); }
         }
+        @keyframes neonFlickerPurple {
+          0%, 4%, 8%, 100% { filter: brightness(1.3) drop-shadow(0 0 5px #752EFF) drop-shadow(0 0 15px #752EFF); opacity: 1; }
+          2%, 6% { filter: brightness(1) drop-shadow(0 0 2px #752EFF); opacity: 0.5; }
+        }
 
         @keyframes neonStartupGreen {
           0%, 30% { opacity: 0; }
@@ -35,9 +39,13 @@ export function NeonLogo({ className = "" }: { className?: string }) {
           50% { filter: brightness(1.6) drop-shadow(0 0 8px #6EFF86) drop-shadow(0 0 25px #6EFF86); }
         }
         
-        .neon-single-layer path[stroke="#752EFF"], .neon-single-layer path[fill="#BCA9FF"] {
+        .neon-single-layer path[stroke="#752EFF"], .neon-single-layer rect[stroke="#752EFF"], .neon-single-layer line[stroke="#752EFF"], .neon-single-layer path[fill="#BCA9FF"] {
           opacity: 0;
           animation: neonStartupPurple 1.5s ease-in forwards, neonPulsePurple 4s 1.5s infinite alternate ease-in-out;
+        }
+
+        .neon-single-layer path[fill="#BCA9FF"] {
+          animation: neonStartupPurple 1.5s ease-in forwards, neonFlickerPurple 5s 3s infinite;
         }
         
         .neon-single-layer path[fill="#6EFF86"], .neon-single-layer line[stroke="#6EFF86"] {
@@ -50,10 +58,11 @@ export function NeonLogo({ className = "" }: { className?: string }) {
         }
       ` }} />
       
-      {/* Single Layer with Intense CSS Drop Shadows and Brightness */}
       <div className="relative z-10 w-full h-full neon-single-layer">
-<svg className="w-full h-full object-contain" version="1.1"  id="Layer_1" xmlns="http://www.w3.org/2000/svg" 
-	  viewBox="0 0 960 227.5" overflow="visible" >
+
+
+<svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" 
+	 x="0px" y="0px" viewBox="0 0 960 227.5" overflow="visible" >
 
 <g>
 	<g>
@@ -76,15 +85,15 @@ export function NeonLogo({ className = "" }: { className?: string }) {
 					
 					<g>
 						<g>
-							<path fill="#BCA9FF" stroke="#752EFF" strokeWidth="4.1454" strokeMiterlimit="10" d="M130.5,154.6c-0.9,0-1.6-0.2-2.1-0.5
+							<path fill="#BCA9FF" stroke="#752EFF" stroke-width="4.1454" stroke-miterlimit="10" d="M130.5,154.6c-0.9,0-1.6-0.2-2.1-0.5
 								c-0.5-0.3-1.1-0.8-1.6-1.3L71.1,98.7h-0.2v53.2c0,1.8-0.8,2.7-2.3,2.7h-3.4c-1.6,0-2.4-0.9-2.4-2.7V93.1
 								c0-1.8,0.8-2.7,2.4-2.7h7.4c0.9,0,1.6,0.2,2.1,0.5c0.5,0.3,1.1,0.8,1.6,1.3l55.6,54.2h0.2V93.1c0-1.8,0.8-2.7,2.3-2.7h3.5
 								c1.6,0,2.3,0.9,2.3,2.7v58.8c0,1.8-0.8,2.7-2.3,2.7H130.5z"/>
-							<path fill="#BCA9FF" stroke="#752EFF" strokeWidth="4.1454" strokeMiterlimit="10" d="M263.4,154.6c-9.1,0-16-2.7-20.5-8.1
+							<path fill="#BCA9FF" stroke="#752EFF" stroke-width="4.1454" stroke-miterlimit="10" d="M263.4,154.6c-9.1,0-16-2.7-20.5-8.1
 								c-4.6-5.4-6.9-13.4-6.9-24.1c0-10.7,2.3-18.7,6.9-24.1c4.6-5.4,11.4-8.1,20.5-8.1h25.8c9.1,0,16,2.7,20.5,8.1
 								c4.6,5.4,6.9,13.4,6.9,24.1c0,10.7-2.3,18.7-6.9,24.1c-4.6,5.4-11.4,8.1-20.5,8.1H263.4z M288,146.3
 								c13.5,0,20.2-7.9,20.2-23.8c0-15.9-6.7-23.8-20.2-23.8h-23.2c-13.5,0-20.2,7.9-20.2,23.8c0,15.9,6.7,23.8,20.2,23.8H288z"/>
-							<path fill="#BCA9FF" stroke="#752EFF" strokeWidth="4.1454" strokeMiterlimit="10" d="M395.7,154.6c-0.9,0-1.6-0.2-2.1-0.5
+							<path fill="#BCA9FF" stroke="#752EFF" stroke-width="4.1454" stroke-miterlimit="10" d="M395.7,154.6c-0.9,0-1.6-0.2-2.1-0.5
 								c-0.5-0.3-1.1-0.8-1.6-1.3l-55.6-54.2h-0.2v53.2c0,1.8-0.8,2.7-2.3,2.7h-3.4c-1.6,0-2.4-0.9-2.4-2.7V93.1
 								c0-1.8,0.8-2.7,2.4-2.7h7.4c0.9,0,1.6,0.2,2.1,0.5c0.5,0.3,1.1,0.8,1.6,1.3l55.6,54.2h0.2V93.1c0-1.8,0.8-2.7,2.3-2.7h3.5
 								c1.6,0,2.3,0.9,2.3,2.7v58.8c0,1.8-0.8,2.7-2.3,2.7H395.7z"/>
@@ -186,8 +195,8 @@ export function NeonLogo({ className = "" }: { className?: string }) {
 				c-0.6,0.6-1.5,0.9-2.8,0.9h-10.2c-0.3,0-0.4-0.2-0.4-0.5v-0.5c0-0.3,0.1-0.5,0.4-0.5h10.2c1.4,0,2-0.7,2-2.1
 				c0-1.2-0.5-1.8-1.5-1.8h-8.5C634.7,188.7,633.8,187.7,633.8,185.5z"/>
 		</g>
-		<line fill="none" stroke="#6EFF86" strokeWidth="1.2055" strokeMiterlimit="10" x1="75.1" y1="188.4" x2="290.4" y2="188.4"/>
-		<line fill="none" stroke="#6EFF86" strokeWidth="1.2055" strokeMiterlimit="10" x1="665.4" y1="188.4" x2="880.7" y2="188.4"/>
+		<line fill="none" stroke="#6EFF86" stroke-width="1.2055" stroke-miterlimit="10" x1="75.1" y1="188.4" x2="290.4" y2="188.4"/>
+		<line fill="none" stroke="#6EFF86" stroke-width="1.2055" stroke-miterlimit="10" x1="665.4" y1="188.4" x2="880.7" y2="188.4"/>
 	</g>
 	<g>
 		<path fill="#FFFFFF" d="M924.5,93.1l0,1.1l0,0.2c-0.3,4.3-3.8,7.7-8,8l-0.2,0l-1.1,0c-2-0.1-3.9-1-5.4-2.3
@@ -198,6 +207,8 @@ export function NeonLogo({ className = "" }: { className?: string }) {
 	</g>
 </g>
 </svg>
+
+
       </div>
     </motion.div>
   );

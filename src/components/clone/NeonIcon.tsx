@@ -7,43 +7,10 @@ export function NeonIcon({ className = "" }: { className?: string }) {
   return (
     <motion.div 
       className={`relative w-full h-full ${className}`}
-      animate={{ scale: [1, 1.02, 1] }}
+      animate={{ scale: [1, 1.05, 1] }}
       transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
     >
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes neonIconStartup {
-          0%, 20% { opacity: 0; filter: brightness(1); }
-          30% { opacity: 1; filter: brightness(1.5) drop-shadow(0 0 5px rgba(117,46,255,0.8)) drop-shadow(0 0 10px rgba(110,255,134,0.8)); }
-          40% { opacity: 0; }
-          50% { opacity: 1; filter: brightness(2) drop-shadow(0 0 8px rgba(117,46,255,0.8)) drop-shadow(0 0 20px rgba(110,255,134,0.8)) drop-shadow(0 0 40px rgba(110,255,134,0.8)); }
-          100% { opacity: 1; filter: brightness(1.3) drop-shadow(0 0 5px rgba(117,46,255,0.6)) drop-shadow(0 0 15px rgba(110,255,134,0.6)); }
-        }
-        @keyframes neonIconPulse {
-          0%, 100% { filter: brightness(1.3) drop-shadow(0 0 5px rgba(117,46,255,0.6)) drop-shadow(0 0 15px rgba(110,255,134,0.6)); }
-          50% { filter: brightness(1.6) drop-shadow(0 0 8px rgba(117,46,255,0.8)) drop-shadow(0 0 25px rgba(110,255,134,0.8)); }
-        }
-        
-        .neon-icon-path {
-          opacity: 0;
-          animation: neonIconStartup 1.5s ease-in forwards, neonIconPulse 4s 1.5s infinite alternate ease-in-out;
-        }
-      ` }} />
-      
-      <div className="relative z-10 w-full h-full">
-        <svg className="w-full h-full object-contain" viewBox="0 0 285.96 325.53">
-          <defs>
-            <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#752EFF" />
-              <stop offset="100%" stopColor="#6EFF86" />
-            </linearGradient>
-          </defs>
-          <path 
-            className="neon-icon-path"
-            fill="url(#iconGrad)" 
-            d="M96,258.57,46.15,303.11l0-280.46L60,33c18.29,13.73,36.1,27.7,53.92,42.08l21.43,17.28L126,100.73c-.75.67-1.56,1.11-2.48.4L106.36,87.81l-43-33a1.08,1.08,0,0,0-1.09-.2.84.84,0,0,0-.54.88l.07,54.37.12,160.52c1.2.6,1.94,0,2.71-.71L89,246.33c16.46-16.29,32.34-32.89,48.27-49.7L159,173a3.07,3.07,0,0,0,.58-3,2.57,2.57,0,0,0-2.5-1.59l-64.71-.06a6.47,6.47,0,0,1-5-2.63c-1.29-1.82-2-6.2-.59-7.83a186.32,186.32,0,0,1,16.46-17.23l37.52-35.2L190.12,63.2,239.2,22.87a1,1,0,0,1,.63-.45V302.75l-25.09-22.36L153,225.57c-.55-.83-.13-1.44.49-2l8.17-7.5a1.21,1.21,0,0,1,1.93.21l34.72,31.1L223.84,270l.17-72.33.06-142.46a.69.69,0,0,0-.56-.67,1.32,1.32,0,0,0-1.12.24L199.67,74.37l-21.41,19c-17.28,15.32-34,30.94-50.5,47a2.59,2.59,0,0,0-.87,2.73,2.3,2.3,0,0,0,2.17,1.48h24.42l19.48,0,21.41.28a6.74,6.74,0,0,1,5.58,3.35c2.71,5-1,11.28-4.75,15.44L182,178.38c-17.61,17.63-35.74,34.49-54.16,51.33Z" 
-          />
-        </svg>
-      </div>
+      <img src="/The Neon Stack ICON-03.svg" className="w-full h-full object-contain" alt="Neon Stack Icon" />
     </motion.div>
   );
 }
