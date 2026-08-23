@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, ShoppingBag, User, Menu, X, ChevronDown, ShieldCheck, Truck, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -20,6 +20,18 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   
+  // Theme toggle state
+  const [theme, setTheme] = useState<'classic' | 'premium' | 'light'>('classic');
+
+  useEffect(() => {
+    document.documentElement.classList.remove('theme-premium', 'theme-light');
+    if (theme === 'premium') {
+      document.documentElement.classList.add('theme-premium');
+    } else if (theme === 'light') {
+      document.documentElement.classList.add('theme-light');
+    }
+  }, [theme]);
+
   const pathname = usePathname();
   const { cartCount } = useCart();
 
@@ -116,6 +128,28 @@ export function Header() {
         <div className="w-full bg-black relative flex flex-col h-full rounded-b-[2px]">
           {/* Top Announcement Bar */}
           <div className="relative w-full flex items-center justify-center py-2.5 px-4">
+            <div className="absolute left-4 md:flex items-center gap-2 hidden">
+              <span className="text-[10px] uppercase tracking-wider text-gray-400 font-bold">Theme:</span>
+              <button 
+                onClick={() => setTheme('classic')}
+                className={`text-[10px] px-2 py-0.5 rounded-full font-bold transition-colors ${theme === 'classic' ? 'bg-white text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+              >
+                Classic
+              </button>
+              <button 
+                onClick={() => setTheme('premium')}
+                className={`text-[10px] px-2 py-0.5 rounded-full font-bold transition-colors ${theme === 'premium' ? 'bg-gradient-to-r from-brand-purple to-brand-green text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+              >
+                Premium
+              </button>
+              <button 
+                onClick={() => setTheme('light')}
+                className={`text-[10px] px-2 py-0.5 rounded-full font-bold transition-colors ${theme === 'light' ? 'bg-white text-black shadow-[0_0_10px_white]' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+              >
+                Light
+              </button>
+            </div>
+            
             <div className="text-[13px] md:text-[15px] font-bold tracking-wide flex items-center flex-wrap justify-center gap-2 md:gap-4 text-center">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
                 We Exist
