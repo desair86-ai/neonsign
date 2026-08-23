@@ -1055,63 +1055,60 @@ header img:focus {
 
 
 /* =========================================================================================
-   PREMIUM THEME UPDATE 
+
+/* =========================================================================================
+   PREMIUM THEME UPDATE (V3.1: Specific Structural Targeting)
    ========================================================================================= */
 
-/* Primary atmospheric gradient for the main backgrounds */
+/* Apply the fixed background image strictly to the body and main section wrappers.
+   We specifically use section.bg-black and section.bg-zinc-950 so we do not accidentally 
+   camouflage the inner cards (which use div.bg-zinc-950). */
 .theme-premium body,
 .theme-premium main,
 .theme-premium .min-h-screen,
-.theme-premium .bg-black {
-  background: linear-gradient(135deg, #0B1016 0%, #18232D 100%) !important;
-  background-attachment: fixed !important; /* Keeps the gradient static during scrolling */
+.theme-premium section,
+.theme-premium section.bg-black,
+.theme-premium section.bg-zinc-950,
+.theme-premium main.bg-\[\#080808\],
+.theme-premium main.bg-\[\#09090b\] {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://lightseagreen-caterpillar-909783.hostingersite.com/wp-content/uploads/2026/08/background.jpg") no-repeat center center fixed !important;
+  background-size: cover !important;
 }
 
-/* Header and Footer should stay solidly at the darkest end of the gradient for anchoring */
+/* Ensure the header and footer get the background image but stay slightly darkened for readability */
 .theme-premium header,
 .theme-premium footer,
 .theme-premium header.bg-black,
-.theme-premium footer.bg-black,
-.theme-premium header.bg-zinc-950,
-.theme-premium footer.bg-zinc-950 {
-  background: #0B1016 !important;
+.theme-premium footer.bg-black {
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("https://lightseagreen-caterpillar-909783.hostingersite.com/wp-content/uploads/2026/08/background.jpg") no-repeat center center fixed !important;
+  background-size: cover !important;
 }
 
-/* Utility / Content-heavy sections (Cards, Accordions, Info Boxes) get solid #141A20 */
-.theme-premium .bg-zinc-950,
-.theme-premium .bg-zinc-900,
-.theme-premium .bg-zinc-800,
-.theme-premium [class*="bg-zinc-900/"],
-.theme-premium [class*="bg-zinc-800/"],
-.theme-premium [class*="bg-zinc-950/"],
-.theme-premium [class*="bg-black/"],
-.theme-premium .bg-\[\#111111\],
-.theme-premium .bg-\[\#111111\]\/40,
-.theme-premium .bg-white\/5,
-.theme-premium .bg-white\/10 {
-  background: #141A20 !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-}
+/* CARDS ARE LEFT COMPLETELY ALONE TO MAINTAIN ORIGINAL UI AND ANIMATIONS */
 
-/* Ensure any inputs or utility boxes inside these are visible */
-.theme-premium input,
-.theme-premium textarea {
-  background: #0B1016 !important;
-  color: #FFFFFF !important;
-}
 
-/* Hover effects for premium cards */
-.theme-premium [class*="hover:bg-zinc-"]:hover,
-.theme-premium [class*="hover:bg-black/"]:hover,
-.theme-premium [class*="hover:bg-white/"]:hover {
-  background: #1A222A !important;
+/* Ensure the Hero section (Splite) inner containers get the background image directly so we do not expose the wrapper gradient */
+.theme-premium .rounded-b-\[calc\(2rem-2px\)\],
+.theme-premium .rounded-b-\[calc\(2rem-2px\)\] .bg-black {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://lightseagreen-caterpillar-909783.hostingersite.com/wp-content/uploads/2026/08/background.jpg") no-repeat center center fixed !important;
+  background-size: cover !important;
 }
 
 
-/* Catch explicit dark backgrounds to ensure they become the gradient */
-.theme-premium .bg-\[\#080808\],
-.theme-premium .bg-\[\#09090b\] {
-  background: linear-gradient(135deg, #0B1016 0%, #18232D 100%) !important;
-  background-attachment: fixed !important;
+/* Add ValueBar (which uses a div instead of a section) to the background image elements */
+.theme-premium div.bg-zinc-950.border-y {
+  background: transparent !important;
+}
+
+
+/* Force ValueBar to directly use the image background */
+.theme-premium .w-full.bg-zinc-950.border-y {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://lightseagreen-caterpillar-909783.hostingersite.com/wp-content/uploads/2026/08/background.jpg") no-repeat center center fixed !important;
+  background-size: cover !important;
+}
+
+/* Also make sure the edge fades do not block the background */
+.theme-premium .w-full.bg-zinc-950.border-y .from-zinc-950 {
+  --tw-gradient-from: transparent !important;
 }
 
