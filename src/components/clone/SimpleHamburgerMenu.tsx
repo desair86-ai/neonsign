@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Menu, X, ChevronDown, User } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,7 +9,10 @@ import { navItems } from "@/lib/navItems";
 export function SimpleHamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => setMounted(true), []);
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -30,20 +34,23 @@ export function SimpleHamburgerMenu() {
       className="flex items-center h-full"
     >
       <button 
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(true)}
         className="p-2 text-white hover:bg-white/10 rounded-full transition-colors flex-shrink-0"
+        aria-label="Open menu"
       >
         <Menu className="w-6 h-6" />
       </button>
 
       <AnimatePresence>
-        {isOpen && (
+        {isOpen && mounted && createPortal(
           <motion.div 
             initial={{ opacity: 0, x: -300 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -300 }}
             transition={{ type: "spring", bounce: 0, duration: 0.4 }}
             className="fixed inset-y-0 left-0 w-80 max-w-[80vw] bg-zinc-950/95 backdrop-blur-2xl z-[9999] border-r border-white/10 flex flex-col shadow-2xl"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
             <div className="flex items-center justify-between p-6 border-b border-white/10">
               <span className="font-black text-lg text-white tracking-widest uppercase">Menu</span>
@@ -134,7 +141,8 @@ export function SimpleHamburgerMenu() {
                 <User className="w-5 h-5" /> My Account
               </Link>
             </div>
-          </motion.div>
+          </motion.div>,
+          document.body
         )}
       </AnimatePresence>
     </div>
