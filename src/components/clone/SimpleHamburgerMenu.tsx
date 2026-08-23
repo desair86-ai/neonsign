@@ -81,7 +81,7 @@ export function SimpleHamburgerMenu() {
                     {item.dropdown || item.columns ? (
                       <span className="text-base font-semibold">{item.label}</span>
                     ) : (
-                      <Link href={item.href} className="w-full text-base font-semibold" onClick={() => setIsOpen(false)}>
+                      <Link href={item.href} prefetch={false} className="w-full text-base font-semibold" onClick={() => setIsOpen(false)}>
                         {item.label}
                       </Link>
                     )}
@@ -102,6 +102,7 @@ export function SimpleHamburgerMenu() {
                           <Link 
                             key={sub.label} 
                             href={sub.href}
+                            prefetch={false}
                             onClick={() => setIsOpen(false)}
                             className="block px-10 py-3 text-sm font-medium text-zinc-300 hover:text-white hover:bg-white/5 border-b border-white/5 last:border-0"
                           >
@@ -117,6 +118,7 @@ export function SimpleHamburgerMenu() {
                                   <Link 
                                     key={sub.label} 
                                     href={sub.href}
+                                    prefetch={false}
                                     onClick={() => setIsOpen(false)}
                                     className="block px-10 py-2 text-sm text-zinc-400 hover:text-white hover:bg-white/5"
                                   >
@@ -137,6 +139,7 @@ export function SimpleHamburgerMenu() {
             <div className="p-6 border-t border-white/10">
               <Link 
                 href="/customer" 
+                prefetch={false}
                 onClick={() => setIsOpen(false)}
                 className="flex items-center gap-3 text-white hover:text-brand-green transition-colors font-semibold"
               >
