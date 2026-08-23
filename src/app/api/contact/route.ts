@@ -10,9 +10,21 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
+    const fs = require('fs');
+    const path = require('path');
+    
+    let receivingEmail = 'desai.r.86@gmail.com';
+    try {
+      const data = fs.readFileSync(path.join(process.cwd(), 'src/lib/contact-info.json'), 'utf8');
+      const contactInfo = JSON.parse(data);
+      if (contactInfo.receiveEmails) {
+        receivingEmail = contactInfo.receiveEmails;
+      }
+    } catch(e) {}
+
     const { data, error } = await resend.emails.send({
       from: 'Contact Form <onboarding@resend.dev>', // Replace with your verified domain in production
-      to: 'desai.r.86@gmail.com', // Replace with the owner's email
+      to: receivingEmail,
       subject: `New Contact Form Submission from ${name}`,
       html: `
         <h2>New Message from Neon Sign Website</h2>

@@ -27,7 +27,7 @@ export function SpliteInteractive() {
   }, []);
 
   return (
-    <div className="w-[calc(100%-4px)] mx-auto h-[calc(100vh-80px)] mb-10 pb-[3px] px-[3px] rounded-b-[2rem] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient shadow-[0_0_30px_rgba(202,110,255,0.4)] overflow-hidden relative">
+    <div className="w-[calc(100%-4px)] mx-auto h-[calc(100vh-240px)] min-h-[500px] mb-4 pb-[3px] px-[3px] rounded-b-[2rem] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient shadow-[0_0_30px_rgba(202,110,255,0.4)] overflow-hidden relative">
       <div 
         className="w-full h-full flex flex-col md:flex-row rounded-b-[calc(2rem-2px)] overflow-hidden relative z-10 bg-black"
       >

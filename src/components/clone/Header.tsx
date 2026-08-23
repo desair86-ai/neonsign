@@ -19,6 +19,7 @@ type NavItem = {
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  
   const pathname = usePathname();
   const { cartCount } = useCart();
 
@@ -109,51 +110,24 @@ export function Header() {
   return (
     <>
       {/* Placeholder for fixed header */}
-      <div className="h-[160px] w-full" />
+      <div className="h-[120px] w-full" />
       
-      <div className="fixed top-0 left-0 z-[60] w-full bg-black text-white shadow-[0_4px_30px_rgba(202,110,255,0.2)] font-poppins pb-[2px]">
-              {/* Top Announcement Bar 1 */}
-        <div className="w-full bg-black flex items-center justify-center py-2 px-4 border-b border-[#222]">
-          <div className="text-[13px] md:text-[15px] font-bold tracking-wide flex items-center flex-wrap justify-center gap-3">
-            <div>
-              <span className="text-[#D946EF]">FESTIVE SALE:</span>
-              <span className="text-white ml-1 font-normal">10% OFF SITEWIDE (CODE: </span>
-              <span className="text-[#D946EF]">NEON10</span>
-              <span className="text-white font-normal">)</span>
-            </div>
-            
-            <div className="rounded-md p-[1px] bg-gradient-to-r from-[#D946EF] via-purple-500 to-[#6EFF86]">
-              <div className="rounded-md bg-black px-4 py-1 flex items-center">
-                <span className="text-white font-bold tracking-widest text-[14px]">Ends In : &nbsp;07 : 41 : 31</span>
-              </div>
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 z-[60] w-[calc(100%-4px)] text-white shadow-[0_4px_30px_rgba(202,110,255,0.2)] font-poppins bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient px-[3px] pt-[3px] pb-[3px] rounded-b-[4px]">
+        <div className="w-full bg-black relative flex flex-col h-full rounded-b-[2px]">
+          {/* Top Announcement Bar */}
+          <div className="relative w-full flex items-center justify-center py-2.5 px-4">
+            <div className="text-[13px] md:text-[15px] font-bold tracking-wide flex items-center flex-wrap justify-center gap-2 md:gap-4 text-center">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
+                We Exist
+              </span>
             </div>
           </div>
-        </div>
-
-        {/* Top Announcement Bar 2 */}
-        <div className="w-full bg-[#151515] flex items-center justify-center py-2.5 px-4 text-[12px] md:text-[14px] font-semibold text-white border-b border-[#222]">
-          <div className="flex items-center gap-3 md:gap-6 flex-wrap justify-center">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4" />
-              <span>3 Years Warranty</span>
-            </div>
-            <span className="text-white/30 font-light">|</span>
-            <div className="flex items-center gap-2">
-              <Truck className="w-4 h-4" />
-              <span>Free Shipping</span>
-            </div>
-            <span className="text-white/30 font-light">|</span>
-            <div className="flex items-center gap-2">
-              <Phone className="w-4 h-4" />
-              <span>1800-102-6484</span>
-            </div>
-          </div>
-        </div>
-        {/* Moving border for the header menu */}
-      <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient z-50" />
-      
-      {/* Main Header */}
-      <header className="max-w-[1600px] mx-auto px-4 lg:px-10 h-20 flex items-center justify-between relative z-10">
+          
+          {/* Gradient Divider */}
+          <div className="w-full h-[2px] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient" />
+          
+          {/* Main Header */}
+          <header className="max-w-[1600px] w-full mx-auto px-4 lg:px-10 h-20 flex items-center justify-between relative z-10">
         
         {/* Mobile Menu Icon */}
         <div className="lg:hidden flex items-center">
@@ -412,9 +386,12 @@ export function Header() {
           <div className="pb-8"></div>
         </div>
       )}
+      </div>
     </div>
     </>
   );
 }
+
+
 
 
