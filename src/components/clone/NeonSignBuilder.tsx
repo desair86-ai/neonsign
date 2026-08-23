@@ -429,8 +429,10 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
     <main className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender bg-[#080808]">
       
       {/* 1. Minimalist Configurator Header */}
-      <header className="w-full bg-[#0a0a0a]/95 backdrop-blur-2xl border-b-[3px] border-brand-green px-4 md:px-8 h-20 flex items-center justify-between sticky top-0 z-50 shadow-2xl">
-        <div className="flex items-center gap-4 md:gap-6">
+      <header className="w-full border-b-[3px] border-brand-green h-20 sticky top-0 z-50 shadow-2xl relative">
+        <div className="absolute inset-0 bg-[#0a0a0a]/95 backdrop-blur-2xl -z-10" />
+        <div className="w-full h-full flex items-center justify-between px-4 md:px-8 relative z-10">
+          <div className="flex items-center gap-4 md:gap-6">
           <SimpleHamburgerMenu />
           <Link href="/" className="flex items-center gap-2 lg:gap-3 select-none cursor-pointer outline-none border-none focus:outline-none shadow-none group flex-shrink-0">
             <div className="hidden md:block h-12 lg:h-16 w-[200px] lg:w-[260px] relative cursor-pointer transition-all duration-700 hover:scale-105 flex-shrink-0">
