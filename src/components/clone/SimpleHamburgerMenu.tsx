@@ -1,6 +1,5 @@
-
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Menu, X, ChevronDown, User } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,11 +8,29 @@ import { navItems } from "@/lib/navItems";
 export function SimpleHamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    // Add a small delay so it doesn't flicker if moving quickly
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+      setExpandedItem(null);
+    }, 150);
+  };
 
   return (
-    <>
+    <div 
+      onMouseEnter={handleMouseEnter} 
+      onMouseLeave={handleMouseLeave}
+      className="flex items-center h-full"
+    >
       <button 
-        onClick={() => setIsOpen(true)}
+        onClick={() => setIsOpen(!isOpen)}
         className="p-2 text-white hover:bg-white/10 rounded-full transition-colors flex-shrink-0"
       >
         <Menu className="w-6 h-6" />
@@ -32,7 +49,8 @@ export function SimpleHamburgerMenu() {
               <span className="font-black text-lg text-white tracking-widest uppercase">Menu</span>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="p-2 text-white hover:bg-white/10 rounded-full"
+                className="p-2 text-white hover:bg-white/10 rounded-full bg-white/5 md:hidden"
+                aria-label="Close menu"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -119,7 +137,6 @@ export function SimpleHamburgerMenu() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
-
