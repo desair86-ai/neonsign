@@ -490,6 +490,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
             </span>
           </Link>
         </div>
+        </div>
       </header>
 
       {/* Main Studio Workshop Area */}
