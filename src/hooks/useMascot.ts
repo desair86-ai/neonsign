@@ -1,8 +1,8 @@
 "use client";
 
 import { useContext } from "react";
-import { MascotContext } from "../contexts/MascotContext";
-import { MascotEvent, MascotState } from "../components/mascot/MascotStateMachine";
+import { MascotContext } from "@/contexts/MascotContext";
+import { MascotEvent, MascotState } from "@/components/mascot/MascotStateMachine";
 
 export const useMascot = () => {
   const context = useContext(MascotContext);

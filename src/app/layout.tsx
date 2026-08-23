@@ -34,8 +34,8 @@ import {
 import localFont from "next/font/local";
 
 import "./globals.css";
-import { MascotProvider } from "../components/mascot/MascotProvider";
-import { Mascot } from "../components/mascot/Mascot";
+import { MascotProvider } from "@/components/mascot/MascotProvider";
+import { Mascot } from "@/components/mascot/Mascot";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { supabase } from "@/lib/supabase";
 import { CartProvider } from "@/lib/CartContext";

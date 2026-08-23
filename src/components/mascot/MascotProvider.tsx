@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { MascotContext } from "../../contexts/MascotContext";
-import { MascotState, MascotEvent, MascotTransitions } from "./MascotStateMachine";
+import { MascotContext } from "@/contexts/MascotContext";
+import { MascotState, MascotEvent, MascotTransitions } from "@/components/mascot/MascotStateMachine";
 
 export const MascotProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentState, setCurrentState] = useState<MascotState>(MascotState.IDLE);
