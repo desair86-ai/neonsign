@@ -30,14 +30,26 @@ export function Footer() {
     let resizeTimer: NodeJS.Timeout;
 
     const instantiateGrid = () => {
-      container.innerHTML = ''; // Clear just in case
-      // Instead of generating 1000s of divs, we use the user-provided SVG!
-      container.style.backgroundImage = "url('/neon icon pattern trail 1.svg')";
-      container.style.backgroundSize = "cover";
-      container.style.backgroundPosition = "center";
-      container.style.backgroundRepeat = "no-repeat";
-      // Optional: adjust mix-blend-mode if the SVG is not transparent
-      // container.style.mixBlendMode = "lighten";
+      container.innerHTML = '';
+      if (!footerRef.current) return;
+      
+      const width = footerRef.current.clientWidth;
+      const height = footerRef.current.clientHeight;
+
+      let columns = Math.ceil(width / (triangleBase * 2)) + 1;
+      let rows = Math.ceil(height / triangleBase * 1.733);
+      container.style.setProperty('--columns', columns.toString());
+
+      const fragment = document.createDocumentFragment();
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < columns; x++) {
+          let el = document.createElement("div");
+          el.className = "triangle-set";
+          if (y % 2 === 0) el.classList.add("triangle-set--offset");
+          fragment.appendChild(el);
+        }
+      }
+      container.appendChild(fragment);
     };
 
     const handleResize = () => {
