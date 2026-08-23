@@ -578,12 +578,12 @@ header img:focus {
 
 /* Light Theme Toggle Overrides */
 .theme-light body {
-  background-color: #FFFFFF !important;
+  background-color: #EEEEEE !important;
   color: #111827 !important;
 }
 
 .theme-light .bg-black {
-  background-color: #FFFFFF !important;
+  background-color: #EEEEEE !important;
   color: #111827 !important;
 }
 
@@ -670,29 +670,29 @@ header img:focus {
 /* Fix gradients turning white in light theme */
 .theme-light .from-zinc-950,
 .theme-light .from-black {
-  --tw-gradient-from: #FFFFFF var(--tw-gradient-from-position) !important;
+  --tw-gradient-from: #EEEEEE var(--tw-gradient-from-position) !important;
 }
 .theme-light .via-zinc-950\/90 {
   --tw-gradient-via: rgba(255, 255, 255, 0.9) var(--tw-gradient-via-position) !important;
 }
 .theme-light .to-zinc-950,
 .theme-light .to-black {
-  --tw-gradient-to: #FFFFFF var(--tw-gradient-to-position) !important;
+  --tw-gradient-to: #EEEEEE var(--tw-gradient-to-position) !important;
 }
 
 
 /* Fix main wrappers and dark backgrounds resisting light theme */
 .theme-light main {
-  background-color: #FFFFFF !important;
+  background-color: #EEEEEE !important;
 }
 .theme-light .bg-\[\#080808\] {
-  background-color: #FFFFFF !important;
+  background-color: #EEEEEE !important;
 }
 .theme-light .bg-slate-950 {
-  background-color: #FFFFFF !important;
+  background-color: #EEEEEE !important;
 }
 .theme-light .bg-zinc-950 {
-  background-color: #FFFFFF !important;
+  background-color: #EEEEEE !important;
 }
 /* Hide the product image background in Spaces We Illuminate */
 .theme-light .absolute.inset-0.bg-cover.opacity-30 {
@@ -703,15 +703,15 @@ header img:focus {
 /* Override all dark gradients in light theme */
 .theme-light [class*="from-slate-"],
 .theme-light [class*="from-zinc-"] {
-  --tw-gradient-from: #FFFFFF var(--tw-gradient-from-position) !important;
+  --tw-gradient-from: #EEEEEE var(--tw-gradient-from-position) !important;
 }
 .theme-light [class*="to-slate-"],
 .theme-light [class*="to-zinc-"] {
-  --tw-gradient-to: #FFFFFF var(--tw-gradient-to-position) !important;
+  --tw-gradient-to: #EEEEEE var(--tw-gradient-to-position) !important;
 }
 .theme-light [class*="via-slate-"],
 .theme-light [class*="via-zinc-"] {
-  --tw-gradient-via: #FFFFFF var(--tw-gradient-via-position) !important;
+  --tw-gradient-via: #EEEEEE var(--tw-gradient-via-position) !important;
 }
 
 
@@ -721,7 +721,7 @@ header img:focus {
 .theme-light .bg-zinc-900\/70,
 .theme-light .bg-zinc-800,
 .theme-light .bg-zinc-950\/50 {
-  background-color: #FFFFFF !important;
+  background-color: #EEEEEE !important;
   color: #111827 !important;
   border-color: #E5E7EB !important; /* light border */
 }
@@ -881,7 +881,7 @@ header img:focus {
 
 /* Fix Features section ("Why choose") for Light Theme */
 .theme-light section.bg-zinc-950 {
-  background-color: #FFFFFF !important;
+  background-color: #EEEEEE !important;
 }
 .theme-light section.bg-zinc-950 .text-white {
   color: #111827 !important; /* Make "Why choose" black */
@@ -1031,7 +1031,7 @@ header img:focus {
 /* Ensure the ENTIRE site background turns white, fixing pages like Contact Us that rely on the body tag */
 .theme-light body,
 .theme-light .min-h-screen {
-  background-color: #FFFFFF !important;
+  background-color: #EEEEEE !important;
   color: #111827 !important;
 }
 
