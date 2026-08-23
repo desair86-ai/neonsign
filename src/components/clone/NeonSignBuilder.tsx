@@ -15,6 +15,7 @@ import { ButtonParticles } from '@/components/ui/button-particles';
 import { useCart } from "@/lib/CartContext";
 import { NeonLogo } from '@/components/clone/NeonLogo';
 import { NeonIcon } from '@/components/clone/NeonIcon';
+import { SimpleHamburgerMenu } from '@/components/clone/SimpleHamburgerMenu';
 
 const FONTS = [
   { name: 'Passionate', class: 'font-pacifico', category: 'popular' },
@@ -427,9 +428,10 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
   return (
     <main className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender bg-[#080808]">
       
-      {/* 1. Minimalist Configurator Header (Addressing Point #7: Removed competing navigation, kept only Logo, Help, Save, Cart) */}
+      {/* 1. Minimalist Configurator Header */}
       <header className="w-full bg-[#0a0a0a]/95 backdrop-blur-2xl border-b-[3px] border-brand-green px-4 md:px-8 h-20 flex items-center justify-between sticky top-0 z-50 shadow-2xl">
         <div className="flex items-center gap-4 md:gap-6">
+          <SimpleHamburgerMenu />
           <Link href="/" className="flex items-center gap-2 lg:gap-3 select-none cursor-pointer outline-none border-none focus:outline-none shadow-none group flex-shrink-0">
             <div className="hidden md:block h-12 lg:h-16 w-[200px] lg:w-[260px] relative cursor-pointer transition-all duration-700 hover:scale-105 flex-shrink-0">
               <NeonLogo />
@@ -448,28 +450,8 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
           </div>
         </div>
 
-        {/* Action Buttons (Addressing Point #8: Clear Hierarchy) */}
+        {/* Action Buttons */}
         <div className="flex items-center gap-2 md:gap-3">
-
-          <button
-            onClick={() => setShowHelpModal(true)}
-            className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white transition-all flex items-center gap-1.5"
-          >
-            <Info className="w-3.5 h-3.5 text-gray-400" />
-            <span className="hidden sm:inline">Help</span>
-          </button>
-
-          <button
-            onClick={() => {
-              setSaveToast(true);
-              triggerMascot("Your design progress is saved to your browser session!", MascotState.CELEBRATING);
-              setTimeout(() => setSaveToast(false), 3000);
-            }}
-            className="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white transition-all flex items-center gap-1.5"
-          >
-            <Bookmark className="w-3.5 h-3.5 text-brand-purple" />
-            <span>Save</span>
-          </button>
 
           <ButtonParticles
             onClick={() => {
