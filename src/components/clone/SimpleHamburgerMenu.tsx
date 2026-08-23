@@ -35,10 +35,12 @@ export function SimpleHamburgerMenu() {
     >
       <button 
         onClick={() => setIsOpen(true)}
-        className="p-2 text-white hover:bg-white/10 rounded-full transition-colors flex-shrink-0"
+        className="relative group p-2 text-white rounded-full transition-all flex-shrink-0 hover:scale-105 shadow-[0_0_15px_rgba(117,46,255,0.3)]"
         aria-label="Open menu"
       >
-        <Menu className="w-6 h-6" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient z-0" />
+        <div className="absolute inset-[2px] rounded-full bg-[#0a0a0a] z-0 transition-colors group-hover:bg-zinc-900" />
+        <Menu className="w-6 h-6 relative z-10" />
       </button>
 
       <AnimatePresence>
