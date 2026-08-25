@@ -36,6 +36,7 @@ const FONTS = [
   { name: 'Devnagari 52', class: 'font-devnagari-52', category: 'script' },
   { name: 'Devnagari 56', class: 'font-devnagari-56', category: 'script' },
   { name: 'Devnagari 75', class: 'font-devnagari-75', category: 'script' },
+  { name: 'Glegoo', class: 'font-glegoo-regular', category: 'modern' },
 ];
 
 type NeonColor = { name: string; hex: string; glow: string; isFlow?: boolean; gradient?: string };

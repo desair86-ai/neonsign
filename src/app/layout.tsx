@@ -109,6 +109,7 @@ const devnagari38 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-38.
 const devnagari52 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-52.ttf", variable: "--font-devnagari-52", adjustFontFallback: false });
 const devnagari56 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-56.ttf", variable: "--font-devnagari-56", adjustFontFallback: false });
 const devnagari75 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-75.ttf", variable: "--font-devnagari-75", adjustFontFallback: false });
+const glegooRegular = localFont({ src: "../../public/Final Fonts/Devnagari/Glegoo-Regular.ttf", variable: "--font-glegoo-regular" });
 
 const fontVariables = [
   inter.variable,
@@ -131,7 +132,8 @@ const fontVariables = [
   devnagari38.variable,
   devnagari52.variable,
   devnagari56.variable,
-  devnagari75.variable
+  devnagari75.variable,
+  glegooRegular.variable
 ].join(" ");
 
 export const metadata: Metadata = {
