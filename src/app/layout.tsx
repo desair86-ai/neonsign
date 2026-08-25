@@ -90,38 +90,48 @@ const clonoid = localFont({
   variable: "--font-clonoid",
 });
 
+const aristaProLight = localFont({ src: "../../public/Final Fonts/Arista-Pro-Light-trial.ttf", variable: "--font-arista-pro-light" });
+const aristaProSemiBold = localFont({ src: "../../public/Final Fonts/Arista-Pro-SemiBold-trial.ttf", variable: "--font-arista-pro-semibold" });
+const betterTogether = localFont({ src: "../../public/Final Fonts/Better Together Demo.ttf", variable: "--font-better-together" });
+const blackerSansPro = localFont({ src: "../../public/Final Fonts/BlackerSansProVariable.ttf", variable: "--font-blacker-sans" });
+const brittaneyMemories = localFont({ src: "../../public/Final Fonts/Brittaney Memories.otf", variable: "--font-brittaney-memories" });
+const brittanySignature = localFont({ src: "../../public/Final Fonts/BrittanySignatureScript.ttf", variable: "--font-brittany-signature" });
+const eduSaMedium = localFont({ src: "../../public/Final Fonts/EduSABeginner-Medium.ttf", variable: "--font-edu-sa-medium" });
+const eduSaRegular = localFont({ src: "../../public/Final Fonts/EduSABeginner-Regular.ttf", variable: "--font-edu-sa-regular" });
+const engraversGothic = localFont({ src: "../../public/Final Fonts/EngraversGothic BT.ttf", variable: "--font-engravers-gothic" });
+const gothic = localFont({ src: "../../public/Final Fonts/GOTHIC.ttf", variable: "--font-gothic" });
+const ladyIr = localFont({ src: "../../public/Final Fonts/LADYIR_.ttf", variable: "--font-lady-ir" });
+const myriadPro = localFont({ src: "../../public/Final Fonts/MYRIADPRO-REGULAR.otf", variable: "--font-myriad-pro" });
+
+const devnagari101 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-101.ttf", variable: "--font-devnagari-101" });
+const devnagari33 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-33.ttf", variable: "--font-devnagari-33" });
+const devnagari38 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-38.ttf", variable: "--font-devnagari-38" });
+const devnagari52 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-52.ttf", variable: "--font-devnagari-52" });
+const devnagari56 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-56.ttf", variable: "--font-devnagari-56" });
+const devnagari75 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-75.ttf", variable: "--font-devnagari-75" });
+
 const fontVariables = [
   inter.variable,
-  pacifico.variable,
-  dancingScript.variable,
-  caveat.variable,
-  bungeeOutline.variable,
-  cinzel.variable,
-  greatVibes.variable,
-  permanentMarker.variable,
-  parisienne.variable,
-  playfair.variable,
-  cookie.variable,
-  alexBrush.variable,
-  syncopate.variable,
-  badScript.variable,
-  gochiHand.variable,
-  kaushanScript.variable,
-  clonoid.variable,
   poppins.variable,
-  yellowtail.variable,
-  allura.variable,
-  montserrat.variable,
-  mrDeHaviland.variable,
-  herrVonMuellerhoff.variable,
-  nothingYouCouldDo.variable,
-  vibur.variable,
-  montez.variable,
-  monoton.variable,
-  sacramento.variable,
-  rye.variable,
-  mountainsOfChristmas.variable,
-  cinzelDecorative.variable
+  clonoid.variable,
+  aristaProLight.variable,
+  aristaProSemiBold.variable,
+  betterTogether.variable,
+  blackerSansPro.variable,
+  brittaneyMemories.variable,
+  brittanySignature.variable,
+  eduSaMedium.variable,
+  eduSaRegular.variable,
+  engraversGothic.variable,
+  gothic.variable,
+  ladyIr.variable,
+  myriadPro.variable,
+  devnagari101.variable,
+  devnagari33.variable,
+  devnagari38.variable,
+  devnagari52.variable,
+  devnagari56.variable,
+  devnagari75.variable
 ].join(" ");
 
 export const metadata: Metadata = {
