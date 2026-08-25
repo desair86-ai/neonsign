@@ -1492,7 +1492,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                   <div className="relative">
                     {isMojoMix && isLightOn && (
                       <h2
-                        className={`absolute inset-0 studio-neon-sign-preview animate-flow-mo font-bold transition-all duration-300 text-center ${selectedFont.class}`}
+                        className={`absolute inset-0 studio-neon-sign-preview animate-flow-mo font-normal transition-all duration-300 text-center ${selectedFont.class}`}
                         style={{
                           textAlign: textAlign,
                           background: 'linear-gradient(90deg, #ffde00, #ff7b00, #ff007b, #c400ff, #00d4ff, #ffde00)',
@@ -1509,7 +1509,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                       </h2>
                     )}
                     <h2
-                      className={`relative z-10 studio-neon-sign-preview ${isMojoMix ? 'animate-flow-mo' : ''} font-bold transition-all duration-300 text-center ${selectedFont.class}`}
+                      className={`relative z-10 studio-neon-sign-preview ${isMojoMix ? 'animate-flow-mo' : ''} font-normal transition-all duration-300 text-center ${selectedFont.class}`}
                       style={
                         isMojoMix
                           ? {
