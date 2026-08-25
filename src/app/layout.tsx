@@ -110,7 +110,7 @@ const devnagari52 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-52.
 const devnagari56 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-56.ttf", variable: "--font-devnagari-56", adjustFontFallback: false });
 const devnagari75 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-75.ttf", variable: "--font-devnagari-75", adjustFontFallback: false });
 const glegooRegular = localFont({ src: "../../public/Final Fonts/Devnagari/Glegoo-Regular.ttf", variable: "--font-glegoo-regular" });
-const notoSansDevanagari = localFont({ src: "../../public/Final Fonts/Devnagari/NotoSansDevanagari-VariableFont.ttf", variable: "--font-noto-sans-devanagari" });
+const notoSansDevanagari = localFont({ src: "../../public/Final Fonts/Devnagari/NotoSansDevanagari-VariableFont.ttf", variable: "--font-noto-sans-devanagari", adjustFontFallback: false });
 
 const fontVariables = [
   inter.variable,
