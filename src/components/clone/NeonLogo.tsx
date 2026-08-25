@@ -12,54 +12,56 @@ export function NeonLogo({ className = "" }: { className?: string }) {
     >
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes neonStartupPurple {
-          0%, 10% { opacity: 0; filter: brightness(1); }
-          12% { opacity: 1; filter: brightness(1.5) drop-shadow(0 0 5px #752EFF) drop-shadow(0 0 10px #752EFF); }
+          0%, 10% { opacity: 0; filter: none; }
+          12% { opacity: 1; filter: drop-shadow(0 0 2px #752EFF); }
           14% { opacity: 0; }
-          25% { opacity: 1; filter: brightness(1.8) drop-shadow(0 0 8px #752EFF) drop-shadow(0 0 20px #752EFF) drop-shadow(0 0 40px #752EFF); }
-          100% { opacity: 1; filter: brightness(1.3) drop-shadow(0 0 5px #752EFF) drop-shadow(0 0 15px #752EFF); }
+          25% { opacity: 1; filter: drop-shadow(0 0 2px #752EFF) drop-shadow(0 0 4px #752EFF); }
+          100% { opacity: 1; filter: drop-shadow(0 0 1px #752EFF) drop-shadow(0 0 3px #752EFF); }
         }
         @keyframes neonPulsePurple {
-          0%, 100% { filter: brightness(1.3) drop-shadow(0 0 5px #752EFF) drop-shadow(0 0 15px #752EFF); }
-          50% { filter: brightness(1.6) drop-shadow(0 0 8px #752EFF) drop-shadow(0 0 25px #752EFF); }
+          0%, 100% { filter: drop-shadow(0 0 1px #752EFF) drop-shadow(0 0 3px #752EFF); }
+          50% { filter: drop-shadow(0 0 2px #752EFF) drop-shadow(0 0 5px #752EFF); }
         }
         @keyframes neonFlickerPurple {
-          0%, 4%, 8%, 100% { filter: brightness(1.3) drop-shadow(0 0 5px #752EFF) drop-shadow(0 0 15px #752EFF); opacity: 1; }
-          2%, 6% { filter: brightness(1) drop-shadow(0 0 2px #752EFF); opacity: 0.5; }
+          0%, 4%, 8%, 100% { opacity: 1; filter: drop-shadow(0 0 1px #752EFF) drop-shadow(0 0 3px #752EFF); }
+          2%, 6% { opacity: 0.8; filter: drop-shadow(0 0 1px #752EFF); }
         }
 
         @keyframes neonStartupGreen {
-          0%, 30% { opacity: 0; }
-          32% { opacity: 1; filter: brightness(1.5) drop-shadow(0 0 5px #6EFF86) drop-shadow(0 0 10px #6EFF86); }
+          0%, 30% { opacity: 0; filter: none; }
+          32% { opacity: 1; filter: drop-shadow(0 0 2px #6EFF86); }
           34% { opacity: 0; }
-          45% { opacity: 1; filter: brightness(1.8) drop-shadow(0 0 8px #6EFF86) drop-shadow(0 0 20px #6EFF86) drop-shadow(0 0 40px #6EFF86); }
-          100% { opacity: 1; filter: brightness(1.3) drop-shadow(0 0 5px #6EFF86) drop-shadow(0 0 15px #6EFF86); }
+          45% { opacity: 1; filter: drop-shadow(0 0 2px #6EFF86) drop-shadow(0 0 4px #6EFF86); }
+          100% { opacity: 1; filter: drop-shadow(0 0 1px #6EFF86) drop-shadow(0 0 3px #6EFF86); }
         }
         @keyframes neonPulseGreen {
-          0%, 100% { filter: brightness(1.3) drop-shadow(0 0 5px #6EFF86) drop-shadow(0 0 15px #6EFF86); }
-          50% { filter: brightness(1.6) drop-shadow(0 0 8px #6EFF86) drop-shadow(0 0 25px #6EFF86); }
+          0%, 100% { filter: drop-shadow(0 0 1px #6EFF86) drop-shadow(0 0 3px #6EFF86); }
+          50% { filter: drop-shadow(0 0 2px #6EFF86) drop-shadow(0 0 5px #6EFF86); }
         }
         
         .neon-single-layer path[stroke="#752EFF"], .neon-single-layer rect[stroke="#752EFF"], .neon-single-layer line[stroke="#752EFF"], .neon-single-layer path[fill="#BCA9FF"] {
           opacity: 0;
+          fill: #752EFF !important;
           animation: neonStartupPurple 1.5s ease-in forwards, neonPulsePurple 4s 1.5s infinite alternate ease-in-out;
         }
 
         .neon-single-layer path[fill="#BCA9FF"] {
+          fill: #752EFF !important;
           animation: neonStartupPurple 1.5s ease-in forwards, neonFlickerPurple 5s 3s infinite;
         }
         
         .neon-single-layer path[fill="#6EFF86"], .neon-single-layer line[stroke="#6EFF86"] {
           opacity: 0;
-          animation: neonStartupGreen 2s ease-in forwards, neonPulseGreen 4s 2s infinite alternate ease-in-out;
+          fill: #6EFF86 !important;
+          animation: neonStartupGreen 1.5s ease-in forwards, neonPulseGreen 4s 1.5s infinite alternate ease-in-out;
         }
 
         .neon-single-layer path[fill="#FFFFFF"] {
-          filter: drop-shadow(0 0 3px rgba(255,255,255,0.8));
+          filter: drop-shadow(0 0 2px rgba(255,255,255,0.6));
         }
       ` }} />
       
       <div className="relative z-10 w-full h-full neon-single-layer">
-
 
 <svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" 
 	 x="0px" y="0px" viewBox="65 32 870 175" overflow="visible" className="w-full h-full" preserveAspectRatio="xMinYMid meet" >
@@ -213,4 +215,18 @@ export function NeonLogo({ className = "" }: { className?: string }) {
     </motion.div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

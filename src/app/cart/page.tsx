@@ -100,10 +100,10 @@ export default function CartPage() {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+          <div className="flex flex-col xl:flex-row gap-10 xl:gap-16 items-start">
             
             {/* Left Column: Cart Table */}
-            <div className="w-full lg:w-2/3 flex flex-col">
+            <div className="w-full xl:w-2/3 flex flex-col">
               
               {/* Table Header (Desktop) */}
               <div className="hidden md:grid grid-cols-[auto_3fr_1fr_1.5fr_1fr] gap-4 items-center pb-4 border-b border-white/10 text-sm font-bold text-gray-400 uppercase tracking-wider">
@@ -224,7 +224,7 @@ export default function CartPage() {
             </div>
 
             {/* Right Column: Cart Totals */}
-            <div className="w-full lg:w-1/3 bg-[#111111]/40 border border-gray-800 p-8">
+            <div className="w-full xl:w-1/3 bg-[#111111]/40 border border-gray-800 p-8">
               <h2 className="text-2xl font-black text-white mb-6 border-b border-white/10 pb-4">
                 Cart totals
               </h2>

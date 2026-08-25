@@ -228,7 +228,7 @@ export default function AboutPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: false, margin: "-50px" }}
             transition={{ duration: 0.8 }}
-            className="flex justify-center items-center h-full w-full relative min-h-[400px] lg:min-h-[550px]"
+            className="flex justify-center items-center h-full w-full relative min-h-[400px] xl:min-h-[550px]"
           >
             <motion.div
               animate={{ y: [0, -20, 0] }}
@@ -262,7 +262,7 @@ export default function AboutPage() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-6">
             {[
               { 
                 text: "Most people see neon signs.", 
@@ -400,7 +400,7 @@ export default function AboutPage() {
                 </p>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img 
-                  src="/The Neon Stack Logo + Tagline-02.svg" 
+                  src="/neon-stack-logo.svg" 
                   alt="The Neon Stack" 
                   className="h-[80px] md:h-[110px] object-contain -mb-4"
                 />

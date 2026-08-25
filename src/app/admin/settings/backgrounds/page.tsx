@@ -201,7 +201,7 @@ export default function NeonBackgroundsSettings() {
             <p>No backgrounds found. Upload your first one above!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
             {backgrounds.map((bg) => (
               <div key={bg.id} className="group relative rounded-xl overflow-hidden border border-gray-800 bg-black">
                 <div className="aspect-video relative bg-zinc-900">

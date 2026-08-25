@@ -25,7 +25,7 @@ export function InfoSections() {
             
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
-              src="/The Neon Stack Logo + Tagline-02.svg" 
+              src="/neon-stack-logo.svg" 
               alt="Neon Stack Logo" 
               className="h-16 md:h-20 mb-6 object-contain" 
             />
@@ -36,7 +36,7 @@ export function InfoSections() {
             <p className="text-xl md:text-2xl text-gray-300 max-w-xl mb-10 leading-relaxed">
               Unlimited color changing options, 200+ flow modes, music sync, and app control. It&apos;s not just a sign, it&apos;s an experience.
             </p>
-            <ButtonParticles label="Explore Mojo Mix Collection" className="w-fit" />
+            <ButtonParticles href="/products/customize-mojo-mix" label="Explore Mojo Mix Collection" className="w-fit" />
           </motion.div>
 
           {/* Right Mascot Column */}

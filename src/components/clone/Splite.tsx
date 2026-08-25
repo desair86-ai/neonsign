@@ -36,7 +36,7 @@ export function SpliteInteractive() {
           {/* Glow behind the robot */}
           <div className="absolute inset-0 bg-gradient-to-br from-brand-green/20 via-transparent to-brand-purple/20 opacity-50 blur-2xl z-0" />
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-pacifico mb-4 tracking-normal text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient relative z-10 text-center drop-shadow-[0_0_15px_rgba(110,255,134,0.4)] pt-8">
+          <h1 className="text-4xl md:text-5xl xl:text-6xl font-pacifico mb-4 tracking-normal text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient relative z-10 text-center drop-shadow-[0_0_15px_rgba(110,255,134,0.4)] pt-8">
             The Neon Stack
           </h1>
 
@@ -86,7 +86,7 @@ export function SpliteInteractive() {
                   transition={{ duration: 0.5 }}
                   className="space-y-4"
                 >
-                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-brand-green to-brand-purple drop-shadow-[0_0_15px_rgba(110,255,134,0.3)]">
+                  <h3 className="text-3xl md:text-4xl xl:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-brand-green to-brand-purple drop-shadow-[0_0_15px_rgba(110,255,134,0.3)]">
                     {carouselItems[currentIndex].title}
                   </h3>
                   <p className="text-lg md:text-xl text-white/90 font-light max-w-md mx-auto">

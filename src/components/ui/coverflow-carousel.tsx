@@ -280,7 +280,7 @@ export function CoverflowCarousel({
               type="button"
               aria-label="Previous slide"
               onClick={() => nudge(-1)}
-              className="absolute left-4 md:left-8 top-1/2 z-[200] -translate-y-1/2 p-4 rounded-full bg-brand-purple/10 border border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] backdrop-blur-md transition-all duration-300 hover:bg-brand-purple/20 active:scale-95 hidden lg:flex"
+              className="absolute left-4 md:left-8 top-1/2 z-[200] -translate-y-1/2 p-4 rounded-full bg-brand-purple/10 border border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] backdrop-blur-md transition-all duration-300 hover:bg-brand-purple/20 active:scale-95 hidden xl:flex"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
@@ -288,7 +288,7 @@ export function CoverflowCarousel({
               type="button"
               aria-label="Next slide"
               onClick={() => nudge(1)}
-              className="absolute right-4 md:right-8 top-1/2 z-[200] -translate-y-1/2 p-4 rounded-full bg-brand-green/10 border border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)] backdrop-blur-md transition-all duration-300 hover:bg-brand-green/20 active:scale-95 hidden lg:flex"
+              className="absolute right-4 md:right-8 top-1/2 z-[200] -translate-y-1/2 p-4 rounded-full bg-brand-green/10 border border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)] backdrop-blur-md transition-all duration-300 hover:bg-brand-green/20 active:scale-95 hidden xl:flex"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
@@ -298,7 +298,7 @@ export function CoverflowCarousel({
 
       {showNavigation && (
         /* Mobile Bottom Navigation */
-        <div className="flex justify-center items-center gap-6 mt-8 lg:hidden">
+        <div className="flex justify-center items-center gap-6 mt-8 xl:hidden">
           <button
             type="button"
             aria-label="Previous slide"

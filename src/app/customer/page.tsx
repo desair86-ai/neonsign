@@ -257,7 +257,7 @@ export default function CustomerAccountPage() {
                 </form>
              </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-start max-w-5xl mx-auto w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 xl:gap-16 items-start max-w-5xl mx-auto w-full">
               
               {/* LOGIN COLUMN */}
               <div className="bg-[#111111]/40 border border-gray-800 rounded-3xl p-8 md:p-10">
@@ -443,7 +443,7 @@ export default function CustomerAccountPage() {
           My Account
         </h1>
 
-        <div className="flex flex-col md:flex-row gap-8 lg:gap-16">
+        <div className="flex flex-col md:flex-row gap-8 xl:gap-16">
           {/* SIDEBAR NAVIGATION */}
           <aside className="w-full md:w-64 flex-shrink-0">
             <nav className="flex flex-col space-y-1">

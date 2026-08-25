@@ -184,10 +184,10 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
       <div className="relative z-10 mx-auto max-w-[1600px] px-4">
         
         {/* Main 2-Column Grid Layout */}
-        <div className="relative grid gap-8 lg:gap-12 lg:min-h-[450px] lg:grid-cols-[0.48fr_0.52fr] lg:items-start">
+        <div className="relative grid gap-8 xl:gap-12 xl:min-h-[450px] xl:grid-cols-[0.48fr_0.52fr] xl:items-start">
           
           {/* Left Column (Title, Text, Progress) */}
-          <div className="order-2 lg:order-1 flex flex-col pt-4 lg:pt-0">
+          <div className="order-2 xl:order-1 flex flex-col pt-4 xl:pt-0">
             
             {/* Title Section */}
             <div className="mb-8 md:mb-12 max-w-4xl">
@@ -263,7 +263,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
           </div>
 
           {/* Right Column (3D Stage naturally positioned in grid, shifted UP) */}
-          <div className="order-1 lg:order-2 relative w-full flex justify-center items-start pt-4 lg:pt-0 h-[350px] lg:h-[450px]">
+          <div className="order-1 xl:order-2 relative w-full flex justify-center items-start pt-4 xl:pt-0 h-[350px] xl:h-[450px]">
             <div className="relative w-full max-w-[720px] h-full" style={{ perspective: "1200px" }}>
               {categories.map((cat, idx) => {
                 const visible = idx === activeIndex || idx === previousIndex || idx === nextIndex;
@@ -274,7 +274,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
                     href={cat.href}
                     aria-hidden={!visible}
                     tabIndex={visible ? 0 : -1}
-                    className={`absolute left-1/2 top-0 lg:top-4 h-[245px] w-[190px] -translate-x-1/2 overflow-hidden rounded-lg border bg-zinc-900 transition-all duration-700 ease-out md:h-[315px] md:w-[240px] lg:h-[345px] lg:w-[260px] ${getCardClassName(idx)}`}
+                    className={`absolute left-1/2 top-0 xl:top-4 h-[245px] w-[190px] -translate-x-1/2 overflow-hidden rounded-lg border bg-zinc-900 transition-all duration-700 ease-out md:h-[315px] md:w-[240px] xl:h-[345px] xl:w-[260px] ${getCardClassName(idx)}`}
                     style={{ transformStyle: "preserve-3d" }}
                   >
                     <div
@@ -298,7 +298,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
           </div>
         </div>
 
-        <div className="mt-6 md:mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+        <div className="mt-6 md:mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-8">
           {categories.map((cat, idx) => {
             const isActive = idx === activeIndex;
             const accent = accentClasses[cat.glowTheme as keyof typeof accentClasses] ?? accentClasses.orange;

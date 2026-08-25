@@ -50,7 +50,7 @@ export default async function ShopNeonCollection({
       <div className="w-full">
         
         {/* Render Sorting Dropdown */}
-        <div className="max-w-[1600px] mx-auto px-4 lg:px-10 mt-10 mb-4 flex justify-between items-center relative z-20">
+        <div className="max-w-[1600px] mx-auto px-4 xl:px-10 mt-10 mb-4 flex justify-between items-center relative z-20">
           <p className="text-zinc-400 font-medium">
             {categorySlug 
               ? `Showing results for ${categorySlug.replace(/-/g, ' ')}` 

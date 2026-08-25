@@ -161,10 +161,10 @@ export function Header() {
           <div className="w-full h-[2px] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient" />
           
           {/* Main Header */}
-          <header className="max-w-[1600px] w-full mx-auto px-4 lg:px-10 h-20 flex items-center justify-between relative z-10">
+          <header className="max-w-[1600px] w-full mx-auto px-4 xl:px-10 h-20 flex items-center justify-between relative z-10">
         
         {/* Mobile Menu Icon */}
-        <div className="lg:hidden flex items-center">
+        <div className="xl:hidden flex items-center">
           <button 
             className="p-2 hover:text-brand-green transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -175,20 +175,18 @@ export function Header() {
         </div>
 
         {/* Logo */}
-        <div className="flex-shrink-0 relative z-50 outline-none border-none flex items-center">
-              <Link href="/" className="flex items-center gap-2 lg:gap-3 select-none cursor-pointer outline-none border-none focus:outline-none focus:border-none focus-visible:outline-none shadow-none group">
-                {/* Full logo (desktop) or icon-only (mobile) */}
-                <div className="hidden md:block h-12 lg:h-16 w-[200px] lg:w-[260px] relative cursor-pointer transition-all duration-700 hover:scale-105 flex-shrink-0">
+          <div className="flex-shrink-0 relative z-50 flex items-center">
+              <a href="/" className="relative flex items-center gap-2 xl:gap-3 cursor-pointer group">
+                <div className="absolute inset-0 z-50"></div>
+                {/* Full logo */}
+                <div className="block h-12 xl:h-16 w-[160px] md:w-[200px] xl:w-[260px] relative transition-all duration-700 group-hover:scale-105 flex-shrink-0 pointer-events-none">
                   <NeonLogo />
                 </div>
-                <div className="h-10 w-10 lg:h-14 lg:w-14 relative cursor-pointer flex-shrink-0">
-                  <NeonIcon />
-                </div>
-            </Link>
-        </div>
+              </a>
+          </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-2 xl:gap-5 font-bold text-base tracking-widest" style={{ fontFamily: 'var(--font-poppins)' }}>
+        <nav className="hidden xl:flex items-center gap-2 xl:gap-5 font-bold text-base tracking-widest" style={{ fontFamily: 'var(--font-poppins)' }}>
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             
@@ -246,7 +244,7 @@ export function Header() {
                       {item.columns && (
                         <div className="flex gap-6 p-4">
                           {item.columns.map((col, colIdx) => (
-                            <div key={colIdx} className="flex flex-col w-[260px] lg:w-[280px]">
+                            <div key={colIdx} className="flex flex-col w-[260px] xl:w-[280px]">
                               {col.map((section, secIdx) => (
                                 <div key={secIdx} className={secIdx > 0 ? "mt-6" : ""}>
                                   {section.header && (
@@ -313,7 +311,7 @@ export function Header() {
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          className={`xl:hidden overflow-hidden transition-all duration-300 ease-in-out ${
             isMobileMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
           }`}
           style={{ fontFamily: 'var(--font-poppins)' }}

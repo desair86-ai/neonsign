@@ -62,7 +62,7 @@ export function Features() {
             Why choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">the neon stack</span>
           </motion.h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-10">
           {features.map((feature, idx) => {
             const Icon = feature.icon;
             return (

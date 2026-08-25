@@ -48,22 +48,50 @@ const FONTS = [
   { name: 'Sleek', class: 'font-cinzel-decorative', category: 'classic' },
 ];
 
-const COLORS = [
-  { name: 'White', hex: '#ffffff', glow: 'rgba(255,255,255,0.45)' },
-  { name: 'Pink', hex: '#ff2aac', glow: 'rgba(255,42,172,0.5)' },
-  { name: 'Green', hex: '#6eff86', glow: 'rgba(110,255,134,0.5)' },
-  { name: 'Blue', hex: '#245cff', glow: 'rgba(36,92,255,0.5)' },
-  { name: 'Purple', hex: '#752eff', glow: 'rgba(117,46,255,0.5)' },
-  { name: 'Orange', hex: '#ff6a00', glow: 'rgba(255,106,0,0.5)' },
-  { name: 'Ice Blue', hex: '#00f6ff', glow: 'rgba(0,246,255,0.5)' },
-  { name: 'Warm White', hex: '#fff1a8', glow: 'rgba(255,241,168,0.45)' },
-  { name: 'Red', hex: '#ff174f', glow: 'rgba(255,23,79,0.5)' },
-  { name: 'Yellow', hex: '#ffe600', glow: 'rgba(255,230,0,0.5)' },
-  { name: 'Mojo Mix (RGB)', hex: '#ffffff', glow: 'rgba(117,46,255,0.8)' },
+type NeonColor = { name: string; hex: string; glow: string; isFlow?: boolean; gradient?: string };
+const COLORS: NeonColor[] = [
+  { name: 'Cool White', hex: '#edf9ff', glow: 'rgba(237,249,255,0.6)' },
+  { name: 'Pure White', hex: '#fdfff5', glow: 'rgba(253,255,245,0.6)' },
+  { name: 'Warm White', hex: '#fed67e', glow: 'rgba(254,214,126,0.6)' },
+  { name: 'Blue', hex: '#0025ff', glow: 'rgba(0,37,255,0.6)' },
+  { name: 'Green', hex: '#00eb4e', glow: 'rgba(0,235,78,0.6)' },
+  { name: 'Yellow', hex: '#ff7b00', glow: 'rgba(255,123,0,0.6)' },
+  { name: 'Purple', hex: '#b40bff', glow: 'rgba(180,11,255,0.6)' },
+  { name: 'Light Purple', hex: '#e068ff', glow: 'rgba(224,104,255,0.6)' },
+  { name: 'Orange', hex: '#ff4a1e', glow: 'rgba(255,74,30,0.6)' },
+  { name: 'Lemon Yellow', hex: '#fcf90a', glow: 'rgba(252,249,10,0.6)' },
+  { name: 'Hot Pink', hex: '#ff40b0', glow: 'rgba(255,64,176,0.6)' },
+  { name: 'Girl Pink', hex: '#fa69fa', glow: 'rgba(250,105,250,0.6)' },
+  { name: 'Deep Pink', hex: '#ff2dff', glow: 'rgba(255,45,255,0.6)' },
+  { name: 'Ice Blue', hex: '#1a9beb', glow: 'rgba(26,155,235,0.6)' },
+  { name: 'Red', hex: '#fe1b08', glow: 'rgba(254,27,8,0.6)' },
+  { name: 'Turquoise', hex: '#43eaf0', glow: 'rgba(67,234,240,0.6)' },
+  { name: 'Tropical Green', hex: '#10c7a8', glow: 'rgba(16,199,168,0.6)' },
+  
+  { name: 'Rainbow Flow', hex: '#ffffff', glow: 'rgba(117,46,255,0.8)', isFlow: true, gradient: 'linear-gradient(to right, #ff0000, #ff7f00, #ffe600, #6eff86, #245cff, #752eff, #ff2aac)' },
+  { name: 'Cyberpunk Flow', hex: '#ffffff', glow: 'rgba(255,42,172,0.8)', isFlow: true, gradient: 'linear-gradient(to right, #752eff, #ff2aac, #00f6ff)' },
+  { name: 'Sunset Flow', hex: '#ffffff', glow: 'rgba(255,106,0,0.8)', isFlow: true, gradient: 'linear-gradient(to right, #ff2aac, #ff6a00, #ffe600)' },
+  { name: 'Ocean Flow', hex: '#ffffff', glow: 'rgba(0,246,255,0.8)', isFlow: true, gradient: 'linear-gradient(to right, #245cff, #00f6ff, #6eff86)' },
+  { name: 'Fire Flow', hex: '#ffffff', glow: 'rgba(255,23,79,0.8)', isFlow: true, gradient: 'linear-gradient(to right, #ff174f, #ff6a00, #ffe600)' },
 ];
 
 // Realistic LED Neon Tube & Wall Light Spillage (Addressing Point #3 & #9)
-function getNeonTextStyle(color: (typeof COLORS)[number], isLightOn: boolean = true, tubing: 'coloured'|'white' = 'coloured') {
+function getNeonTextStyle(color: NeonColor, isLightOn: boolean = true, tubing: 'coloured'|'white' = 'coloured') {
+  if (color.gradient && isLightOn) {
+    return {
+      backgroundImage: color.gradient,
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      filter: `drop-shadow(0 0 10px ${color.glow}) drop-shadow(0 0 30px ${color.glow}) drop-shadow(0 0 80px ${color.glow}) brightness(1.2)`,
+      fontSize: 'clamp(2.4rem, 5.8vw, 6.5rem)',
+      lineHeight: '1.1',
+      whiteSpace: 'pre' as const,
+      wordBreak: 'break-word' as const,
+      backgroundSize: '200% auto',
+      animation: 'flowGradient 4s linear infinite',
+    };
+  }
+
   const baseColor = tubing === 'white' ? '#fcfcfc' : color.hex;
   
   if (!isLightOn) {
@@ -152,7 +180,7 @@ const SHAPE_SIZES = SIZES.map(s => ({
 
 export function getCalculatedDimensions(sizeId: string, colorName: string, textStr: string, shapeCount: number = 0) {
   const size = SIZES.find((s) => s.id === sizeId) || SIZES[1];
-  const isMojo = colorName.includes('Mojo');
+  const isMojo = colorName.includes('Mojo') || colorName.includes('Flow');
   const config = isMojo ? size.mojoConfig : size.singleConfig;
   const chars = Math.max(1, textStr.replace(/\s/g, '').length);
   const spaceCount = (textStr.match(/ /g) || []).length;
@@ -277,15 +305,15 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
 
   const [selectedFont, setSelectedFont] = useState(FONTS.find(f => f.name === 'Dreamy') || FONTS[0]);
   const [textAlign, setTextAlign] = useState<'left' | 'center' | 'right'>('center');
-  const defaultColor = isMojoMix ? COLORS.find(c => c.name.includes('Mojo'))! : COLORS[0];
+  const defaultColor = isMojoMix ? (COLORS.find(c => c.isFlow) || COLORS[0]) : COLORS[0];
   const [selectedColor, setSelectedColor] = useState(defaultColor);
   const [selectedSize, setSelectedSize] = useState(SIZES[1]); // Medium default
   const [selectedShapeSize, setSelectedShapeSize] = useState(SHAPE_SIZES[1]); // Medium default for shapes
   const [isWaterproof, setIsWaterproof] = useState(false);
   const [hasSmartController, setHasSmartController] = useState(false);
-  const [addedShapes, setAddedShapes] = useState<{ id: string, type: string, color?: typeof COLORS[number], position?: 'left' | 'right' }[]>([]);
+  const [addedShapes, setAddedShapes] = useState<{ id: string, type: string, color?: NeonColor, position?: 'left' | 'right' }[]>([]);
   const [isMultiColor, setIsMultiColor] = useState(false);
-  const [letterColors, setLetterColors] = useState<Record<number, typeof COLORS[number]>>({});
+  const [letterColors, setLetterColors] = useState<Record<number, NeonColor>>({});
   const [selectedItemForColor, setSelectedItemForColor] = useState<number | string | null>(null);
 
   const { speak } = useMascot();
@@ -311,7 +339,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
   }, []);
   const [dynamicScale, setDynamicScale] = useState<number | null>(null);
 
-  const handleColorSelect = (c: typeof COLORS[number]) => {
+  const handleColorSelect = (c: NeonColor) => {
     if (isMultiColor && selectedItemForColor !== null) {
       if (typeof selectedItemForColor === 'number') {
         setLetterColors(prev => ({ ...prev, [selectedItemForColor]: c }));
@@ -434,14 +462,12 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
         <div className="w-full h-full flex items-center justify-between px-4 md:px-8 relative z-10">
           <div className="flex items-center gap-4 md:gap-6">
           <SimpleHamburgerMenu />
-          <Link href="/" className="flex items-center gap-2 lg:gap-3 select-none cursor-pointer outline-none border-none focus:outline-none shadow-none group flex-shrink-0">
-            <div className="hidden md:block h-12 lg:h-16 w-[200px] lg:w-[260px] relative cursor-pointer transition-all duration-700 hover:scale-105 flex-shrink-0">
+          <a href="/" className="relative flex items-center gap-2 xl:gap-3 cursor-pointer group flex-shrink-0">
+            <div className="absolute inset-0 z-50"></div>
+            <div className="block h-12 xl:h-16 w-[160px] md:w-[200px] xl:w-[260px] relative transition-all duration-700 group-hover:scale-105 flex-shrink-0 pointer-events-none">
               <NeonLogo />
             </div>
-            <div className="h-10 w-10 lg:h-14 lg:w-14 relative cursor-pointer flex-shrink-0">
-              <NeonIcon />
-            </div>
-          </Link>
+          </a>
           <div className="hidden md:flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full">
             <span className="text-xs font-black text-brand-green uppercase tracking-widest flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5" />
@@ -476,7 +502,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
             }}
             label={`ADD TO CART — ₹${price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`}
             icon={<ShoppingBag className="w-4 h-4 transition-colors duration-300" />}
-            className="hidden lg:flex"
+            className="hidden xl:flex"
           />
 
           <Link
@@ -494,12 +520,12 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
       </header>
 
       {/* Main Studio Workshop Area */}
-      <div className="w-full flex flex-col lg:flex-row min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] lg:max-h-[860px] lg:overflow-hidden bg-[#f5f5f5] border-b border-gray-800">
+      <div className="w-full flex flex-col xl:flex-row min-h-[calc(100vh-80px)] xl:h-[calc(100vh-80px)] xl:max-h-[860px] xl:overflow-hidden bg-[#f5f5f5] border-b border-gray-800">
         
         {/* 1. Left Navigation Sidebar (Thin & Dark) */}
-        <div className="order-1 lg:order-1 w-full lg:w-24 bg-black border-b lg:border-b-0 lg:border-r border-white/10 flex lg:flex-col items-center py-2 lg:py-4 z-30 flex-shrink-0">
-          <div className="flex lg:flex-col w-full h-full gap-2 lg:gap-4 overflow-x-auto lg:overflow-x-visible scrollbar-none px-2 lg:px-0 lg:pl-2">
-            <div className="flex lg:flex-col w-full gap-2 lg:gap-2 flex-grow">
+        <div className="order-1 xl:order-1 w-full xl:w-24 bg-black border-b xl:border-b-0 xl:border-r border-white/10 flex xl:flex-col items-center py-2 xl:py-4 z-30 flex-shrink-0">
+          <div className="flex xl:flex-col w-full h-full gap-2 xl:gap-4 overflow-x-auto xl:overflow-x-visible scrollbar-none px-2 xl:px-0 xl:pl-2">
+            <div className="flex xl:flex-col w-full gap-2 xl:gap-2 flex-grow">
             {[
               { id: 'create', label: 'CREATE', icon: <Type className="w-6 h-6 mb-1" /> },
               { id: 'size', label: 'SIZE', icon: <Ruler className="w-6 h-6 mb-1" /> },
@@ -513,23 +539,23 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                 <React.Fragment key={item.id}>
                   <button
                     onClick={() => setActiveTab(item.id as any)}
-                    className={`flex flex-col items-center justify-center py-3 transition-all min-w-[75px] lg:min-w-0 ${
+                    className={`flex flex-col items-center justify-center py-3 transition-all min-w-[75px] xl:min-w-0 ${
                       isActive 
-                        ? 'bg-white text-[#252b42] rounded-lg lg:rounded-l-lg lg:rounded-r-none relative z-40 lg:translate-x-[1px] shadow-[-4px_0_10px_rgba(0,0,0,0.1)] w-full' 
-                        : 'text-white/70 hover:text-white hover:bg-white/10 rounded-lg w-full lg:w-[calc(100%-8px)]'
+                        ? 'bg-white text-[#252b42] rounded-lg xl:rounded-l-lg xl:rounded-r-none relative z-40 xl:translate-x-[1px] shadow-[-4px_0_10px_rgba(0,0,0,0.1)] w-full' 
+                        : 'text-white/70 hover:text-white hover:bg-white/10 rounded-lg w-full xl:w-[calc(100%-8px)]'
                     }`}
                   >
                     {item.icon}
                     <span className="text-[10px] font-black tracking-widest">{item.label}</span>
                   </button>
                   {index < array.length - 1 && (
-                    <div className="hidden lg:block w-[80%] h-[1px] bg-white/60 mx-auto self-center shrink-0" />
+                    <div className="hidden xl:block w-[80%] h-[1px] bg-white/60 mx-auto self-center shrink-0" />
                   )}
                 </React.Fragment>
               );
             })}
               {/* Separator before Cart */}
-              <div className="hidden lg:block w-[80%] h-[1px] bg-white/60 mx-auto self-center shrink-0" />
+              <div className="hidden xl:block w-[80%] h-[1px] bg-white/60 mx-auto self-center shrink-0" />
               
               {/* Extra ADD TO CART button below ROOM tab */}
               <button
@@ -551,7 +577,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                   });
                   triggerMascot(`Added "${text}" neon sign to cart! Total: ₹${price.toLocaleString()}`, MascotState.CELEBRATING);
                 }}
-                className="hidden lg:flex flex-col items-center justify-center py-3 transition-all duration-300 min-w-[75px] lg:min-w-0 w-full lg:w-[calc(100%-8px)] bg-brand-green/10 border border-brand-green/30 text-brand-green rounded-lg hover:border-brand-green hover:shadow-[0_0_20px_rgba(110,255,134,0.5)] group"
+                className="hidden xl:flex flex-col items-center justify-center py-3 transition-all duration-300 min-w-[75px] xl:min-w-0 w-full xl:w-[calc(100%-8px)] bg-brand-green/10 border border-brand-green/30 text-brand-green rounded-lg hover:border-brand-green hover:shadow-[0_0_20px_rgba(110,255,134,0.5)] group"
               >
                 <ShoppingBag className="w-6 h-6 mb-1 group-hover:scale-110 transition-transform" />
                 <span className="text-[10px] font-black tracking-widest text-center leading-tight">ADD TO<br/>CART</span>
@@ -561,7 +587,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
         </div>
 
         {/* 2. Middle Options Panel (White) */}
-        <div className="order-3 lg:order-2 w-full lg:w-[420px] bg-white border-r border-gray-200 p-6 md:p-8 overflow-y-auto z-20 flex flex-col flex-shrink-0 relative shadow-lg">
+        <div className="order-3 xl:order-2 w-full xl:w-[420px] bg-white border-r border-gray-200 p-6 md:p-8 overflow-y-auto z-20 flex flex-col flex-shrink-0 relative shadow-lg">
           <div className="space-y-10 flex-grow text-gray-900">
             
             {/* TAB 1: CREATE (Text, Font, Size) */}
@@ -781,7 +807,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                           
                           {/* Shape Color Selection */}
                           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                            {COLORS.filter(c => !c.name.includes('Mojo')).map(c => {
+                            {COLORS.filter(c => !c.isFlow).map(c => {
                               const isSelected = (shape.color?.name === c.name) || (!shape.color && selectedColor.name === c.name && !isMojoMix);
                               return (
                                 <button
@@ -812,10 +838,42 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
             {/* TAB 2: COLOR */}
             {activeTab === 'color' && (
               <div className="flex flex-col gap-8">
-                <div>
-                  <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">
-                    SPECIAL EFFECTS
-                  </label>
+                {isMojoMix ? (
+                  <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                    <label className="text-[11px] font-bold text-gray-900 uppercase tracking-wider mb-4 block">
+                      Choose Flow-Mo Effect
+                    </label>
+                    <div className="flex flex-wrap gap-2.5">
+                      {COLORS.filter(c => c.isFlow).map((c) => {
+                        const isSelected = selectedColor.name === c.name;
+                        return (
+                          <div key={c.name} className="flex flex-col items-center gap-1.5 w-12">
+                            <button
+                              onClick={() => handleColorSelect(c)}
+                              title={c.name}
+                              className={`w-10 h-10 rounded-xl transition-all border-2 flex-shrink-0 ${
+                                isSelected
+                                  ? 'border-gray-900 scale-110 shadow-md z-10'
+                                  : 'border-gray-200 hover:border-gray-400 hover:scale-105 shadow-sm'
+                              }`}
+                              style={{
+                                background: c.gradient,
+                                boxShadow: isSelected ? `0 0 15px ${c.glow}` : `none`
+                              }}
+                            />
+                            <span className="text-[9px] font-bold text-gray-600 text-center leading-tight h-6 flex items-center">
+                              {c.name.replace(' Flow', '')}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <label className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 block">
+                      SPECIAL EFFECTS
+                    </label>
                   <div className="flex flex-col gap-3 mb-6">
                     <button
                       onClick={() => setIsMultiColor(false)}
@@ -913,7 +971,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                       {isMultiColor ? (selectedItemForColor !== null ? 'Choose color for selected item' : 'Select a letter above first') : 'Choose LED Neon Color'}
                     </label>
                     <div className="flex flex-wrap gap-2.5">
-                      {COLORS.filter(c => !c.name.includes('Mojo')).map((c) => {
+                      {COLORS.filter(c => !c.isFlow).map((c) => {
                         const isSelected = isMultiColor 
                           ? (selectedItemForColor !== null 
                               ? (typeof selectedItemForColor === 'number' 
@@ -948,6 +1006,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
 
 
                 </div>
+                )}
               </div>
             )}
 
@@ -1185,7 +1244,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
         </div>
 
         {/* 3. Center/Right Workshop Preview Canvas */}
-        <div className="order-2 lg:order-3 flex-none lg:flex-1 w-full lg:w-auto relative overflow-hidden bg-[#090909] h-[350px] md:h-[500px] lg:h-full lg:min-h-0 flex items-start justify-center p-4 lg:p-6 lg:pt-4">
+        <div className="order-2 xl:order-3 flex-none xl:flex-1 w-full xl:w-auto relative overflow-hidden bg-[#090909] h-[350px] md:h-[500px] xl:h-full xl:min-h-0 flex items-start justify-center p-4 xl:p-6 xl:pt-4">
           
           {/* Measurement Workshop Grid Pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#141414_1px,transparent_1px),linear-gradient(to_bottom,#141414_1px,transparent_1px)] bg-[size:24px_24px] opacity-90 pointer-events-none min-h-full" />
@@ -1194,7 +1253,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
           <div className="relative flex flex-col items-center justify-start gap-4 w-full max-w-[900px] h-full z-20">
             
             {/* Top Toolbar Strip */}
-            <div className="hidden lg:flex w-full bg-black/85 backdrop-blur-md border border-white/15 px-3.5 py-2 rounded-2xl shadow-xl flex-wrap items-center justify-between gap-2 shrink-0">
+            <div className="hidden xl:flex w-full bg-black/85 backdrop-blur-md border border-white/15 px-3.5 py-2 rounded-2xl shadow-xl flex-wrap items-center justify-between gap-2 shrink-0">
               {/* Left: Lighting Moods */}
               <div className="flex items-center gap-1">
                 {[
@@ -1302,7 +1361,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
               <div className="flex items-center gap-2 bg-[#2a2a2a]/90 backdrop-blur-md border border-white/10 rounded-2xl p-2 shadow-2xl">
                 <button
                   onClick={() => setIsLightOn(!isLightOn)}
-                  className={`hidden lg:flex w-12 h-12 rounded-xl items-center justify-center transition-all ${
+                  className={`hidden xl:flex w-12 h-12 rounded-xl items-center justify-center transition-all ${
                     isLightOn ? 'bg-brand-purple text-white shadow-[0_0_15px_rgba(117,46,255,0.5)]' : 'bg-transparent text-white/50 hover:bg-white/10 hover:text-white'
                   }`}
                   aria-label="Toggle neon light on or off"
@@ -1598,7 +1657,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
             {/* Mobile Only: Top Left ON/OFF Toggle (Moved here for absolute visibility) */}
             <button
               onClick={() => setIsLightOn(!isLightOn)}
-              className={`lg:hidden absolute top-4 left-4 z-[60] w-[68px] h-8 rounded-full flex items-center p-1 transition-all shadow-lg border border-white/20 ${
+              className={`xl:hidden absolute top-4 left-4 z-[60] w-[68px] h-8 rounded-full flex items-center p-1 transition-all shadow-lg border border-white/20 ${
                 isLightOn ? 'bg-[#8ec32d]' : 'bg-gray-600'
               }`}
               aria-label="Toggle neon light"
@@ -1610,7 +1669,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
             {/* Mobile Only: Top Right Ruler Toggle (Moved here for absolute visibility) */}
             <button
               onClick={() => setShowRuler(!showRuler)}
-              className={`lg:hidden absolute top-4 right-4 z-[60] w-10 h-10 rounded-full border-2 transition-all flex items-center justify-center shadow-lg ${
+              className={`xl:hidden absolute top-4 right-4 z-[60] w-10 h-10 rounded-full border-2 transition-all flex items-center justify-center shadow-lg ${
                 showRuler ? 'border-white bg-black/80' : 'border-white/50 bg-black/40 backdrop-blur-sm'
               }`}
             >
@@ -1726,7 +1785,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
       </div>
 
       {/* Mobile Sticky Footer */}
-      <div className="lg:hidden sticky bottom-0 z-50 bg-white border-t border-gray-200 p-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] flex items-center justify-between">
+      <div className="xl:hidden sticky bottom-0 z-50 bg-white border-t border-gray-200 p-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] flex items-center justify-between">
         <div>
           <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-0.5">Your Discounted Price</div>
           <div className="text-lg font-black text-[#a63086] flex items-center gap-2">
@@ -1763,3 +1822,13 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
     </main>
   );
 }
+
+
+
+
+
+
+
+
+
+

@@ -187,29 +187,70 @@ export function Footer() {
       </div>
 
       <div className="max-w-[1600px] mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-12 mb-8">
           {/* Brand Col */}
           <div>
             <div className="mb-6 select-none relative z-50 outline-none border-none">
-              <Link href="/" className="inline-flex items-center gap-3 mb-6 outline-none border-none focus:outline-none shadow-none group">
-                  <div className="h-14 lg:h-20 w-[200px] sm:w-[240px] lg:w-[280px] relative cursor-pointer transition-transform duration-500 flex-shrink-0">
+                <a href="/" className="relative inline-flex items-center gap-3 mb-6 cursor-pointer group">
+                  <div className="absolute inset-0 z-50"></div>
+                  <div className="h-14 xl:h-20 w-[200px] sm:w-[240px] xl:w-[280px] relative transition-transform duration-500 group-hover:scale-105 flex-shrink-0 pointer-events-none">
                     <NeonLogo />
                   </div>
-                  <div className="h-10 w-10 lg:h-14 lg:w-14 relative cursor-pointer flex-shrink-0 self-center">
-                    <NeonIcon />
-                  </div>
-              </Link>
+                </a>
             </div>
             <p className="text-gray-300 mb-6 leading-relaxed drop-shadow-md">
               India&apos;s No.1 Neon Lights brand. Handcrafted, premium quality LED neon signs for your home, business or events.
             </p>
-            <div className="flex items-center gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[#E1306C] hover:text-white hover:bg-brand-purple hover:shadow-[0_0_15px_rgba(117,46,255,0.5)] transition-colors"><FaInstagram size={20} /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[#1877F2] hover:text-white hover:bg-blue-600 hover:shadow-[0_0_15px_rgba(24,119,242,0.5)] transition-colors"><FaFacebook size={20} /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[#1DA1F2] hover:text-white hover:bg-[#1DA1F2] hover:shadow-[0_0_15px_rgba(29,161,242,0.5)] transition-colors"><FaTwitter size={20} /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[#E60023] hover:text-white hover:bg-[#E60023] hover:shadow-[0_0_15px_rgba(230,0,35,0.5)] transition-colors"><FaPinterest size={20} /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[#0A66C2] hover:text-white hover:bg-[#0A66C2] hover:shadow-[0_0_15px_rgba(10,102,194,0.5)] transition-colors"><FaLinkedin size={20} /></a>
-            </div>
+              <div className="flex items-center gap-4">
+                {/* SVG definitions for gradients */}
+                <svg width="0" height="0" className="absolute">
+                  <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#f09433" />
+                    <stop offset="25%" stopColor="#e6683c" />
+                    <stop offset="50%" stopColor="#dc2743" />
+                    <stop offset="75%" stopColor="#cc2366" />
+                    <stop offset="100%" stopColor="#bc1888" />
+                  </linearGradient>
+                </svg>
+
+                {/* Instagram */}
+                <a href="#" className="w-10 h-10 rounded-full bg-zinc-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-800 transition-colors group">
+                  <div className="flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <FaInstagram size={20} style={{ fill: "url(#ig-grad)" }} />
+                  </div>
+                </a>
+                
+                {/* Facebook */}
+                <a href="#" className="w-10 h-10 rounded-full bg-zinc-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-800 transition-colors group">
+                  <div className="relative flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <div className="absolute w-[18px] h-[18px] bg-white rounded-full"></div>
+                    <FaFacebook size={22} className="relative z-10 text-[#1877F2]" />
+                  </div>
+                </a>
+
+                {/* Twitter */}
+                <a href="#" className="w-10 h-10 rounded-full bg-zinc-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-800 transition-colors group">
+                  <div className="flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <FaTwitter size={20} className="text-[#1DA1F2]" />
+                  </div>
+                </a>
+
+                {/* Pinterest */}
+                <a href="#" className="w-10 h-10 rounded-full bg-zinc-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-800 transition-colors group">
+                  <div className="relative flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <div className="absolute w-[16px] h-[16px] bg-white rounded-full"></div>
+                    <FaPinterest size={22} className="relative z-10 text-[#E60023]" />
+                  </div>
+                </a>
+
+                {/* LinkedIn */}
+                <a href="#" className="w-10 h-10 rounded-full bg-zinc-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-800 transition-colors group">
+                  <div className="relative flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <div className="absolute w-[16px] h-[16px] bg-white rounded-sm"></div>
+                    <FaLinkedin size={22} className="relative z-10 text-[#0A66C2]" />
+                  </div>
+                </a>
+              </div>
           </div>
 
           {/* Links Col 1 */}

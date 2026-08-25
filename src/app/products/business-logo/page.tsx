@@ -93,7 +93,7 @@ export default function BusinessLogoPage() {
       <div className="flex-1 w-full max-w-4xl mx-auto px-4 md:px-8 py-12 md:py-20 relative z-10">
         <div className="text-center space-y-4 mb-16 relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-32 bg-brand-green/20 blur-[100px] rounded-full pointer-events-none" />
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white relative z-10">
+          <h1 className="text-4xl md:text-5xl xl:text-6xl font-black tracking-tight text-white relative z-10">
             Design Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">Custom Logo</span> With Us
           </h1>
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-medium relative z-10">

@@ -34,7 +34,7 @@ export default function ContactContent({ contactInfo }: { contactInfo: any }) {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+    <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 xl:gap-24">
       <div className="bg-zinc-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-sm relative overflow-hidden">
         {submitted ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-900 z-10 p-8 text-center">

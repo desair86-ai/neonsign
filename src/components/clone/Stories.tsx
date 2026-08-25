@@ -159,12 +159,12 @@ export function Stories() {
           </div>
           
           {/* Desktop Controls */}
-          <div className="absolute top-1/2 -translate-y-1/2 left-4 md:left-20 z-50 hidden lg:block">
+          <div className="absolute top-1/2 -translate-y-1/2 left-4 md:left-20 z-50 hidden xl:block">
             <button onClick={handlePrev} className="p-4 rounded-full bg-brand-purple/10 border border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] backdrop-blur-md transition-all duration-300 hover:bg-brand-purple/20">
               <ChevronLeft className="w-6 h-6" />
             </button>
           </div>
-          <div className="absolute top-1/2 -translate-y-1/2 right-4 md:right-20 z-50 hidden lg:block">
+          <div className="absolute top-1/2 -translate-y-1/2 right-4 md:right-20 z-50 hidden xl:block">
             <button onClick={handleNext} className="p-4 rounded-full bg-brand-green/10 border border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)] backdrop-blur-md transition-all duration-300 hover:bg-brand-green/20">
               <ChevronRight className="w-6 h-6" />
             </button>
@@ -172,7 +172,7 @@ export function Stories() {
         </div>
 
         {/* Mobile/Tablet Controls */}
-        <div className="flex justify-center items-center gap-6 mt-8 lg:hidden">
+        <div className="flex justify-center items-center gap-6 mt-8 xl:hidden">
           <button onClick={handlePrev} className="p-4 rounded-full bg-brand-purple/10 border border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] backdrop-blur-md transition-all duration-300 active:scale-95">
             <ChevronLeft className="w-6 h-6" />
           </button>

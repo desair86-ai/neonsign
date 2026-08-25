@@ -196,7 +196,7 @@ export default function CheckoutPage() {
           </Link>
         </div>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start max-w-6xl mx-auto">
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 xl:grid-cols-2 gap-10 xl:gap-16 items-start max-w-6xl mx-auto">
           {/* Left Checkout Form (Billing Details) */}
           <div className="space-y-10">
             
