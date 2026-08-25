@@ -16,6 +16,8 @@ import { useCart } from "@/lib/CartContext";
 import { NeonLogo } from '@/components/clone/NeonLogo';
 import { NeonIcon } from '@/components/clone/NeonIcon';
 import { SimpleHamburgerMenu } from '@/components/clone/SimpleHamburgerMenu';
+import { ReactTransliterate } from 'react-transliterate';
+import 'react-transliterate/dist/index.css';
 
 const FONTS = [
   { name: 'Arista Pro Light', class: 'font-arista-pro-light', category: 'modern' },
@@ -296,6 +298,7 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
   }, []);
 
   const [selectedFont, setSelectedFont] = useState(FONTS.find(f => f.name === 'Dreamy') || FONTS[0]);
+  const [enableMarathi, setEnableMarathi] = useState(false);
   const [textAlign, setTextAlign] = useState<'left' | 'center' | 'right'>('center');
   const defaultColor = isMojoMix ? (COLORS.find(c => c.isFlow) || COLORS[0]) : COLORS[0];
   const [selectedColor, setSelectedColor] = useState(defaultColor);
@@ -590,15 +593,44 @@ export function NeonSignBuilder({ isMojoMix = false }: { isMojoMix?: boolean }) 
                 <div className="mb-2">
                   <div className="flex items-center justify-between mb-2">
                     <label className="text-xs font-bold text-gray-900 uppercase tracking-wider">Enter Neon Text</label>
-                    <span className="text-xs text-gray-500">{text.length} chars</span>
+                    <div className="flex items-center gap-3">
+                      <label className="text-xs text-gray-600 flex items-center gap-1.5 cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          checked={enableMarathi} 
+                          onChange={(e) => setEnableMarathi(e.target.checked)} 
+                          className="accent-brand-purple"
+                        />
+                        Marathi Typing
+                      </label>
+                      <span className="text-xs text-gray-500">{text.length} chars</span>
+                    </div>
                   </div>
-                  <textarea
-                    rows={2}
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                    placeholder="Type something magical..."
-                    className="w-full bg-gray-50 border border-gray-300 focus:border-brand-purple rounded-xl p-3.5 text-gray-900 text-lg font-bold outline-none resize-none transition-colors"
-                  />
+                  {enableMarathi ? (
+                    <ReactTransliterate
+                      value={text}
+                      onChangeText={(t) => setText(t)}
+                      lang="mr"
+                      renderComponent={(props) => (
+                        <textarea
+                          {...props}
+                          rows={2}
+                          maxLength={40}
+                          placeholder="Type in English (e.g. Rashmi -> रश्मी)..."
+                          className="w-full bg-gray-50 border border-gray-300 focus:border-brand-purple rounded-xl p-3.5 text-gray-900 text-lg font-bold outline-none resize-none transition-colors"
+                        />
+                      )}
+                    />
+                  ) : (
+                    <textarea
+                      rows={2}
+                      value={text}
+                      onChange={(e) => setText(e.target.value)}
+                      maxLength={40}
+                      placeholder="Type something magical..."
+                      className="w-full bg-gray-50 border border-gray-300 focus:border-brand-purple rounded-xl p-3.5 text-gray-900 text-lg font-bold outline-none resize-none transition-colors"
+                    />
+                  )}
                   {/* Alignment Controls */}
                   <div className="flex bg-gray-100 border border-gray-200 rounded-xl p-1 gap-1 mt-3">
                     {(['left', 'center', 'right'] as const).map((align) => (
