@@ -103,12 +103,12 @@ const gothic = localFont({ src: "../../public/Final Fonts/GOTHIC.ttf", variable:
 const ladyIr = localFont({ src: "../../public/Final Fonts/LADYIR_.ttf", variable: "--font-lady-ir" });
 const myriadPro = localFont({ src: "../../public/Final Fonts/MYRIADPRO-REGULAR.otf", variable: "--font-myriad-pro" });
 
-const devnagari101 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-101.ttf", variable: "--font-devnagari-101" });
-const devnagari33 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-33.ttf", variable: "--font-devnagari-33" });
-const devnagari38 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-38.ttf", variable: "--font-devnagari-38" });
-const devnagari52 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-52.ttf", variable: "--font-devnagari-52" });
-const devnagari56 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-56.ttf", variable: "--font-devnagari-56" });
-const devnagari75 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-75.ttf", variable: "--font-devnagari-75" });
+const devnagari101 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-101.ttf", variable: "--font-devnagari-101", adjustFontFallback: false });
+const devnagari33 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-33.ttf", variable: "--font-devnagari-33", adjustFontFallback: false });
+const devnagari38 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-38.ttf", variable: "--font-devnagari-38", adjustFontFallback: false });
+const devnagari52 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-52.ttf", variable: "--font-devnagari-52", adjustFontFallback: false });
+const devnagari56 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-56.ttf", variable: "--font-devnagari-56", adjustFontFallback: false });
+const devnagari75 = localFont({ src: "../../public/Final Fonts/Devnagari/sau-75.ttf", variable: "--font-devnagari-75", adjustFontFallback: false });
 
 const fontVariables = [
   inter.variable,
