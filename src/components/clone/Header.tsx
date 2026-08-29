@@ -186,7 +186,7 @@ export function Header() {
           </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden xl:flex items-center gap-2 xl:gap-5 font-bold text-base tracking-widest" style={{ fontFamily: 'var(--font-poppins)' }}>
+        <nav className="hidden xl:flex items-center xl:gap-1 2xl:gap-5 font-bold text-sm 2xl:text-base tracking-wider 2xl:tracking-widest" style={{ fontFamily: 'var(--font-poppins)' }}>
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             
@@ -199,7 +199,7 @@ export function Header() {
                       e.preventDefault();
                     }
                   }}
-                  className={`relative px-3.5 py-2.5 rounded-full flex items-center justify-center gap-1.5 capitalize transition-all duration-300 hover:scale-105 cursor-pointer border ${isActive ? 'font-extrabold !text-white border-[#752eff] shadow-[0_0_15px_rgba(117,46,255,0.5)]' : '!text-white border-transparent hover:!text-white hover:border-[#752eff] hover:shadow-[0_0_15px_rgba(117,46,255,0.5)]'}`}
+                  className={`relative px-2 py-2 2xl:px-3.5 2xl:py-2.5 rounded-full flex items-center justify-center gap-1.5 capitalize transition-all duration-300 hover:scale-105 cursor-pointer border whitespace-nowrap ${isActive ? 'font-extrabold !text-white border-[#752eff] shadow-[0_0_15px_rgba(117,46,255,0.5)]' : '!text-white border-transparent hover:!text-white hover:border-[#752eff] hover:shadow-[0_0_15px_rgba(117,46,255,0.5)]'}`}
                 >
                   {isActive && (
                     <>
@@ -217,7 +217,7 @@ export function Header() {
                       />
                     </>
                   )}
-                  <span className="relative z-10">{item.label}</span>
+                  <span className="relative z-10 whitespace-nowrap">{item.label}</span>
                   {(item.dropdown || item.columns) && <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />}
                 </Link>
 
@@ -230,10 +230,10 @@ export function Header() {
                       {item.dropdown && (
                         <div className="flex flex-col min-w-[240px] p-2">
                           {item.dropdown.map(subItem => (
-                            <Link key={subItem.label} href={subItem.href} className="relative block rounded-md transition-all duration-300 hover:translate-x-1 group/link overflow-hidden mb-1">
-                              <div className="absolute inset-0 bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient opacity-0 group-hover/link:opacity-100 transition-opacity duration-300 rounded-md" />
-                              <div className="relative m-[2px] px-4 py-3 bg-transparent group-hover/link:bg-black rounded-[4px] text-[15px] font-medium text-zinc-300 group-hover/link:text-white transition-colors z-10">
+                            <Link key={subItem.label} href={subItem.href} className="relative block transition-all duration-300 hover:translate-x-1 group/link mb-1">
+                              <div className="relative px-4 py-3 bg-transparent text-[15px] font-medium text-zinc-300 group-hover/link:text-white transition-colors z-10">
                                 {subItem.label}
+                                <div className="absolute bottom-1 left-4 right-4 h-[2px] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient opacity-0 group-hover/link:opacity-100 transition-all duration-300" />
                               </div>
                             </Link>
                           ))}
@@ -254,11 +254,11 @@ export function Header() {
                                   )}
                                   {section.items.map((subItem, itemIdx) => (
                                     <div key={subItem.label} className="group/sub relative mb-1">
-                                      <Link href={subItem.href} className="relative block rounded-md transition-all duration-300 hover:translate-x-1 group/link overflow-hidden">
-                                        <div className="absolute inset-0 bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient opacity-0 group-hover/link:opacity-100 transition-opacity duration-300 rounded-md" />
-                                        <div className="relative m-[2px] px-3 py-2.5 bg-transparent group-hover/link:bg-black rounded-[4px] flex items-center justify-between text-[14px] font-medium leading-snug break-words whitespace-normal text-zinc-400 group-hover/link:text-white transition-colors z-10">
+                                      <Link href={subItem.href} className="relative block transition-all duration-300 hover:translate-x-1 group/link">
+                                        <div className="relative px-3 py-2.5 bg-transparent flex items-center justify-between text-[14px] font-medium leading-snug break-words whitespace-normal text-zinc-400 group-hover/link:text-white transition-colors z-10">
                                           {subItem.label}
                                           {subItem.subMenu && <ChevronDown className="w-4 h-4 -rotate-90 flex-shrink-0 ml-1 opacity-50 group-hover/sub:opacity-100 transition-opacity" />}
+                                          <div className="absolute bottom-1 left-3 right-3 h-[2px] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient opacity-0 group-hover/link:opacity-100 transition-all duration-300" />
                                         </div>
                                       </Link>
                                       
@@ -267,10 +267,10 @@ export function Header() {
                                         <div className={`absolute right-full ${itemIdx > section.items.length / 2 ? 'bottom-0 -mb-2' : 'top-0'} pr-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 z-50`}>
                                           <div className="bg-black/95 backdrop-blur-xl border-2 border-[#752eff]/50 rounded-lg p-2 shadow-[0_0_15px_rgba(117,46,255,0.3)] whitespace-normal flex flex-col w-[230px]">
                                             {subItem.subMenu.map(deepItem => (
-                                              <Link key={deepItem.label} href={deepItem.href} className="relative block rounded-md transition-all duration-300 hover:translate-x-1 group/link overflow-hidden mb-1">
-                                                <div className="absolute inset-0 bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient opacity-0 group-hover/link:opacity-100 transition-opacity duration-300 rounded-md" />
-                                                <div className="relative m-[2px] px-3.5 py-2.5 bg-transparent group-hover/link:bg-black rounded-[4px] text-sm font-medium leading-snug break-words whitespace-normal text-zinc-400 group-hover/link:text-white transition-colors z-10">
+                                              <Link key={deepItem.label} href={deepItem.href} className="relative block transition-all duration-300 hover:translate-x-1 group/link mb-1">
+                                                <div className="relative px-3.5 py-2.5 bg-transparent text-sm font-medium leading-snug break-words whitespace-normal text-zinc-400 group-hover/link:text-white transition-colors z-10">
                                                   {deepItem.label}
+                                                  <div className="absolute bottom-1 left-3.5 right-3.5 h-[2px] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient opacity-0 group-hover/link:opacity-100 transition-all duration-300" />
                                                 </div>
                                               </Link>
                                             ))}
