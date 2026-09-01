@@ -22,7 +22,7 @@ export function SpecialSigns() {
           <Link 
             href={sign.link} 
             key={i} 
-            className="group flex flex-col rounded-2xl overflow-hidden bg-zinc-900 border border-white/10 hover:border-[#6eff86] hover:shadow-[0_0_25px_rgba(110,255,134,0.4)] transition-all duration-500"
+            className="group flex flex-col rounded-2xl overflow-hidden bg-zinc-900 border border-white/20 hover:border-[#6eff86] shadow-sm hover:shadow-[0_0_25px_rgba(110,255,134,0.4)] transition-all duration-500"
           >
             <div className="relative aspect-square overflow-hidden bg-black">
               <img 

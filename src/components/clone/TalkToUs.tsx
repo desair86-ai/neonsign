@@ -5,8 +5,8 @@ import Link from 'next/link';
 
 export function TalkToUs() {
   return (
-    <section className="py-20 px-4 bg-black">
-      <div className="max-w-7xl mx-auto relative rounded-[32px] overflow-hidden bg-[#0d0d0d] border border-zinc-800 p-8 md:p-16 flex flex-col md:flex-row items-center gap-12">
+    <section className="py-20 px-4 bg-[#0d0d0d] border-y border-zinc-900 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto relative p-8 md:p-16 flex flex-col md:flex-row items-center gap-12">
         
         {/* Abstract Background Glows */}
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-brand-green/10 blur-[120px] rounded-full pointer-events-none" />

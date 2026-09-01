@@ -52,7 +52,7 @@ export function InfoSections() {
             
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
-              src="/Mascot.png" 
+              src="/mascot-image.png" 
               alt="Neon Stack Mascot" 
               className="relative z-10 w-auto h-auto max-w-full md:h-[650px] object-contain drop-shadow-[0_0_30px_rgba(110,255,134,0.4)]"
             />

@@ -69,7 +69,7 @@ export function ProblemSolutionCards() {
 
                   {/* FRONT FACE (Question) */}
                   <div 
-                    className="absolute inset-0 w-full h-full bg-[#111] rounded-2xl p-8 border border-zinc-800 flex flex-col items-center justify-center text-center overflow-hidden"
+                    className="absolute inset-0 w-full h-full bg-[#111] rounded-2xl p-8 border border-white/20 hover:border-white/40 transition-colors flex flex-col items-center justify-center text-center overflow-hidden"
                     style={{ backfaceVisibility: "hidden" }}
                   >
                     {/* Rotating SVG in top-right corner (Live not on hover) */}
