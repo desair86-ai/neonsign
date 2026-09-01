@@ -208,7 +208,7 @@ export default async function RootLayout({
         `}} />
       </head>
       <body 
-        className={`${fontVariables} font-sans text-white antialiased selection:bg-brand-purple/30 selection:text-brand-lavender`}
+        className={`${fontVariables} font-sans text-white antialiased selection:bg-brand-purple/30 selection:text-brand-lavender overflow-x-hidden`}
       >
         <CursorSpotlight /><CustomerAuthProvider>
           <CartProvider>

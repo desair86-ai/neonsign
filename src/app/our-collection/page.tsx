@@ -69,7 +69,7 @@ export default async function OurCollectionPage() {
 
       {/* 8. Category 3 (Curated Favourites) */}
       {displayCurated.length > 0 && (
-        <CuratedFavourites products={displayCurated} />
+        <ProductCarousel title="Curated Favourites" products={displayCurated} theme="dark" />
       )}
 
       {/* 9. Who Are We? (Founders/Mascot) */}
