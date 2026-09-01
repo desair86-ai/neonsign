@@ -1,7 +1,7 @@
 import React from 'react';
 import { supabase } from '@/lib/supabase';
 import { Header } from '@/components/clone/Header';
-import { Footer } from '@/components/clone/Footer';
+import { GlobalFooter } from "@/components/clone/GlobalFooter";
 import { notFound } from 'next/navigation';
 
 export default async function Page({
@@ -61,7 +61,8 @@ export default async function Page({
         </h1>
         <div className="text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: page.content || page.body || '' }} />
       </main>
-      <Footer />
+      <GlobalFooter />
     </div>
   );
 }
+

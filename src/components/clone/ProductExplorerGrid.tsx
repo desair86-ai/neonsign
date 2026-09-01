@@ -17,100 +17,14 @@ type Category = {
   glowTheme: GlowCardColorTheme;
 };
 
-export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dark" }) {
-  const categories = React.useMemo<Category[]>(() => [
-    {
-      title: "Bars",
-      description: "Neon signs to set the perfect nightlife mood.",
-      label: "Nightlife",
-      image: "/5580.webp",
-      linkText: "Shop Bars",
-      href: "/shop-neon-collection?cat=bars",
-      badgeClass: "bg-brand-green text-black shadow-[0_0_12px_rgba(110,255,134,0.6)]",
-      textClass: "text-brand-green",
-      glowTheme: "green",
-    },
-    {
-      title: "Hospitals",
-      description: "Bright and clear wayfinding or comforting ambient signs.",
-      label: "Healthcare",
-      image: "/5591.webp",
-      linkText: "Shop Hospitals",
-      href: "/shop-neon-collection?cat=hospitals",
-      badgeClass: "bg-[#00e5ff] text-black shadow-[0_0_12px_rgba(0,229,255,0.6)]",
-      textClass: "text-[#00e5ff]",
-      glowTheme: "blue",
-    },
-    {
-      title: "Cafes",
-      description: "Cozy aesthetic neon pieces for your coffee shop.",
-      label: "Hospitality",
-      image: "/5597.webp",
-      linkText: "Shop Cafes",
-      href: "/shop-neon-collection?cat=cafes",
-      badgeClass: "bg-[#fe8a2e] text-black shadow-[0_0_12px_rgba(254,138,46,0.6)]",
-      textClass: "text-[#fe8a2e]",
-      glowTheme: "orange",
-    },
-    {
-      title: "Gyms",
-      description: "Motivating neon quotes for fitness spaces.",
-      label: "Fitness",
-      image: "/5593.webp",
-      linkText: "Shop Gyms",
-      href: "/shop-neon-collection?cat=gyms",
-      badgeClass: "bg-[#f967fb] text-black shadow-[0_0_12px_rgba(249,103,251,0.6)]",
-      textClass: "text-[#f967fb]",
-      glowTheme: "pink",
-    },
-    {
-      title: "Salons",
-      description: "Chic and stylish lighting for beauty studios.",
-      label: "Beauty",
-      image: "/5604.webp",
-      linkText: "Shop Salons",
-      href: "/shop-neon-collection?cat=salons",
-      badgeClass: "bg-[#ca6eff] text-black shadow-[0_0_12px_rgba(202,110,255,0.6)]",
-      textClass: "text-[#ca6eff]",
-      glowTheme: "purple",
-    },
-    {
-      title: "Spas",
-      description: "Relaxing and serene neon for wellness centers.",
-      label: "Wellness",
-      image: "/5607.webp",
-      linkText: "Shop Spas",
-      href: "/shop-neon-collection?cat=spas",
-      badgeClass: "bg-brand-green text-black shadow-[0_0_12px_rgba(110,255,134,0.6)]",
-      textClass: "text-brand-green",
-      glowTheme: "green",
-    },
-    {
-      title: "Gaming Rooms",
-      description: "Vibrant RGB-style lights for gaming setups.",
-      label: "Entertainment",
-      image: "/5612.webp",
-      linkText: "Shop Gaming",
-      href: "/shop-neon-collection?cat=gaming-rooms",
-      badgeClass: "bg-[#00e5ff] text-black shadow-[0_0_12px_rgba(0,229,255,0.6)]",
-      textClass: "text-[#00e5ff]",
-      glowTheme: "blue",
-    },
-    {
-      title: "Business Offices",
-      description: "Professional neon logos and inspirational office art.",
-      label: "Corporate",
-      image: "/5595.webp",
-      linkText: "Shop Offices",
-      href: "/shop-neon-collection?cat=business-offices",
-      badgeClass: "bg-[#fe8a2e] text-black shadow-[0_0_12px_rgba(254,138,46,0.6)]",
-      textClass: "text-[#fe8a2e]",
-      glowTheme: "orange",
-    },
-  ], []);
+export function ProductExplorerGrid({ theme = "dark", categories }: { theme?: "light" | "dark", categories: Category[] }) {
+
 
   const [activeIndex, setActiveIndex] = React.useState(0);
-  const activeCategory = categories[activeIndex];
+  
+  if (!categories || categories.length === 0) return null;
+
+  const activeCategory = categories[activeIndex] || categories[0];
 
   const sectionClassName = theme === "light" ? "bg-white text-zinc-950" : "bg-zinc-950 text-white";
 
@@ -281,16 +195,7 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
                       style={{ backgroundImage: `url(${cat.image})` }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
-                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-5">
-                      <span className={`mb-3 inline-flex w-fit px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full ${cat.badgeClass}`}>
-                        {cat.label}
-                      </span>
-                      <h4 className={`text-2xl md:text-3xl font-black uppercase tracking-tight ${cat.textClass}`}>
-                        {cat.title}
-                      </h4>
-                    </div>
+                    {/* Removed text overlay as it is redundant with the left panel */}
                   </Link>
                 );
               })}
@@ -298,40 +203,6 @@ export function ProductExplorerGrid({ theme = "dark" }: { theme?: "light" | "dar
           </div>
         </div>
 
-        <div className="mt-6 md:mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-8">
-          {categories.map((cat, idx) => {
-            const isActive = idx === activeIndex;
-            const accent = accentClasses[cat.glowTheme as keyof typeof accentClasses] ?? accentClasses.orange;
-
-            return (
-              <Link
-                key={cat.title}
-                href={cat.href}
-                onMouseEnter={() => setActiveIndex(idx)}
-                onFocus={() => setActiveIndex(idx)}
-                className={`group relative flex flex-col gap-2 transition-all duration-300 hover:-translate-y-1 focus:outline-none`}
-              >
-                {/* Image Container */}
-                <div className={`relative isolate h-[92px] w-full overflow-hidden rounded-lg border bg-zinc-900 transition-all duration-300 ${isActive ? `${accent.border} ${accent.shadow}` : "border-white/10 hover:border-white/30 group-hover:border-white/50"}`}>
-                  <div
-                    className={`absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 ${isActive ? "opacity-100" : "opacity-60 group-hover:opacity-80"}`}
-                    style={{ backgroundImage: `url(${cat.image})` }}
-                  />
-                  {/* Soft gradient just for depth, not for text readability anymore */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                </div>
-                
-                {/* Text Content Below Image */}
-                <div className="flex flex-col px-0.5">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-white/50 truncate mb-0.5">{cat.label}</span>
-                  <span className={`text-sm md:text-[15px] font-black uppercase tracking-tight truncate leading-tight ${isActive ? cat.textClass : "text-white"}`}>
-                    {cat.title}
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
       </div>
     </section>
   );

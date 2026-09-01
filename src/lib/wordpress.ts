@@ -10,7 +10,7 @@ export async function fetchGraphQL(query: string, variables: any = {}) {
       query,
       variables,
     }),
-    next: { revalidate: 60 }, // ISR: Revalidate every 60 seconds
+    cache: 'no-store', // Disable caching to ensure fresh products are always fetched
   });
 
   const text = await res.text();
@@ -31,8 +31,9 @@ export async function fetchGraphQL(query: string, variables: any = {}) {
   return json.data;
 }
 
-export async function getProducts(categorySlug?: string, first = 20, sort?: string) {
+export async function getProducts(categorySlug?: string, first = 20, sort?: string, featured?: boolean) {
   const categoryFilter = categorySlug ? `categoryIn: ["${categorySlug}"], ` : '';
+  const featuredFilter = featured ? `featured: true, ` : '';
   
   let orderbyFilter = '';
   if (sort === 'popularity') {
@@ -49,7 +50,7 @@ export async function getProducts(categorySlug?: string, first = 20, sort?: stri
 
   const query = `
     query GetProducts($first: Int!) {
-      products(first: $first, where: { ${categoryFilter}${orderbyFilter}status: "PUBLISH" }) {
+      products(first: $first, where: { ${categoryFilter}${featuredFilter}${orderbyFilter}status: "PUBLISH" }) {
         nodes {
           id
           databaseId

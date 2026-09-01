@@ -1,6 +1,6 @@
 import React from "react";
 import { Header } from "@/components/clone/Header";
-import { Footer } from "@/components/clone/Footer";
+import { GlobalFooter } from "@/components/clone/GlobalFooter";
 import { ProductCarousel } from "@/components/clone/ProductCarousel";
 import { UVInfoSection } from "@/components/clone/UVInfoSection";
 
@@ -66,7 +66,9 @@ export default function UVPrintedNeonPage() {
         <ProductCarousel title="Shop UV Printed Neon" products={uvProducts} />
       </section>
 
-      <Footer />
+      <GlobalFooter />
     </main>
   );
 }
+
+

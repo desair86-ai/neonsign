@@ -2,7 +2,7 @@ import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { Header } from "@/components/clone/Header";
-import { Footer } from "@/components/clone/Footer";
+import { GlobalFooter } from "@/components/clone/GlobalFooter";
 
 export const revalidate = 60; // Revalidate every minute
 
@@ -48,7 +48,8 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
         />
       </main>
 
-      <Footer />
+      <GlobalFooter />
     </main>
   );
 }
+

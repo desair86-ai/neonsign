@@ -1,5 +1,5 @@
 import { Header } from "@/components/clone/Header";
-import { Footer } from "@/components/clone/Footer";
+import { GlobalFooter } from "@/components/clone/GlobalFooter";
 import { Clock } from "lucide-react";
 
 export const metadata = {
@@ -27,7 +27,9 @@ export default function BlogsPage() {
           </p>
         </div>
       </main>
-      <Footer />
+      <GlobalFooter />
     </>
   );
 }
+
+

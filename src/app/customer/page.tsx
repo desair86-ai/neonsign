@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Header } from "@/components/clone/Header";
-import { Footer } from "@/components/clone/Footer";
+import { GlobalFooter } from "@/components/clone/GlobalFooter";
 import { ButtonParticles } from "@/components/ui/button-particles";
 import { useCustomerAuth } from "@/lib/CustomerAuthContext";
 import { 
@@ -418,7 +418,7 @@ export default function CustomerAccountPage() {
           )}
 
         </div>
-        <Footer />
+        <GlobalFooter />
       </main>
     );
   }
@@ -716,7 +716,9 @@ export default function CustomerAccountPage() {
         </div>
       </div>
 
-      <Footer />
+      <GlobalFooter />
     </main>
   );
 }
+
+

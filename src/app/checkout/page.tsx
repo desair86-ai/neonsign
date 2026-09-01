@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Header } from "@/components/clone/Header";
-import { Footer } from "@/components/clone/Footer";
+import { GlobalFooter } from "@/components/clone/GlobalFooter";
 import { ButtonParticles } from "@/components/ui/button-particles";
 import { useCart } from "@/lib/CartContext";
 import { 
@@ -159,7 +159,7 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        <Footer />
+        <GlobalFooter />
       </main>
     );
   }
@@ -443,7 +443,9 @@ export default function CheckoutPage() {
         </form>
       </div>
 
-      <Footer />
+      <GlobalFooter />
     </main>
   );
 }
+
+

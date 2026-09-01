@@ -20,7 +20,8 @@ export function CuratedFavourites({ products }: CuratedFavouritesProps) {
       <CoverflowCarousel
         slides={products.map(p => ({ src: p.image, alt: p.name }))}
         showNavigation
-        cardWidth="clamp(260px, 30vw, 360px)"
+        showPagination
+        loop
         renderCard={(slide, index, isSelected) => (
           <div className="w-full h-full p-0">
             <ProductCard product={products[index]} index={index} theme="dark" />

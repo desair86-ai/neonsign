@@ -2,7 +2,7 @@ import { getProduct } from "@/lib/wordpress";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { Header } from "@/components/clone/Header";
-import { Footer } from "@/components/clone/Footer";
+import { GlobalFooter } from "@/components/clone/GlobalFooter";
 import ProductAddToCartButton from "@/components/clone/ProductAddToCartButton";
 
 export const revalidate = 60; // Revalidate every minute
@@ -81,7 +81,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       </main>
 
-      <Footer />
+      <GlobalFooter />
     </main>
   );
 }
+

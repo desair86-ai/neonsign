@@ -31,12 +31,12 @@ export function ProductCarousel({ title, products, theme = "dark" }: ProductCaro
             </>
           )}
         </h2>
-        <div className="flex gap-2 self-start md:self-auto">
-          <button onClick={scrollPrev} className={`p-2.5 md:p-3 rounded-full border transition-all duration-300 ${theme === 'light' ? 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-black' : 'bg-brand-purple/10 border-brand-purple text-brand-purple shadow-[0_0_15px_rgba(202,110,255,0.4)] hover:bg-brand-purple/20'}`}>
-            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+        <div className="flex gap-4 self-start md:self-auto">
+          <button onClick={scrollPrev} className={`flex items-center justify-center w-12 h-12 rounded-full border bg-[#111] transition-all duration-300 border-[#752eff] text-[#752eff] shadow-[0_0_15px_rgba(117,46,255,0.3)] hover:shadow-[0_0_25px_rgba(117,46,255,0.6)] hover:bg-[#752eff]/10 hover:scale-105`}>
+            <ChevronLeft className="w-6 h-6" strokeWidth={2.5} />
           </button>
-          <button onClick={scrollNext} className={`p-2.5 md:p-3 rounded-full border transition-all duration-300 ${theme === 'light' ? 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-black' : 'bg-brand-green/10 border-brand-green text-brand-green shadow-[0_0_15px_rgba(110,255,134,0.4)] hover:bg-brand-green/20'}`}>
-            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+          <button onClick={scrollNext} className={`flex items-center justify-center w-12 h-12 rounded-full border bg-[#111] transition-all duration-300 border-[#6eff86] text-[#6eff86] shadow-[0_0_15px_rgba(110,255,134,0.3)] hover:shadow-[0_0_25px_rgba(110,255,134,0.6)] hover:bg-[#6eff86]/10 hover:scale-105`}>
+            <ChevronRight className="w-6 h-6" strokeWidth={2.5} />
           </button>
         </div>
       </div>

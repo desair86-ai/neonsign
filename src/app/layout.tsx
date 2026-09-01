@@ -1,3 +1,4 @@
+import { CursorSpotlight } from '@/components/clone/CursorSpotlight';
 import type { Metadata } from "next";
 import { 
   Inter, 
@@ -209,7 +210,7 @@ export default async function RootLayout({
       <body 
         className={`${fontVariables} font-sans text-white antialiased selection:bg-brand-purple/30 selection:text-brand-lavender`}
       >
-        <CustomerAuthProvider>
+        <CursorSpotlight /><CustomerAuthProvider>
           <CartProvider>
             <MascotProvider>
               <div className="min-h-screen text-white font-sans selection:bg-brand-purple/30 selection:text-brand-lavender">

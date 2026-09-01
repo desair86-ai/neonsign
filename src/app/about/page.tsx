@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef } from "react";
 import { Header } from "@/components/clone/Header";
-import { Footer } from "@/components/clone/Footer";
+import { GlobalFooter } from "@/components/clone/GlobalFooter";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Eye, Sparkles, MessageCircle, Heart, Star } from "lucide-react";
 import { CoverflowCarousel } from "@/components/ui/coverflow-carousel";
@@ -410,7 +410,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <Footer />
+      <GlobalFooter />
     </main>
   );
 }
+
+

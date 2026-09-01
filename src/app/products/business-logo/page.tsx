@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { UploadCloud, CheckCircle2, XCircle, FileImage, Sparkles, Loader2, ArrowRight } from 'lucide-react';
 import { Header } from '@/components/clone/Header';
-import { Footer } from '@/components/clone/Footer';
+import { GlobalFooter } from "@/components/clone/GlobalFooter";
 import { ButtonParticles } from '@/components/ui/button-particles';
 
 const SIGN_TYPES = [
@@ -289,7 +289,9 @@ export default function BusinessLogoPage() {
         </div>
       </div>
       
-      <Footer />
+      <GlobalFooter />
     </main>
   );
 }
+
+

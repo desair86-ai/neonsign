@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/lib/CartContext';
-import { NeonLogo } from '@/components/clone/NeonLogo';
+import { NeonLogo2 } from '@/components/home2/NeonLogo2';
 import { NeonIcon } from '@/components/clone/NeonIcon';
 
 type NavItem = {
@@ -16,28 +16,12 @@ type NavItem = {
   columns?: { header?: string; items: { label: string; href: string; subMenu?: { label: string; href: string; }[]; }[] }[][];
 };
 
-export function Header() {
+export function Header2() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   
   // Theme toggle state
   const [theme, setTheme] = useState<'classic' | 'premium' | 'light'>('classic');
-
-  // Timer State (2 days in seconds)
-  const [timeLeft, setTimeLeft] = useState(2 * 24 * 60 * 60);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const days = Math.floor(timeLeft / (24 * 60 * 60));
-  const hours = Math.floor((timeLeft % (24 * 60 * 60)) / (60 * 60));
-  const minutes = Math.floor((timeLeft % (60 * 60)) / 60);
-  const seconds = timeLeft % 60;
-
 
   useEffect(() => {
     document.documentElement.classList.remove('theme-premium', 'theme-light');
@@ -139,9 +123,8 @@ export function Header() {
     <>
       {/* Placeholder for fixed header */}
       <div className="h-[120px] w-full" />
-      
-      <div className="fixed top-0 left-0 z-[60] w-full text-white shadow-[0_4px_30px_rgba(202,110,255,0.2)] font-poppins bg-black">
-        <div className="w-full bg-black relative flex flex-col h-full">
+      <div className="fixed top-0 left-0 z-[60] w-full text-white shadow-[0_4px_30px_rgba(117,46,255,0.2)] font-poppins bg-black border-b border-[#752eff]">
+        <div className="w-full relative flex flex-col h-full">
           {/* Top Announcement Bar */}
           <div className="relative w-full flex items-center justify-center py-2.5 px-4">
             <div className="absolute left-4 md:flex items-center gap-2 hidden">
@@ -168,13 +151,13 @@ export function Header() {
             
             <div className="text-[13px] md:text-[15px] font-bold tracking-wide flex items-center flex-wrap justify-center gap-2 md:gap-4 text-center">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient">
-                SALE ENDS IN {String(days).padStart(2, '0')}d {String(hours).padStart(2, '0')}h {String(minutes).padStart(2, '0')}m {String(seconds).padStart(2, '0')}s
+                We Exist
               </span>
             </div>
           </div>
           
-          {/* Gradient Divider */}
-          <div className="w-full h-[2px] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient" />
+          {/* Divider */}
+          <div className="w-full h-[1px] bg-[#6eff86] shadow-[0_0_10px_rgba(110,255,134,0.5)]" />
           
           {/* Main Header */}
           <header className="max-w-[1600px] w-full mx-auto px-4 xl:px-10 h-20 flex items-center justify-between relative z-10">
@@ -196,7 +179,7 @@ export function Header() {
                 <div className="absolute inset-0 z-50"></div>
                 {/* Full logo */}
                 <div className="block h-12 xl:h-16 w-[160px] md:w-[200px] xl:w-[260px] relative transition-all duration-700 group-hover:scale-105 flex-shrink-0 pointer-events-none">
-                  <NeonLogo />
+                  <NeonLogo2 />
                 </div>
               </a>
           </div>
@@ -215,7 +198,7 @@ export function Header() {
                       e.preventDefault();
                     }
                   }}
-                  className={`relative px-2 py-2 2xl:px-3.5 2xl:py-2.5 rounded-full flex items-center justify-center gap-1.5 capitalize transition-all duration-300 hover:scale-105 cursor-pointer border whitespace-nowrap ${isActive ? 'font-extrabold !text-white border-[#752eff] shadow-[0_0_15px_rgba(117,46,255,0.5)]' : '!text-white border-transparent hover:!text-white hover:border-[#752eff] hover:shadow-[0_0_15px_rgba(117,46,255,0.5)]'}`}
+                  className={`relative px-2 py-2 2xl:px-3.5 2xl:py-2.5 rounded-full flex items-center justify-center gap-1.5 capitalize transition-all duration-300 hover:scale-105 cursor-pointer border whitespace-nowrap ${isActive ? 'font-extrabold !text-white border-[#6eff86] shadow-[0_0_15px_rgba(110,255,134,0.5)]' : '!text-white border-transparent hover:!text-white hover:border-[#6eff86] hover:shadow-[0_0_30px_rgba(110,255,134,0.6)]'}`}
                 >
                   {isActive && (
                     <>
@@ -434,7 +417,6 @@ export function Header() {
           <div className="pb-8"></div>
         </div>
       )}
-        <div className="w-full h-[2px] bg-gradient-to-r from-brand-green via-brand-purple to-brand-lavender animate-neon-gradient" />
       </div>
     </div>
     </>

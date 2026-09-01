@@ -9,18 +9,13 @@ export async function CategoryBar({ theme = "dark" }: { theme?: "light" | "dark"
   // Add a "Shop All" fallback as the first item if needed.
   let categories = wpCategories.map((cat: any) => ({
     name: cat.name,
-    image: cat.image?.sourceUrl || "/5580.webp",
+    image: cat.image?.sourceUrl || "",
     slug: cat.slug
   }));
 
   // Limit to a reasonable number to prevent massive marquees, or keep all.
   if (categories.length === 0) {
-    // Fallback if WP fails or is empty
-    categories = [
-      { name: "Shop All", image: "/5580.webp", slug: "all" },
-      { name: "Gods", image: "/5607.webp", slug: "gods" },
-      { name: "Cafe", image: "/5595.webp", slug: "cafe" },
-    ];
+    return null;
   }
 
   const duplicatedCategories = [...categories, ...categories, ...categories]; // Triple it to ensure smooth infinite scroll if few categories

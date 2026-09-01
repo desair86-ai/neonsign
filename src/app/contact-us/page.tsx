@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mail, Phone, Send } from 'lucide-react';
 import { Header } from '@/components/clone/Header';
-import { Footer } from '@/components/clone/Footer';
+import { GlobalFooter } from "@/components/clone/GlobalFooter";
 
 export const metadata = {
   title: 'Contact Us | Neon Stack',
@@ -50,7 +50,9 @@ export default function ContactPage() {
         <ContactContent contactInfo={contactInfo} />
       </div>
     </div>
-    <Footer />
+    <GlobalFooter />
     </>
   );
 }
+
+

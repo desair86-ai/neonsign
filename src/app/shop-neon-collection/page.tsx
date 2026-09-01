@@ -4,7 +4,7 @@ import { CategoryBar } from "@/components/clone/CategoryBar";
 import { ProductCarousel } from "@/components/clone/ProductCarousel";
 import { ProductGrid } from "@/components/clone/ProductGrid";
 import { AnimatedFeatures } from "@/components/ui/animated-features";
-import { Footer } from "@/components/clone/Footer";
+import { GlobalFooter } from "@/components/clone/GlobalFooter";
 import { getProducts } from "@/lib/wordpress";
 import { SortDropdown } from "@/components/clone/SortDropdown";
 
@@ -30,14 +30,14 @@ export default async function ShopNeonCollection({
     regularPrice: p.regularPrice || p.price || "Rs. 0",
     salePrice: p.salePrice || p.price || "Rs. 0",
     discountBadge: p.onSale ? "Sale" : undefined,
-    image: p.image?.sourceUrl || "/5580.webp",
+    image: p.image?.sourceUrl || "",
     slug: p.slug,
     databaseId: p.databaseId
   });
 
-  const displayProducts = wpProducts.map(mapProduct);
-  const curatedProducts = curatedWpProducts.map(mapProduct);
-  const trendingProducts = trendingWpProducts.map(mapProduct);
+  const displayProducts = wpProducts.map(mapProduct).filter((p: any) => p.image && !p.image.includes("placeholder"));
+  const curatedProducts = curatedWpProducts.map(mapProduct).filter((p: any) => p.image && !p.image.includes("placeholder"));
+  const trendingProducts = trendingWpProducts.map(mapProduct).filter((p: any) => p.image && !p.image.includes("placeholder"));
 
   return (
     <main>
@@ -84,7 +84,9 @@ export default async function ShopNeonCollection({
         <AnimatedFeatures />
       </div>
       
-      <Footer />
+      <GlobalFooter />
     </main>
   );
 }
+
+
