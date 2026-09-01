@@ -2,6 +2,7 @@ import React from "react";
 import { Header } from "@/components/clone/Header";
 import { CategoryBar } from "@/components/clone/CategoryBar";
 import { ProductCarousel } from "@/components/clone/ProductCarousel";
+import { CuratedFavourites } from "@/components/clone/CuratedFavourites";
 import { ProductGrid } from "@/components/clone/ProductGrid";
 import { AnimatedFeatures } from "@/components/ui/animated-features";
 import { GlobalFooter } from "@/components/clone/GlobalFooter";
@@ -20,8 +21,7 @@ export default async function ShopNeonCollection({
   // Fetch from WP based on category and current sort
   const wpProducts = categorySlug ? await getProducts(categorySlug, 20, currentSort) : [];
   
-  // If no category, fetch curated and generic trending products
-  const curatedWpProducts = !categorySlug ? await getProducts("curated-favourites", 8, currentSort) : [];
+  const curatedWpProducts = !categorySlug ? await getProducts("curated-favourites", 20, currentSort) : [];
   const trendingWpProducts = !categorySlug ? await getProducts(undefined, 8, currentSort) : []; // just get generic products for trending
 
   const mapProduct = (p: any) => ({
@@ -66,7 +66,7 @@ export default async function ShopNeonCollection({
         {!categorySlug && (
           <>
             {curatedProducts.length > 0 && (
-              <ProductCarousel title="Curated Favourites" products={curatedProducts} />
+              <CuratedFavourites products={curatedProducts} />
             )}
             {trendingProducts.length > 0 && (
               <ProductCarousel title="Trending" products={trendingProducts} />

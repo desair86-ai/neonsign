@@ -14,8 +14,8 @@ import { SpecialSigns } from "@/components/home2/SpecialSigns";
 
 export default async function Home() {
   const wpCategories = await getProductCategories();
-  // Fetch up to 20 products that are marked as "Featured" in WooCommerce
-  const wpProducts = await getProducts(undefined, 20, undefined, true);
+  // Fetch up to 20 products from the "curated-favourites" category
+  const wpProducts = await getProducts("curated-favourites", 20);
 
   const mappedProducts = wpProducts.map((p: any) => ({
     id: p.id,

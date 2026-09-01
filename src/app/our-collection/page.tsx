@@ -14,9 +14,9 @@ import { GoogleReviews } from "@/components/clone/GoogleReviews";
 import { getProducts, getProductCategories } from "@/lib/wordpress";
 
 export default async function OurCollectionPage() {
-  const bestsellers = await getProducts("curated-favourites", 8, "popularity");
+  const bestsellers = await getProducts(undefined, 8, "popularity");
   const trending = await getProducts(undefined, 8, "date");
-  const curated = await getProducts(undefined, 8, undefined, true);
+  const curated = await getProducts("curated-favourites", 20);
   const categories = await getProductCategories();
   
   const mapProducts = (products: any[]) => products.map((p: any) => ({

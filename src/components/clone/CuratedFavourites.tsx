@@ -9,6 +9,14 @@ interface CuratedFavouritesProps {
 }
 
 export function CuratedFavourites({ products }: CuratedFavouritesProps) {
+  // If there are very few products, duplicate them to make the 3D carousel look full
+  let displayProducts = [...products];
+  if (displayProducts.length > 0 && displayProducts.length < 7) {
+    while (displayProducts.length < 7) {
+      displayProducts = [...displayProducts, ...products];
+    }
+  }
+
   return (
     <section className="py-16 max-w-[1600px] mx-auto px-4 overflow-hidden relative">
       <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight tracking-tight mb-16 text-center">
@@ -18,7 +26,7 @@ export function CuratedFavourites({ products }: CuratedFavouritesProps) {
         </span>
       </h2>
       <CoverflowCarousel
-        slides={products.map(p => ({ src: p.image, alt: p.name }))}
+        slides={displayProducts.map(p => ({ src: p.image, alt: p.name }))}
         showNavigation
         showPagination
         loop
@@ -29,7 +37,7 @@ export function CuratedFavourites({ products }: CuratedFavouritesProps) {
         className="pb-10 pt-4"
         renderCard={(slide, index, isSelected) => (
           <div className="w-full h-full pb-4">
-            <ProductCard product={products[index]} index={index} theme="dark" isHighlighted={isSelected} />
+            <ProductCard product={displayProducts[index]} index={index} theme="dark" isHighlighted={isSelected} />
           </div>
         )}
       />
