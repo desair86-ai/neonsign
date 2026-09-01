@@ -1,6 +1,6 @@
 export const WP_GRAPHQL_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || '';
 
-export async function fetchGraphQL(query: string, variables: any = {}) {
+export async function fetchGraphQL(query: string, variables: any = {}, fetchOptions: RequestInit = {}) {
   const res = await fetch(WP_GRAPHQL_URL, {
     method: 'POST',
     headers: {
@@ -10,7 +10,8 @@ export async function fetchGraphQL(query: string, variables: any = {}) {
       query,
       variables,
     }),
-    cache: 'no-store', // Disable caching to ensure fresh products are always fetched
+    next: { revalidate: 60 },
+    ...fetchOptions,
   });
 
   const text = await res.text();
@@ -85,13 +86,20 @@ export async function getProducts(categorySlug?: string, first = 20, sort?: stri
 export async function getProductCategories() {
   const query = `
     query GetProductCategories {
-      productCategories(first: 50, where: { hideEmpty: true }) {
+      productCategories(first: 100, where: { hideEmpty: false }) {
         nodes {
           id
           databaseId
           name
           slug
           description
+          parent {
+            node {
+              id
+              name
+              slug
+            }
+          }
           image {
             sourceUrl
             altText

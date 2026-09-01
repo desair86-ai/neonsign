@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/lib/CartContext';
 import { NeonLogo } from '@/components/clone/NeonLogo';
 import { NeonIcon } from '@/components/clone/NeonIcon';
+import { getCategoriesAction } from '@/app/actions/categories';
 
 type NavItem = {
   label: string;
@@ -19,6 +20,42 @@ type NavItem = {
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const [dynamicColumns, setDynamicColumns] = useState<any>(null);
+
+  useEffect(() => {
+    getCategoriesAction().then(categories => {
+      // 1. Group categories
+      const mainCats = categories.filter((c: any) => !c.parent || !c.parent.node);
+      const subCats = categories.filter((c: any) => c.parent && c.parent.node);
+      
+      mainCats.sort((a: any, b: any) => a.name.localeCompare(b.name));
+
+      // 2. Build sections for Mega Menu
+      const sections = mainCats.map((mainCat: any) => {
+        const subs = subCats
+          .filter((s: any) => s.parent.node.id === mainCat.id)
+          .sort((a: any, b: any) => a.name.localeCompare(b.name))
+          .map((s: any) => ({ label: s.name, href: `/shop-neon-collection?cat=${s.slug}` }));
+
+        if (subs.length === 0) {
+          subs.push({ label: `Shop All`, href: `/shop-neon-collection?cat=${mainCat.slug}` });
+        }
+
+        return {
+          header: mainCat.name,
+          items: subs
+        };
+      });
+
+      // 3. Distribute sections into 3 columns
+      const colSize = Math.ceil(sections.length / 3);
+      const col1 = sections.slice(0, colSize);
+      const col2 = sections.slice(colSize, colSize * 2);
+      const col3 = sections.slice(colSize * 2);
+
+      setDynamicColumns([col1, col2, col3]);
+    });
+  }, []);
   
   // Theme toggle state
   const [theme, setTheme] = useState<'classic' | 'premium' | 'light'>('classic');
@@ -66,69 +103,7 @@ export function Header() {
       label: 'Neon Shop', 
       href: '/shop-neon-collection',
       isMega: true,
-      columns: [
-        [
-          {
-            header: "Personal & Home",
-            items: [
-              { label: 'Gaming Neon Signs', href: '/shop-neon-collection?cat=gaming-neon-signs' },
-              { label: 'Man Cave Neon Signs', href: '/shop-neon-collection?cat=man-cave-neon-signs' },
-              { label: 'Home Decor Neon Signs', href: '/shop-neon-collection?cat=home-decor-neon-signs' },
-              { label: 'Quotes & Typography', href: '/shop-neon-collection?cat=quotes-typography' },
-              { label: 'Gods & Devotional Neon Signs', href: '/shop-neon-collection?cat=gods-devotional-neon-signs' },
-              { label: 'Love / Heart Neon Signs', href: '/shop-neon-collection?cat=love-heart-neon-signs' },
-              { label: 'Clock Neon Signs', href: '/shop-neon-collection?cat=clock-neon-signs' },
-              { label: 'Skull & Gothic Signs', href: '/shop-neon-collection?cat=skull-gothic-signs' },
-              { label: 'Astronaut & Space Signs', href: '/shop-neon-collection?cat=astronaut-space-signs' },
-              { label: 'Travel & Wanderlust', href: '/shop-neon-collection?cat=travel-wanderlust' },
-            ]
-          },
-          {
-            header: "Deals",
-            items: [
-              { label: 'B-Stock', href: '/shop-neon-collection?cat=b-stock' },
-            ]
-          }
-        ],
-        [
-          {
-            header: "Business & Events",
-            items: [
-              { label: 'For Businesses & Offices', href: '/shop-neon-collection?cat=for-businesses-offices' },
-              { label: 'Barber Shop & Salon Signs', href: '/shop-neon-collection?cat=barber-shop-salon-signs' },
-              { label: 'Beauty, Nail & Hair Salon Neon Signs', href: '/shop-neon-collection?cat=beauty-nail-hair-salon-neon-signs' },
-              { label: 'Café & Coffee Shop Signs', href: '/shop-neon-collection?cat=caf-coffee-shop-signs' },
-              { label: 'Bars & Pub Neon Signs', href: '/shop-neon-collection?cat=bars-pub-neon-signs' },
-              { label: 'Gym, Fitness & Yoga Signs', href: '/shop-neon-collection?cat=gym-fitness-yoga-signs' },
-              { label: 'Happy Birthday Neon Signs', href: '/shop-neon-collection?cat=happy-birthday-neon-signs' },
-              { label: 'New Year Neon Signs', href: '/shop-neon-collection?cat=new-year-neon-signs' },
-              { label: 'Celebrations & Events', href: '/shop-neon-collection?cat=celebrations-events' },
-              { label: 'LGBT & Pride Neon Signs', href: '/shop-neon-collection?cat=lgbt-pride-neon-signs' },
-              { label: 'We*d & 420 Neon Signs', href: '/shop-neon-collection?cat=we-d-420-neon-signs' },
-            ]
-          }
-        ],
-        [
-          {
-            header: "Passions & Entertainment",
-            items: [
-              { label: 'Japanese & Anime Signs', href: '/shop-neon-collection?cat=japanese-anime-signs' },
-              { label: 'K-Pop Neon Signs', href: '/shop-neon-collection?cat=k-pop-neon-signs' },
-              { label: 'Bollywood & Cinema', href: '/shop-neon-collection?cat=bollywood-cinema' },
-              { label: 'Hollywood & Movie Signs', href: '/shop-neon-collection?cat=hollywood-movie-signs' },
-              { label: 'Music & Instruments', href: '/shop-neon-collection?cat=music-instruments' },
-              { label: 'Rock N Roll & Band Signs', href: '/shop-neon-collection?cat=rock-n-roll-band-signs' },
-              { label: 'Garage & Automotive Signs', href: '/shop-neon-collection?cat=garage-automotive-signs' },
-              { label: 'Motorbikes & Riders', href: '/shop-neon-collection?cat=motorbikes-riders' },
-              { label: 'Cars & Racing Signs', href: '/shop-neon-collection?cat=cars-racing-signs' },
-              { label: 'Sports & Fitness', href: '/shop-neon-collection?cat=sports-fitness' },
-              { label: 'Golf Neon Signs', href: '/shop-neon-collection?cat=golf-neon-signs' },
-              { label: 'Cricket & Stadium Signs', href: '/shop-neon-collection?cat=cricket-stadium-signs' },
-              { label: 'Wildlife & Animals', href: '/shop-neon-collection?cat=wildlife-animals' },
-            ]
-          }
-        ]
-      ]
+      columns: dynamicColumns || []
     },
     { label: 'About Us', href: '/about' },
     { label: 'Blogs', href: '/blogs' },
@@ -228,7 +203,7 @@ export function Header() {
                       <motion.div
                         initial={{ opacity: 0, scaleX: 0 }}
                         animate={{ opacity: 1, scaleX: 1 }}
-                        className="absolute top-0 left-4 right-4 h-[2px] bg-brand-green shadow-[0_0_8px_rgba(110,255,134,0.8)]"
+                        className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[2px] bg-brand-green shadow-[0_0_8px_rgba(110,255,134,0.8)]"
                         transition={{ duration: 0.3 }}
                       />
                     </>

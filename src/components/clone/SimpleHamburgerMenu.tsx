@@ -4,13 +4,58 @@ import { createPortal } from "react-dom";
 import { Menu, X, ChevronDown, User } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { navItems } from "@/lib/navItems";
+import { navItems as staticNavItems } from "@/lib/navItems";
+import { getCategoriesAction } from '@/app/actions/categories';
 
 export function SimpleHamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const [navItems, setNavItems] = useState(staticNavItems);
   const [mounted, setMounted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    getCategoriesAction().then(categories => {
+      // 1. Group categories
+      const mainCats = categories.filter((c: any) => !c.parent || !c.parent.node);
+      const subCats = categories.filter((c: any) => c.parent && c.parent.node);
+      
+      mainCats.sort((a: any, b: any) => a.name.localeCompare(b.name));
+
+      // 2. Build sections for Mega Menu
+      const sections = mainCats.map((mainCat: any) => {
+        const subs = subCats
+          .filter((s: any) => s.parent.node.id === mainCat.id)
+          .sort((a: any, b: any) => a.name.localeCompare(b.name))
+          .map((s: any) => ({ label: s.name, href: `/shop-neon-collection?cat=${s.slug}` }));
+
+        if (subs.length === 0) {
+          subs.push({ label: `Shop All`, href: `/shop-neon-collection?cat=${mainCat.slug}` });
+        }
+
+        return {
+          header: mainCat.name,
+          items: subs
+        };
+      });
+
+      // 3. Distribute sections into 1 column for mobile menu (or we can just put them all in one column, simple hamburger doesn't need 3 columns layout usually, but we match the structure)
+      // Wait, simple hamburger menu just uses item.columns[0] usually or renders them all. Let's just put them in one column for the hamburger menu.
+      const dynamicNeonShopColumns = [sections];
+      
+      const updatedNavItems = staticNavItems.map(item => {
+        if (item.label === 'Neon Shop') {
+          return {
+            ...item,
+            columns: dynamicNeonShopColumns
+          };
+        }
+        return item;
+      });
+      
+      setNavItems(updatedNavItems);
+    });
+  }, []);
 
   useEffect(() => setMounted(true), []);
 
