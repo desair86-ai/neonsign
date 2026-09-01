@@ -4,6 +4,7 @@ import { GlobalFooter } from "@/components/clone/GlobalFooter";
 import { MainBanner } from "@/components/clone/MainBanner";
 import { SpecialSigns } from "@/components/home2/SpecialSigns";
 import { ProductCarousel } from "@/components/clone/ProductCarousel";
+import { CuratedFavourites } from "@/components/clone/CuratedFavourites";
 import { ProblemSolutionCards } from "@/components/clone/ProblemSolutionCards";
 import { ExploreCollections } from "@/components/clone/ExploreCollections";
 import { TalkToUs } from "@/components/clone/TalkToUs";
@@ -68,7 +69,7 @@ export default async function OurCollectionPage() {
 
       {/* 8. Category 3 (Curated Favourites) */}
       {displayCurated.length > 0 && (
-        <ProductCarousel title="Curated Favourites" products={displayCurated} theme="dark" />
+        <CuratedFavourites products={displayCurated} />
       )}
 
       {/* 9. Who Are We? (Founders/Mascot) */}
